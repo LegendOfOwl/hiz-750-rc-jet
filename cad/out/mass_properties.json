@@ -55,254 +55,254 @@
   },
   "cases": {
     "100%": {
-      "m": 17.2754,
+      "m": 17.5554,
       "cg_m": [
-        1.14485,
+        1.14564,
         0.00013,
-        -0.01478
+        -0.0157
       ],
-      "Ixx": 0.3799,
-      "Iyy": 2.7966,
-      "Izz": 3.089,
-      "Ixz": 0.0435,
-      "Ixy": 0.00299,
-      "Iyz": 0.00011,
+      "Ixx": 0.4068,
+      "Iyy": 2.8013,
+      "Izz": 3.1188,
+      "Ixz": 0.0429,
+      "Ixy": 0.00308,
+      "Iyz": 0.00012,
       "fuel_frac_of_capacity": 1.0,
       "fuel_kg": 4.1154,
       "check": {
         "params_same_fuel_mass": {
-          "m": 17.2754,
-          "x_cg": 1.14684,
-          "z_cg": -0.0143
+          "m": 17.5554,
+          "x_cg": 1.14679,
+          "z_cg": -0.01535
         },
         "dm_pct": 0.0,
-        "dx_mm": -1.99,
-        "dz_mm": -0.49,
+        "dx_mm": -1.15,
+        "dz_mm": -0.35,
         "params_nominal_frac": {
-          "m": 17.16,
-          "x_cg": 1.14823,
-          "dm_pct": 0.672,
-          "dx_mm": -3.38
+          "m": 17.44,
+          "x_cg": 1.14816,
+          "dm_pct": 0.661,
+          "dx_mm": -2.52
         },
         "ok_mass_1pct": true,
         "ok_xcg_5mm": true
       },
       "roskam_same_mass": {
-        "Ixx": 0.5668,
-        "Iyy": 2.7503,
-        "Izz": 3.6776,
+        "Ixx": 0.576,
+        "Iyy": 2.7948,
+        "Izz": 3.7372,
         "Rx": 0.25,
         "Ry": 0.38,
         "Rz": 0.52
       },
       "ratio_cad_over_roskam": {
-        "Ixx": 0.67,
-        "Iyy": 1.017,
-        "Izz": 0.84
+        "Ixx": 0.706,
+        "Iyy": 1.002,
+        "Izz": 0.835
       },
       "Rbar_cad": {
-        "Rx": 0.205,
-        "Ry": 0.383,
-        "Rz": 0.477
+        "Rx": 0.21,
+        "Ry": 0.38,
+        "Rz": 0.475
       }
     },
     "25%": {
-      "m": 14.1888,
+      "m": 14.4688,
       "cg_m": [
-        1.18945,
-        0.00016,
-        -0.01241
+        1.18955,
+        0.00015,
+        -0.01356
       ],
-      "Ixx": 0.3401,
-      "Iyy": 2.5726,
-      "Izz": 2.8368,
+      "Ixx": 0.367,
+      "Iyy": 2.5767,
+      "Izz": 2.8658,
       "Ixz": 0.0473,
-      "Ixy": 0.00289,
-      "Iyz": 0.0001,
+      "Ixy": 0.00299,
+      "Iyz": 0.00012,
       "fuel_frac_of_capacity": 0.25,
       "fuel_kg": 1.0288,
       "check": {
         "params_same_fuel_mass": {
-          "m": 14.1888,
-          "x_cg": 1.19183,
-          "z_cg": -0.01175
+          "m": 14.4688,
+          "x_cg": 1.1909,
+          "z_cg": -0.01307
         },
         "dm_pct": 0.0,
-        "dx_mm": -2.38,
-        "dz_mm": -0.65,
+        "dx_mm": -1.35,
+        "dz_mm": -0.49,
         "params_nominal_frac": {
-          "m": 14.16,
-          "x_cg": 1.19234,
-          "dm_pct": 0.204,
-          "dx_mm": -2.89
+          "m": 14.44,
+          "x_cg": 1.1914,
+          "dm_pct": 0.2,
+          "dx_mm": -1.85
         },
         "ok_mass_1pct": true,
         "ok_xcg_5mm": true
       },
       "roskam_same_mass": {
-        "Ixx": 0.4656,
-        "Iyy": 2.2589,
-        "Izz": 3.0205,
+        "Ixx": 0.4748,
+        "Iyy": 2.3035,
+        "Izz": 3.0801,
         "Rx": 0.25,
         "Ry": 0.38,
         "Rz": 0.52
       },
       "ratio_cad_over_roskam": {
-        "Ixx": 0.731,
-        "Iyy": 1.139,
-        "Izz": 0.939
+        "Ixx": 0.773,
+        "Iyy": 1.119,
+        "Izz": 0.93
       },
       "Rbar_cad": {
-        "Rx": 0.214,
-        "Ry": 0.406,
-        "Rz": 0.504
+        "Rx": 0.22,
+        "Ry": 0.402,
+        "Rz": 0.502
       }
     },
     "0%": {
-      "m": 13.16,
+      "m": 13.44,
       "cg_m": [
-        1.20897,
-        0.00017,
-        -0.01137
+        1.20867,
+        0.00016,
+        -0.01263
       ],
-      "Ixx": 0.3267,
-      "Iyy": 2.4814,
-      "Izz": 2.7362,
-      "Ixz": 0.0476,
-      "Ixy": 0.00284,
-      "Iyz": 0.0001,
+      "Ixx": 0.3537,
+      "Iyy": 2.4856,
+      "Izz": 2.7653,
+      "Ixz": 0.048,
+      "Ixy": 0.00295,
+      "Iyz": 0.00012,
       "fuel_frac_of_capacity": 0.0,
       "fuel_kg": 0.0,
       "check": {
         "params_same_fuel_mass": {
-          "m": 13.16,
-          "x_cg": 1.21152,
-          "z_cg": -0.01064
+          "m": 13.44,
+          "x_cg": 1.21011,
+          "z_cg": -0.01208
         },
         "dm_pct": 0.0,
-        "dx_mm": -2.55,
-        "dz_mm": -0.73,
+        "dx_mm": -1.44,
+        "dz_mm": -0.55,
         "params_nominal_frac": {
-          "m": 13.16,
-          "x_cg": 1.21152,
+          "m": 13.44,
+          "x_cg": 1.21011,
           "dm_pct": 0.0,
-          "dx_mm": -2.55
+          "dx_mm": -1.44
         },
         "ok_mass_1pct": true,
         "ok_xcg_5mm": true
       },
       "roskam_same_mass": {
-        "Ixx": 0.4318,
-        "Iyy": 2.0951,
-        "Izz": 2.8015,
+        "Ixx": 0.441,
+        "Iyy": 2.1397,
+        "Izz": 2.8611,
         "Rx": 0.25,
         "Ry": 0.38,
         "Rz": 0.52
       },
       "ratio_cad_over_roskam": {
-        "Ixx": 0.757,
-        "Iyy": 1.184,
-        "Izz": 0.977
+        "Ixx": 0.802,
+        "Iyy": 1.162,
+        "Izz": 0.967
       },
       "Rbar_cad": {
-        "Rx": 0.217,
-        "Ry": 0.414,
-        "Rz": 0.514
+        "Rx": 0.224,
+        "Ry": 0.41,
+        "Rz": 0.511
       }
     },
     "params_4.0kg": {
-      "m": 17.16,
+      "m": 17.44,
       "cg_m": [
-        1.14622,
+        1.147,
         0.00013,
-        -0.01471
+        -0.01563
       ],
-      "Ixx": 0.3784,
-      "Iyy": 2.7893,
-      "Izz": 3.0806,
-      "Ixz": 0.0437,
-      "Ixy": 0.00298,
-      "Iyz": 0.00011,
+      "Ixx": 0.4053,
+      "Iyy": 2.794,
+      "Izz": 3.1103,
+      "Ixz": 0.0431,
+      "Ixy": 0.00308,
+      "Iyz": 0.00012,
       "fuel_frac_of_capacity": 0.972,
       "fuel_kg": 4.0,
       "check": {
         "params_same_fuel_mass": {
-          "m": 17.16,
-          "x_cg": 1.14823,
-          "z_cg": -0.01422
+          "m": 17.44,
+          "x_cg": 1.14816,
+          "z_cg": -0.01528
         },
         "dm_pct": 0.0,
-        "dx_mm": -2.0,
-        "dz_mm": -0.49,
+        "dx_mm": -1.16,
+        "dz_mm": -0.35,
         "params_nominal_frac": {
-          "m": 17.16,
-          "x_cg": 1.14823,
+          "m": 17.44,
+          "x_cg": 1.14816,
           "dm_pct": 0.0,
-          "dx_mm": -2.0
+          "dx_mm": -1.16
         },
         "ok_mass_1pct": true,
         "ok_xcg_5mm": true
       },
       "roskam_same_mass": {
-        "Ixx": 0.5631,
-        "Iyy": 2.7319,
-        "Izz": 3.653,
+        "Ixx": 0.5723,
+        "Iyy": 2.7765,
+        "Izz": 3.7126,
         "Rx": 0.25,
         "Ry": 0.38,
         "Rz": 0.52
       },
       "ratio_cad_over_roskam": {
-        "Ixx": 0.672,
-        "Iyy": 1.021,
-        "Izz": 0.843
+        "Ixx": 0.708,
+        "Iyy": 1.006,
+        "Izz": 0.838
       },
       "Rbar_cad": {
-        "Rx": 0.205,
-        "Ry": 0.384,
-        "Rz": 0.478
+        "Rx": 0.21,
+        "Ry": 0.381,
+        "Rz": 0.476
       }
     }
   },
   "dry": {
-    "m": 13.16,
+    "m": 13.44,
     "cg_m": [
-      1.20897,
-      0.00017,
-      -0.01137
+      1.20867,
+      0.00016,
+      -0.01263
     ],
-    "Ixx": 0.3267,
-    "Iyy": 2.4814,
-    "Izz": 2.7362,
-    "Ixz": 0.0476,
-    "Ixy": 0.00284,
-    "Iyz": 0.0001
+    "Ixx": 0.3537,
+    "Iyy": 2.4856,
+    "Izz": 2.7653,
+    "Ixz": 0.048,
+    "Ixy": 0.00295,
+    "Iyz": 0.00012
   },
   "aero_roskam_comparison": {
     "Ixx": {
-      "aero": 0.5631,
-      "cad_100": 0.3799,
-      "cad_params": 0.3784,
-      "ratio_100": 0.675,
-      "ratio_params": 0.672
+      "aero": 0.5722,
+      "cad_100": 0.4068,
+      "cad_params": 0.4053,
+      "ratio_100": 0.711,
+      "ratio_params": 0.708
     },
     "Iyy": {
-      "aero": 2.7319,
-      "cad_100": 2.7966,
-      "cad_params": 2.7893,
-      "ratio_100": 1.024,
-      "ratio_params": 1.021
+      "aero": 2.7765,
+      "cad_100": 2.8013,
+      "cad_params": 2.794,
+      "ratio_100": 1.009,
+      "ratio_params": 1.006
     },
     "Izz": {
-      "aero": 3.653,
-      "cad_100": 3.089,
-      "cad_params": 3.0806,
-      "ratio_100": 0.846,
-      "ratio_params": 0.843
+      "aero": 3.7126,
+      "cad_100": 3.1188,
+      "cad_params": 3.1103,
+      "ratio_100": 0.84,
+      "ratio_params": 0.838
     },
     "Ixz": {
       "aero": 0.0,
-      "cad_100": 0.0435,
-      "cad_params": 0.0437
+      "cad_100": 0.0429,
+      "cad_params": 0.0431
     }
   },
   "wing_weighting_sensitivity": {
@@ -312,7 +312,7 @@
         -0.0002,
         -0.072
       ],
-      "Ixx_self": 0.1622
+      "Ixx_self": 0.1882
     },
     "wing_surface_exposed": {
       "r": [
@@ -320,7 +320,7 @@
         0.0005,
         -0.07
       ],
-      "Ixx_self": 0.2316
+      "Ixx_self": 0.2687
     }
   },
   "items": [
@@ -349,14 +349,14 @@
       "src": "kutu 60x40x30 mm, burun, merkez hatti"
     },
     {
-      "item": "Kanat (kabuk 3/1 kat + kiris + kaburga)",
-      "m": 1.75,
-      "x_params": 1.18,
+      "item": "Kanat (kabuk 4/1 kat + kiris + 43 mm kaburga)",
+      "m": 2.03,
+      "x_params": 1.175,
       "z_params": -0.08,
       "x_cad": 1.1946,
       "y_cad": -0.0002,
       "z_cad": -0.072,
-      "dx_mm": 14.6,
+      "dx_mm": 19.6,
       "dz_mm": 8.0,
       "src": "wing_panels+wing_center+wing_box+aileron_L+aileron_R+flap_L+flap_R"
     },

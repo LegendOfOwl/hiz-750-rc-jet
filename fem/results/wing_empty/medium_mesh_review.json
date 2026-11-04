@@ -4,8 +4,8 @@
   "expanded_dof": 43974,
   "fuel_state": "empty",
   "deck_sha256": "8a2688e99d385e67a8513f73e7c2e1ad8e32a5f92950890a73b1422e4254f0fe",
-  "prepared_dir": "C:\\hz750run\\wing_empty_medium_7_15wm02",
-  "wing_model_json_sha256": "3043e2149cf4d7ad640b406bea3c3c1a1b1a95255f6f7ed0185998a508ff43ef",
+  "prepared_dir": "C:\\hz750run\\wing_empty_medium_hn37bigs",
+  "wing_model_json_sha256": "55723a973b3370fc84fe7f0a1bf770c4397750bf82b436762bc2a343852eca13",
   "wing_nodes_json_sha256": "d989a386085febff4ddb96e74b413ac2053d910c7518d19bd256f8b4a7f7acef",
   "laminate_materials_complete": true,
   "orientations_checked": true,
@@ -49,6 +49,7 @@
     "connectivity": {
       "free_edges": 64,
       "free_edges_off_root": 0,
+      "nonconforming_rib_web_edges": 0,
       "unused_nodes": 0
     },
     "sandwich": {

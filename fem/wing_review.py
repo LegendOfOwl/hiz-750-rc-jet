@@ -112,9 +112,21 @@ def review(prepared, level):
             edges[key] = edges.get(key, 0) + 1
     free = [k for k, v in edges.items() if v == 1]
     off_root = [k for k in free if not all(abs(nodes[n][1] - g["y_root"]) < 1e-9 for n in k)]
+    # Sık kaburga seçeneğinde (ince ağ) kaburga yüksekliği web'den kaba: kaburga kenarı web üzerinde,
+    # köşe düğümleri ortak, ara web düğümleri bağlı değil (bilinçli, DOF bütçesi). Ayrı sayılır.
+    def on_web_line(edge):
+        xs = set()
+        for n in edge:
+            p_ = nodes[n]
+            c = float(ST.chord(p_[1]))
+            xs.add(round((p_[0] - g["x_root_le"] - sweep * p_[1]) / c, 6))
+        return len(xs) == 1 and min(abs(next(iter(xs)) - x) for x in (g["xf"], g["xr"], g["x_hinge"], .01)) < 1e-6
+    rib_web = [k for k in off_root if on_web_line(k) and all(any(n in conn[t] for t in conn if kinds[t] == "RIB") for n in k[:2])]
+    off_root = [k for k in off_root if k not in rib_web]
     used_nodes = {n for c in conn.values() for n in c}
     checks["shell_connectivity_checked"] = bool(not off_root and used_nodes == set(nodes))
     details["connectivity"] = dict(free_edges=len(free), free_edges_off_root=len(off_root),
+                                   nonconforming_rib_web_edges=len(rib_web),
                                    unused_nodes=len(set(nodes) - used_nodes))
     checks["sandwich_no_overlap"] = bool(model["sandwich_summary"]["min_gap_m"] >= 0)
     details["sandwich"] = model["sandwich_summary"]

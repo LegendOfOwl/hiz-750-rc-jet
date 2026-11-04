@@ -27,7 +27,7 @@
   "reason": null,
   "design_accepted": false,
   "provenance": {
-    "utc": "2026-11-04T19:38:00.599204+00:00",
+    "utc": "2026-11-04T20:18:05.035531+00:00",
     "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
     "packages": {
       "gmsh": "4.15.2",
@@ -47,14 +47,14 @@
   },
   "estimated_runtime": "5–30 dk/ağ; <200k açılmış DOF; tahmin",
   "diagnostic": false,
-  "raw_directory": "C:\\hz750run\\wing_fine_bmmo44qc",
+  "raw_directory": "C:\\hz750run\\wing_fine_m6d7b8is",
   "code_sha256": {
     "validation\\__init__.py": "318a65d09bef1fd777be440b8eb9b4285b723995a4633e65336b9c38c567f47a",
     "validation\\common.py": "740454c523dd01b8419f1bf4a21c281c346c3a3e65127ee04e14dbf2eb4dfd34",
     "validation\\convergence.py": "31e7603e4ee00ca544881c222cb898b3b87477e17543f558b7984048b2e06a55",
     "validation\\fetch_reference.py": "81173fc6673acd5ab27ddb967bd383685457b77abf798a0a41272a4feb9832b2",
     "validation\\report.py": "4c423d5ddbe5710d383ae3f07ca3f81f04cf6f1d2f3bf23dd8bd331f9cf280f0",
-    "validation\\run_case.py": "3f952de187deb8bd5258338608cb6091a09562a797e343a6239d5c167c437c34",
+    "validation\\run_case.py": "6c0a61433ffb1db3bbd35b8f8735367ea294b205c39945671eddf60cce644f78",
     "validation\\run_native_su2.py": "594c7ceb53f049767e713d84c0d6c66405cb321fc15a0ed8682f2d28adb431f2",
     "validation\\study.py": "1e8ae7f70f7a2c4a0045b63d27229bb72e12cce862ac3a0c65b9ff90a2af0d7f",
     "validation\\test_validation.py": "254648f8e40ca764dd07fc2368764c4c0988f4346fa2816a70b74eb638b6d1b5",
@@ -68,15 +68,16 @@
     "fem\\coupon.py": "6ecb6cc2876a7f20ba54ae7bffdd994dd9613c1a9f9bf8eef067e554b2da0ca2",
     "fem\\export_wing_inputs.py": "2129df518888c3963dec1e67bc414181e4682385245b23b2dedcaad5d41520ed",
     "fem\\laminate_post.py": "5e34e6d15b5384f61ca968ca7359ace7adc93f9e7b1e8f8f40909e79fa1cf355",
-    "fem\\run_wing_study.py": "7914a01fa634477015d75958499b67d0e557b42580cf0f874c217d3afc64bb5f",
+    "fem\\run_wing_study.py": "e45de8998406b47951f4a4242c88668e39fbd1dd73df858dd27e7a6167c2d540",
+    "fem\\stiffening_study.py": "52bf0c118a0c0d8e87c379ea8c704a3e3f15a32385a213a9def16d1cef78f7cc",
     "fem\\wing_compare.py": "e27d38baeda1cb41414e4d2021504cb14cc961966866e578bad071228cee9c0f",
     "fem\\wing_post.py": "72c78c9ec7fa849cec09f8ed6fdb5993e6f659dcfdfeee3e5c73a507b4b4beb0",
-    "fem\\wing_review.py": "4ff5c8bade3015f96cbb39626a38079ec184c049c19e224d476effc76b2c5309",
-    "fem\\wing_shell.py": "fe822741c270034714a287cc81ab273d1dfc9c210f7cbc9ea24c8f08dc935f20",
+    "fem\\wing_review.py": "e67de46fc6fcc7abe47cbc326184485b228ad072d9e5146d8cb378b0bd3e5581",
+    "fem\\wing_shell.py": "1ddc5d8b8168898f1d94de4a9343bc8f5249289c16e1317acb6b59130f21a359",
     "thermal\\cases.py": "fe91f662ad2bbc6bc6a032576d00eeab798bab42962bdae2738ea1c2f56ce2aa"
   },
   "input_sha256": {
-    "mesh_review": "2296cccb281796e7378ecb57040536439d04c63fbb930b058a0b9748500385a2",
+    "mesh_review": "41169e3ebab16f5dc35d9a655ea3bfd725e7f54e235ea919ef6f2ee6083f1970",
     "deck": "ec0ea2f7b7b418f746434d2c74a5112014ba0063639acea85450591b8effb924"
   },
   "mesh": {
@@ -85,9 +86,9 @@
     "expanded_dof": 184518,
     "fuel_state": "full",
     "deck_sha256": "ec0ea2f7b7b418f746434d2c74a5112014ba0063639acea85450591b8effb924",
-    "prepared_dir": "C:\\hz750run\\wing_fine_axe512xg",
-    "wing_model_json_sha256": "d65be3596174e32d20c0e4915bb11f9f95f1ab98316b9db69a0fb6b0b0614fcf",
-    "wing_nodes_json_sha256": "25aee17bae412a424e5684c3ff8daf504ea4ed04f9d6bb4b9522036ad4675ea1",
+    "prepared_dir": "C:\\hz750run\\wing_fine_nfr0vozt",
+    "wing_model_json_sha256": "6dd379c1b8eed41f28634c7ad3ed32c25bcb30e137b7ec2b9c87d113502159e4",
+    "wing_nodes_json_sha256": "014019dd1dfd27f11fbf8abd05f18d01d140b256f511c7cc4e464520dbb28e92",
     "laminate_materials_complete": true,
     "orientations_checked": true,
     "mass_reconciled": true,
@@ -110,13 +111,13 @@
         "relative_difference": 2.220446049250313e-16,
         "max_bay_cg_diff_c": 0.0,
         "inertia_ratio_bays": [
-          0.8596287048569872,
-          0.8537210451580758,
-          0.8577455767424265,
-          0.860508993792469,
+          0.8596287048569878,
+          0.8537210451580773,
+          0.8577455767424261,
+          0.8605089937924709,
           0.922627911858379,
-          0.9319365233333745,
-          0.9407483419189486,
+          0.9319365233333756,
+          0.940748341918948,
           0.9184392060691758
         ]
       },
@@ -130,6 +131,7 @@
       "connectivity": {
         "free_edges": 128,
         "free_edges_off_root": 0,
+        "nonconforming_rib_web_edges": 0,
         "unused_nodes": 0
       },
       "sandwich": {
@@ -162,7 +164,7 @@
       "case"
     ],
     "executable_sha256": "419adbe276ac14ebd8e187a2272b058a47e366f1cffb822dfb0236e6eebe21f9",
-    "log_sha256": "02b486bf7d093731148db5435d47349f0634385c52b05a09a576cb4e5548e267"
+    "log_sha256": "98319824a4be98aa470bda58710866371a60a1203ac7b21b86f0973ea4f6e08f"
   },
   "quality": {
     "root_reaction_N": [
@@ -4915,11 +4917,11 @@
       "orientations": 10103,
       "sections": 5664,
       "nsm_materials": 53,
-      "nsm_mass_kg": 0.7461644470624595,
-      "lever_mass_kg": 0.08949937822349875,
+      "nsm_mass_kg": 0.7461644470624593,
+      "lever_mass_kg": 0.0894993782234988,
       "levers": 32,
       "shell_mass_kg": 0.5147303277916171,
-      "total_half_mass_kg": 1.3503941530775754,
+      "total_half_mass_kg": 1.3503941530775752,
       "target_half_mass_kg": 1.350394153077575,
       "relative_mass_difference": 2.220446049250313e-16,
       "fuel_kg": 0.4560519945123015,
@@ -4929,45 +4931,67 @@
       "root_moment_target_Nm": 411.86517251041136,
       "mesh_sha256": "8d32787538426882de9015a5878f7943370a79b393fffff3914625bfe7c59c62",
       "deck_sha256": "ec0ea2f7b7b418f746434d2c74a5112014ba0063639acea85450591b8effb924",
-      "element": "S8R_COMPOSITE"
+      "element": "S8R_COMPOSITE",
+      "options": {
+        "skin_plies": [
+          3,
+          1
+        ],
+        "web_extra": 0,
+        "rib_plies": 1,
+        "rib_pitch": null
+      },
+      "option_extra_mass_kg": 0.0,
+      "n_ribs": 8,
+      "rib_y": [
+        0.121196104663684,
+        0.207392209327368,
+        0.293588313991052,
+        0.379784418654736,
+        0.46598052331842,
+        0.552176627982104,
+        0.638372732645788,
+        0.724568837309472
+      ],
+      "structural_half_mass_kg": 0.8943421585652737
     },
     "bays": [
       {
         "bay": 0,
-        "m_struct_1d": 0.11497472844645859,
+        "m_struct_1d": 0.11497472844645858,
         "m_shell": 0.09276570893124694,
-        "residual": 0.022209019515211648,
+        "residual": 0.022209019515211634,
         "residual_cols": [
           0.36375,
           0.95
         ],
         "residual_masses": [
-          0.007807143937398068,
-          0.01440187557781358
+          0.007807143937398045,
+          0.014401875577813588
         ],
         "lever": true,
-        "xcg_1d": 0.41383061820273653,
-        "xcg_model": 0.41383061820273653,
-        "inertia_ratio_model_to_1d": 0.8596287048569872,
+        "xcg_1d": 0.4138306182027366,
+        "xcg_model": 0.4138306182027366,
+        "inertia_ratio_model_to_1d": 0.8596287048569878,
         "note": null
       },
       {
         "bay": 1,
-        "m_struct_1d": 0.10213052620843602,
+        "m_struct_1d": 0.102130526208436,
         "m_shell": 0.0843408412390708,
-        "residual": 0.017789684969365213,
+        "residual": 0.0177896849693652,
         "residual_cols": [
           0.446915894,
           0.95
         ],
         "residual_masses": [
-          0.00551376647448684,
-          0.012275918494878373
+          0.0055137664744868,
+          0.012275918494878399
         ],
         "lever": true,
-        "xcg_1d": 0.41508576200712743,
-        "xcg_model": 0.41508576200712743,
-        "inertia_ratio_model_to_1d": 0.8537210451580758,
+        "xcg_1d": 0.41508576200712755,
+        "xcg_model": 0.41508576200712755,
+        "inertia_ratio_model_to_1d": 0.8537210451580773,
         "note": null
       },
       {
@@ -4986,7 +5010,7 @@
         "lever": true,
         "xcg_1d": 0.41517105814839494,
         "xcg_model": 0.41517105814839494,
-        "inertia_ratio_model_to_1d": 0.8577455767424265,
+        "inertia_ratio_model_to_1d": 0.8577455767424261,
         "note": null
       },
       {
@@ -4999,13 +5023,13 @@
           0.95
         ],
         "residual_masses": [
-          0.004903856286393893,
-          0.010323626304966915
+          0.0049038562863938755,
+          0.010323626304966933
         ],
         "lever": true,
-        "xcg_1d": 0.4163003545241448,
-        "xcg_model": 0.4163003545241448,
-        "inertia_ratio_model_to_1d": 0.860508993792469,
+        "xcg_1d": 0.4163003545241449,
+        "xcg_model": 0.4163003545241449,
+        "inertia_ratio_model_to_1d": 0.8605089937924709,
         "note": null
       },
       {
@@ -5029,40 +5053,40 @@
       },
       {
         "bay": 5,
-        "m_struct_1d": 0.07054357430464134,
+        "m_struct_1d": 0.07054357430464132,
         "m_shell": 0.05164212822286254,
-        "residual": 0.018901446081778794,
+        "residual": 0.01890144608177878,
         "residual_cols": [
           0.499053754,
           0.95
         ],
         "residual_masses": [
-          0.007593710985167741,
-          0.011307735096611054
+          0.007593710985167711,
+          0.01130773509661107
         ],
         "lever": true,
-        "xcg_1d": 0.45125362169380345,
-        "xcg_model": 0.45125362169380345,
-        "inertia_ratio_model_to_1d": 0.9319365233333745,
+        "xcg_1d": 0.45125362169380356,
+        "xcg_model": 0.45125362169380356,
+        "inertia_ratio_model_to_1d": 0.9319365233333756,
         "note": null
       },
       {
         "bay": 6,
-        "m_struct_1d": 0.06129025707508375,
+        "m_struct_1d": 0.06129025707508376,
         "m_shell": 0.043552741626225216,
-        "residual": 0.017737515448858536,
+        "residual": 0.017737515448858543,
         "residual_cols": [
           0.499053754,
           0.95
         ],
         "residual_masses": [
-          0.0074094069324329055,
-          0.01032810851642563
+          0.007409406932432923,
+          0.01032810851642562
         ],
         "lever": true,
-        "xcg_1d": 0.4567100375979162,
-        "xcg_model": 0.4567100375979162,
-        "inertia_ratio_model_to_1d": 0.9407483419189486,
+        "xcg_1d": 0.4567100375979161,
+        "xcg_model": 0.4567100375979161,
+        "inertia_ratio_model_to_1d": 0.940748341918948,
         "note": null
       },
       {
@@ -5093,7 +5117,7 @@
     "Lineer statik; burkulma, yapıştırıcı, cıvata, hasar ilerlemesi yok.",
     "Mod etiketleri otomatik şekil uydurmasıdır; GVT ile doğrulanmalı."
   ],
-  "elapsed_s": 76.48500000010245,
+  "elapsed_s": 70.76500000013039,
   "artifacts": [
     "fem\\results\\wing\\fine_plot.png",
     "fem\\results\\wing\\fine_case.inp",

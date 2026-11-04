@@ -23,6 +23,7 @@ Taslaktan farklar (fem/RESULTS_iter5.md):
 Çözücü: *STATIC/*FREQUENCY SOLVER=SPOOLES (PaStiX kupon testinde gürültülüydü).
 """
 import math
+import os
 
 import numpy as np
 
@@ -52,6 +53,21 @@ def materials():
         m = result[name]
         m["F12"] = -.5 / math.sqrt(m["Xt"] * m["Xc"] * m["Yt"] * m["Yc"])
     return result
+
+
+def options():
+    """Rijitleştirme seçenekleri (params değiştirilmeden) ortam değişkeniyle:
+    HZ750_SKIN_PLIES="4,1" (ön, arka kat/yüz), HZ750_WEB_EXTRA=1 (ön/arka web'e ek ±45 kat),
+    HZ750_RIB_PITCH=0.065 (kaburga aralığı hedefi, m), HZ750_RIB_PLIES=2 (ara kaburga kat/yüz).
+    Boşsa params/taban değerleri."""
+    import os
+    import params as P
+    sp = os.environ.get("HZ750_SKIN_PLIES")
+    rp = os.environ.get("HZ750_RIB_PITCH")
+    return dict(skin_plies=tuple(int(v) for v in sp.split(",")) if sp else tuple(P.WING["skin_plies"]),
+                web_extra=int(os.environ.get("HZ750_WEB_EXTRA", "") or P.WING.get("web_extra_plies", 0)),
+                rib_plies=int(os.environ.get("HZ750_RIB_PLIES", "1") or 1),
+                rib_pitch=float(rp) if rp else P.WING.get("rib_pitch"))
 
 
 def material_cards(mats):
@@ -102,7 +118,10 @@ def prepare(args, work):
     from structures import structures as ST
     from fem.cases import set_lines
     fuel_state = getattr(args, "wing_fuel", "full") or "full"
-    base = ST.wing_section_model()
+    opt = options()
+    skin_plies = opt["skin_plies"]
+    # 1D referans (kütle/CG/n_ud/n_web) aynı kabuk kat planıyla structures'tan (params değişmeden).
+    base = ST.wing_section_model(*skin_plies)
     ws, mat = base["ws"], materials()
     g = geometry(args.level)
     xx, yf, ny, xf, xr, cap_half = g["xx"], g["yf"], g["ny"], g["xf"], g["xr"], g["cap_half"]
@@ -173,13 +192,13 @@ def prepare(args, work):
         y_lo, y_hi = yc[bay], yc[bay + 1]
         ym_c = (y_lo + y_hi) / 2
         nud = int(round(float(np.interp(ym_c, ST.YS, ws["n_ud"]))))
-        nw = int(round(float(np.interp(ym_c, ST.YS, ws["n_web"]))))
+        nw = int(round(float(np.interp(ym_c, ST.YS, ws["n_web"])))) + opt["web_extra"]
         for xa, xb in zip(xx, xx[1:]):
             xm = (xa + xb) / 2
             k0 = max(i for i in range(len(knots) - 1) if knots[i] <= xm)
             x_lo, x_hi = knots[k0], knots[k0 + 1]
             xm_c = (x_lo + x_hi) / 2
-            nf = P.WING["skin_plies"][0 if xm_c <= xr else 1]
+            nf = skin_plies[0 if xm_c <= xr else 1]
             cap = min(abs(xm_c - xf), abs(xm_c - xr)) < cap_half
             ud_layer = [("UD", nud * t_ud, "SPAN")] if cap else []
             sandwich = ud_layer + [("FAB", nf * t_fab, "DIAG"), ("CORE", t_core, "SPAN"), ("FAB", nf * t_fab, "DIAG")]
@@ -201,7 +220,7 @@ def prepare(args, work):
                 normal = np.cross(tu, tv) * side
                 normal /= np.linalg.norm(normal)
                 add(conn, kind, layers, .5, j, tv, normal, [xm, ym, side])
-        nose_plies = 2 * P.WING["skin_plies"][0]
+        nose_plies = 2 * skin_plies[0]
         for xweb, label, plies in ((X_NOSE, "WEB_N", nose_plies), (xf, "WEB_F", nw), (xr, "WEB_R", nw),
                                    (X_HINGE, "WEB_H", N_HINGE_PLIES)):
             zs = np.linspace(-1, 1, 2 * g["factor"] + 1)
@@ -219,12 +238,21 @@ def prepare(args, work):
     # Ara kaburgalar: structures m_ribs = 0.08 c/cr kg/m ~ kökte 7-8 g'lık sandviç kaburga / ~0.09 m aralık
     # demektir; kaba şerit sınırlarında (her ağda aynı konum, 0.086 m aralık) hafif kaburga
     # (1 kat / 2 mm / 1 kat). Tank kapama kaburgası Y_T1'e en yakın kaba sınırda, 2 kat / 3 mm / 2 kat.
-    coarse_rows = [g["factor"] * i for i in range(1, 9)]
+    if opt["rib_pitch"] is None:
+        coarse_rows = [g["factor"] * i for i in range(1, 9)]
+    else:
+        # Seçenek: hedef aralık; düğüm satırlarına en yakın konuma oturtulur (orta ağda düzensiz olabilir).
+        n_rib = max(1, round((b2 - y0) / opt["rib_pitch"]))
+        coarse_rows = sorted({int(round(i * ny / n_rib)) for i in range(1, n_rib + 1)})
     tank_row = min(coarse_rows, key=lambda k: abs(yf[k] - ST.Y_T1))
-    zs = np.linspace(-1, 1, 2 * g["factor"] + 1)
+    # Sık kaburgada ince ağ 200k DOF bütçesini aşar: >8 kaburgada kaburga yüksekliği en çok 4 eleman
+    # (düğümler web düğümlerinin alt kümesi; ince ağda kaburga-web kenarında ara düğümler bağlı değil).
+    nz_rib = 2 * g["factor"] if len(coarse_rows) <= 8 or os.environ.get("HZ750_RIB_FULLZ") else min(2 * g["factor"], 4)
+    zs = np.linspace(-1, 1, nz_rib + 1)
     for k in coarse_rows:
         rib_layers = ([("FAB", 2 * t_fab, "DIAG"), ("CORE", 3e-3, "SPAN"), ("FAB", 2 * t_fab, "DIAG")]
-                      if k == tank_row else [("FAB", t_fab, "DIAG"), ("CORE", t_core, "SPAN"), ("FAB", t_fab, "DIAG")])
+                      if k == tank_row else [("FAB", opt["rib_plies"] * t_fab, "DIAG"), ("CORE", t_core, "SPAN"),
+                                             ("FAB", opt["rib_plies"] * t_fab, "DIAG")])
         yr = float(yf[k])
         for xa, xb in zip(xx, xx[1:]):
             for za, zb in zip(zs, zs[1:]):
@@ -237,7 +265,7 @@ def prepare(args, work):
                 add(conn, "RIB", rib_layers, 0., min(k, ny - 1), tu, normal, [(xa + xb) / 2, yr, (za + zb) / 2])
     expanded = 9 * len(nodes)
     if expanded > 200_000:
-        raise Blocked("Tahmini açılmış kanat DOF >200k; ağ boyutu azaltılmalı.")
+        raise Blocked(f"Tahmini açılmış kanat DOF {expanded} >200k; ağ boyutu azaltılmalı.")
     root = [n for n, p in nodes.items() if abs(p[1] - y0) < 1e-9]
     tip = [n for n, p in nodes.items() if abs(p[1] - b2) < 1e-9]
 
@@ -287,6 +315,27 @@ def prepare(args, work):
     bays = []
     levers = []
     one_d = []
+    # Seçenek ek kütlesi 1D m'(y)'de yok: ek web katları ve taban (8 kaburga) üzerindeki fazla kaburgalar
+    # hedef kütleye ve momentlere kendi konumlarında eklenir (kalan kütleyle telafi edilmez).
+    extra = np.zeros(ny)
+    extra_x1 = np.zeros(ny)
+    extra_x2 = np.zeros(ny)
+    n_ribs = len(coarse_rows)
+    for t in elements:
+        m_t = element_x1x2(t)
+        e = 0.
+        if kinds[t] in ("WEB_F", "WEB_R") and opt["web_extra"]:
+            tt = sum(v for _, v, _ in layers_of[t])
+            e = m_t * opt["web_extra"] * t_fab / tt
+        elif kinds[t] == "RIB" and (n_ribs > 8 or opt["rib_plies"] > 1):
+            # Taban (1D m_ribs): 8 kaburga, ara kaburgalar 1 kat/yüz. Fazla kaburga ve fazla kat ek kütledir.
+            is_tank = layers_of[t][1][1] > 2.5e-3          # tank kaburgası: 3 mm çekirdek
+            m_base = m_t if is_tank else areas[t] * (2 * t_fab * mat["FAB"]["rho"] + t_core * mat["CORE"]["rho"])
+            e = m_t - m_base * min(1., 8 / n_ribs)
+        xc = center_of[t][0]
+        extra[strip_of[t]] += e
+        extra_x1[strip_of[t]] += e * xc
+        extra_x2[strip_of[t]] += e * xc * xc
     for j, (ya, yb) in enumerate(zip(yf, yf[1:])):
         ys = np.linspace(ya, yb, 21)
         m_struct = float(np.trapezoid(np.interp(ys, ST.YS, ws["mprime"]), ys))
@@ -299,9 +348,9 @@ def prepare(args, work):
     f = g["factor"]
     for bay in range(ny // f):
         js = list(range(bay * f, (bay + 1) * f))
-        m1 = sum(one_d[k][0] for k in js)
-        need1 = sum(one_d[k][0] * one_d[k][1] for k in js) - sum(strip_x1[k] for k in js)
-        need2 = sum(one_d[k][0] * (one_d[k][1] ** 2 + 1 / 12) for k in js) - sum(strip_x2[k] for k in js)
+        m1 = sum(one_d[k][0] + extra[k] for k in js)
+        need1 = sum(one_d[k][0] * one_d[k][1] + extra_x1[k] for k in js) - sum(strip_x1[k] for k in js)
+        need2 = sum(one_d[k][0] * (one_d[k][1] ** 2 + 1 / 12) + extra_x2[k] for k in js) - sum(strip_x2[k] for k in js)
         shell = sum(strip_shell[k] for k in js)
         residual = m1 - shell
         xA = xB = None
@@ -325,8 +374,9 @@ def prepare(args, work):
         x1m = sum(strip_x1[k] for k in js) + mA * (xA or 0) + mB * (xB or 0)
         x2m = sum(strip_x2[k] for k in js) + mA * (xA or 0) ** 2 + mB * (xB or 0) ** 2
         mm = shell + max(residual, 0.)
-        t1 = sum(one_d[k][0] * one_d[k][1] for k in js)                    # 1D birinci moment (c birimi)
-        t2 = sum(one_d[k][0] * (one_d[k][1] ** 2 + 1 / 12) for k in js)    # 1D ikinci moment
+        # hedef momentler (1D + seçenek ek kütlesi), c birimi
+        t1 = sum(one_d[k][0] * one_d[k][1] + extra_x1[k] for k in js)
+        t2 = sum(one_d[k][0] * (one_d[k][1] ** 2 + 1 / 12) + extra_x2[k] for k in js)
         i_1d = t2 - t1 ** 2 / m1
         i_model = x2m - x1m ** 2 / mm
         bay_row = dict(bay=bay, m_struct_1d=m1, m_shell=float(shell), residual=float(residual),
@@ -335,7 +385,7 @@ def prepare(args, work):
                        inertia_ratio_model_to_1d=float(i_model / i_1d),
                        note=None if residual > 0 else "Kabuk kütlesi 1D bölme kütlesini aşıyor; negatif kütle eklenmedi.")
         for k in js:
-            share = one_d[k][0] / m1
+            share = one_d[k][0] / sum(one_d[i][0] for i in js)   # bölme içi 1D m' oranı (toplam 1)
             ya, yb = yf[k], yf[k + 1]
             y = (ya + yb) / 2
             for xc_col, mcol, is_lever in ((xA, mA * share, False), (xB, mB * share, lever)):
@@ -492,7 +542,7 @@ def prepare(args, work):
         gmsh.finalize()
     shell_mass = float(sum(strip_shell))
     pm_total = nsm_total + lever_total
-    target_mass = float(sum(r["m_struct_1d"] for r in strips)) + fuel_total + 2 * servo_mass
+    target_mass = float(sum(r["m_struct_1d"] for r in strips)) + float(extra.sum()) + fuel_total + 2 * servo_mass
     mesh = dict(level=args.level, ny=ny, cells=len(elements), nodes=len(nodes), h=1 / ny,
                 expanded_dof_estimate=expanded, orientations=len(orientations), sections=len(grouped),
                 nsm_materials=len(nsm_materials), nsm_mass_kg=nsm_total, lever_mass_kg=lever_total,
@@ -503,6 +553,9 @@ def prepare(args, work):
                 ultimate_force_target_N=lift_target, root_moment_target_Nm=moment_target,
                 mesh_sha256=digest(work / "mesh.msh"), deck_sha256=digest(work / "case.inp"),
                 element="S8R_COMPOSITE")
+    mesh.update(options=dict(opt, skin_plies=list(skin_plies)), option_extra_mass_kg=float(extra.sum()),
+                n_ribs=n_ribs, rib_y=[float(yf[k]) for k in coarse_rows],
+                structural_half_mass_kg=shell_mass + pm_total - fuel_total)
     model = dict(mesh=mesh, materials=mat, geometry=dict(knots=g["knots"], x_hinge=X_HINGE, xf=xf, xr=xr,
                  cap_half_xc=cap_half, y_root=y0, b2=b2, sweep_le_deg=P.WING["sweep_le"],
                  dihedral_deg=P.WING["dihedral"], x_root_le=P.WING["x_root_le"], z_root=P.WING["z_root"]),

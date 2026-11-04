@@ -328,7 +328,7 @@ def size_wing(M, V, T, n_face_plies, n_aft=None):
     # kontrol yuzeyi kesikleri nedeniyle burulma tasimaz kabul edilir (iter1'de tum profil sayilmisti)
     cp = np.array([cell_props(t) for t in t_c])
     per, ar, hw = cp[:, 0] * c, cp[:, 1] * c ** 2, cp[:, 2] * c
-    t_web = n_web * fab["t_ply"]
+    t_web = (n_web + WING.get("web_extra_plies", 0)) * fab["t_ply"]   # iter5: ek web kati
     GJ = 4 * ar ** 2 * fab["G45"] / (per / t_skin + hw / t_web)
     tau_skin = T / (2 * ar * t_skin)
     per_full = np.array([cell_props(t, 1.0)[0] for t in t_c]) * c
@@ -340,8 +340,8 @@ def size_wing(M, V, T, n_face_plies, n_aft=None):
     m_sk_f = lam(n_face_plies) * per
     m_sk_a = lam(n_aft) * (per_full - per)
     m_caps = 2 * A_cap * ud["rho"]
-    m_webs = 2 * n_web * fab["t_ply"] * h_box * fab["rho"] * 1.3
-    m_ribs = 0.08 * c / wg["cr"]
+    m_webs = 2 * (n_web + WING.get("web_extra_plies", 0)) * fab["t_ply"] * h_box * fab["rho"] * 1.3
+    m_ribs = 0.08 * c / wg["cr"] * (0.086 / WING.get("rib_pitch", 0.086))   # iter5: kaburga araligina gore
     ail = WING["aileron"]
     in_ail = (YS >= ail["eta0"] * B2) & (YS <= ail["eta1"] * B2)
     m_bal = np.where(in_ail, 0.023 / ((ail["eta1"] - ail["eta0"]) * B2), 0.0)

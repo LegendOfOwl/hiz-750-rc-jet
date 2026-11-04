@@ -1,0 +1,63 @@
+{
+  "level": "medium",
+  "h": 0.0625,
+  "expanded_dof": 59742,
+  "fuel_state": "empty",
+  "deck_sha256": "436db1be4bb4e45aca5c69287b18627737fc60b21670c601baaa7fa86b9023cd",
+  "prepared_dir": "C:\\hz750run\\wing_empty_s31r043w1_medium_ctebcmgq",
+  "wing_model_json_sha256": "ed8d8e1131ddc6ad73fedd397fdc3c9bba17bdc5fe3f8344f4f4b6b8b0c4cb0f",
+  "wing_nodes_json_sha256": "81199697d868f1b760386bee7899c0a439ccfbcbb9c03633889e8370047f8a8e",
+  "laminate_materials_complete": true,
+  "orientations_checked": true,
+  "mass_reconciled": true,
+  "ultimate_load_checked": true,
+  "shell_connectivity_checked": true,
+  "sandwich_no_overlap": true,
+  "details": {
+    "materials": [
+      "CORE",
+      "FAB",
+      "UD"
+    ],
+    "orientation": {
+      "max_abs_a_dot_n": 1.2172465813087285e-10,
+      "min_abs_normal_dot": 0.9999632850826375,
+      "max_angle_to_spar_tangent_deg": 1.7075472925031877e-06
+    },
+    "outward_normal_violations": 0,
+    "mass": {
+      "relative_difference": -1.1102230246251565e-16,
+      "max_bay_cg_diff_c": 5.551115123125783e-17,
+      "inertia_ratio_bays": [
+        0.8544088992259696,
+        0.8575857901343973,
+        0.8554017581335648,
+        0.857613837880724,
+        0.9181804867985576,
+        0.9262580106563464,
+        0.9344195017520122,
+        0.9193308259726694
+      ]
+    },
+    "load": {
+      "sum_Fz_N": 1414.6555701713903,
+      "target_N": 1414.5403931221563,
+      "relative": 8.142365519847594e-05,
+      "n_ultimate": 18.0,
+      "root_moment_target_Nm": 411.86517251041136
+    },
+    "connectivity": {
+      "free_edges": 64,
+      "free_edges_off_root": 0,
+      "nonconforming_rib_web_edges": 0,
+      "unused_nodes": 0
+    },
+    "sandwich": {
+      "elements_core": 304,
+      "elements_monolithic": 80,
+      "min_gap_m": 0.0009525861603854975
+    }
+  },
+  "reviewer": "fem/wing_review.py (otomatik sayısal kontroller)",
+  "note": "Bayraklar sayısal kontrol sonucudur; imalat/çizim incelemesinin yerini tutmaz."
+}

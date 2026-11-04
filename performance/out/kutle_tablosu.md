@@ -2,7 +2,7 @@
 |---|---:|---:|---:|---:|
 | Govde kabugu (karbon prepreg) | 1.55 | 1.150 | 0.000 | 1.782 |
 | Burun balasti (tungsten) / ek RX akusu | 0.15 | 0.200 | 0.000 | 0.030 |
-| Kanat (kabuk 3/1 kat + kiris + kaburga) | 1.75 | 1.180 | -0.080 | 2.065 |
+| Kanat (kabuk 4/1 kat + kiris + 43 mm kaburga) | 2.03 | 1.175 | -0.080 | 2.385 |
 | Kanat baglantisi: cerceveler + 4xM6 + blok | 0.15 | 1.080 | -0.060 | 0.162 |
 | Motor bolgesi isi kecesi + G10 plaka | 0.05 | 1.380 | -0.070 | 0.069 |
 | Yatay kuyruk | 0.30 | 2.000 | 0.000 | 0.600 |
@@ -24,6 +24,6 @@
 | Kuyruk tamponu (egzoz konisi alti) | 0.04 | 1.900 | -0.060 | 0.076 |
 | Boya / dolgu / balans | 0.35 | 1.000 | 0.000 | 0.350 |
 | Yakit (5.0 L) | 4.00 | 0.940 | -0.026 | 3.760 |
-| **MTOW** | **17.16** | **1.148** | -0.014 | |
+| **MTOW** | **17.44** | **1.148** | -0.015 | |
 
-MAC = 0.312 m, MAC hucum kenari x = 1.082 m.  CG tam yakit %21.3 MAC, yakitsiz %41.6 MAC.
+MAC = 0.312 m, MAC hucum kenari x = 1.082 m.  CG tam yakit %21.3 MAC, yakitsiz %41.1 MAC.

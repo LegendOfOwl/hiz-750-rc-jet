@@ -23,7 +23,29 @@
     "root_moment_target_Nm": 411.86517251041136,
     "mesh_sha256": "29c9f330402f30fa203b876154e56e912bd40a8caa4fff9065d3d02d6cec9cfe",
     "deck_sha256": "3dfcbc187eba3b3ffbcc67cac02956b1373416c342e75b9e330fd7108fcca364",
-    "element": "S8R_COMPOSITE"
+    "element": "S8R_COMPOSITE",
+    "options": {
+      "skin_plies": [
+        3,
+        1
+      ],
+      "web_extra": 0,
+      "rib_plies": 1,
+      "rib_pitch": null
+    },
+    "option_extra_mass_kg": 0.0,
+    "n_ribs": 8,
+    "rib_y": [
+      0.121196104663684,
+      0.207392209327368,
+      0.293588313991052,
+      0.379784418654736,
+      0.46598052331842,
+      0.552176627982104,
+      0.638372732645788,
+      0.724568837309472
+    ],
+    "structural_half_mass_kg": 0.8943540983501148
   },
   "materials": {
     "UD": {

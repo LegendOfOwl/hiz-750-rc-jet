@@ -31,7 +31,10 @@ def main():
     a = p.parse_args()
     from validation.study import save_study
     for fuel in a.fuel:
-        result_dir = ROOT / "fem/results" / ("wing" if fuel == "full" else "wing_empty")
+        name = "wing" + ("" if fuel == "full" else "_empty")
+        variant = os.environ.get("HZ750_VARIANT")
+        result_dir = (ROOT / "fem/results/stiffening" / (name + "_" + variant.replace(".", "p").replace("-", "m"))
+                      if variant else ROOT / "fem/results" / name)
         for level in a.levels:
             run(["wing", "--prepare-only", "--level", level, "--wing-fuel", fuel])
             prepared = Path(read_json(result_dir / f"{level}.json")["raw_directory"])

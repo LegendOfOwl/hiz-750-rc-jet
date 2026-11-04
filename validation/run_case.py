@@ -1,5 +1,6 @@
 """Tek vaka/üç ağ runner: python validation/run_case.py <case> --level coarse."""
 import argparse
+import os
 from copy import copy
 from pathlib import Path
 import shutil
@@ -35,6 +36,8 @@ def case_id(args):
         key += f"_A{args.alpha:.4f}"
     if args.case == "wing" and getattr(args, "wing_fuel", "full") == "empty":
         key += "_empty"
+    if args.case == "wing" and os.environ.get("HZ750_VARIANT"):
+        key += "_" + os.environ["HZ750_VARIANT"]   # rijitleştirme seçeneği (fem/wing_shell.options)
     if args.case == "engine_thermal":
         key += f"_T{args.motor_C:g}_F{args.felt_mm:g}"
         if args.thermal_inputs and args.thermal_inputs.is_file():
@@ -43,6 +46,8 @@ def case_id(args):
 
 
 def result_dir(args):
+    if args.case == "wing" and os.environ.get("HZ750_VARIANT"):
+        return ROOT / "fem/results/stiffening" / case_id(args)
     return ROOT / CASES[args.case][0] / "results" / case_id(args)
 
 

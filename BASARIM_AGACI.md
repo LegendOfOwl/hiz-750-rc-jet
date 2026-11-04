@@ -64,7 +64,9 @@ HIZ-750
     │   ├─ f_1B 39,5 Hz, f_1T 272,5 Hz (1D fe_modal 305,7 Hz → kabuk %11 düşük; GVT ≥ 230 Hz yine OK)
     │   ├─ 18 g uç sehim 47,7 mm; min Tsai-Wu R 3,66 (KD 0,544 ile 1,99), arka kiriş kapağı
     │   ├─ ⚠️ Flutter (f_1T ölçekleme) 1307 → ≈1185 km/h: 1080 OK, 1,25 model payı (1350) YOK → f_1T ≥ 316 Hz gerek
-    │   └─ ⚠️ Kaburgalar f_1T'yi belirliyor (kaburgasız 198–207 Hz < 230)
+    │   ├─ ⚠️ Kaburgalar f_1T'yi belirliyor (kaburgasız 198–207 Hz < 230)
+    │   └─ 🟡 Rijitleştirme çalışması (21 seçenek orta, 4 ince ağ): 316 Hz'e HİÇBİRİ ulaşmıyor, kat eklemek kütleyle birlikte doyuyor (6/1 → 281 Hz). Seçilen s41r043w1: 4/1 kat + 43 mm kaburga + web +1 kat → f_1T 294,9 Hz, Vf ≈1266 km/h (1080'e %17 pay), +0,28 kg, kesit CG 0,428c, Tsai-Wu R 4,23. params'a işlendi, `run_all.sh` temiz geçti: MTOW 17,16 → 17,44 kg, statik marj %13,0–32,8.
+    │       └─ ⚠️ 1D fe_modal yeni kat planıyla Vf 1813 km/h veriyor ve Vf(f_T) eğrisi düz (kritik mod değişti) → 1D sonuç GÜVENİLMEZ/iyimser. Tasarım değeri kabuk-FEM ölçekli **≈1266 km/h**. Kabuk mod şekilleriyle p-k çözümü açık iş
     ├─ 🔄 CFD doğrulama (Codex 5HV4)
     │   ├─ 🟡 Düz levha kaba ağ: kapıyı geçti (Cf 0,002854, y+max 0,49)
     │   ├─ 🔄 Düz levha orta ağ: ν̃ 3,07 mertebe düştü, devam koşusu
@@ -73,7 +75,8 @@ HIZ-750
     │   ├─ 🟡 Düz levha orta ağ: 7 restart sonrası kapıyı geçti (Cf 0,0028585, Schlichting'e −%4,8)
     │   ├─ 🟡 Resmi SU2 RAE2822 cfg+ağ native: iteratif kapı ✅, CL −%2,6 / CD +%5,9 / Cm +%2,3 → çözücü/cfg referansı KABUL; Cp RMSE 0,098 > 0,08 → deney Cp kabulü YOK (SA şok konumu)
     │   ├─ ❌ ILU + LINEAR_SOLVER_ERROR 1e-6 pilotları: ikisi de yine ıraksadı (RAE 1452, düz levha 1155. iter) → bu ayar sebep DEĞİL
-    │   ├─ 🔄 MGLEVEL 0 + CFL_ADAPT (1→100) pilotları — ortak faktör multigrid mi? (`C:/hz750run/pilot_mg0_*`)
+    │   ├─ ✅ MG0 + CFL_ADAPT düz levha ince: 3082 iterasyonda yakınsadı (Cauchy 9,99e-7) → ince ağ ıraksaması MULTIGRID kaynaklıydı
+    │   ├─ ❌ MG0 RAE kaba (kendi C-ağı): 20000 iter ıraksamadı ama yakınsamadı (ρ −4,7, Cauchy 7,5e-5); CL 0,696 (−%6), CD 0,0157 (+%24) → sorun AĞ (±30c uzak alan, köşe sinüsü 0,277); resmi ağ aynı cfg ile iyi
     │   ├─ ⏳ NACA 64A007 M0,61 (3 ağ) ↔ NeuralFoil + Kármán-Tsien
     │   └─ ⏳ (zaman kalırsa) 3B sınır tabaka ağları
     ├─ ⏳ Codex yamasının incelenip alınması

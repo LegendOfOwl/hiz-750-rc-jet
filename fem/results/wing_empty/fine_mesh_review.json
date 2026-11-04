@@ -4,9 +4,9 @@
   "expanded_dof": 184518,
   "fuel_state": "empty",
   "deck_sha256": "683599e236db7adb04cab637c6d05a83bff7806c963b899336526436ebcffff6",
-  "prepared_dir": "C:\\hz750run\\wing_empty_fine_fi3sopnz",
-  "wing_model_json_sha256": "57905f12365ea01e36532353723b028773462afafd4c2cea465aacb8cdef31ca",
-  "wing_nodes_json_sha256": "f14fe63fe00767535c126ee2f1c0d6e642557bb1b4526dae0824fbf0ab8e2817",
+  "prepared_dir": "C:\\hz750run\\wing_empty_fine_o5t5pf4s",
+  "wing_model_json_sha256": "325e1e8bee5734c4e069f6762d8cdd894b56a6bba529f54d3a0cac994367b9e1",
+  "wing_nodes_json_sha256": "22dc73b800d933e381854395c1bdcf550ec7cd4b83e2ea38d2a556cf99f6e46f",
   "laminate_materials_complete": true,
   "orientations_checked": true,
   "mass_reconciled": true,
@@ -26,16 +26,16 @@
     },
     "outward_normal_violations": 0,
     "mass": {
-      "relative_difference": 2.220446049250313e-16,
+      "relative_difference": 0.0,
       "max_bay_cg_diff_c": 0.0,
       "inertia_ratio_bays": [
-        0.8596287048569872,
-        0.8537210451580758,
-        0.8577455767424265,
-        0.860508993792469,
+        0.8596287048569878,
+        0.8537210451580773,
+        0.8577455767424261,
+        0.8605089937924709,
         0.922627911858379,
-        0.9319365233333745,
-        0.9407483419189486,
+        0.9319365233333756,
+        0.940748341918948,
         0.9184392060691758
       ]
     },
@@ -49,6 +49,7 @@
     "connectivity": {
       "free_edges": 128,
       "free_edges_off_root": 0,
+      "nonconforming_rib_web_edges": 0,
       "unused_nodes": 0
     },
     "sandwich": {

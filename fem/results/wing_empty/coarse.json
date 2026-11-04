@@ -27,7 +27,7 @@
   "reason": null,
   "design_accepted": false,
   "provenance": {
-    "utc": "2026-11-04T19:39:20.418042+00:00",
+    "utc": "2026-11-04T20:19:18.774810+00:00",
     "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
     "packages": {
       "gmsh": "4.15.2",
@@ -47,14 +47,14 @@
   },
   "estimated_runtime": "5–30 dk/ağ; <200k açılmış DOF; tahmin",
   "diagnostic": false,
-  "raw_directory": "C:\\hz750run\\wing_empty_coarse_wj__5ncm",
+  "raw_directory": "C:\\hz750run\\wing_empty_coarse_324ghzux",
   "code_sha256": {
     "validation\\__init__.py": "318a65d09bef1fd777be440b8eb9b4285b723995a4633e65336b9c38c567f47a",
     "validation\\common.py": "740454c523dd01b8419f1bf4a21c281c346c3a3e65127ee04e14dbf2eb4dfd34",
     "validation\\convergence.py": "31e7603e4ee00ca544881c222cb898b3b87477e17543f558b7984048b2e06a55",
     "validation\\fetch_reference.py": "81173fc6673acd5ab27ddb967bd383685457b77abf798a0a41272a4feb9832b2",
     "validation\\report.py": "4c423d5ddbe5710d383ae3f07ca3f81f04cf6f1d2f3bf23dd8bd331f9cf280f0",
-    "validation\\run_case.py": "3f952de187deb8bd5258338608cb6091a09562a797e343a6239d5c167c437c34",
+    "validation\\run_case.py": "6c0a61433ffb1db3bbd35b8f8735367ea294b205c39945671eddf60cce644f78",
     "validation\\run_native_su2.py": "594c7ceb53f049767e713d84c0d6c66405cb321fc15a0ed8682f2d28adb431f2",
     "validation\\study.py": "1e8ae7f70f7a2c4a0045b63d27229bb72e12cce862ac3a0c65b9ff90a2af0d7f",
     "validation\\test_validation.py": "254648f8e40ca764dd07fc2368764c4c0988f4346fa2816a70b74eb638b6d1b5",
@@ -68,15 +68,16 @@
     "fem\\coupon.py": "6ecb6cc2876a7f20ba54ae7bffdd994dd9613c1a9f9bf8eef067e554b2da0ca2",
     "fem\\export_wing_inputs.py": "2129df518888c3963dec1e67bc414181e4682385245b23b2dedcaad5d41520ed",
     "fem\\laminate_post.py": "5e34e6d15b5384f61ca968ca7359ace7adc93f9e7b1e8f8f40909e79fa1cf355",
-    "fem\\run_wing_study.py": "7914a01fa634477015d75958499b67d0e557b42580cf0f874c217d3afc64bb5f",
+    "fem\\run_wing_study.py": "e45de8998406b47951f4a4242c88668e39fbd1dd73df858dd27e7a6167c2d540",
+    "fem\\stiffening_study.py": "52bf0c118a0c0d8e87c379ea8c704a3e3f15a32385a213a9def16d1cef78f7cc",
     "fem\\wing_compare.py": "e27d38baeda1cb41414e4d2021504cb14cc961966866e578bad071228cee9c0f",
     "fem\\wing_post.py": "72c78c9ec7fa849cec09f8ed6fdb5993e6f659dcfdfeee3e5c73a507b4b4beb0",
-    "fem\\wing_review.py": "4ff5c8bade3015f96cbb39626a38079ec184c049c19e224d476effc76b2c5309",
-    "fem\\wing_shell.py": "fe822741c270034714a287cc81ab273d1dfc9c210f7cbc9ea24c8f08dc935f20",
+    "fem\\wing_review.py": "e67de46fc6fcc7abe47cbc326184485b228ad072d9e5146d8cb378b0bd3e5581",
+    "fem\\wing_shell.py": "1ddc5d8b8168898f1d94de4a9343bc8f5249289c16e1317acb6b59130f21a359",
     "thermal\\cases.py": "fe91f662ad2bbc6bc6a032576d00eeab798bab42962bdae2738ea1c2f56ce2aa"
   },
   "input_sha256": {
-    "mesh_review": "edf343845d8cdf938bdd252d23aa6fc9932a5ff569dca4c47056ab82882ec98e",
+    "mesh_review": "46afaf9a57a0d6c9446ca20ce539a0e12be4f17bc4787ccdde75c282382e9169",
     "deck": "3dfcbc187eba3b3ffbcc67cac02956b1373416c342e75b9e330fd7108fcca364"
   },
   "mesh": {
@@ -85,8 +86,8 @@
     "expanded_dof": 9990,
     "fuel_state": "empty",
     "deck_sha256": "3dfcbc187eba3b3ffbcc67cac02956b1373416c342e75b9e330fd7108fcca364",
-    "prepared_dir": "C:\\hz750run\\wing_empty_coarse_bfme6t8c",
-    "wing_model_json_sha256": "a000bb6ff1b3c5be9e810c6f96cc0a4ad72be961dc597e519668db08b450dc22",
+    "prepared_dir": "C:\\hz750run\\wing_empty_coarse_11i2ng1m",
+    "wing_model_json_sha256": "faadea09102adb46d802abbc7e67e947c07d620e098866297b4c4f18ff137eed",
     "wing_nodes_json_sha256": "928f48537e8051da92a2ffbebc89c4b1ded7910af282267cc241df8e022c58a9",
     "laminate_materials_complete": true,
     "orientations_checked": true,
@@ -130,6 +131,7 @@
       "connectivity": {
         "free_edges": 32,
         "free_edges_off_root": 0,
+        "nonconforming_rib_web_edges": 0,
         "unused_nodes": 0
       },
       "sandwich": {
@@ -162,7 +164,7 @@
       "case"
     ],
     "executable_sha256": "419adbe276ac14ebd8e187a2272b058a47e366f1cffb822dfb0236e6eebe21f9",
-    "log_sha256": "eeb54b26667293c7f30ca808a399c978344807d3c8fe5a9969236db56d3533be"
+    "log_sha256": "637d902d6cbf31257bc9099b1c2159cbcac035260e410b8a634e5497e18f42f4"
   },
   "quality": {
     "root_reaction_N": [
@@ -1665,7 +1667,29 @@
       "root_moment_target_Nm": 411.86517251041136,
       "mesh_sha256": "29c9f330402f30fa203b876154e56e912bd40a8caa4fff9065d3d02d6cec9cfe",
       "deck_sha256": "3dfcbc187eba3b3ffbcc67cac02956b1373416c342e75b9e330fd7108fcca364",
-      "element": "S8R_COMPOSITE"
+      "element": "S8R_COMPOSITE",
+      "options": {
+        "skin_plies": [
+          3,
+          1
+        ],
+        "web_extra": 0,
+        "rib_plies": 1,
+        "rib_pitch": null
+      },
+      "option_extra_mass_kg": 0.0,
+      "n_ribs": 8,
+      "rib_y": [
+        0.121196104663684,
+        0.207392209327368,
+        0.293588313991052,
+        0.379784418654736,
+        0.46598052331842,
+        0.552176627982104,
+        0.638372732645788,
+        0.724568837309472
+      ],
+      "structural_half_mass_kg": 0.8943540983501148
     },
     "bays": [
       {
@@ -1829,7 +1853,7 @@
     "Lineer statik; burkulma, yapıştırıcı, cıvata, hasar ilerlemesi yok.",
     "Mod etiketleri otomatik şekil uydurmasıdır; GVT ile doğrulanmalı."
   ],
-  "elapsed_s": 5.875,
+  "elapsed_s": 5.5310000001918525,
   "artifacts": [
     "fem\\results\\wing_empty\\coarse_plot.png",
     "fem\\results\\wing_empty\\coarse_case.inp",

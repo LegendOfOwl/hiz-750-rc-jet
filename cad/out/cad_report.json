@@ -1,0 +1,443 @@
+{
+  "iteration": "3-kapanis",
+  "units": "mm3 (cakisma) / L / m2",
+  "params_snapshot": {
+    "MTOW": 17.01,
+    "fuel_kg": 4.0,
+    "fuel_L": 5.0,
+    "inlet_w": 0.11,
+    "inlet_h": 0.055,
+    "wing_x_root_le": 0.92,
+    "spar_xc": [
+      0.2,
+      0.55
+    ],
+    "engine_x_front": 1.18,
+    "inlet_x_lip": 0.85
+  },
+  "tank_volumes_L": {
+    "tank_fuselage": 3.63,
+    "tank_wing_R": 0.715,
+    "tank_wing_L": 0.715,
+    "tank_center": 0.274
+  },
+  "tank_total_L": 5.335,
+  "tank_target_L": 5.33,
+  "tank_ok": true,
+  "tank_fuselage_x_mm": [
+    751.3,
+    1002.9
+  ],
+  "tank_centroids_x_m": {
+    "tank_fuselage": 0.8682,
+    "tank_wing_R": 1.151,
+    "tank_wing_L": 1.151,
+    "tank_center": 1.0823
+  },
+  "fuel_cg_x_m": 0.955,
+  "fuel_cg_z_m": -0.0288,
+  "fuel_cg_target_x_m": 0.955,
+  "fuel_cg_ok": true,
+  "wetted_area_m2": {
+    "fuselage": 0.9164,
+    "wing_exposed": 0.8382,
+    "htail": 0.1216,
+    "vtail": 0.1168,
+    "skid_approx": 0.0426
+  },
+  "part_volumes_cm3": {
+    "fuselage": 1328.3,
+    "inlet_duct": 231.7,
+    "wing_center": 75.1,
+    "aileron_R": 36.1,
+    "flap_R": 151.7,
+    "aileron_L": 36.1,
+    "flap_L": 151.7,
+    "wing_panels": 4660.2,
+    "wing_box": 2918.3,
+    "belly_fairing": 783.9,
+    "tank_wing_R": 715.4,
+    "tank_wing_L": 715.4,
+    "tank_center": 273.7,
+    "elevator_R": 14.7,
+    "elevator_L": 14.7,
+    "htail": 385.6,
+    "ht_carry_yoke": 40.8,
+    "vtail": 412.2,
+    "rudder": 72.0,
+    "engine": 6898.7,
+    "exhaust_pipe": 171.5,
+    "tank_fuselage": 3771.2,
+    "skid": 305.1,
+    "tail_bumper": 64.6,
+    "frames": 22.0,
+    "dolly": 3241.6
+  },
+  "engine_radial_clearance_mm": {
+    "min": 5.97,
+    "at_x": 1565.0,
+    "front": 6.8,
+    "target": 3.0
+  },
+  "interference_mm3": {
+    "engine_vs_fuselage_wall": 0.0,
+    "engine_vs_wing_box": 0.0,
+    "engine_vs_inlet_duct": 0.0,
+    "duct_vs_wing_box": 0.0,
+    "dorsal_hump_duct_wall_outside_fuselage_aft_of_front_spar": 6963.0,
+    "htail_and_yoke_vs_exhaust_pipe": 0.0,
+    "ht_yoke_vs_fuselage_wall": 0.0,
+    "vtail_vs_exhaust_pipe": 0.0,
+    "tank_fuselage_vs_duct": 0.0,
+    "tank_fuselage_vs_wing_box": 0.0,
+    "tank_fuselage_vs_fuselage_wall": 0.0,
+    "tank_wing_vs_duct": 0.0,
+    "tank_center_vs_duct_engine": 0.0,
+    "wing_center_vs_engine": 0.0,
+    "wing_center_vs_duct": 0.0,
+    "wing_center_vs_tank_fuselage": 0.0,
+    "frames_vs_engine_tanks_duct": 0.0,
+    "frames_vs_fuselage_wall": 0.0,
+    "tail_bumper_vs_fuselage_wall": 0.0,
+    "tank_fuselage_vs_inlet_ramp": 0.0,
+    "engine_vs_wing_lower_skin_aft": 0.0,
+    "tank_wing_vs_engine": 0.0,
+    "skid_vs_fuselage_wall": 0.0,
+    "dolly_vs_aircraft_outer": 0.0,
+    "fairing_vs_tank_fuselage": 0.0,
+    "fairing_vs_skid": 0.0,
+    "fairing_vs_wing_panels": 0.0,
+    "flap_vs_wing_panels": 0.0,
+    "duct_vs_fuselage_wall_aft_of_x_box_front": 0.0
+  },
+  "ground_geometry": {
+    "tail_strike_deg": 12.44,
+    "tail_strike_target_deg": 9.0,
+    "tail_strike_contact_mm": [
+      2100.0,
+      -56.0
+    ],
+    "skid_aft_end_mm": [
+      1450.0,
+      -92.5
+    ],
+    "strike_pivot_mm": [
+      1930.3,
+      -93.4
+    ],
+    "skid_to_bumper_contact_deg": -0.15,
+    "skid_x1_needed_for_9deg_mm": 1930.2608027570475,
+    "skid_depth_at_needed_x1_mm": 25.4,
+    "dolly_rear_wheel_contact_mm": [
+      1501.0,
+      -202.5
+    ],
+    "dolly_clearance_0deg": [
+      106.5,
+      945.0
+    ],
+    "dolly_clearance_alpha": {
+      "alpha_deg": 3.0,
+      "clearance_mm_at_x": [
+        86.5,
+        1930.0
+      ]
+    },
+    "dolly_clearance_6deg": [
+      63.6,
+      1930.0
+    ]
+  },
+  "wing_tank_inner_L_per_side": {
+    "eta 0.06-0.55 (params)": 0.715,
+    "eta 0.06-0.40": 0.577,
+    "govde yani (y=R)-eta 0.40 (yapi ajani tanimi)": 0.456,
+    "govde yani (y=R)-eta 0.55": 0.594
+  },
+  "wing_tank_walls_mm": {
+    "skin": 2.6,
+    "web": 1.5,
+    "rib": 3.0
+  },
+  "structures_agent_value_L_per_side": 0.39,
+  "belly_tank": "params'ta kapali",
+  "flap": {
+    "type": "slotted",
+    "cf": 0.25,
+    "slot_mm": 2.5,
+    "hinge_line_mm": [
+      [
+        1273.0,
+        86.9,
+        -91.5
+      ],
+      [
+        1337.2,
+        362.3,
+        -80.1
+      ]
+    ]
+  },
+  "wing_inside_fuselage_cut_x_mm": 1156.0,
+  "belly_fairing": {
+    "bottom_z_mm": -96.0,
+    "x_mm": [
+      860.0,
+      1459.4
+    ],
+    "depth_below_fuselage_mm": 13.5,
+    "volume_cm3": 783.9
+  },
+  "mass_items_inside_volumes": [
+    {
+      "item": "Motor bolgesi isi kecesi + G10 plaka",
+      "x_m": 1.38,
+      "z_m": -0.07,
+      "inside": "engine"
+    },
+    {
+      "item": "Motor yatagi + isi kalkani",
+      "x_m": 1.38,
+      "z_m": 0.0,
+      "inside": "engine"
+    },
+    {
+      "item": "Yakit tanki + hopper + boru",
+      "x_m": 0.98,
+      "z_m": 0.0,
+      "inside": "tank_fuselage"
+    },
+    {
+      "item": "Bulkhead'ler, baglanti elemanlari",
+      "x_m": 1.0,
+      "z_m": 0.0,
+      "inside": "inlet_duct"
+    },
+    {
+      "item": "Motor JetCat P400-PRO",
+      "x_m": 1.37,
+      "z_m": 0.0,
+      "inside": "engine"
+    },
+    {
+      "item": "Servolar: aileron+flap 4x (kanat ici)",
+      "x_m": 1.22,
+      "z_m": -0.04,
+      "inside": "engine"
+    },
+    {
+      "item": "Kontrol yuzeyi balans kutleleri (W)",
+      "x_m": 1.45,
+      "z_m": 0.0,
+      "inside": "engine"
+    },
+    {
+      "item": "Boya / dolgu / balans",
+      "x_m": 1.0,
+      "z_m": 0.0,
+      "inside": "inlet_duct"
+    }
+  ],
+  "spars_root_x_mm": {
+    "front": 1005.9,
+    "rear": 1156.2
+  },
+  "engine_front_x_mm": 1180.0,
+  "engine_to_rear_spar_gap_mm": 23.8,
+  "wing_box_top_z_mm": -64.65,
+  "inlet": {
+    "capture_area_cm2": 60.5,
+    "face_area_cm2": 125.0,
+    "area_ratio": 2.066,
+    "vertical_offset_mm": 88.0,
+    "length_mm": 330.0,
+    "offset_to_length": 0.267,
+    "z_floor_min_in_box_mm": -58.7,
+    "max_wall_angle_deg": 25.6,
+    "max_diffuser_half_angle_deg": 3.95,
+    "mean_diffuser_half_angle_deg": 3.33,
+    "sections": [
+      {
+        "x": 850.0,
+        "kind": "r",
+        "zc": 88.0,
+        "a": 55.0,
+        "b": 27.5,
+        "floor": 60.5,
+        "ceil": 115.5,
+        "area_cm2": 60.5
+      },
+      {
+        "x": 891.2,
+        "kind": "e",
+        "zc": 84.2,
+        "a": 56.0,
+        "b": 39.0,
+        "floor": 45.3,
+        "ceil": 123.2,
+        "area_cm2": 68.6
+      },
+      {
+        "x": 932.5,
+        "kind": "e",
+        "zc": 74.2,
+        "a": 57.0,
+        "b": 42.8,
+        "floor": 31.5,
+        "ceil": 117.0,
+        "area_cm2": 76.6
+      },
+      {
+        "x": 973.8,
+        "kind": "e",
+        "zc": 60.2,
+        "a": 58.0,
+        "b": 46.4,
+        "floor": 13.7,
+        "ceil": 106.6,
+        "area_cm2": 84.7
+      },
+      {
+        "x": 1015.0,
+        "kind": "e",
+        "zc": 44.0,
+        "a": 59.0,
+        "b": 50.0,
+        "floor": -6.0,
+        "ceil": 94.0,
+        "area_cm2": 92.7
+      },
+      {
+        "x": 1056.2,
+        "kind": "e",
+        "zc": 27.8,
+        "a": 60.0,
+        "b": 53.4,
+        "floor": -25.6,
+        "ceil": 81.3,
+        "area_cm2": 100.8
+      },
+      {
+        "x": 1097.5,
+        "kind": "e",
+        "zc": 13.8,
+        "a": 61.1,
+        "b": 56.8,
+        "floor": -43.0,
+        "ceil": 70.5,
+        "area_cm2": 108.9
+      },
+      {
+        "x": 1138.8,
+        "kind": "e",
+        "zc": 3.8,
+        "a": 62.1,
+        "b": 60.0,
+        "floor": -56.2,
+        "ceil": 63.7,
+        "area_cm2": 116.9
+      },
+      {
+        "x": 1158.2,
+        "kind": "e",
+        "zc": 2.1,
+        "a": 63.2,
+        "b": 60.7,
+        "floor": -58.7,
+        "ceil": 62.8,
+        "area_cm2": 120.7
+      },
+      {
+        "x": 1180.0,
+        "kind": "e",
+        "zc": 0.0,
+        "a": 63.1,
+        "b": 63.1,
+        "floor": -63.1,
+        "ceil": 63.1,
+        "area_cm2": 125.0
+      }
+    ],
+    "segments": [
+      {
+        "x0": 850.0,
+        "x1": 891.2,
+        "floor_deg": -20.3,
+        "ceil_deg": 10.6,
+        "side_deg": 1.4,
+        "diffuser_half_deg": 3.95
+      },
+      {
+        "x0": 891.2,
+        "x1": 932.5,
+        "floor_deg": -18.5,
+        "ceil_deg": -8.5,
+        "side_deg": 1.4,
+        "diffuser_half_deg": 3.67
+      },
+      {
+        "x0": 932.5,
+        "x1": 973.8,
+        "floor_deg": -23.3,
+        "ceil_deg": -14.1,
+        "side_deg": 1.4,
+        "diffuser_half_deg": 3.53
+      },
+      {
+        "x0": 973.8,
+        "x1": 1015.0,
+        "floor_deg": -25.6,
+        "ceil_deg": -17.0,
+        "side_deg": 1.4,
+        "diffuser_half_deg": 3.33
+      },
+      {
+        "x0": 1015.0,
+        "x1": 1056.2,
+        "floor_deg": -25.4,
+        "ceil_deg": -17.1,
+        "side_deg": 1.4,
+        "diffuser_half_deg": 3.23
+      },
+      {
+        "x0": 1056.2,
+        "x1": 1097.5,
+        "floor_deg": -22.8,
+        "ceil_deg": -14.7,
+        "side_deg": 1.5,
+        "diffuser_half_deg": 3.09
+      },
+      {
+        "x0": 1097.5,
+        "x1": 1138.8,
+        "floor_deg": -17.7,
+        "ceil_deg": -9.3,
+        "side_deg": 1.4,
+        "diffuser_half_deg": 2.94
+      },
+      {
+        "x0": 1138.8,
+        "x1": 1158.2,
+        "floor_deg": -7.3,
+        "ceil_deg": -2.7,
+        "side_deg": 3.2,
+        "diffuser_half_deg": 2.9
+      },
+      {
+        "x0": 1158.2,
+        "x1": 1180.0,
+        "floor_deg": -11.4,
+        "ceil_deg": 0.8,
+        "side_deg": -0.3,
+        "diffuser_half_deg": 2.87
+      }
+    ],
+    "lip_buried_mm": 22.0,
+    "ramp": {
+      "x0": 670.8,
+      "length": 179.2,
+      "depth": 22.0,
+      "deg": 7.0
+    }
+  }
+}

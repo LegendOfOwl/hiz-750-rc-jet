@@ -109,7 +109,7 @@ MASS_ITEMS = [
     ("Burun balasti (tungsten) / ek RX akusu",  0.15, 0.20, 0.00),   # iter4: bos yakit SM'yi %12'ye geri getirir
     ("Kanat (kabuk 3/1 kat + kiris + kaburga)", 1.75, 1.18, -0.08),
     ("Kanat baglantisi: cerceveler + 4xM6 + blok", 0.15, 1.08, -0.06),
-    ("Motor bolgesi isi kecesi + G10 plaka",    0.05, 1.38, -0.07),
+    ("Motor bolgesi isi kecesi + G10 plaka",    0.05, 1.38, -0.07),   # iter5: 2 mm seramik kece ZORUNLU (termal: kecesiz yer kosusu kabuk 149.8 C ~ Tg 150 C)
     ("Yatay kuyruk",                            0.30, 2.00, 0.00),
     ("Dikey kuyruk",                            0.20, 1.98, 0.14),
     ("Motor yatagi + isi kalkani",              0.35, 1.38, 0.00),

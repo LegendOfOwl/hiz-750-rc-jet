@@ -31,7 +31,7 @@ Puanlar: Ş = şiddet, O = olasılık, T = tespit edilebilirlik (1–10). RPN = 
 | 6 | Hava alığı tıkanması / yabancı madde girişi | Motor hasarı | 8 | 2 | 4 | 64 | Pist temizliği, alık ızgarası (ince tel), yer çalıştırma kontrolü |
 | 7 | Servo / güç kaybı | Kontrol kaybı | 10 | 2 | 3 | 60 | Yedekli güç dağıtıcı, çift akü, servo akım telemetrisi |
 | 8 | Aşırı g (pilot kaynaklı) | Kanat kırılması | 10 | 3 | 4 | 120 | Hız modunda sapma limitleri, gyro g-limiti, eğitim |
-| 9 | Isıl hasar (egzoz/gövde) | Yapı zayıflaması, yangın | 8 | 3 | 4 | 96 | Bypass borusu, ısı kalkanı, termal kamera kontrolü |
+| 9 | Isıl hasar (egzoz/gövde) | Yapı zayıflaması, yangın | 8 | 3 | 4 | 96 | Bypass borusu, **2 mm ısı keçesi zorunlu** (iter5 termal: 5,97 mm aralıkta keçesiz yer çalıştırmasında kabuk 149,8 °C ≈ Tg 150 °C; keçeyle 126 °C), yer çalıştırma süresi sınırlı, termal kamera / termokupl kontrolü |
 | 10 | Kızakla sert/yanlış açılı iniş (kuyruk çarpması, sert zemin) | Kuyruk/gövde hasarı | 6 | 4 | 2 | 48 | Yalnız çim şerit, kuyruk tamponu (x = 1,90 m), değiştirilebilir aşınma plakası, flare pratiği |
 | 12 | Dolly'den erken/geç ayrılma | Kalkışta kaza | 8 | 3 | 3 | 72 | L/W ≥ 1 mandalı, sabit 6° dolly açısı, elevator trim −6°, düz asfalt |
 | 13 | Dutch roll / yön salınımı (düşük sönüm) | Ölçüm geçişinde kontrol zorluğu | 6 | 4 | 3 | 72 | Yaw damper zorunlu, rudder pilot girdisi ±0,5–1° |

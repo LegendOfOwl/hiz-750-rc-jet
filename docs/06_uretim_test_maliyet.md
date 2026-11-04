@@ -40,7 +40,7 @@ Yüzey kalitesi kritik: duyarlılık analizinde laminer akış etkisi +30 km/h. 
 3. **Burulma rijitliği testi:** Uca moment uygulanır, dönme açısı ölçülür. Sonuç GJ'dir ve flutter modelini günceller.
 4. **GVT (yer titreşim testi):** Uçak lastik ipe asılır, darbe çekici + ivmeölçer (telefon ivmeölçeri bile yeterli) ile ölçülür. Kanat 1. eğilme ve 1. burulma frekansları ile kontrol yüzeyi dönme frekansları belirlenir. Ölçülen frekanslar flutter analizine girilir. Burulma/eğilme frekans oranı ≥ 2,5 olmalı.
 5. **Kontrol yüzeyi boşluk testi:** Servo kilitliyken yüzey ucuna 1 N kuvvet uygulanır; sapma ≤ 0,1° olmalı.
-6. **Motor yer çalıştırması:** Tutucu bağlantıyla tam gaz 2 dk. Gövde sıcaklıkları termal kamera veya termokupl ile ölçülür (kabuk < 80 °C hedef). Yakıt sistemi negatif g simülasyonu (uçak ters çevrilerek) yapılır.
+6. **Motor yer çalıştırması:** Tutucu bağlantıyla tam gaz 2 dk; 2 mm ısı keçesi takılı olmalı. Motorun en dar aralık bölgesine (x ≈ 1,2–1,3 m, aralık 5,97 mm) termokupl konur. Kabuk iç yüzeyi **< 120 °C** olmalı; bu sınır Tg 150 °C'ye 30 °C pay bırakır. Ölçülen değer, termal modelin (docs/10) varsayılan taşınım katsayılarını kalibre eder. Yakıt sistemi negatif g simülasyonu (uçak ters çevrilerek) yapılır.
 7. **Fail-safe ve menzil testi:** Motor çalışırken kumanda menzil testi; sinyal kesilince fail-safe davranışı doğrulanır.
 
 ## 6.4 Uçuş zarfı genişletme planı

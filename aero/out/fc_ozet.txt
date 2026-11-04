@@ -1,0 +1,126 @@
+=== HIZ-750 ucus kontrol on tasarimi ===
+Kutle/atalet kaynagi: CAD (cad/out/mass_properties.json, cases 0%, 26%, 100%, 103%)
+   yakit %100: m=17.16 kg x_cg=1.1462 z_cg=-0.0147 m  Ixx=0.378 Iyy=2.789 Izz=3.081 Ixz=+0.0437 kg.m2
+   yakit % 25: m=14.16 kg x_cg=1.1900 z_cg=-0.0124 m  Ixx=0.340 Iyy=2.570 Izz=2.834 Ixz=+0.0473 kg.m2
+   yakit %  0: m=13.16 kg x_cg=1.2090 z_cg=-0.0114 m  Ixx=0.327 Iyy=2.481 Izz=2.736 Ixz=+0.0476 kg.m2
+Servo: 1. derece 25 Hz (tau=6.4 ms), hiz limiti 600 deg/s; dongu 50 Hz, 1 ornek gecikme (20 ms) + ZOH
+DATCOM govde-kanat dCl_beta = +0.0337/rad (tum noktalara eklendi)
+
+[1] Trim, turevler ve acik cevrim modlar (AeroBuildup, h=300 m):
+   350 km/h %100: a=+0.88 de=-0.78 deg | CLa=4.74 Cma=-1.697 Cmq=-10.98 Cmde=-1.585 | Cnb=+0.0840 Clb=-0.0413 Clp=-0.489 Cnr=-0.1721 Clda=+0.2743 Cndr=+0.2468
+        SP wn=21.8 rad/s (3.47 Hz) z=0.29; fugoid wn=0.139 z=0.157; DR wn=9.6 (1.52 Hz) z=0.102; roll tau=30 ms; spiral kararli T=106 s; manevra gradyani 1.132 deg/g
+   350 km/h % 25: a=+0.66 de=-0.25 deg | CLa=4.73 Cma=-1.042 Cmq=-10.04 Cmde=-1.503 | Cnb=+0.0728 Clb=-0.0404 Clp=-0.486 Cnr=-0.1531 Clda=+0.2723 Cndr=+0.2327
+        SP wn=18.3 rad/s (2.91 Hz) z=0.39; fugoid wn=0.135 z=0.193; DR wn=9.3 (1.48 Hz) z=0.104; roll tau=27 ms; spiral kararli T=85 s; manevra gradyani 0.606 deg/g
+   350 km/h %  0: a=+0.58 de=-0.08 deg | CLa=4.73 Cma=-0.759 Cmq=-9.74 Cmde=-1.467 | Cnb=+0.0679 Clb=-0.0401 Clp=-0.485 Cnr=-0.1452 Clda=+0.2718 Cndr=+0.2266
+        SP wn=16.3 rad/s (2.59 Hz) z=0.45; fugoid wn=0.132 z=0.211; DR wn=9.1 (1.45 Hz) z=0.106; roll tau=26 ms; spiral kararli T=78 s; manevra gradyani 0.430 deg/g
+   550 km/h %100: a=+0.27 de=-0.13 deg | CLa=4.83 Cma=-1.704 Cmq=-10.69 Cmde=-1.579 | Cnb=+0.0722 Clb=-0.0387 Clp=-0.501 Cnr=-0.1589 Clda=+0.2891 Cndr=+0.2425
+        SP wn=34.3 rad/s (5.46 Hz) z=0.29; fugoid wn=0.088 z=0.365; DR wn=13.8 (2.20 Hz) z=0.099; roll tau=19 ms; spiral kararli T=131 s; manevra gradyani 0.452 deg/g
+   550 km/h % 25: a=+0.19 de=+0.08 deg | CLa=4.83 Cma=-1.023 Cmq=-9.69 Cmde=-1.493 | Cnb=+0.0616 Clb=-0.0381 Clp=-0.500 Cnr=-0.1414 Clda=+0.2890 Cndr=+0.2286
+        SP wn=28.5 rad/s (4.53 Hz) z=0.39; fugoid wn=0.086 z=0.453; DR wn=13.3 (2.12 Hz) z=0.103; roll tau=17 ms; spiral kararli T=109 s; manevra gradyani 0.237 deg/g
+   550 km/h %  0: a=+0.16 de=+0.15 deg | CLa=4.82 Cma=-0.729 Cmq=-9.38 Cmde=-1.456 | Cnb=+0.0571 Clb=-0.0378 Clp=-0.500 Cnr=-0.1341 Clda=+0.2890 Cndr=+0.2226
+        SP wn=25.1 rad/s (3.99 Hz) z=0.46; fugoid wn=0.084 z=0.500; DR wn=13.0 (2.07 Hz) z=0.106; roll tau=16 ms; spiral kararli T=101 s; manevra gradyani 0.165 deg/g
+   750 km/h %100: a=+0.09 de=+0.07 deg | CLa=4.89 Cma=-1.654 Cmq=-10.24 Cmde=-1.611 | Cnb=+0.0647 Clb=-0.0374 Clp=-0.516 Cnr=-0.1508 Clda=+0.3148 Cndr=+0.2498
+        SP wn=46.1 rad/s (7.34 Hz) z=0.29; fugoid wn=0.065 z=0.667; DR wn=17.8 (2.83 Hz) z=0.098; roll tau=13 ms; spiral kararli T=160 s; manevra gradyani 0.227 deg/g
+   750 km/h % 25: a=+0.04 de=+0.18 deg | CLa=4.89 Cma=-0.968 Cmq=-9.31 Cmde=-1.525 | Cnb=+0.0546 Clb=-0.0369 Clp=-0.516 Cnr=-0.1341 Clda=+0.3148 Cndr=+0.2355
+        SP wn=37.8 rad/s (6.02 Hz) z=0.40; fugoid wn=0.063 z=0.832; DR wn=17.0 (2.71 Hz) z=0.104; roll tau=12 ms; spiral kararli T=134 s; manevra gradyani 0.116 deg/g
+   750 km/h %  0: a=+0.03 de=+0.21 deg | CLa=4.89 Cma=-0.671 Cmq=-9.02 Cmde=-1.488 | Cnb=+0.0502 Clb=-0.0366 Clp=-0.516 Cnr=-0.1272 Clda=+0.3148 Cndr=+0.2293
+        SP wn=33.0 rad/s (5.25 Hz) z=0.47; fugoid wn=0.061 z=0.921; DR wn=16.6 (2.64 Hz) z=0.107; roll tau=12 ms; spiral kararli T=124 s; manevra gradyani 0.079 deg/g
+   800 km/h %100: a=+0.06 de=+0.10 deg | CLa=4.90 Cma=-1.645 Cmq=-10.15 Cmde=-1.631 | Cnb=+0.0629 Clb=-0.0370 Clp=-0.519 Cnr=-0.1489 Clda=+0.3225 Cndr=+0.2535
+        SP wn=49.1 rad/s (7.81 Hz) z=0.29; fugoid wn=0.061 z=0.758; DR wn=18.7 (2.98 Hz) z=0.098; roll tau=12 ms; spiral kararli T=167 s; manevra gradyani 0.196 deg/g
+   800 km/h % 25: a=+0.02 de=+0.19 deg | CLa=4.90 Cma=-0.958 Cmq=-9.22 Cmde=-1.544 | Cnb=+0.0529 Clb=-0.0365 Clp=-0.519 Cnr=-0.1325 Clda=+0.3225 Cndr=+0.2390
+        SP wn=40.2 rad/s (6.39 Hz) z=0.40; fugoid wn=0.059 z=0.944; DR wn=17.9 (2.85 Hz) z=0.104; roll tau=11 ms; spiral kararli T=140 s; manevra gradyani 0.100 deg/g
+   800 km/h %  0: a=+0.01 de=+0.22 deg | CLa=4.89 Cma=-0.660 Cmq=-8.94 Cmde=-1.506 | Cnb=+0.0486 Clb=-0.0363 Clp=-0.518 Cnr=-0.1257 Clda=+0.3225 Cndr=+0.2328
+        SP wn=34.9 rad/s (5.56 Hz) z=0.48; fugoid wn=nan z=nan; DR wn=17.4 (2.77 Hz) z=0.107; roll tau=11 ms; spiral kararli T=130 s; manevra gradyani 0.068 deg/g
+
+[2] Kontrolcu tasarimi (her nokta; ayrik 50 Hz, gecikme dahil):
+   350 km/h %100: PITCH Kff=0.909 Knz=0.307 deg/g Ki=13.903 deg/(g s) Kq=0.0385 deg/(deg/s) tau_f=0.145 s -> GM=9.8 dB PM=68.7 deg, t90=0.22 s os=%0.0, zeta_SP=0.52
+        YAW Kr=0.0213 deg/(deg/s) -> zeta_DR 0.102 -> 0.436 (damper kapali, roll dongusu acik: 0.092); GM=18.1 dB PM=83.9 deg
+        ROLL Kff=0.0133 Kp=0.0092 deg/(deg/s) Ki=0.2028 deg/deg tau_f=0.099 s -> GM=9.4 dB PM=60.3 deg, t90=0.16 s os=%1.8; kararli=True
+   350 km/h % 25: PITCH Kff=0.397 Knz=0.239 deg/g Ki=7.502 deg/(g s) Kq=0.0361 deg/(deg/s) tau_f=0.114 s -> GM=9.4 dB PM=72.7 deg, t90=0.24 s os=%3.0, zeta_SP=0.53
+        YAW Kr=0.0181 deg/(deg/s) -> zeta_DR 0.104 -> 0.401 (damper kapali, roll dongusu acik: 0.096); GM=19.4 dB PM=88.0 deg
+        ROLL Kff=0.0133 Kp=0.0089 deg/(deg/s) Ki=0.1964 deg/deg tau_f=0.096 s -> GM=9.4 dB PM=62.4 deg, t90=0.16 s os=%1.9; kararli=True
+   350 km/h %  0: PITCH Kff=0.246 Knz=0.207 deg/g Ki=4.858 deg/(g s) Kq=0.0320 deg/(deg/s) tau_f=0.097 s -> GM=9.9 dB PM=71.9 deg, t90=0.26 s os=%3.0, zeta_SP=0.54
+        YAW Kr=0.0178 deg/(deg/s) -> zeta_DR 0.106 -> 0.405 (damper kapali, roll dongusu acik: 0.099); GM=19.5 dB PM=88.6 deg
+        ROLL Kff=0.0133 Kp=0.0087 deg/(deg/s) Ki=0.1959 deg/deg tau_f=0.095 s -> GM=9.4 dB PM=62.6 deg, t90=0.14 s os=%1.7; kararli=True
+   550 km/h %100: PITCH Kff=0.412 Knz=0.021 deg/g Ki=4.420 deg/(g s) Kq=0.0109 deg/(deg/s) tau_f=0.144 s -> GM=12.8 dB PM=62.6 deg, t90=0.24 s os=%0.0, zeta_SP=0.52
+        YAW Kr=0.0129 deg/(deg/s) -> zeta_DR 0.099 -> 0.404 (damper kapali, roll dongusu acik: 0.085); GM=14.5 dB PM=69.1 deg
+        ROLL Kff=0.0082 Kp=0.0049 deg/(deg/s) Ki=0.1077 deg/deg tau_f=0.088 s -> GM=9.4 dB PM=68.5 deg, t90=0.14 s os=%2.9; kararli=True
+   550 km/h % 25: PITCH Kff=0.186 Knz=0.059 deg/g Ki=3.130 deg/(g s) Kq=0.0138 deg/(deg/s) tau_f=0.130 s -> GM=11.1 dB PM=61.8 deg, t90=0.22 s os=%0.0, zeta_SP=0.55
+        YAW Kr=0.0123 deg/(deg/s) -> zeta_DR 0.103 -> 0.409 (damper kapali, roll dongusu acik: 0.089); GM=14.8 dB PM=69.8 deg
+        ROLL Kff=0.0082 Kp=0.0043 deg/(deg/s) Ki=0.1268 deg/deg tau_f=0.129 s -> GM=9.4 dB PM=58.7 deg, t90=0.22 s os=%0.0; kararli=True
+   550 km/h %  0: PITCH Kff=0.109 Knz=0.060 deg/g Ki=2.477 deg/(g s) Kq=0.0153 deg/(deg/s) tau_f=0.106 s -> GM=9.4 dB PM=59.8 deg, t90=0.20 s os=%0.8, zeta_SP=0.54
+        YAW Kr=0.0119 deg/(deg/s) -> zeta_DR 0.106 -> 0.416 (damper kapali, roll dongusu acik: 0.091); GM=14.9 dB PM=70.7 deg
+        ROLL Kff=0.0082 Kp=0.0043 deg/(deg/s) Ki=0.1270 deg/deg tau_f=0.106 s -> GM=9.4 dB PM=58.7 deg, t90=0.16 s os=%0.0; kararli=True
+   750 km/h %100: PITCH Kff=0.220 Knz=0.006 deg/g Ki=1.934 deg/(g s) Kq=0.0026 deg/(deg/s) tau_f=0.138 s -> GM=9.4 dB PM=64.5 deg, t90=0.24 s os=%0.0, zeta_SP=0.51
+        YAW Kr=0.0098 deg/(deg/s) -> zeta_DR 0.098 -> 0.397 (damper kapali, roll dongusu acik: 0.084); GM=10.8 dB PM=56.6 deg
+        ROLL Kff=0.0057 Kp=0.0000 deg/(deg/s) Ki=0.0462 deg/deg tau_f=0.142 s -> GM=10.4 dB PM=60.8 deg, t90=0.22 s os=%0.0; kararli=True
+   750 km/h % 25: PITCH Kff=0.103 Knz=0.000 deg/g Ki=0.970 deg/(g s) Kq=0.0049 deg/(deg/s) tau_f=0.129 s -> GM=14.5 dB PM=64.8 deg, t90=0.24 s os=%0.0, zeta_SP=0.53
+        YAW Kr=0.0104 deg/(deg/s) -> zeta_DR 0.104 -> 0.360 (damper kapali, roll dongusu acik: 0.086); GM=10.1 dB PM=51.5 deg
+        ROLL Kff=0.0057 Kp=0.0029 deg/(deg/s) Ki=0.0811 deg/deg tau_f=0.087 s -> GM=9.4 dB PM=66.9 deg, t90=0.14 s os=%1.0; kararli=True
+   750 km/h %  0: PITCH Kff=0.063 Knz=0.000 deg/g Ki=0.706 deg/(g s) Kq=0.0062 deg/(deg/s) tau_f=0.114 s -> GM=15.0 dB PM=65.2 deg, t90=0.26 s os=%0.0, zeta_SP=0.53
+        YAW Kr=0.0101 deg/(deg/s) -> zeta_DR 0.107 -> 0.437 (damper kapali, roll dongusu acik: 0.088); GM=10.4 dB PM=55.7 deg
+        ROLL Kff=0.0057 Kp=0.0000 deg/(deg/s) Ki=0.0431 deg/deg tau_f=0.139 s -> GM=11.2 dB PM=63.5 deg, t90=0.22 s os=%0.0; kararli=True
+   800 km/h %100: PITCH Kff=0.192 Knz=0.004 deg/g Ki=1.560 deg/(g s) Kq=0.0014 deg/(deg/s) tau_f=0.138 s -> GM=9.4 dB PM=65.5 deg, t90=0.24 s os=%0.0, zeta_SP=0.52
+        YAW Kr=0.0089 deg/(deg/s) -> zeta_DR 0.098 -> 0.306 (damper kapali, roll dongusu acik: 0.079); GM=10.2 dB PM=50.1 deg
+        ROLL Kff=0.0052 Kp=0.0026 deg/(deg/s) Ki=0.0821 deg/deg tau_f=0.143 s -> GM=9.4 dB PM=60.8 deg, t90=0.30 s os=%0.0; kararli=True
+   800 km/h % 25: PITCH Kff=0.090 Knz=0.000 deg/g Ki=0.826 deg/(g s) Kq=0.0039 deg/(deg/s) tau_f=0.130 s -> GM=12.8 dB PM=64.6 deg, t90=0.24 s os=%0.0, zeta_SP=0.53
+        YAW Kr=0.0084 deg/(deg/s) -> zeta_DR 0.104 -> 0.329 (damper kapali, roll dongusu acik: 0.085); GM=10.6 dB PM=52.3 deg
+        ROLL Kff=0.0052 Kp=0.0026 deg/(deg/s) Ki=0.0792 deg/deg tau_f=0.089 s -> GM=9.4 dB PM=63.4 deg, t90=0.14 s os=%0.3; kararli=True
+   800 km/h %  0: PITCH Kff=0.052 Knz=0.018 deg/g Ki=0.963 deg/(g s) Kq=0.0063 deg/(deg/s) tau_f=0.107 s -> GM=11.0 dB PM=59.1 deg, t90=0.20 s os=%0.0, zeta_SP=0.53
+        YAW Kr=0.0092 deg/(deg/s) -> zeta_DR 0.107 -> 0.407 (damper kapali, roll dongusu acik: 0.084); GM=9.9 dB PM=53.0 deg
+        ROLL Kff=0.0052 Kp=0.0002 deg/(deg/s) Ki=0.0484 deg/deg tau_f=0.141 s -> GM=10.2 dB PM=59.7 deg, t90=0.22 s os=%0.0; kararli=True
+
+[3] Kararlilik paylari (hedef GM >= 6 dB, PM >= 45 deg; 20 ms gecikme + ZOH + servo dahil):
+   V [km/h] yakit | pitch GM/PM | roll GM/PM | yaw GM/PM | zeta_DR acik->kapali | durum
+    350 %100 | 9.8/69 | 9.4/60 | 18.1/84 | 0.102->0.436 | OK
+    350 % 25 | 9.4/73 | 9.4/62 | 19.4/88 | 0.104->0.401 | OK
+    350 %  0 | 9.9/72 | 9.4/63 | 19.5/89 | 0.106->0.405 | OK
+    550 %100 | 12.8/63 | 9.4/69 | 14.5/69 | 0.099->0.404 | OK
+    550 % 25 | 11.1/62 | 9.4/59 | 14.8/70 | 0.103->0.409 | OK
+    550 %  0 | 9.4/60 | 9.4/59 | 14.9/71 | 0.106->0.416 | OK
+    750 %100 | 9.4/64 | 10.4/61 | 10.8/57 | 0.098->0.397 | OK
+    750 % 25 | 14.5/65 | 9.4/67 | 10.1/51 | 0.104->0.360 | OK
+    750 %  0 | 15.0/65 | 11.2/63 | 10.4/56 | 0.107->0.437 | OK
+    800 %100 | 9.4/65 | 9.4/61 | 10.2/50 | 0.098->0.306 | OK
+    800 % 25 | 12.8/65 | 9.4/63 | 10.6/52 | 0.104->0.329 | OK
+    800 %  0 | 11.0/59 | 10.2/60 | 9.9/53 | 0.107->0.407 | OK
+   Tum zarf hedefleri: SAGLANDI
+
+   Duyarlilik: ayni kazanclarla dongu 200 Hz (5 ms gecikme) olsaydi (750/800 km/h bos):
+   750 km/h: pitch 23.5 dB/80 deg, roll 20.9/77, yaw 21.7/86
+   800 km/h: pitch 18.9 dB/82 deg, roll 21.4/76, yaw 21.3/84
+
+[4] Zaman simulasyonlari (dogrusal olmayan servo, anti-windup, 50 Hz FC):
+   Tam cubuk cekme 750 km/h %0 yakit: FC'li n_tepe=10.03 g (asim %+0.4, komut 10 g), min de=-0.51 deg; FC'siz (de=-1.5) n_tepe=26.7 g
+   Tam cubuk cekme 750 km/h %100 yakit: FC'li n_tepe=8.46 g (asim %-17.1, komut 10 g), min de=-1.50 deg; FC'siz (de=-1.5) n_tepe=10.9 g
+   Tam cubuk cekme 800 km/h %0 yakit: FC'li n_tepe=10.05 g (asim %+0.5, komut 10 g), min de=-0.39 deg; FC'siz (de=-1.5) n_tepe=31.2 g
+   Tam cubuk cekme 800 km/h %100 yakit: FC'li n_tepe=9.28 g (asim %-8.0, komut 10 g), min de=-1.50 deg; FC'siz (de=-1.5) n_tepe=12.6 g
+   Hamle 15 m/s 1-cos kisa (7.8 m = 25 MAC) 750 km/h %0: n_tepe kontrolsuz=25.2 g, FC'li=25.2 g
+   Hamle 15 m/s 1-cos kisa (7.8 m = 25 MAC) 750 km/h %100: n_tepe kontrolsuz=19.2 g, FC'li=19.2 g
+   Hamle 15 m/s 1-cos kisa (7.8 m = 25 MAC) 800 km/h %0: n_tepe kontrolsuz=27.0 g, FC'li=27.0 g
+   Hamle 15 m/s 1-cos kisa (7.8 m = 25 MAC) 800 km/h %100: n_tepe kontrolsuz=20.7 g, FC'li=20.7 g
+   Hamle 15 m/s 1-cos uzun (100 m) 750 km/h %0: n_tepe kontrolsuz=4.6 g, FC'li=4.8 g
+   Hamle 15 m/s 1-cos uzun (100 m) 750 km/h %100: n_tepe kontrolsuz=2.6 g, FC'li=2.7 g
+   Hamle 15 m/s 1-cos uzun (100 m) 800 km/h %0: n_tepe kontrolsuz=4.9 g, FC'li=5.3 g
+   Hamle 15 m/s 1-cos uzun (100 m) 800 km/h %100: n_tepe kontrolsuz=2.7 g, FC'li=2.8 g
+   Rudder darbesi 1 deg/0.1 s 750 km/h %0: zeta (sim, log dekrement) damperli=nan, dampersiz=0.09; beta_max 4.40/5.87 deg
+   Rudder darbesi 1 deg/0.1 s 750 km/h %100: zeta (sim, log dekrement) damperli=nan, dampersiz=0.09; beta_max 4.08/5.27 deg
+   Rudder darbesi 1 deg/0.1 s 800 km/h %0: zeta (sim, log dekrement) damperli=nan, dampersiz=0.09; beta_max 4.79/6.39 deg
+   Rudder darbesi 1 deg/0.1 s 800 km/h %100: zeta (sim, log dekrement) damperli=0.31, dampersiz=0.08; beta_max 4.43/5.71 deg
+   Servo arizasi (rudder donuk, damper yok) 750 km/h bos, +-300 deg/s yatis: beta_max 0.80 -> 1.23 deg, ny_max 0.25 -> 0.44 g, t>1.2 s beta_rms 0.100 -> 0.202 deg
+   Servo arizasi (rudder donuk, damper yok) 800 km/h bos, +-300 deg/s yatis: beta_max 0.76 -> 1.19 deg, ny_max 0.27 -> 0.48 g, t>1.2 s beta_rms 0.087 -> 0.155 deg
+
+[5] Kazanc tablosu -> aero/out/fc_kazanc_tablosu.csv (isaret kurallari docs/09_ucus_kontrol.md)
+   V %yak | Kff  Knz [deg/g]  Ki [deg/(g s)]  Kq [deg/(deg/s)] tau_f | Kr [deg/(deg/s)] | Kff_p Kp_p [deg/(deg/s)] Ki_p [deg/deg] | limit e/a/r
+   350 100 | 0.909 0.307 13.903 0.0385 0.145 | 0.0213 | 0.0133 0.0092 0.2028 | 6.9/9.2/9.2
+   350  25 | 0.397 0.239 7.502 0.0361 0.114 | 0.0181 | 0.0133 0.0089 0.1964 | 6.9/9.2/9.2
+   350   0 | 0.246 0.207 4.858 0.0320 0.097 | 0.0178 | 0.0133 0.0087 0.1959 | 6.9/9.2/9.2
+   550 100 | 0.412 0.021 4.420 0.0109 0.144 | 0.0129 | 0.0082 0.0049 0.1077 | 2.8/3.7/3.7
+   550  25 | 0.186 0.059 3.130 0.0138 0.130 | 0.0123 | 0.0082 0.0043 0.1268 | 2.8/3.7/3.7
+   550   0 | 0.109 0.060 2.477 0.0153 0.106 | 0.0119 | 0.0082 0.0043 0.1270 | 2.8/3.7/3.7
+   750 100 | 0.220 0.006 1.934 0.0026 0.138 | 0.0098 | 0.0057 0.0000 0.0462 | 1.5/2.0/2.0
+   750  25 | 0.103 0.000 0.970 0.0049 0.129 | 0.0104 | 0.0057 0.0029 0.0811 | 1.5/2.0/2.0
+   750   0 | 0.063 0.000 0.706 0.0062 0.114 | 0.0101 | 0.0057 0.0000 0.0431 | 1.5/2.0/2.0
+   800 100 | 0.192 0.004 1.560 0.0014 0.138 | 0.0089 | 0.0052 0.0026 0.0821 | 1.5/2.0/2.0
+   800  25 | 0.090 0.000 0.826 0.0039 0.130 | 0.0084 | 0.0052 0.0026 0.0792 | 1.5/2.0/2.0
+   800   0 | 0.052 0.018 0.963 0.0063 0.107 | 0.0092 | 0.0052 0.0002 0.0484 | 1.5/2.0/2.0

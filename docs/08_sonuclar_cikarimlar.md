@@ -1,7 +1,7 @@
 # 08 · Proje Raporu: Sonuçlar ve Çıkarımlar
 
 **Proje:** HIZ-750, 750 km/h ölçüm hızı hedefli türbinli RC jet İHA
-**Sürüm:** v0.4.0 (iterasyon 3) · **Tarih:** 2026-11-04
+**Sürüm:** v0.5.0 (iterasyon 3 + iter4 masa başı doğrulamaları) · **Tarih:** 2026-11-04
 **Kapsam:** Kavramsal tasarım + ön tasarım. Analizler, parametrik CAD ve dokümantasyon hazır; imalat ve test yapılmadı.
 
 ## 1. Yönetici özeti
@@ -10,9 +10,10 @@ Hedef olan 750 km/h, türbinli RC uçaklarda dünya rekoru seviyesinde (Herbrich
 
 - **Performans:** JetCat P400-PRO motorla 750 km/h'te **%40–90 itki payı** hesaplandı. Kötümser modelle azami hız ~878 km/h; operasyonel limit 800 km/h.
 - **Kararlılık:** Statik marj %12,6–31,9 MAC. Yaw damper, g-limiter ve hıza göre değişen kumanda kazancı **zorunlu**.
-- **Yapı:** Flutter hızı 1465 km/h, gereksinim 1080 km/h (pay %36). Diverjans 3290 km/h. Kanat 1,74 kg.
+- **Yapı:** FE modal flutter 1307 km/h, gereksinim 1080 km/h (pay %21); 2-DOF 1465 km/h veriyordu. Ok açılı kanatta diverjans yok. Kanat 1,74 kg.
+- **Kontrol (iter4):** g-limiter, boş yakıtta n'yi 10 g'de tutuyor (FC'siz 28 g). Yaw damper ζ_DR 0,31–0,44. Tüm zarfta GM ≥ 9,4 dB.
 - **Geometri:** CAD'de parçalar arası çakışma yok. Yakıt 5,33 L, kuyruk çarpma açısı 12,4°, S-kanal ofset/uzunluk oranı 0,27.
-- **Kütle ve mevzuat:** MTOW 17,0 kg. Türkiye'de İHA1 sınıfında (< 25 kg).
+- **Kütle ve mevzuat:** MTOW 17,16 kg. Türkiye'de İHA1 sınıfında (< 25 kg).
 
 **Sonuç:** Tasarım kâğıt üzerinde kapanıyor. Hedefe ulaşmanın önündeki asıl risk aerodinamik değil, **uygulama kalitesi**: flutter (boşluk, kütle dağılımı), hava alığı verimi ve yüzey kalitesi. Bunlar ancak yer ve uçuş testleriyle doğrulanabilir.
 
@@ -50,20 +51,23 @@ Hedef olan 750 km/h, türbinli RC uçaklarda dünya rekoru seviyesinde (Herbrich
 | Konu | Yöntem | Güven | Doğrulama yolu |
 |---|---|---|---|
 | Sürükleme | Bileşen yöntemi (Raymer) + AeroBuildup; ikisi arasında %25 fark | Orta | Uçuş telemetrisi (itki-hız) |
+| Kütle / atalet | CAD katıları + nokta kütleler (iter4) | Orta–yüksek | Tartı, CG ölçümü, bifilar sarkaç ile atalet ölçümü |
+| Uçuş kontrol yasası | Doğrusal modeller, 20 ms gecikme, servo modeli (iter4) | Orta | Donanım-döngüde (HIL) test, F1–F2 kazanç ayarı |
 | Türbin itkisinin hızla düşüşü | Basit `Vj`/`k_ram` modeli | **Düşük** | Uçuşta EGT/RPM/hız ile kalibrasyon |
-| Hava alığı ram kazancı | Tahmin | **Düşük** | Yer testinde motor yüzü basınç taraması |
+| Hava alığı ram kazancı | Yarı-ampirik η_r = 0,970 (iter4) | Düşük–orta | Yer testinde motor yüzü basınç taraması |
 | Stabilite türevleri | AeroBuildup + VLM + DATCOM | Orta–yüksek | F1–F2 uçuşlarında trim karşılaştırması |
 | Yapı yükleri | Schrenk + kiriş teorisi | Yüksek | %150 kum torbası yük testi |
-| Flutter | 2-DOF Theodorsen, ders kitabı örneğiyle doğrulandı | Orta (frekanslar tahmin) | **GVT zorunlu** |
+| Flutter | FE modal p-k (iter4, Goland ile doğrulandı) + 2-DOF | Orta | **GVT zorunlu: f_1T ≥ 230 Hz** |
 | Geometri / sığma | CadQuery katı model, çakışma hacmi | Yüksek | Kalıp öncesi kontrol |
 
 ## 5. Öneriler ve yol haritası
 
 1. **Kısa vade (masa başı):**
-   - S-kanal CFD'si (OpenFOAM veya SimScale)
-   - Kanat ve gövde FEM'i (CalculiX)
-   - Atalet momentlerini CAD'den alıp dinamik mod analizini güncellemek
-   - Uçuş kontrol yazılımının (g-limiter, yaw damper) simülasyonu
+   - ✅ Atalet momentleri CAD'den hesaplandı, dinamik modlar güncellendi (v0.5.0).
+   - ✅ Kanat FE modal ve flutter analizi yapıldı (v0.5.0).
+   - ✅ g-limiter ve yaw damper tasarımı ve simülasyonu yapıldı (v0.5.0).
+   - ✅ Alığın yarı-ampirik basınç kazanımı hesaplandı (v0.5.0).
+   - Açık: S-kanal CFD'si (OpenFOAM/SimScale), gövde 3B FEM'i (CalculiX), 350 km/h altı kontrol yasası, 200 Hz döngüyle HIL testi.
 2. **Prototip öncesi:**
    - P300-PRO ile ölçekli ya da hız limitli (≤ 500 km/h) bir test uçağı
    - Ram kazancı ve itki modelini motor yer testlerinde ölçmek

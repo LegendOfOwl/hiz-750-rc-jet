@@ -1,0 +1,604 @@
+{
+  "iteration": "4 - masa basi dogrulama",
+  "script": "cad/mass_properties.py",
+  "units": {
+    "length": "m",
+    "mass": "kg",
+    "inertia": "kg m^2"
+  },
+  "axes": "CAD: x burundan arkaya, y sag, z yukari; tensor CG etrafinda. Ixz=+int(xz dm) (ucus ekseninde x ileri/z asagi iken de ayni isaret). Ixy, Iyz ~0 (simetri).",
+  "fuel": {
+    "density_kg_L": 0.8,
+    "capacity_L": 5.1442,
+    "capacity_kg": 4.1154,
+    "params_fuel_kg": 4.0,
+    "cg_params_fuel_m": [
+      0.9398,
+      0.0,
+      -0.0257
+    ],
+    "tanks": {
+      "tank_fuselage": {
+        "V_L": 3.7305,
+        "cg_m": [
+          0.8648,
+          0.0,
+          -0.0071
+        ]
+      },
+      "tank_center": {
+        "V_L": 0.2737,
+        "cg_m": [
+          1.0823,
+          -0.0,
+          -0.0797
+        ]
+      },
+      "tank_wing_L": {
+        "V_L": 0.57,
+        "cg_m": [
+          1.151,
+          -0.1886,
+          -0.0736
+        ]
+      },
+      "tank_wing_R": {
+        "V_L": 0.57,
+        "cg_m": [
+          1.151,
+          0.1886,
+          -0.0736
+        ]
+      }
+    },
+    "model": "her tanktan ayni oranda bosalma; yakit tank katisinin hacim merkezinde ve olceklenmis tensoruyla (serbest yuzey / dibe cokme ihmal)"
+  },
+  "cases": {
+    "100%": {
+      "m": 17.2754,
+      "cg_m": [
+        1.14485,
+        0.00013,
+        -0.01478
+      ],
+      "Ixx": 0.3799,
+      "Iyy": 2.7966,
+      "Izz": 3.089,
+      "Ixz": 0.0435,
+      "Ixy": 0.00299,
+      "Iyz": 0.00011,
+      "fuel_frac_of_capacity": 1.0,
+      "fuel_kg": 4.1154,
+      "check": {
+        "params_same_fuel_mass": {
+          "m": 17.2754,
+          "x_cg": 1.14684,
+          "z_cg": -0.0143
+        },
+        "dm_pct": 0.0,
+        "dx_mm": -1.99,
+        "dz_mm": -0.49,
+        "params_nominal_frac": {
+          "m": 17.16,
+          "x_cg": 1.14823,
+          "dm_pct": 0.672,
+          "dx_mm": -3.38
+        },
+        "ok_mass_1pct": true,
+        "ok_xcg_5mm": true
+      },
+      "roskam_same_mass": {
+        "Ixx": 0.5668,
+        "Iyy": 2.7503,
+        "Izz": 3.6776,
+        "Rx": 0.25,
+        "Ry": 0.38,
+        "Rz": 0.52
+      },
+      "ratio_cad_over_roskam": {
+        "Ixx": 0.67,
+        "Iyy": 1.017,
+        "Izz": 0.84
+      },
+      "Rbar_cad": {
+        "Rx": 0.205,
+        "Ry": 0.383,
+        "Rz": 0.477
+      }
+    },
+    "25%": {
+      "m": 14.1888,
+      "cg_m": [
+        1.18945,
+        0.00016,
+        -0.01241
+      ],
+      "Ixx": 0.3401,
+      "Iyy": 2.5726,
+      "Izz": 2.8368,
+      "Ixz": 0.0473,
+      "Ixy": 0.00289,
+      "Iyz": 0.0001,
+      "fuel_frac_of_capacity": 0.25,
+      "fuel_kg": 1.0288,
+      "check": {
+        "params_same_fuel_mass": {
+          "m": 14.1888,
+          "x_cg": 1.19183,
+          "z_cg": -0.01175
+        },
+        "dm_pct": 0.0,
+        "dx_mm": -2.38,
+        "dz_mm": -0.65,
+        "params_nominal_frac": {
+          "m": 14.16,
+          "x_cg": 1.19234,
+          "dm_pct": 0.204,
+          "dx_mm": -2.89
+        },
+        "ok_mass_1pct": true,
+        "ok_xcg_5mm": true
+      },
+      "roskam_same_mass": {
+        "Ixx": 0.4656,
+        "Iyy": 2.2589,
+        "Izz": 3.0205,
+        "Rx": 0.25,
+        "Ry": 0.38,
+        "Rz": 0.52
+      },
+      "ratio_cad_over_roskam": {
+        "Ixx": 0.731,
+        "Iyy": 1.139,
+        "Izz": 0.939
+      },
+      "Rbar_cad": {
+        "Rx": 0.214,
+        "Ry": 0.406,
+        "Rz": 0.504
+      }
+    },
+    "0%": {
+      "m": 13.16,
+      "cg_m": [
+        1.20897,
+        0.00017,
+        -0.01137
+      ],
+      "Ixx": 0.3267,
+      "Iyy": 2.4814,
+      "Izz": 2.7362,
+      "Ixz": 0.0476,
+      "Ixy": 0.00284,
+      "Iyz": 0.0001,
+      "fuel_frac_of_capacity": 0.0,
+      "fuel_kg": 0.0,
+      "check": {
+        "params_same_fuel_mass": {
+          "m": 13.16,
+          "x_cg": 1.21152,
+          "z_cg": -0.01064
+        },
+        "dm_pct": 0.0,
+        "dx_mm": -2.55,
+        "dz_mm": -0.73,
+        "params_nominal_frac": {
+          "m": 13.16,
+          "x_cg": 1.21152,
+          "dm_pct": 0.0,
+          "dx_mm": -2.55
+        },
+        "ok_mass_1pct": true,
+        "ok_xcg_5mm": true
+      },
+      "roskam_same_mass": {
+        "Ixx": 0.4318,
+        "Iyy": 2.0951,
+        "Izz": 2.8015,
+        "Rx": 0.25,
+        "Ry": 0.38,
+        "Rz": 0.52
+      },
+      "ratio_cad_over_roskam": {
+        "Ixx": 0.757,
+        "Iyy": 1.184,
+        "Izz": 0.977
+      },
+      "Rbar_cad": {
+        "Rx": 0.217,
+        "Ry": 0.414,
+        "Rz": 0.514
+      }
+    },
+    "params_4.0kg": {
+      "m": 17.16,
+      "cg_m": [
+        1.14622,
+        0.00013,
+        -0.01471
+      ],
+      "Ixx": 0.3784,
+      "Iyy": 2.7893,
+      "Izz": 3.0806,
+      "Ixz": 0.0437,
+      "Ixy": 0.00298,
+      "Iyz": 0.00011,
+      "fuel_frac_of_capacity": 0.972,
+      "fuel_kg": 4.0,
+      "check": {
+        "params_same_fuel_mass": {
+          "m": 17.16,
+          "x_cg": 1.14823,
+          "z_cg": -0.01422
+        },
+        "dm_pct": 0.0,
+        "dx_mm": -2.0,
+        "dz_mm": -0.49,
+        "params_nominal_frac": {
+          "m": 17.16,
+          "x_cg": 1.14823,
+          "dm_pct": 0.0,
+          "dx_mm": -2.0
+        },
+        "ok_mass_1pct": true,
+        "ok_xcg_5mm": true
+      },
+      "roskam_same_mass": {
+        "Ixx": 0.5631,
+        "Iyy": 2.7319,
+        "Izz": 3.653,
+        "Rx": 0.25,
+        "Ry": 0.38,
+        "Rz": 0.52
+      },
+      "ratio_cad_over_roskam": {
+        "Ixx": 0.672,
+        "Iyy": 1.021,
+        "Izz": 0.843
+      },
+      "Rbar_cad": {
+        "Rx": 0.205,
+        "Ry": 0.384,
+        "Rz": 0.478
+      }
+    }
+  },
+  "dry": {
+    "m": 13.16,
+    "cg_m": [
+      1.20897,
+      0.00017,
+      -0.01137
+    ],
+    "Ixx": 0.3267,
+    "Iyy": 2.4814,
+    "Izz": 2.7362,
+    "Ixz": 0.0476,
+    "Ixy": 0.00284,
+    "Iyz": 0.0001
+  },
+  "aero_roskam_comparison": {
+    "Ixx": {
+      "aero": 0.5631,
+      "cad_100": 0.3799,
+      "cad_params": 0.3784,
+      "ratio_100": 0.675,
+      "ratio_params": 0.672
+    },
+    "Iyy": {
+      "aero": 2.7319,
+      "cad_100": 2.7966,
+      "cad_params": 2.7893,
+      "ratio_100": 1.024,
+      "ratio_params": 1.021
+    },
+    "Izz": {
+      "aero": 3.653,
+      "cad_100": 3.089,
+      "cad_params": 3.0806,
+      "ratio_100": 0.846,
+      "ratio_params": 0.843
+    },
+    "Ixz": {
+      "aero": 0.0,
+      "cad_100": 0.0435,
+      "cad_params": 0.0437
+    }
+  },
+  "wing_weighting_sensitivity": {
+    "wing_volume": {
+      "r": [
+        1.1946,
+        -0.0002,
+        -0.072
+      ],
+      "Ixx_self": 0.1622
+    },
+    "wing_surface_exposed": {
+      "r": [
+        1.2382,
+        0.0005,
+        -0.07
+      ],
+      "Ixx_self": 0.2316
+    }
+  },
+  "items": [
+    {
+      "item": "Govde kabugu (karbon prepreg)",
+      "m": 1.55,
+      "x_params": 1.15,
+      "z_params": 0.0,
+      "x_cad": 1.1496,
+      "y_cad": 0.0,
+      "z_cad": -0.0021,
+      "dx_mm": -0.4,
+      "dz_mm": -2.1,
+      "src": "fuselage"
+    },
+    {
+      "item": "Burun balasti (tungsten) / ek RX akusu",
+      "m": 0.15,
+      "x_params": 0.2,
+      "z_params": 0.0,
+      "x_cad": 0.2,
+      "y_cad": 0.0,
+      "z_cad": 0.0,
+      "dx_mm": 0.0,
+      "dz_mm": 0.0,
+      "src": "kutu 60x40x30 mm, burun, merkez hatti"
+    },
+    {
+      "item": "Kanat (kabuk 3/1 kat + kiris + kaburga)",
+      "m": 1.75,
+      "x_params": 1.18,
+      "z_params": -0.08,
+      "x_cad": 1.1946,
+      "y_cad": -0.0002,
+      "z_cad": -0.072,
+      "dx_mm": 14.6,
+      "dz_mm": 8.0,
+      "src": "wing_panels+wing_center+wing_box+aileron_L+aileron_R+flap_L+flap_R"
+    },
+    {
+      "item": "Kanat baglantisi: cerceveler + 4xM6 + blok",
+      "m": 0.15,
+      "x_params": 1.08,
+      "z_params": -0.06,
+      "x_cad": 1.0961,
+      "y_cad": -0.0,
+      "z_cad": 0.0049,
+      "dx_mm": 16.1,
+      "dz_mm": 64.9,
+      "src": "frames[x960-1200]"
+    },
+    {
+      "item": "Motor bolgesi isi kecesi + G10 plaka",
+      "m": 0.05,
+      "x_params": 1.38,
+      "z_params": -0.07,
+      "x_cad": 1.38,
+      "y_cad": 0.0,
+      "z_cad": -0.07,
+      "dx_mm": -0.0,
+      "dz_mm": 0.0,
+      "src": "kutu 300x100x10 mm, motor alti plaka"
+    },
+    {
+      "item": "Yatay kuyruk",
+      "m": 0.3,
+      "x_params": 2.0,
+      "z_params": 0.0,
+      "x_cad": 2.0026,
+      "y_cad": 0.0085,
+      "z_cad": 0.0032,
+      "dx_mm": 2.6,
+      "dz_mm": 3.2,
+      "src": "htail+elevator_L+elevator_R+ht_carry_yoke"
+    },
+    {
+      "item": "Dikey kuyruk",
+      "m": 0.2,
+      "x_params": 1.98,
+      "z_params": 0.14,
+      "x_cad": 1.9574,
+      "y_cad": 0.0001,
+      "z_cad": 0.1854,
+      "dx_mm": -22.6,
+      "dz_mm": 45.4,
+      "src": "vtail+rudder"
+    },
+    {
+      "item": "Motor yatagi + isi kalkani",
+      "m": 0.35,
+      "x_params": 1.38,
+      "z_params": 0.0,
+      "x_cad": 1.38,
+      "y_cad": 0.0,
+      "z_cad": 0.0,
+      "dx_mm": 0.0,
+      "dz_mm": 0.0,
+      "src": "kutu 120x170x170 mm, motor on yuzu cevresinde halka/kelepce bolgesi"
+    },
+    {
+      "item": "Hava alik S-kanali",
+      "m": 0.3,
+      "x_params": 1.07,
+      "z_params": 0.05,
+      "x_cad": 1.0225,
+      "y_cad": -0.0,
+      "z_cad": 0.0416,
+      "dx_mm": -47.5,
+      "dz_mm": -8.4,
+      "src": "inlet_duct"
+    },
+    {
+      "item": "Egzoz borusu (bypass, Ti/celik)",
+      "m": 0.4,
+      "x_params": 1.88,
+      "z_params": 0.0,
+      "x_cad": 1.8425,
+      "y_cad": 0.0,
+      "z_cad": 0.0,
+      "dx_mm": -37.5,
+      "dz_mm": 0.0,
+      "src": "exhaust_pipe"
+    },
+    {
+      "item": "Yakit tanki + hopper + boru",
+      "m": 0.4,
+      "x_params": 0.98,
+      "z_params": 0.0,
+      "x_cad": 0.8697,
+      "y_cad": 0.0,
+      "z_cad": -0.0053,
+      "dx_mm": -110.3,
+      "dz_mm": -5.3,
+      "src": "tank_fuselage (yuzey)"
+    },
+    {
+      "item": "Bulkhead'ler, baglanti elemanlari",
+      "m": 0.5,
+      "x_params": 1.0,
+      "z_params": 0.0,
+      "x_cad": 0.9428,
+      "y_cad": 0.0,
+      "z_cad": -0.066,
+      "dx_mm": -57.2,
+      "dz_mm": -66.0,
+      "src": "frames-[x960-1200]"
+    },
+    {
+      "item": "Motor JetCat P400-PRO",
+      "m": 4.05,
+      "x_params": 1.37,
+      "z_params": 0.0,
+      "x_cad": 1.3797,
+      "y_cad": 0.0,
+      "z_cad": 0.0,
+      "dx_mm": 9.7,
+      "dz_mm": 0.0,
+      "src": "engine"
+    },
+    {
+      "item": "ECU + pompa + valfler + GSU",
+      "m": 0.45,
+      "x_params": 0.65,
+      "z_params": 0.0,
+      "x_cad": 0.65,
+      "y_cad": 0.0,
+      "z_cad": 0.0,
+      "dx_mm": 0.0,
+      "dz_mm": 0.0,
+      "src": "kutu 100x70x50 mm, merkez hatti"
+    },
+    {
+      "item": "Servolar: aileron+flap 4x (kanat ici)",
+      "m": 0.48,
+      "x_params": 1.22,
+      "z_params": -0.04,
+      "x_cad": 1.22,
+      "y_cad": 0.0,
+      "z_cad": -0.04,
+      "dx_mm": 0.0,
+      "dz_mm": 0.0,
+      "src": "kutu 40x30x12 mm, flap servolari +-0.22 m, aileron +-0.50 m"
+    },
+    {
+      "item": "Servolar: elevator 2x + rudder 60 kg.cm",
+      "m": 0.37,
+      "x_params": 1.85,
+      "z_params": 0.03,
+      "x_cad": 1.85,
+      "y_cad": 0.0,
+      "z_cad": 0.03,
+      "dx_mm": 0.0,
+      "dz_mm": -0.0,
+      "src": "kutu 40x20x40 mm, elevator 2x y=+-0.035 m, rudder y=0"
+    },
+    {
+      "item": "Kontrol yuzeyi balans kutleleri (W)",
+      "m": 0.12,
+      "x_params": 1.45,
+      "z_params": 0.0,
+      "x_cad": 1.45,
+      "y_cad": 0.0,
+      "z_cad": 0.0,
+      "dx_mm": 0.0,
+      "dz_mm": 0.0,
+      "src": "kutu 60x10x10 mm, aileron orta acikligi y=+-0.53 m (elevator/rudder balansi ihmal)"
+    },
+    {
+      "item": "Alici x2 + telemetri + GNSS logger",
+      "m": 0.2,
+      "x_params": 0.45,
+      "z_params": 0.0,
+      "x_cad": 0.45,
+      "y_cad": 0.0,
+      "z_cad": 0.0,
+      "dx_mm": 0.0,
+      "dz_mm": 0.0,
+      "src": "kutu 80x50x30 mm, merkez hatti"
+    },
+    {
+      "item": "Aku: RX 2S LiPo 3000 + ECU 3S 2200",
+      "m": 0.4,
+      "x_params": 0.35,
+      "z_params": 0.0,
+      "x_cad": 0.35,
+      "y_cad": 0.0,
+      "z_cad": 0.0,
+      "dx_mm": -0.0,
+      "dz_mm": 0.0,
+      "src": "kutu 120x50x40 mm, merkez hatti (2 paket ust uste)"
+    },
+    {
+      "item": "Pitot + hava veri sensoru + kablolar",
+      "m": 0.35,
+      "x_params": 0.6,
+      "z_params": 0.0,
+      "x_cad": 0.6,
+      "y_cad": 0.0,
+      "z_cad": 0.0,
+      "dx_mm": 0.0,
+      "dz_mm": 0.0,
+      "src": "kutu 600x60x40 mm, kablo demeti 0.6 m boyunca"
+    },
+    {
+      "item": "Govde alti kizak + dolly kilit mekanizmasi",
+      "m": 0.25,
+      "x_params": 0.96,
+      "z_params": -0.08,
+      "x_cad": 0.9873,
+      "y_cad": 0.0,
+      "z_cad": -0.0866,
+      "dx_mm": 27.3,
+      "dz_mm": -6.6,
+      "src": "skid"
+    },
+    {
+      "item": "Kuyruk tamponu (egzoz konisi alti)",
+      "m": 0.04,
+      "x_params": 1.9,
+      "z_params": -0.06,
+      "x_cad": 1.8728,
+      "y_cad": -0.0,
+      "z_cad": -0.0822,
+      "dx_mm": -27.2,
+      "dz_mm": -22.2,
+      "src": "tail_bumper"
+    },
+    {
+      "item": "Boya / dolgu / balans",
+      "m": 0.35,
+      "x_params": 1.0,
+      "z_params": 0.0,
+      "x_cad": 1.0,
+      "y_cad": 0.0,
+      "z_cad": 0.0,
+      "dx_mm": 0.0,
+      "dz_mm": 0.0,
+      "src": "kutu 1800x160x160 mm, nokta kutle (govde boyu kutu); gercekte islak alana dagilir"
+    }
+  ]
+}

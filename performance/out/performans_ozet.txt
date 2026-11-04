@@ -1,9 +1,9 @@
-MTOW 17.01 kg, bos (yakitsiz) 13.01 kg
-Kalkis (dolly): Vs(CLmax 0.8, flap 10)=104 km/h, V_lof=125 km/h, yer kosusu 32 m (1.8 s), 10 m engele 137 m, tirmanis acisi 64 deg
-Kizakla inis (14.0 kg): Vs=88, V_app=114, V_td=101 km/h; yer kosusu 122 m, 10 m'den toplam 310 m
-Azami tirmanma hizi 188 m/s @ 490 km/h (MTOW)
-Donus @ 540 km/h: surekli n=22.9 g, anlik (CL 0.9) n=30 g -> yapisal limit 12 g ile sinirli
-Donus @ 749 km/h: surekli n=20.7 g, anlik (CL 0.9) n=58 g -> yapisal limit 12 g ile sinirli
+MTOW 17.16 kg, bos (yakitsiz) 13.16 kg
+Kalkis (dolly): Vs(CLmax 0.8, flap 10)=104 km/h, V_lof=125 km/h, yer kosusu 32 m (1.8 s), 10 m engele 138 m, tirmanis acisi 64 deg
+Kizakla inis (14.2 kg): Vs=88, V_app=115, V_td=102 km/h; yer kosusu 123 m, 10 m'den toplam 311 m
+Azami tirmanma hizi 186 m/s @ 490 km/h (MTOW)
+Donus @ 540 km/h: surekli n=22.7 g, anlik (CL 0.9) n=30 g -> yapisal limit 12 g ile sinirli
+Donus @ 749 km/h: surekli n=20.5 g, anlik (CL 0.9) n=58 g -> yapisal limit 12 g ile sinirli
 
 Gorev profili (hiz denemesi):
   Bacak                                    sure s  itki%   km/h yakit kg

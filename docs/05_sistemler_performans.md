@@ -64,10 +64,10 @@ Trade study: [trade_S_motor.png](../out/trade_S_motor.png).
 
 | Tank | İç hacim | x ağırlık merkezi |
 |---|---|---|
-| Gövde ana tankı (x 0,75–1,00 m) | 3,63 L | 0,868 m |
+| Gövde ana tankı (x 0,75–1,00 m) | 3,73 L (iter4: +0,10 L) | ~0,87 m |
 | Kanat kutusu orta tankı (gövde içinde) | 0,27 L | 1,082 m |
-| Kanat kökü entegre tanklar (2×, η 0,06–0,55) | 2 × 0,715 L | 1,151 m |
-| **Toplam** | **5,33 L** | **0,955 m** (z −0,029) |
+| Kanat kökü entegre tanklar (2×, η 0,06–0,55) | 2 × 0,715 L brüt; **kullanılabilir 2 × 0,57 L** | 1,151 m |
+| **Toplam** | **5,43 L brüt / 5,14 L kullanılabilir** (≥ 5,0 L gereken) | **0,940 m** (CAD, 4,0 kg yakıt) |
 
 Notlar:
 - Yapı analizi kanat tankı için %5 bölme payı ve ara bölmeyle ~0,57–0,65 L/yarı veriyor. En kötü durumda toplam hacim ~5,2 L kalır ve yine yeterlidir.
@@ -89,6 +89,42 @@ Notlar:
 
 - **Yarı gömülü dudak notu:** Rampalı yarı gömülü alıklar sınır tabakanın bir kısmını yutar ve ram kazancını azaltabilir. Yer testinde motor yüzünde basınç taraması yapılmalı. `k_ram` duyarlılığı için bkz. `sizing.py`; k_ram 0,3'te Vmax ~−45 km/h.
 - **Egzoz:** Ø105 bypass boru. Yatay kuyruk iki yarı halinde, taşıyıcı yay (yoke) egzozun üstünden geçer.
+
+### 5.5.1 Toplam basınç kazanımı (iter4, yarı-ampirik)
+
+Script: [`performance/inlet_analysis.py`](../performance/inlet_analysis.py). CFD yapılmadı; aşağıdaki yöntemlerle tahmin edildi:
+- **Sınır tabaka:** Turbülanslı sınır tabaka 1/7 güç profiliyle modellendi. 7°'lik rampa sınır tabakayı ×1,5 kalınlaştırıyor; yarı gömülü dudak bu tabakanın 22 mm'lik kısmını yutuyor.
+- **İç kayıplar:** Dudak, sürtünme, S-büküm (Wellborn/ESDU veri aralığı) ve difüzör (η_d = 0,90) kayıpları dudak içindeki dinamik basınçla ölçeklendi.
+
+| Hız [km/h] | MFR | Sınır tabaka η | İç η | **Toplam η_r** | Eşdeğer k_ram |
+|---|---|---|---|---|---|
+| 150 (kalkış) | 2,52 | 0,999 | 0,948 | **0,947** | — |
+| 450 | 0,90 | 0,994 | 0,986 | 0,980 | 0,56 |
+| 750 | 0,61 | 0,985 | 0,985 | **0,970** | **0,67** |
+| 800 | 0,59 | 0,984 | 0,984 | 0,968 | 0,68 |
+
+750 km/h'teki iç kayıplar, dudak içindeki dinamik basınca göre:
+
+| Kayıp | Katsayı |
+|---|---|
+| Dudak | 0,020 |
+| Sürtünme | 0,056 |
+| S-büküm | 0,047 |
+| Difüzör | 0,077 |
+
+Toplam basınç kazanımı ~%97. Bu, `sizing.py`'deki k_ram = 0,60 + %4 kayıp varsayımından iyi:
+
+| Durum | Vmax | 750 km/h'te itki |
+|---|---|---|
+| Taban (`sizing.py`) | 878 km/h | 299 N |
+| Alık analizi | 897 km/h | 311 N |
+| Alık analizi + %2 ek kayıp | 887 km/h | 305 N |
+
+Taban değerler bilerek değiştirilmedi; kötümser kalıyorlar. Kalkışta (MFR > 2) dudakta akış ayrılması kazanımı 0,95'e düşürüyor. Bu sonuç yan emiş kapaklarının (~25 cm²) gerekliliğini doğruluyor.
+
+![alık kazanımı](../performance/out/alik_kazanim.png)
+
+> Doğrulama: Yer testinde motor yüzüne 6–8 noktalı pitot tarağı takılmalı. Ölçülen η_r değerleri `inlet_analysis.py` içindeki `RAMP_THICKENING` ve `K_s` ile kalibre edilir.
 
 ## 5.6 Elektrik, aviyonik ve uçuş kontrol yazılımı
 

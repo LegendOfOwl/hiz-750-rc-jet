@@ -65,7 +65,9 @@ HIZ-750
     │   ├─ 🔄 Düz levha orta ağ: ν̃ 3,07 mertebe düştü, devam koşusu
     │   ├─ ❌ Düz levha ince ağ: 1202. iterasyonda ıraksadı → yeniden koşulacak
     │   ├─ ❌ RAE2822 Case 6 kendi ağımız: 1430. iterasyonda ıraksadı
-    │   ├─ 🔄 Resmi SU2 RAE2822 cfg + ağ native koşusu ve cfg karşılaştırması
+    │   ├─ 🟡 Düz levha orta ağ: 7 restart sonrası kapıyı geçti (Cf 0,0028585, Schlichting'e −%4,8)
+    │   ├─ 🟡 Resmi SU2 RAE2822 cfg+ağ native: iteratif kapı ✅, CL −%2,6 / CD +%5,9 / Cm +%2,3 → çözücü/cfg referansı KABUL; Cp RMSE 0,098 > 0,08 → deney Cp kabulü YOK (SA şok konumu)
+    │   ├─ 🔄 ILU + LINEAR_SOLVER_ERROR 1e-6 pilotları (RAE kaba, düz levha ince) — Claude koşturuyor
     │   ├─ ⏳ NACA 64A007 M0,61 (3 ağ) ↔ NeuralFoil + Kármán-Tsien
     │   └─ ⏳ (zaman kalırsa) 3B sınır tabaka ağları
     ├─ ⏳ Codex yamasının incelenip alınması
@@ -144,8 +146,8 @@ HIZ-750
 
 ## 6. Şu an ve sıradakiler
 
-**Şu an (2026-11-04):**
-1. 🔄 Codex 5HV4 resmi RAE2822 cfg ve ağını kendi ürettiklerimizle karşılaştırıyor; ağ denetimi düzeltildi. Sırada ILU ve 1e-6 ayarlarıyla düz levha ince ağı ve RAE Case 6'nın yeniden koşulması var.
+**Şu an (2026-11-04, 22:20):**
+1. 🔄 Codex 5HV4 kullanım limitine takılıp durdu (yeniden açılma 23:26). İşi Claude devraldı. Codex'in kodu ve sonuçları hâlâ yalnız `C:/Users/Urungu/.claude/claudex/worktrees/5HV4` içinde (özet: `cfd/RESULTS_iter5.md`), ana repoya alınmadı. ILU/1e-6 pilotları bu worktree'de koşuyor; loglar `C:/hz750run/logs/pilot_*_ilu.log`. Pilot yakınsarsa ıraksamanın sebebi eski ayardı, yine ıraksarsa ağ.
 2. 🔄 FEM alt ajanı: CLT kupon, ardından kanat kabuğu 3 ağda, Tsai-Wu ve `fe_modal` f_1T karşılaştırması (flutter etkisi dahil). Çıktı `fem/RESULTS_iter5.md`. Çalışma ağacındaki kaydedilmemiş `fem/` ve `validation/` değişiklikleri bu ajana ait.
 
 **Sıradakiler:**
@@ -164,3 +166,4 @@ HIZ-750
 
 ## 7. Güncelleme günlüğü
 - 2026-11-04: İlk sürüm (v0.6 taslağı; CFD ve FEM sürüyor).
+- 2026-11-04 22:20: Resmi RAE native sonuçları ve ikili kabul kararı işlendi; Codex limiti doldu, CFD'yi Claude devraldı.

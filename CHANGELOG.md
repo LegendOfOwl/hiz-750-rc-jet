@@ -2,6 +2,25 @@
 
 Sürümleme: `0.MAJOR_ITERASYON.PATCH`. 1.0.0 sürümü, prototip uçuş testinden sonra verilecek.
 
+## [0.5.0] - 2026-11-04 · İter4: masa başı doğrulamaları
+### Eklendi
+- `cad/mass_properties.py`: CAD katılarından kütle, CG ve atalet tensörünü hesaplıyor (yakıt %100 / %25 / %0 ve params yakıtı için). Çıktı `cad/out/mass_properties.json`.
+- `structures/fe_modal.py`: Kanat yarısı için 40 elemanlı 1D FE kirişi. Eğilme-burulma eşleşmesi, ilk 8 mod ve 4 modlu p-k flutter (Theodorsen şerit teorisi; Mach ve ok açısı düzeltmeli) hesaplanıyor. Goland kanadı ve üniform kirişle doğrulandı. Ayrıca duyarlılık analizi ve GVT kabul haritası üretiyor.
+- `aero/flight_control.py` + [docs/09_ucus_kontrol.md](docs/09_ucus_kontrol.md): 4 hız × 3 yakıt durumu için doğrusal modeller. Kontrol yasaları: n_z komutlu pitch + g-limiter, yaw damper, p komutlu roll. Kararlılık payları, zaman simülasyonları (tam çubuk, hamle, rudder darbesi, damper arızası) ve kazanç tablosu (CSV).
+- `performance/inlet_analysis.py`: Alığın toplam basınç kazanımı (sınır tabaka yutma + iç kayıplar) ve itkiye etkisi.
+- `run_all.sh`: bütün zinciri doğru sırayla çalıştırıyor.
+### Değişti
+- Gövde kabuğu kütle kaleminin konumu, CAD alan merkezine göre 1,05 → 1,15 m. Bunun açtığı statik marj kaybı için 0,15 kg burun balastı eklendi (x 0,20 m). MTOW 17,16 kg.
+- Gövde tankı 3,63 → 3,73 L. Kanat tankı için `wing_integral_usable_L_each = 0,57` L eklendi.
+- Aileron servosu gereksinimi: ≤ 60 g ince tip (FE analizine göre flutter etkisi −%8).
+- Doküman 02 ve 04 başlarındaki "iter3 kapanış" notları gövde metnine işlendi.
+### Bulgular
+- FE modal flutter 1307 km/h (pay %21). 2-DOF modeli (1465 km/h) %11 iyimserdi. Kritik mekanizma 3B–1T eşleşmesi.
+- CAD'den hesaplanan Ixx, Roskam tahmininin %69'u; Ixz = 0,041 kg·m².
+- g-limiter, boş yakıtta tam çubukta n'yi 10,05 g'de tutuyor (FC'siz 28 g). ζ_DR 0,31–0,44. GM ≥ 9,4 dB, PM ≥ 50°.
+- Alık η_r = 0,970 @ 750 km/h. Eşdeğer k_ram 0,67, taban model kötümser kalıyor.
+- 15 m/s kısa rüzgâr hamlesi 19–27 g üretiyor ve FC bunu azaltamıyor. Sakin hava sınırlaması korunuyor.
+
 ## [0.4.0] - 2026-11-04 · İterasyon 3
 ### Değişti
 - Kanat alçak konuma alındı (z −0,035 → −0,080 m), dihedral −1° → +2° (DATCOM ile gövde-kanat girişim düzeltmesi yapıldı).

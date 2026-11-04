@@ -1,0 +1,17 @@
+{
+  "status": "PARTIAL",
+  "execution": "RUNS_PRESENT",
+  "updated_utc": "2026-11-04T16:46:13.215Z",
+  "cases": [
+    {
+      "case": "wing",
+      "result_directory": "fem/results/wing",
+      "coarse": "PREPARED",
+      "medium": "NOT_RUN",
+      "fine": "NOT_RUN",
+      "study": "PENDING"
+    }
+  ],
+  "design_accepted": false,
+  "note": "Benchmark acceptance, conditional applications, UNCONVERGED/FAILED and PREPARED are separate. Historical round1 probe retained."
+}

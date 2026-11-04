@@ -1,0 +1,12 @@
+{
+  "mesh_sha256": null,
+  "level": "coarse",
+  "cells": null,
+  "closed_fluid_volume": false,
+  "units_m": false,
+  "boundary_layers": false,
+  "positive_volumes": false,
+  "markers_checked": false,
+  "ingested_boundary_layer": false,
+  "notes": "Bu örnek onay değildir. aircraft: WALL/FARFIELD/SYMMETRY (yarı uçak), inlet: WALL/FARFIELD/ENGINE (tam kanal + dudak/gövde dış akış); motor yüzü normali dışarı."
+}

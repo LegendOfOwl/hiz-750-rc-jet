@@ -1,0 +1,141 @@
+{
+  "status": "REVIEW_REQUIRED",
+  "case": "engine_thermal",
+  "metrics": {
+    "outer_K": {
+      "values_fine_to_coarse": [
+        322.6096,
+        322.6096,
+        322.6096
+      ],
+      "convergence": {
+        "status": "EXACT_OR_ROUNDOFF",
+        "reason": "Farklar sıfır/yuvarlama düzeyinde; p ve GCI tanımsız"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": 8.374120170628885e-06,
+          "percent": 2.5957443262691604e-06
+        },
+        {
+          "absolute": 8.374120170628885e-06,
+          "percent": 2.5957443262691604e-06
+        },
+        {
+          "absolute": 8.374120170628885e-06,
+          "percent": 2.5957443262691604e-06
+        }
+      ],
+      "error_fine": {
+        "absolute": 8.374120170628885e-06,
+        "percent": 2.5957443262691604e-06
+      }
+    },
+    "heat_flux_W_m2": {
+      "values_fine_to_coarse": [
+        3102.319790172417,
+        3102.319790172417,
+        3102.319790172417
+      ],
+      "convergence": {
+        "status": "EXACT_OR_ROUNDOFF",
+        "reason": "Farklar sıfır/yuvarlama düzeyinde; p ve GCI tanımsız"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": 0.0008884311118890764,
+          "percent": 2.8637646226195755e-05
+        },
+        {
+          "absolute": 0.0008884311118890764,
+          "percent": 2.8637646226195755e-05
+        },
+        {
+          "absolute": 0.0008884311118890764,
+          "percent": 2.8637646226195755e-05
+        }
+      ],
+      "error_fine": {
+        "absolute": 0.0008884311118890764,
+        "percent": 2.8637646226195755e-05
+      }
+    },
+    "inner_K": {
+      "values_fine_to_coarse": [
+        331.9165,
+        331.9165,
+        331.9165
+      ],
+      "convergence": {
+        "status": "EXACT_OR_ROUNDOFF",
+        "reason": "Farklar sıfır/yuvarlama düzeyinde; p ve GCI tanımsız"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": -4.833110375557226e-05,
+          "percent": -1.4561221487323828e-05
+        },
+        {
+          "absolute": -4.833110375557226e-05,
+          "percent": -1.4561221487323828e-05
+        },
+        {
+          "absolute": -4.833110375557226e-05,
+          "percent": -1.4561221487323828e-05
+        }
+      ],
+      "error_fine": {
+        "absolute": -4.833110375557226e-05,
+        "percent": -1.4561221487323828e-05
+      }
+    },
+    "shell_inner_K": {
+      "values_fine_to_coarse": [
+        331.9165,
+        331.9165,
+        331.9165
+      ],
+      "convergence": {
+        "status": "EXACT_OR_ROUNDOFF",
+        "reason": "Farklar sıfır/yuvarlama düzeyinde; p ve GCI tanımsız"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": -4.833110375557226e-05,
+          "percent": -1.4561221487323828e-05
+        },
+        {
+          "absolute": -4.833110375557226e-05,
+          "percent": -1.4561221487323828e-05
+        },
+        {
+          "absolute": -4.833110375557226e-05,
+          "percent": -1.4561221487323828e-05
+        }
+      ],
+      "error_fine": {
+        "absolute": -4.833110375557226e-05,
+        "percent": -1.4561221487323828e-05
+      }
+    },
+    "shell_inner_C": {
+      "values_fine_to_coarse": [
+        58.76650000000001,
+        58.76650000000001,
+        58.76650000000001
+      ],
+      "convergence": {
+        "status": "EXACT_OR_ROUNDOFF",
+        "reason": "Farklar sıfır/yuvarlama düzeyinde; p ve GCI tanımsız"
+      },
+      "errors_fine_to_coarse": [
+        null,
+        null,
+        null
+      ],
+      "error_fine": null
+    }
+  },
+  "reasons": [],
+  "note": "Eşikler iter5 mühendislik taramasıdır; deney belirsizliği ve fiziksel tasarım kabulü yerine geçmez."
+}

@@ -1,0 +1,41 @@
+{
+  "status": "PARTIAL",
+  "execution": "RUNS_PRESENT",
+  "updated_utc": "2026-11-04T16:46:13.203Z",
+  "cases": [
+    {
+      "case": "cantilever",
+      "result_directory": "validation/results/cantilever",
+      "coarse": "COMPUTED",
+      "medium": "COMPUTED",
+      "fine": "COMPUTED",
+      "study": "BENCHMARK_ACCEPTED"
+    },
+    {
+      "case": "flat_plate_SA",
+      "result_directory": "validation/results/flat_plate_SA",
+      "coarse": "FAILED",
+      "medium": "NOT_RUN",
+      "fine": "NOT_RUN",
+      "study": "PENDING"
+    },
+    {
+      "case": "rae2822_SA",
+      "result_directory": "validation/results/rae2822_SA",
+      "coarse": "UNCONVERGED",
+      "medium": "NOT_RUN",
+      "fine": "NOT_RUN",
+      "study": "PENDING"
+    },
+    {
+      "case": "thermal_1d",
+      "result_directory": "validation/results/thermal_1d",
+      "coarse": "COMPUTED",
+      "medium": "COMPUTED",
+      "fine": "COMPUTED",
+      "study": "BENCHMARK_ACCEPTED"
+    }
+  ],
+  "design_accepted": false,
+  "note": "Benchmark acceptance, conditional applications, UNCONVERGED/FAILED and PREPARED are separate. Historical round1 probe retained."
+}

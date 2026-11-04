@@ -1,0 +1,170 @@
+{
+  "status": "BENCHMARK_ACCEPTED",
+  "case": "cantilever",
+  "metrics": {
+    "tip_deflection_m": {
+      "values_fine_to_coarse": [
+        0.0003781402,
+        0.0003768355,
+        0.0003734951
+      ],
+      "convergence": {
+        "status": "ESTIMATED",
+        "observed_order": 1.3563027555676133,
+        "richardson": 0.000378976394964877,
+        "fine_gci_absolute": 1.045243706096183e-06,
+        "fine_gci_pct": 0.276416976057077,
+        "r21": 2.0,
+        "r32": 2.0,
+        "warning": "Üç nokta asimptotik bölgeyi tek başına kanıtlamaz; şok/mod takibi ayrıca incelenmeli."
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": -2.8121809523808865e-06,
+          "percent": -0.7381974999999827
+        },
+        {
+          "absolute": -4.1168809523808945e-06,
+          "percent": -1.080681249999985
+        },
+        {
+          "absolute": -7.457280952380928e-06,
+          "percent": -1.9575362499999938
+        }
+      ],
+      "error_fine": {
+        "absolute": -2.8121809523808865e-06,
+        "percent": -0.7381974999999827
+      }
+    },
+    "f1_Hz": {
+      "values_fine_to_coarse": [
+        8.422986,
+        8.442452,
+        8.492973
+      ],
+      "convergence": {
+        "status": "ESTIMATED",
+        "observed_order": 1.3759267355781462,
+        "richardson": 8.410784256126227,
+        "fine_gci_absolute": 0.015252179842214567,
+        "fine_gci_pct": 0.18107806236665436,
+        "r21": 2.0,
+        "r32": 2.0,
+        "warning": "Üç nokta asimptotik bölgeyi tek başına kanıtlamaz; şok/mod takibi ayrıca incelenmeli."
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": 0.041083456200455615,
+          "percent": 0.4901447611180689
+        },
+        {
+          "absolute": 0.060549456200455154,
+          "percent": 0.7223832045774167
+        },
+        {
+          "absolute": 0.11107045620045497,
+          "percent": 1.3251222573879553
+        }
+      ],
+      "error_fine": {
+        "absolute": 0.041083456200455615,
+        "percent": 0.4901447611180689
+      }
+    },
+    "f2_Hz": {
+      "values_fine_to_coarse": [
+        41.85491,
+        41.86517,
+        41.91958
+      ],
+      "convergence": {
+        "status": "ESTIMATED",
+        "observed_order": 2.406841097452576,
+        "richardson": 41.852525682899206,
+        "fine_gci_absolute": 0.0029803963759921924,
+        "fine_gci_pct": 0.007120780754258444,
+        "r21": 2.0,
+        "r32": 2.0,
+        "warning": "Üç nokta asimptotik bölgeyi tek başına kanıtlamaz; şok/mod takibi ayrıca incelenmeli."
+      },
+      "errors_fine_to_coarse": [
+        null,
+        null,
+        null
+      ],
+      "error_fine": null
+    },
+    "f3_Hz": {
+      "values_fine_to_coarse": [
+        52.76328,
+        52.88753,
+        53.22299
+      ],
+      "convergence": {
+        "status": "ESTIMATED",
+        "observed_order": 1.4328948990134691,
+        "richardson": 52.69018657402586,
+        "fine_gci_absolute": 0.09136678246767733,
+        "fine_gci_pct": 0.17316357600906793,
+        "r21": 2.0,
+        "r32": 2.0,
+        "warning": "Üç nokta asimptotik bölgeyi tek başına kanıtlamaz; şok/mod takibi ayrıca incelenmeli."
+      },
+      "errors_fine_to_coarse": [
+        null,
+        null,
+        null
+      ],
+      "error_fine": null
+    },
+    "f4_Hz": {
+      "values_fine_to_coarse": [
+        147.666,
+        148.0265,
+        149.1271
+      ],
+      "convergence": {
+        "status": "ESTIMATED",
+        "observed_order": 1.6102190692011873,
+        "richardson": 147.49040177003107,
+        "fine_gci_absolute": 0.21949778746115245,
+        "fine_gci_pct": 0.14864477094331294,
+        "r21": 2.0,
+        "r32": 2.0,
+        "warning": "Üç nokta asimptotik bölgeyi tek başına kanıtlamaz; şok/mod takibi ayrıca incelenmeli."
+      },
+      "errors_fine_to_coarse": [
+        null,
+        null,
+        null
+      ],
+      "error_fine": null
+    },
+    "f5_Hz": {
+      "values_fine_to_coarse": [
+        259.3141,
+        259.389,
+        259.7974
+      ],
+      "convergence": {
+        "status": "ESTIMATED",
+        "observed_order": 2.4469452424186864,
+        "richardson": 259.2972783808096,
+        "fine_gci_absolute": 0.02102702398801635,
+        "fine_gci_pct": 0.00810870831474893,
+        "r21": 2.0,
+        "r32": 2.0,
+        "warning": "Üç nokta asimptotik bölgeyi tek başına kanıtlamaz; şok/mod takibi ayrıca incelenmeli."
+      },
+      "errors_fine_to_coarse": [
+        null,
+        null,
+        null
+      ],
+      "error_fine": null
+    }
+  },
+  "reasons": [],
+  "note": "Eşikler iter5 mühendislik taramasıdır; deney belirsizliği ve fiziksel tasarım kabulü yerine geçmez."
+}

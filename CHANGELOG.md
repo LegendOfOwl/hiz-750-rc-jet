@@ -2,6 +2,19 @@
 
 Sürümleme: `0.MAJOR_ITERASYON.PATCH`. 1.0.0 sürümü, prototip uçuş testinden sonra verilecek.
 
+## [0.6.0] - Taslak · İter5: yüksek doğruluk doğrulama paketi
+### Eklendi
+- `validation/`: sabit sürümlü host kurulum adımları, araç yoklaması, tek vaka/üç ağ runner, kaynak/executable hash'leri, Richardson/GCI ve karşılaştırma raporları.
+- `cfd/`: SU2 sıkıştırılabilir SA/SST için RAE2822, düz levha ve HIZ profil koşuları; tam uçak/S-kanal için incelenmiş ağ girişi, gmsh 3B ön ağ ve recovery/DC60 postprocess.
+- `fem/`: gmsh S8R konsol benchmarkı, kat planını okuyan taslak kompozit kanat, açık malzeme varsayımları, statik/modal runner ve lokal tabaka CSV'sinden Tsai–Wu.
+- `thermal/`: CalculiX 1B iletim+taşınım benchmarkı ve ölçülmemiş h/k/emissiviteyle koşullu motor–keçe–kabuk senaryoları.
+- `docs/10_yuksek_dogruluk_dogrulama.md`: bekleyen hata tabloları, LES/DES maliyeti, belirsizlik bütçesi ve tasarım önerileri.
+### Doğrulama durumu
+- İkinci turda araçlar Claude tarafından host'ta kuruldu; escalation ile Python testleri ve solver koşuları yapıldı. Konsol ve 1B termal üç ağda kabul aldı; koşullu motor termal sonuçları kaydedildi. CFD yakınsaması/deney kabulü tamamlanmadı.
+- Gerçek koşularla CalculiX sayı alanı uzunluğu, Lednicer profil sırası, SU2 çıktı sütunları ve düz levha köşe ağı düzeltildi. Resmi SU2 düz levha ayar/ağ kontrolü ayrıca kaydediliyor.
+- B/C sınır katmanlı temiz akış hacmi/ağı ve D imalat detayları host'ta incelenmeli. 3B tetra/kompozit kanat ön modelleri DRAFT. CLT coupon benchmarkı tamamlanmadı.
+- `params.py`, mevcut analizler ve `run_all.sh` değiştirilmedi. v0.6 yayımlanmadı.
+
 ## [0.5.0] - 2026-11-04 · İter4: masa başı doğrulamaları
 ### Eklendi
 - `cad/mass_properties.py`: CAD katılarından kütle, CG ve atalet tensörünü hesaplıyor (yakıt %100 / %25 / %0 ve params yakıtı için). Çıktı `cad/out/mass_properties.json`.

@@ -1,0 +1,110 @@
+{
+  "scope": "Round2 escalated host execution; installation by Claude",
+  "previous_round": {
+    "scope": "Worktree preparation checks; no solver validation",
+    "checks": [
+      {
+        "command": "node validation/check_artifacts.cjs",
+        "status": "PASS",
+        "observed": "JSON parse; 36 local documentation links; 4 BLOCKED manifests without metrics; baseline source hashes; thermal input mesh 20 nodes/4 positive bricks/1e-5 m3; whitespace"
+      },
+      {
+        "command": "git diff --check",
+        "status": "PASS",
+        "observed": "No whitespace errors in tracked changes; new files also checked by Node"
+      },
+      {
+        "command": "PowerShell Language.Parser.ParseFile(validation/install_tools.ps1, validation/probe_tools.ps1)",
+        "status": "PASS",
+        "observed": "0 parse errors in both scripts; installer not executed"
+      },
+      {
+        "command": "C:/Users/Urungu/.hz750/Scripts/python.exe -m unittest validation.test_validation -v",
+        "status": "BLOCKED",
+        "observed": "Unable to create process using Python312/python.exe; exit 1; no Python tests executed"
+      },
+      {
+        "command": "C:/Users/Urungu/.hz750/Scripts/python.exe -m compileall -q validation cfd fem thermal",
+        "status": "BLOCKED",
+        "observed": "Unable to create process using Python312/python.exe; exit 1; Python syntax compilation not performed"
+      },
+      {
+        "command": "git check-ignore (raw output examples and small sample mesh exception)",
+        "status": "PASS",
+        "observed": "Raw VTK/SU2/FRD and local tool config ignored; thermal_1d_coarse.msh explicitly retained"
+      },
+      {
+        "command": "PowerShell [xml] parse of four results/status.svg files",
+        "status": "PASS",
+        "observed": "Four valid XML documents; only BLOCKED status cards, no numerical plots"
+      },
+      {
+        "command": "git diff --exit-code -- params.py sizing.py run_all.sh aero structures performance cad",
+        "status": "PASS",
+        "observed": "Existing design inputs, analyses, outputs and orchestration unchanged"
+      }
+    ],
+    "solver_runs": 0,
+    "python_tests_executed": 0,
+    "design_accepted": false,
+    "limitations": "Node/PowerShell checks do not establish Python syntax correctness, gmsh meshing success, solver input compatibility, numerical accuracy or physical design validity. Host Python tests and solver benchmarks remain mandatory."
+  },
+  "python_tests_executed": 13,
+  "design_accepted": false,
+  "checks": [
+    {
+      "command": "C:/Users/Urungu/.hz750/Scripts/python.exe -m unittest validation.test_validation -v",
+      "status": "PASS",
+      "observed": "13 tests passed (including auxiliary NaN and Lednicer regressions)"
+    },
+    {
+      "command": "C:/Users/Urungu/.hz750/Scripts/python.exe -m compileall -q validation cfd fem thermal",
+      "status": "PASS"
+    },
+    {
+      "command": "python validation/run_case.py thermal_1d --study",
+      "status": "BENCHMARK_ACCEPTED",
+      "observed": "357.15 K, 1600 W/m2 on all three grids; zero reported error; GCI EXACT_OR_ROUNDOFF"
+    },
+    {
+      "command": "python validation/run_case.py cantilever --study",
+      "status": "BENCHMARK_ACCEPTED",
+      "observed": "Fine deflection .3781402 mm (-.7381975%); f1 8.422987 Hz (+.4901567%); GCI .276417%/.181054%"
+    },
+    {
+      "command": "python validation/run_case.py engine_thermal --study (6 scenarios)",
+      "status": "COMPUTED_CONDITIONAL",
+      "observed": "18 level solves; material/heat-transfer assumptions remain; no design acceptance"
+    },
+    {
+      "command": "CFD SA coarse pilots",
+      "status": "NOT_VALIDATED",
+      "observed": "RAE2822/profile unconverged; own flat-plate boundary/solver trials failed or unconverged; official native check recorded separately"
+    },
+    {
+      "command": "cfd/draft_domains.py + cfd/prepare_3d.py",
+      "status": "DRAFT_ONLY",
+      "observed": "Aircraft 5885 cells; isolated inlet 4727 cells; no boundary layers or CFD solve"
+    },
+    {
+      "command": "python validation/run_case.py wing --prepare-only --level coarse",
+      "status": "PREPARED",
+      "observed": "224 S8R elements, 694 nodes; no wing solve"
+    },
+    {
+      "command": "python validation/run_native_su2.py --iterations 6000 --timeout 1800",
+      "status": "SOLVER_COMPLETED_NOT_VALIDATED",
+      "observed": "Official v8.2 config+137x97 mesh; 394.532 s; screen Cf .002849, Schlichting error -5.150729%; no 3-grid/GCI acceptance"
+    },
+    {
+      "command": "node validation/check_artifacts.cjs",
+      "status": "PASS",
+      "observed": "JSON, local links, baseline hashes, honest status manifests and positive-brick input mesh"
+    },
+    {
+      "command": "git diff --check; git diff --exit-code HEAD -- params.py sizing.py run_all.sh aero structures performance cad",
+      "status": "PASS",
+      "observed": "Original design sources/results unchanged"
+    }
+  ]
+}

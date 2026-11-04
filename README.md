@@ -44,6 +44,7 @@ Bu hız, türbinli RC uçaklarda Guinness dünya rekoru seviyesinde: Niels Herbr
 | 07 | [Mevzuat ve risk](docs/07_mevzuat_risk.md) | SHGM/EU/AMA, saha güvenliği, FMEA |
 | 08 | [**Proje raporu: sonuçlar ve çıkarımlar**](docs/08_sonuclar_cikarimlar.md) | Yönetici özeti, iterasyon evrimi, çıkarımlar, doğrulama durumu, yol haritası, varsayımlar |
 | 09 | [Uçuş kontrol](docs/09_ucus_kontrol.md) | Doğrusal modeller, kontrol yasaları, kararlılık payları, simülasyonlar, kazanç tablosu, ayar prosedürü |
+| 10 | [Yüksek doğruluk doğrulaması — v0.6 taslak](docs/10_yuksek_dogruluk_dogrulama.md) | SU2/gmsh/CalculiX runner, benchmark/GCI, RANS–kabuk FEM–termal; solver sonuçları bekliyor |
 | — | [CHANGELOG](CHANGELOG.md) | Sürüm geçmişi v0.1 → v0.5 |
 | — | [Kütle/CG tablosu](performance/out/kutle_tablosu.md) | Kalem bazında kütle ve moment |
 

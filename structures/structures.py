@@ -196,7 +196,7 @@ def thin_airfoil_flap(E, alpha=0.0, delta=1.0, nterms=400):
     return cl, cm4, Ch
 
 
-def span_loads():
+def span_loads(plot=True):
     """Uc yukleme durumu: (A) MTOW, yakit rahatlatmasi yok (iter1 yontemi, referans),
     (B) MTOW + kanat tanki dolu (yakit ataleti egilmeyi azaltir),
     (C) kanat tanklari bos, govde tanki dolu (rahatlatma yok, W daha dusuk).
@@ -236,6 +236,8 @@ def span_loads():
     V = np.maximum(out[kB]["V"], out[kC]["V"])
     M = np.maximum(out[kB]["M"], out[kC]["M"])
     T = np.max(np.abs(np.array([out[k][t] for k in (kB, kC) for t in ("T1", "T2")])), axis=0)
+    if not plot:   # iter4: fe_modal.py yardimcisi grafik yazmadan cagirir
+        return out, V, M, T
     fig, axs = plt.subplots(3, 1, figsize=(8, 9), sharex=True)
     for name, o in out.items():
         axs[0].plot(YS, o["V"], label=name)
@@ -984,6 +986,25 @@ def htail_root():
                              T_root=T_root, x_rod=x_rod, F_pin=F_pin, pin_cap=pin_cap, t_bearing=t_br,
                              tubes=tubes, L_socket=L_sock, F_socket=F_sock)
     return RES["htail_root"]
+
+
+
+def wing_section_model(n_face=None, n_aft=None):
+    """iter4 yardimcisi (structures/fe_modal.py): main()'deki on boyutlandirma -> tank kapasitesi ->
+    yakit rahatlatmali yuk -> size_wing adimlarini grafik/json yazmadan tekrarlar. Geriye uyumlu:
+    main() akisini degistirmez. Kat plani verilmezse params WING["skin_plies"] kullanilir.
+    Donus: ws (size_wing sozlugu: EI, GJ, mprime, xcg ... YS izgarasinda), yakit dagilimi ve sabitler."""
+    global M_WT_HALF
+    if n_face is None or n_aft is None:
+        n_face, n_aft = WING.get("skin_plies", (3, 1))
+    M_WT_HALF = 0.0
+    _, V0, M0, T0 = span_loads(plot=False)
+    ws_pre = size_wing(M0, V0, T0, 2)
+    M_WT_HALF = min(M_WT_HALF_PARAMS, ws_pre["V_tank_half_L"] * FUEL["density"])
+    _, V, M, T = span_loads(plot=False)
+    ws = size_wing(M, V, T, n_face, n_aft)
+    return dict(ws=ws, ws_pre=ws_pre, YS=YS, m_fuel_half=M_WT_HALF, fuel_per_span=fuel_per_span(),
+                M=M, V=V, T=T, Y0=Y0, B2=B2, X_EA=X_EA, X_FUEL_C=X_FUEL_C, Y_T0=Y_T0, Y_T1=Y_T1)
 
 
 # ================================================================== ana akis

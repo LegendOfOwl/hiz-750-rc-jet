@@ -146,3 +146,89 @@ Diğer ölçümler:
 2. `FUEL["x"] = 0.955`, `FUEL["z"] = -0.029` (ölçülen değerler; params'ta 0,957 / −0,02).
 3. Rampa x 671'de başlıyor; ECU (x 0,65) rampanın 21 mm önünde ve merkez düzlemde z = 0'da. Rampa tabanı (z ≥ 60 mm) ile ECU arasında çakışma yok, ama ECU'ya üstten erişim rampa yüzünden kısıtlı.
 4. Dorsal çıkıntı yaklaşık 43 mm; sürükleme hesabında ön kesit alanı ≈ 114 × 43 ≈ 49 cm² (gövde kesitinin %23'ü) olarak alınmalı.
+
+## Kütle ve atalet özellikleri (iter4)
+
+Script: [`cad/mass_properties.py`](../cad/mass_properties.py), çıktı [`cad/out/mass_properties.json`](../cad/out/mass_properties.json) (yaklaşık 15 s). `params.MASS_ITEMS`'taki her kalem bir CAD katısına eşlendi. Katının hacim ağırlıklı ağırlık merkezi ve atalet tensörü OCP `BRepGProp` ile birim yoğunlukta hesaplandı, sonra kalem kütlesine ölçeklendi. Katısı olmayan kalemler params'taki (x, z) konumunda küçük homojen kutu olarak eklendi. Tensör CG etrafında, eksenler CAD ekseni (x arkaya, y sağa, z yukarı). Ixz = +∫xz dm. Uçuş gövde ekseninde (x ileri, z aşağı) iki eksen birden döndüğü için Ixz'nin işareti aynı kalıyor.
+
+### Sonuçlar
+
+| Durum | m [kg] | x_cg [m] | y_cg [m] | z_cg [m] | Ixx | Iyy | Izz | Ixz [kg·m²] |
+|---|---|---|---|---|---|---|---|---|
+| Yakıt %100 (5,335 L = 4,268 kg, tank kapasitesi) | 17,278 | 1,1578 | 0,0001 | −0,0145 | 0,391 | 2,609 | 2,912 | 0,043 |
+| Params yakıtı (4,0 kg = kapasitenin %93,7'si) | 17,010 | 1,1610 | 0,0001 | −0,0143 | 0,387 | 2,592 | 2,892 | 0,043 |
+| Yakıt %25 (1,067 kg) | 14,077 | 1,2039 | 0,0002 | −0,0113 | 0,343 | 2,376 | 2,643 | 0,045 |
+| Yakıt %0 | 13,010 | 1,2243 | 0,0002 | −0,0098 | 0,327 | 2,280 | 2,536 | 0,045 |
+
+Ixy ve Iyz < 0,003 kg·m². Bunlar simetrik modelde sayısal artık.
+
+### params.mass_summary ile kontrol (hedef ±%1 kütle, ±5 mm x_cg)
+
+| Durum | Δm (aynı yakıt kütlesi) | Δm (nominal doluluk) | Δx_cg | Δz_cg |
+|---|---|---|---|---|
+| %100 | 0 | **+%1,57** (17,278 / 17,01) | **+9,8 mm** (aynı yakıt) / +6,8 mm (nominal) | +0,7 mm |
+| Params 4,0 kg | 0 | 0 | **+10,0 mm** | +0,8 mm |
+| %25 | 0 | +%0,48 | **+12,0 mm** (aynı yakıt) / +10,9 mm (nominal) | +0,9 mm |
+| %0 | 0 | 0 | **+13,0 mm** | +0,9 mm |
+
+**Kütle farkı:** Kuru kütle birebir aynı. Fark yalnız yakıttan geliyor. Params `FUEL["mass"] = 4,0 kg` alıyor, yani 5,0 L. CAD tank iç hacmi ise 5,335 L, yani dolu tankta 4,268 kg. "%100 doluluk" bu yüzden params'tan %1,57 ağır.
+
+**x_cg farkı:** CAD CG'si, aynı yakıtta params'ın 10–13 mm gerisinde, yani ±5 mm toleransın dışında. Kalem kalem katkı (Δx × m):
+
+| Kalem | params x | CAD x | Δx [mm] | Δ(m·x) [g·m] |
+|---|---|---|---|---|
+| Gövde kabuğu (1,55 kg) | 1,050 | 1,150 | +99,6 | **+154** |
+| Motor (4,05 kg) | 1,370 | 1,380 | +9,7 | +39 |
+| Kanat (1,75 kg) | 1,180 | 1,195 | +14,6 | +26 |
+| Bulkhead'ler (0,50 kg) | 1,000 | 1,036 | +36,1 | +18 |
+| Kızak (0,25 kg) | 0,960 | 0,987 | +27,3 | +7 |
+| Yakıt tankı duvarı (0,40 kg) | 0,980 | 0,873 | −107,0 | −43 |
+| Egzoz (0,40 kg) | 1,880 | 1,843 | −37,5 | −15 |
+| S-kanal (0,30 kg) | 1,070 | 1,022 | −47,5 | −14 |
+| Diğer | | | | −3 |
+| **Toplam / 17,01 kg** | | | | **+169 g·m → +9,9 mm** |
+
+Baskın neden gövde kabuğu. Sabit kalınlıklı kabuğun alan merkezi x = 1,150 m. Ogive burnun alanı küçük, sabit kesit ve kuyruk konisi ise uzun. Params'taki 1,05 m bu yüzden 0,10 m önde. Kabuk burunda ek kat ya da takviye almıyorsa params değeri iyimser. Motor katısının merkezi 1,380 m (params 1,37). Gerçek P400'ün CG'si kompresör tarafında olduğu için motorda params değeri muhtemelen daha doğru. Tank duvarı ve hopper için CAD gövde tankının yüzey merkezini (0,873 m) veriyor. Hopper ve borular daha geride olabilir.
+
+**Etkisi:** x_np = 1,2506 m (aero) ile statik marj tam yakıtta (4,0 kg) %31,9'dan **%28,7**'ye, boş yakıtta %12,6'dan **%8,4**'e iniyor (MAC 0,312 m). Boş yakıt marjının küçülmesi iter4 için izlenecek madde. params.py değiştirilmedi.
+
+### Varsayımlar
+
+- **Eşleme:**
+  - Gövde kabuğu → `fuselage` (kabuk katısı). Karın kaplamasının (`belly_fairing`) kütle kalemi yok; dahil edilmedi.
+  - Kanat → `wing_panels ∪ wing_center ∪ wing_box` + aileron + flap. `wing_box` panellerle ve tank boşluklarıyla üst üste bindiği için birleşim alındı.
+  - Yatay kuyruk → `htail` + elevator ×2 + `ht_carry_yoke`.
+  - Dikey kuyruk → `vtail` + `rudder`.
+  - Motor ve "motor yatağı + ısı kalkanı" → `engine`.
+  - S-kanal → `inlet_duct`; egzoz → `exhaust_pipe`; kızak → `skid`; tampon → `tail_bumper`.
+  - Bulkhead'ler → `frames` (5 halka).
+  - Kanat bağlantısı → `frames`'in x 960–1200 mm kısmı. Cıvata ve blok merkez hattında değil halkada kabul edildi; z farkı +65 mm.
+  - Yakıt tankı + hopper → `tank_fuselage` yüzeyi (alan ağırlıklı).
+- **Kutu olarak alınan kalemler** (params x, z; boyutlar JSON'da):
+  - Kanat servoları 4 × 0,12 kg: flap y = ±0,22 m, aileron y = ±0,50 m.
+  - Kuyruk servoları: elevator y = ±0,035 m, rudder y = 0.
+  - Balans kütleleri: aileron orta açıklığı, y = ±0,53 m.
+  - ECU, alıcı, akü, pitot/kablo (0,6 m demet) ve ısı keçesi: merkez hattı.
+  - Boya/dolgu: gövde boyunca 1,8 m'lik kutu. Gerçekte ıslak alana dağılır.
+- **Yakıt:**
+  - İç hacimler × 0,80 kg/L. Gövde tankında dış katı hacmi − alan × 1 mm (`build_cad` ile aynı); kanat ve orta tank katıları zaten iç boşluk.
+  - Kısmi dolulukta her tank aynı oranda boşalıyor. Yakıt tank hacim merkezinde, tank katısının ölçeklenmiş tensörüyle alındı. Dibe çökme ve serbest yüzey ihmal edildi; z_cg'ye etkisi birkaç mm.
+- **Hacim ağırlıklı yaklaşımın sınırı:** Dolu kanat katısı hacmi kalın köke topluyor. Karbon kabuk ise alana göre dağılır. Açıktaki kanat alan ağırlıklı alınırsa kanat x'i 1,195 → 1,238 m, kanadın kendi Ixx'i 0,162 → 0,232 kg·m² oluyor. Bu da toplam Ixx'i yaklaşık %18 artırır (≈ 0,46) ve x_cg'yi +4 mm daha geriye kaydırır. Tablo hacim ağırlıklı değerleri veriyor.
+
+### Roskam tahmini ile karşılaştırma
+
+`aero/aero_analysis.py` bölüm [5]: Ixx = m (b R̄x/2)², Iyy = m (L R̄y/2)², Izz = m ((b+L)/2 · R̄z/2)². Burada R̄x = 0,25, R̄y = 0,38, R̄z = 0,52, b = 1,449 m, L = 2,10 m, m = 17,01 kg (tam yakıt). Ixz = 0 varsayılıyor.
+
+| | Roskam (aero) | CAD, params yakıtı 17,01 kg | CAD/Roskam | CAD eşdeğer R̄ | CAD %100 | CAD %0 (R̄) |
+|---|---|---|---|---|---|---|
+| Ixx | 0,558 | 0,387 | **0,69** | R̄x 0,208 | 0,391 | 0,327 (0,219) |
+| Iyy | 2,708 | 2,592 | **0,96** | R̄y 0,372 | 2,609 | 2,280 (0,399) |
+| Izz | 3,621 | 2,892 | **0,80** | R̄z 0,465 | 2,912 | 2,536 (0,498) |
+| Ixz | 0 | 0,043 | – | Ixz/Ixx = 0,11 | 0,043 | 0,045 |
+
+Çıkarımlar:
+- Iyy, Roskam ile %4 içinde.
+- Ixx %31 düşük. Kütlenin %60'tan fazlası (motor, yakıt, sistemler) gövde ekseninde toplanmış; kanat 1,75 kg ve ince. Aero modelindeki yuvarlanma sönümü L_p (∝ 1/Ixx) yaklaşık 1,44 kat büyür. Yuvarlanma zaman sabiti kısalır, aileron etkinliği (p/δa başlangıç ivmesi) artar.
+- Izz %20 düşük. N_β ve N_r yaklaşık 1,25 kat büyür, Hollanda yuvarlanması frekansı yaklaşık %12 artar.
+- Ixz ≠ 0. Dikey kuyruk yukarıda ve arkada, alçak kanat aşağıda. Yanal mod matrisi Ixz = 0 varsaymış; Ixz/Ixx = 0,11 ile yuvarlanma–sapma bağlaşımı küçük ama ihmal edilemez.
+- Aero'ya önerilen girdiler: Ixx 0,39 (alan ağırlıklı kanatla 0,46), Iyy 2,59, Izz 2,89, Ixz 0,043 kg·m². aero_analysis.py değiştirilmedi.

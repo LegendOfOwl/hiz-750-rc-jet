@@ -105,7 +105,8 @@ GEAR = dict(
 
 # ------------------------------------------------------------------ kutle kalemleri: (ad, kutle kg, x [m], z [m])
 MASS_ITEMS = [
-    ("Govde kabugu (karbon prepreg)",          1.55, 1.05, 0.00),
+    ("Govde kabugu (karbon prepreg)",          1.55, 1.15, 0.00),   # iter4: CAD kabuk alan merkezi (eski 1.05)
+    ("Burun balasti (tungsten) / ek RX akusu",  0.15, 0.20, 0.00),   # iter4: bos yakit SM'yi %12'ye geri getirir
     ("Kanat (kabuk 3/1 kat + kiris + kaburga)", 1.75, 1.18, -0.08),
     ("Kanat baglantisi: cerceveler + 4xM6 + blok", 0.15, 1.08, -0.06),
     ("Motor bolgesi isi kecesi + G10 plaka",    0.05, 1.38, -0.07),
@@ -118,7 +119,7 @@ MASS_ITEMS = [
     ("Bulkhead'ler, baglanti elemanlari",       0.50, 1.00, 0.00),
     ("Motor JetCat P400-PRO",                   ENGINE["mass"], 1.37, 0.00),
     ("ECU + pompa + valfler + GSU",             0.45, 0.65, 0.00),
-    ("Servolar: aileron+flap 4x (kanat ici)",   0.48, 1.22, -0.04),
+    ("Servolar: aileron+flap 4x (kanat ici)",   0.48, 1.22, -0.04),   # iter4: aileron servosu <= 60 g ince tip (flutter -%8 etkisi; FE)
     ("Servolar: elevator 2x + rudder 60 kg.cm", 0.37, 1.85, 0.03),
     ("Kontrol yuzeyi balans kutleleri (W)",     0.12, 1.45, 0.00),
     ("Alici x2 + telemetri + GNSS logger",      0.20, 0.45, 0.00),
@@ -129,7 +130,8 @@ MASS_ITEMS = [
     ("Boya / dolgu / balans",                   0.35, 1.00, 0.00),
 ]
 FUEL = dict(mass=4.0, x=0.955, z=-0.029, density=0.80,  # iter3 son: CAD ic hacimlerinden olculen yakit CG si (5.33 L kapasite)
-            tanks=dict(fuselage_L=3.63, wing_integral_L_each=0.715, wing_eta=(0.06, 0.55),
+            tanks=dict(fuselage_L=3.73, wing_integral_L_each=0.715, wing_eta=(0.06, 0.55),
+                       wing_integral_usable_L_each=0.57,   # iter4: FE/yapi uzlasmasi (brut 0.715; duvar, kapak, %5 kullanilamaz, %2 dolum payi)
                        center_L=0.27,      # iter3: govde icinden gecen kanat kutusu orta tanki
                        belly_tank=False))  # alcak kanatta karin tanki yeri kalmadi; toplam 5.2 L ic hacim
 

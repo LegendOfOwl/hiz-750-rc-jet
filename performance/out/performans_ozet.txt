@@ -1,0 +1,30 @@
+MTOW 17.01 kg, bos (yakitsiz) 13.01 kg
+Kalkis (dolly): Vs(CLmax 0.8, flap 10)=104 km/h, V_lof=125 km/h, yer kosusu 32 m (1.8 s), 10 m engele 137 m, tirmanis acisi 64 deg
+Kizakla inis (14.0 kg): Vs=88, V_app=114, V_td=101 km/h; yer kosusu 122 m, 10 m'den toplam 310 m
+Azami tirmanma hizi 188 m/s @ 490 km/h (MTOW)
+Donus @ 540 km/h: surekli n=22.9 g, anlik (CL 0.9) n=30 g -> yapisal limit 12 g ile sinirli
+Donus @ 749 km/h: surekli n=20.7 g, anlik (CL 0.9) n=58 g -> yapisal limit 12 g ile sinirli
+
+Gorev profili (hiz denemesi):
+  Bacak                                    sure s  itki%   km/h yakit kg
+  Motor calistirma + isinma + taksi            90      8      0    0.318
+  Kalkis + tirmanma (tam gaz)                  25    100    216    0.464
+  Isinma turu 400-550 km/h                     60     45    486    0.575
+  Olcum gecisi #1 (750-780 km/h)               20     78    763    0.299
+  Donus (dusuk gaz, 8-10 g)                    25     35    576    0.199
+  Olcum gecisi #2 (ters yon)                   20     78    763    0.299
+  Donus                                        25     35    576    0.199
+  Olcum gecisi #3 (yedek)                      20     78    763    0.299
+  Donus                                        25     35    576    0.199
+  Olcum gecisi #4 (yedek, ters yon)            20     78    763    0.299
+  Yavaslama + inis paterni                     75     20    180    0.412
+  Inis + taksi + motor sogutma                 60      6      0    0.192
+  TOPLAM 7.8 dk, yakit 3.75 kg (4.69 L); tank 4.0 kg -> rezerv 0.25 kg (%6)
+
+Hava alik: capture alani 60.5 cm2, kompresor yuzu ~62 cm2
+   216 km/h: serbest akim tupu 105.0 cm2, MFR=1.74
+   540 km/h: serbest akim tupu  42.0 cm2, MFR=0.69
+   749 km/h: serbest akim tupu  30.3 cm2, MFR=0.50
+   799 km/h: serbest akim tupu  28.4 cm2, MFR=0.47
+
+Elektrik: ort 2.50 A, tepe 26.6 A @ 2S HV (8.4 V); 12 dk icin 500 mAh -> 2x 2S 3000 mAh LiPo (yedekli, %50+ pay)

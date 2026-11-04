@@ -2,7 +2,7 @@
   "iteration": "3-kapanis",
   "units": "mm3 (cakisma) / L / m2",
   "params_snapshot": {
-    "MTOW": 17.01,
+    "MTOW": 17.16,
     "fuel_kg": 4.0,
     "fuel_L": 5.0,
     "inlet_w": 0.11,
@@ -16,26 +16,26 @@
     "inlet_x_lip": 0.85
   },
   "tank_volumes_L": {
-    "tank_fuselage": 3.63,
+    "tank_fuselage": 3.73,
     "tank_wing_R": 0.715,
     "tank_wing_L": 0.715,
     "tank_center": 0.274
   },
-  "tank_total_L": 5.335,
-  "tank_target_L": 5.33,
+  "tank_total_L": 5.435,
+  "tank_target_L": 5.43,
   "tank_ok": true,
   "tank_fuselage_x_mm": [
-    751.3,
+    744.9,
     1002.9
   ],
   "tank_centroids_x_m": {
-    "tank_fuselage": 0.8682,
+    "tank_fuselage": 0.8648,
     "tank_wing_R": 1.151,
     "tank_wing_L": 1.151,
     "tank_center": 1.0823
   },
-  "fuel_cg_x_m": 0.955,
-  "fuel_cg_z_m": -0.0288,
+  "fuel_cg_x_m": 0.9511,
+  "fuel_cg_z_m": -0.0283,
   "fuel_cg_target_x_m": 0.955,
   "fuel_cg_ok": true,
   "wetted_area_m2": {
@@ -67,7 +67,7 @@
     "rudder": 72.0,
     "engine": 6898.7,
     "exhaust_pipe": 171.5,
-    "tank_fuselage": 3771.2,
+    "tank_fuselage": 3874.1,
     "skid": 305.1,
     "tail_bumper": 64.6,
     "frames": 22.0,
@@ -129,7 +129,7 @@
     "skid_x1_needed_for_9deg_mm": 1930.2608027570475,
     "skid_depth_at_needed_x1_mm": 25.4,
     "dolly_rear_wheel_contact_mm": [
-      1501.0,
+      1501.7,
       -202.5
     ],
     "dolly_clearance_0deg": [
@@ -144,7 +144,7 @@
       ]
     },
     "dolly_clearance_6deg": [
-      63.6,
+      63.7,
       1930.0
     ]
   },

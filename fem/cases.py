@@ -101,11 +101,11 @@ def beam_input(args, work):
     data += ["*NSET, NSET=ROOT"] + set_lines(root) + ["*NSET, NSET=TIP"] + set_lines(tip)
     data += ["*MATERIAL, NAME=STEEL", "*ELASTIC", "210e9, .3", "*DENSITY", "7800",
              "*SHELL SECTION, ELSET=EALL, MATERIAL=STEEL", ".01", "*BOUNDARY", "ROOT, 1, 6",
-             "*STEP", "*STATIC", "*CLOAD"]
+             "*STEP", "*STATIC, SOLVER=SPOOLES", "*CLOAD"]
     data += [f"{n}, 3, {-f:.10e}" for n, f in forces.items()]
     data += ["*NODE PRINT, NSET=TIP", "U", "*NODE PRINT, NSET=ROOT", "RF",
              "*NODE FILE", "U", "*EL FILE", "S", "*END STEP",
-             "*STEP", "*FREQUENCY", "5", "*NODE FILE", "U", "*END STEP"]
+             "*STEP", "*FREQUENCY, SOLVER=SPOOLES", "5", "*NODE FILE", "U", "*END STEP"]
     (work / "case.inp").write_text("\n".join(data) + "\n", encoding="ascii")
     ei = 210e9 * .05 * .01 ** 3 / 12
     exact = dict(tip_deflection_m=1 / (3 * ei),
@@ -137,10 +137,21 @@ def wing_input(args, work):
     if review.get("level") != args.level or not isinstance(review.get("h"), (int, float)) or review["h"] <= 0:
         raise Blocked("Kanat inceleme dosyasında doğru level ve pozitif h gerekli.")
     shutil.copy2(args.deck, work / "case.inp")
+    # İncelenen hazırlık klasöründen model/düğüm verisi (SHA eşleşmeli) son işlem için kopyalanır.
+    for name in ("wing_model.json", "wing_nodes.json"):
+        source = Path(review.get("prepared_dir", "")) / name
+        if not source.is_file() or digest(source) != review.get(name.replace(".", "_") + "_sha256"):
+            raise Blocked(f"İnceleme kaydındaki {name} bulunamadı veya SHA256 eşleşmiyor.")
+        shutil.copy2(source, work / name)
+    if review.get("fuel_state") != getattr(args, "wing_fuel", "full"):
+        raise Blocked("İnceleme kaydının yakıt durumu --wing-fuel ile aynı olmalı.")
     return {}, review
 
 
 def solve(args, work, solver):
+    if args.case == "coupon":
+        from fem.coupon import solve as coupon_solve
+        return coupon_solve(args, work, solver)
     exact, mesh = beam_input(args, work) if args.case == "cantilever" else wing_input(args, work)
     if args.prepare_only:
         return dict(status="PREPARED", mesh=mesh, metrics={}, references=exact, quality={})
@@ -159,36 +170,32 @@ def solve(args, work, solver):
         reaction = sum(u[2] for u in rf[0].values()) if rf else None
         quality = dict(force_balance_relative=abs(reaction - 1) if reaction is not None else None)
         accepted = reaction is not None and abs(reaction - 1) < .005
+    elif (work / "wing_nodes.json").is_file():
+        from fem.wing_post import plot as wing_plot, postprocess as wing_postprocess
+        model = read_json(work / "wing_model.json")
+        nodes_data = read_json(work / "wing_nodes.json")
+        wing_metrics, wing_quality, modes, rows = wing_postprocess(text, model, nodes_data)
+        metrics = wing_metrics
+        coupon = ROOT / "validation/results/coupon/study.json"
+        coupon_status = read_json(coupon)["status"] if coupon.is_file() else "MISSING"
+        log = (work / "solver.log").read_text(errors="replace").splitlines()
+        equations = [int(log[i + 1]) for i, line in enumerate(log[:-1])
+                     if "number of equations" in line and log[i + 1].strip().isdigit()]
+        quality = dict(wing_quality, modes=modes, static_profile=rows, coupon_benchmark=coupon_status,
+                       ccx_equations=max(equations) if equations else None,
+                       relative_mass_difference=model["mesh"]["relative_mass_difference"], model_mesh=model["mesh"],
+                       bays=model["bays"], levers=len(model.get("levers", [])),
+                       mode_classification="AUTOMATIC_SHAPE_FIT (kutu düğümleri w=a+theta x; incelenmeli)")
+        wing_plot(work, modes, rows, f"Kanat S8R {args.level}, yakıt {getattr(args, 'wing_fuel', 'full')}")
+        # Kanat sonucu kupon kabulü olsa da tasarım kabulü değildir: varsayımsal malzeme, imalat detayı yok.
+        status = "REVIEW_REQUIRED"
+        return dict(status=status, mesh=mesh, metrics=metrics, frequencies_Hz=[m["f_Hz"] for m in modes],
+                    references={}, errors={}, execution=execution, quality=quality,
+                    limitations=["Malzeme sabitleri varsayım; Tsai-Wu dayanımları katalog/B-basis değildir.",
+                                 "Lineer statik; burkulma, yapıştırıcı, cıvata, hasar ilerlemesi yok.",
+                                 "Mod etiketleri otomatik şekil uydurmasıdır; GVT ile doğrulanmalı."])
     else:
-        from validation.common import read_json
-        model_path = work / "wing_model.json"
-        if model_path.is_file():
-            model = read_json(model_path)
-            nodes = {int(n):p for n,p in model["nodes"].items()}
-            modal = blocks[1:6]
-            torsion = []
-            for block in modal:
-                # İlk tarama: aynı y'de ön/arka kirişin w farkı / ortalama w.
-                bending2, twist2 = 0., 0.
-                ys = sorted({round(p[1],9) for p in nodes.values()})
-                for y in ys[1:]:
-                    band = [n for n,p in nodes.items() if abs(p[1]-y) < 1e-8 and n in block]
-                    if len(band) < 3:
-                        continue
-                    span_x = max(nodes[n][0] for n in band)-min(nodes[n][0] for n in band)
-                    if span_x <= 0:
-                        continue
-                    front, aft = min(band,key=lambda n:nodes[n][0]), max(band,key=lambda n:nodes[n][0])
-                    wf, wa = block[front][2], block[aft][2]
-                    bending2 += ((wf+wa)/2)**2
-                    twist2 += ((wa-wf)/2)**2
-                torsion.append(twist2/max(bending2+twist2,1e-30))
-            quality.update(torsion_indicators_first5=torsion, mode_classification="PROVISIONAL_REVIEW_REQUIRED",
-                           relative_mass_difference=mesh["relative_mass_difference"])
-            index = next((i for i,r in enumerate(torsion) if r > .5), None)
-            if index is not None:
-                metrics["f1T_provisional_Hz"] = fs[index]
-        accepted = False  # Tabaka gerilmeleri/mod eşleştirmesi ve imalat modeli doğrulaması gerekli.
+        accepted = False  # wing_nodes.json olmadan kanat son işlemi yapılamaz.
     require_module("matplotlib")
     import matplotlib
     matplotlib.use("Agg")

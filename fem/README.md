@@ -4,7 +4,13 @@
 
 `python validation/run_case.py cantilever --study`: 1×.05×.01 m konsol, E=210 GPa, ν=.3, rho=7800 kg/m³. Uç kenarında tutarlı quadratic kenar yükü toplam 1 N, root tam ankastre. gmsh quad8 → CalculiX S8R; 20/80/320 eleman. Sehim `F L³/(3EI)`, f1 `1.875104²/(2π L²) sqrt(EI/(rho A))`. İlk beş frekans (eğilme/in-plane/torsion karışık olabilir), reaksiyon dengesi, sehim ve GCI kaydedilir. Euler–Bernoulli referansıyla küçük shear/Poisson kök farkı beklenir; bu farkı daha fazla ağla yok etmek zorunlu değildir.
 
-Bu benchmark isotropiktir. **CLT laminat coupon benchmarkı henüz uygulanmadı**; aynı solverın konsolda doğru sonuç vermesi kompozit tabaka yönlerini doğrulamaz. Bir sonraki mekanik kabul adımı, [CalculiX composite S8R/S6 örnekleri](https://www.dhondt.de/ccx_2.22.pdf) ile ABD matrisi/kiriş limiti karşılaştırmasıdır. S4 composite kullanılmaz.
+Bu benchmark isotropiktir. Kompozit kabuk girdisi ayrıca **CLT kupon benchmarkı** ile doğrulanır (iter5):
+`python validation/run_case.py coupon --study` ([fem/coupon.py](coupon.py), referans [fem/clt.py](clt.py)).
+[0]5, [±45]s, ön kabuk sandviçi, kök kapak laminatı (OFFSET=0.5, simetrik değil) ve web için Ex, Ey, Gxy,
+D11 (dar kiriş b/d11), 3 nokta sehim ve tabaka gerilmeleri üç ağda %2 içinde; OFFSET yönü ve tabaka/integration
+point sırası (tabaka başına 8 nokta, alttan üste) aynı koşuda kontrol edilir. Ayrıntı: [RESULTS_iter5.md](RESULTS_iter5.md).
+CCX 2.20 Windows'ta varsayılan PaStiX bu küçük/serbest sistemlerde gürültülü çıktı; kupon ve kanat deck'leri
+`SOLVER=SPOOLES` kullanır. S4 composite kullanılmaz.
 
 ## Kanat için girdiler ve taslak
 
@@ -28,6 +34,16 @@ Taslak malzeme sabitleri, görevde verilen tipik değerlerle **varsayım (üreti
 `MAT.FAB.G45=25 GPa` global ±45 dokumanın etkin kayma yaklaşımıdır; **lamina G12** sanılıp 25 GPa girilmez. Tam 3B ortotropik sabitler ölçülmedi. F12=`−.5 sqrt(F11 F22)` bir etkileşim varsayımıdır. Bunlar katalog allowables veya B-basis veri değildir. [Toray T700S](https://www.toraycma.com/products/fibers/t700s/) fiber datası tek başına kürlenmiş laminat allowables sağlamaz.
 
 Root y=.035 m (eski FE ile aynı), 18g Schrenk kaldırması; statikte atalet rahatlatması yok (konservatif toplam kaldırma). Modalde yakıt ve 2 servo kütlesi eklenir. Pozitif kabuk–1D kütle farkı kaburga/boya/donanım için rijitliksiz kütle olarak eklenir; kabuk fazla ağırsa negatif kütleyle düzeltme yapılmaz, fark raporlanır. Geometrik/atalet dağılımı ve %kütle farkı host'ta incelenmeli. Yakıt dolu/boş modeller ayrı deck olarak karşılaştırılmalı; otomatik taslak doludur.
+
+## iter5 kanat zinciri
+
+```powershell
+& $py fem/run_wing_study.py          # dolu+boş, üç ağ: hazırla -> fem/wing_review.py -> --deck/--mesh-review ile çöz -> GCI
+& $py fem/wing_compare.py            # kiriş çapraz kontrolü, fe_modal karşılaştırması, flutter ölçeklemesi
+```
+
+Model değişiklikleri ve sonuçlar [RESULTS_iter5.md](RESULTS_iter5.md) ve `wing_shell.py` başlığında. Aşağıdaki
+taslak notları tarihçe içindir (MASS elemanı CCX 2.20 kompozit kabukla çalışmıyor; NSM tabakası/kaldıraç kullanılır).
 
 ## İncelenmiş modelin koşulması
 

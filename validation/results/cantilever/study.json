@@ -39,24 +39,24 @@
     },
     "f1_Hz": {
       "values_fine_to_coarse": [
-        8.422986,
+        8.422987,
         8.442452,
         8.492973
       ],
       "convergence": {
         "status": "ESTIMATED",
-        "observed_order": 1.3759267355781462,
-        "richardson": 8.410784256126227,
-        "fine_gci_absolute": 0.015252179842214567,
-        "fine_gci_pct": 0.18107806236665436,
+        "observed_order": 1.3760008510665807,
+        "richardson": 8.41078690259531,
+        "fine_gci_absolute": 0.015250121755861067,
+        "fine_gci_pct": 0.1810536067058048,
         "r21": 2.0,
         "r32": 2.0,
         "warning": "Üç nokta asimptotik bölgeyi tek başına kanıtlamaz; şok/mod takibi ayrıca incelenmeli."
       },
       "errors_fine_to_coarse": [
         {
-          "absolute": 0.041083456200455615,
-          "percent": 0.4901447611180689
+          "absolute": 0.041084456200454866,
+          "percent": 0.49015669158366454
         },
         {
           "absolute": 0.060549456200455154,
@@ -68,8 +68,8 @@
         }
       ],
       "error_fine": {
-        "absolute": 0.041083456200455615,
-        "percent": 0.4901447611180689
+        "absolute": 0.041084456200454866,
+        "percent": 0.49015669158366454
       }
     },
     "f2_Hz": {

@@ -1,0 +1,1280 @@
+{
+  "status": "BENCHMARK_ACCEPTED",
+  "case": "coupon",
+  "metrics": {
+    "UD0_Ex": {
+      "values_fine_to_coarse": [
+        125000000000.00005,
+        124999999999.99998,
+        124999999999.99998
+      ],
+      "convergence": {
+        "status": "EXACT_OR_ROUNDOFF",
+        "reason": "Farklar sıfır/yuvarlama düzeyinde; p ve GCI tanımsız"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": 6.103515625e-05,
+          "percent": 4.882812500000001e-14
+        },
+        {
+          "absolute": 0.0,
+          "percent": 0.0
+        },
+        {
+          "absolute": 0.0,
+          "percent": 0.0
+        }
+      ],
+      "error_fine": {
+        "absolute": 6.103515625e-05,
+        "percent": 4.882812500000001e-14
+      },
+      "relative_spread": 4.882812499999998e-16
+    },
+    "UD0_Ey": {
+      "values_fine_to_coarse": [
+        8999997660.00061,
+        8999997660.00061,
+        8999997660.00061
+      ],
+      "convergence": {
+        "status": "EXACT_OR_ROUNDOFF",
+        "reason": "Farklar sıfır/yuvarlama düzeyinde; p ve GCI tanımsız"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": -2339.9993896484375,
+          "percent": -2.5999993218315972e-05
+        },
+        {
+          "absolute": -2339.9993896484375,
+          "percent": -2.5999993218315972e-05
+        },
+        {
+          "absolute": -2339.9993896484375,
+          "percent": -2.5999993218315972e-05
+        }
+      ],
+      "error_fine": {
+        "absolute": -2339.9993896484375,
+        "percent": -2.5999993218315972e-05
+      },
+      "relative_spread": 0.0
+    },
+    "UD0_Gxy": {
+      "values_fine_to_coarse": [
+        5000000000.000488,
+        4999999999.977835,
+        5000000000.048843
+      ],
+      "convergence": {
+        "status": "EXACT_OR_ROUNDOFF",
+        "reason": "Farklar sıfır/yuvarlama düzeyinde; p ve GCI tanımsız"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": 0.00048828125,
+          "percent": 9.765625e-12
+        },
+        {
+          "absolute": -0.022165298461914062,
+          "percent": -4.4330596923828125e-10
+        },
+        {
+          "absolute": 0.0488433837890625,
+          "percent": 9.7686767578125e-10
+        }
+      ],
+      "error_fine": {
+        "absolute": 0.00048828125,
+        "percent": 9.765625e-12
+      },
+      "relative_spread": 1.420173645005658e-11
+    },
+    "UD0_D11beam": {
+      "values_fine_to_coarse": [
+        10.416666666666671,
+        10.416668381344593,
+        10.416661522636275
+      ],
+      "convergence": {
+        "status": "OSCILLATORY",
+        "reason": "Monoton yakınsama yok"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": 5.329070518200751e-15,
+          "percent": 5.1159076974727215e-14
+        },
+        {
+          "absolute": 1.7146779267562806e-06,
+          "percent": 1.6460908096860293e-05
+        },
+        {
+          "absolute": -5.144030390979992e-06,
+          "percent": -4.938269175340793e-05
+        }
+      ],
+      "error_fine": {
+        "absolute": 5.329070518200751e-15,
+        "percent": 5.1159076974727215e-14
+      },
+      "relative_spread": 6.584358901181555e-07
+    },
+    "UD0_wB3": {
+      "values_fine_to_coarse": [
+        0.00540141925,
+        0.005401419166666667,
+        0.005401418166666666
+      ],
+      "convergence": {
+        "status": "ESTIMATED",
+        "observed_order": 3.5849625019724947,
+        "richardson": 0.005401419257575758,
+        "fine_gci_absolute": 9.46969695575219e-12,
+        "fine_gci_pct": 1.7531868046999295e-07,
+        "r21": 2.0,
+        "r32": 2.0,
+        "warning": "Üç nokta asimptotik bölgeyi tek başına kanıtlamaz; şok/mod takibi ayrıca incelenmeli."
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": -3.8074999999995057e-07,
+          "percent": -0.007048576400458191
+        },
+        {
+          "absolute": -3.8083333333324004e-07,
+          "percent": -0.007050119096102041
+        },
+        {
+          "absolute": -3.8183333333358105e-07,
+          "percent": -0.0070686314438442935
+        }
+      ],
+      "error_fine": {
+        "absolute": -3.8074999999995057e-07,
+        "percent": -0.007048576400458191
+      },
+      "relative_spread": 2.0056457080802906e-07
+    },
+    "UD0_TX_L1_s11": {
+      "values_fine_to_coarse": [
+        1000000.0,
+        1000000.0,
+        1000000.0
+      ],
+      "convergence": {
+        "status": "EXACT_OR_ROUNDOFF",
+        "reason": "Farklar sıfır/yuvarlama düzeyinde; p ve GCI tanımsız"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": 0.0,
+          "percent": 0.0
+        },
+        {
+          "absolute": 0.0,
+          "percent": 0.0
+        },
+        {
+          "absolute": 0.0,
+          "percent": 0.0
+        }
+      ],
+      "error_fine": {
+        "absolute": 0.0,
+        "percent": 0.0
+      },
+      "relative_spread": 0.0
+    },
+    "UD0_TX_L2_s11": {
+      "values_fine_to_coarse": [
+        1000000.0,
+        1000000.0,
+        1000000.0
+      ],
+      "convergence": {
+        "status": "EXACT_OR_ROUNDOFF",
+        "reason": "Farklar sıfır/yuvarlama düzeyinde; p ve GCI tanımsız"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": 0.0,
+          "percent": 0.0
+        },
+        {
+          "absolute": 0.0,
+          "percent": 0.0
+        },
+        {
+          "absolute": 0.0,
+          "percent": 0.0
+        }
+      ],
+      "error_fine": {
+        "absolute": 0.0,
+        "percent": 0.0
+      },
+      "relative_spread": 0.0
+    },
+    "UD0_TX_L3_s11": {
+      "values_fine_to_coarse": [
+        1000000.0,
+        1000000.0,
+        1000000.0
+      ],
+      "convergence": {
+        "status": "EXACT_OR_ROUNDOFF",
+        "reason": "Farklar sıfır/yuvarlama düzeyinde; p ve GCI tanımsız"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": 0.0,
+          "percent": 0.0
+        },
+        {
+          "absolute": 0.0,
+          "percent": 0.0
+        },
+        {
+          "absolute": 0.0,
+          "percent": 0.0
+        }
+      ],
+      "error_fine": {
+        "absolute": 0.0,
+        "percent": 0.0
+      },
+      "relative_spread": 0.0
+    },
+    "UD0_TX_L4_s11": {
+      "values_fine_to_coarse": [
+        1000000.0,
+        1000000.0,
+        1000000.0
+      ],
+      "convergence": {
+        "status": "EXACT_OR_ROUNDOFF",
+        "reason": "Farklar sıfır/yuvarlama düzeyinde; p ve GCI tanımsız"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": 0.0,
+          "percent": 0.0
+        },
+        {
+          "absolute": 0.0,
+          "percent": 0.0
+        },
+        {
+          "absolute": 0.0,
+          "percent": 0.0
+        }
+      ],
+      "error_fine": {
+        "absolute": 0.0,
+        "percent": 0.0
+      },
+      "relative_spread": 0.0
+    },
+    "UD0_TX_L5_s11": {
+      "values_fine_to_coarse": [
+        1000000.0,
+        1000000.0,
+        1000000.0
+      ],
+      "convergence": {
+        "status": "EXACT_OR_ROUNDOFF",
+        "reason": "Farklar sıfır/yuvarlama düzeyinde; p ve GCI tanımsız"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": 0.0,
+          "percent": 0.0
+        },
+        {
+          "absolute": 0.0,
+          "percent": 0.0
+        },
+        {
+          "absolute": 0.0,
+          "percent": 0.0
+        }
+      ],
+      "error_fine": {
+        "absolute": 0.0,
+        "percent": 0.0
+      },
+      "relative_spread": 0.0
+    },
+    "UD45S_Ex": {
+      "values_fine_to_coarse": [
+        17504726093.704407,
+        17504731353.837627,
+        17504870263.35424
+      ],
+      "convergence": {
+        "status": "ESTIMATED",
+        "observed_order": 4.722902292336094,
+        "richardson": 17504725886.677628,
+        "fine_gci_absolute": 258.78347506101045,
+        "fine_gci_pct": 1.4783634641051722e-06,
+        "r21": 2.0,
+        "r32": 2.0,
+        "warning": "Üç nokta asimptotik bölgeyi tek başına kanıtlamaz; şok/mod takibi ayrıca incelenmeli."
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": -95894.56209182739,
+          "percent": -0.0005478179792751142
+        },
+        {
+          "absolute": -90634.42887115479,
+          "percent": -0.0005177683550961395
+        },
+        {
+          "absolute": 48275.08774185181,
+          "percent": 0.000275781654758961
+        }
+      ],
+      "error_fine": {
+        "absolute": -95894.56209182739,
+        "percent": -0.0005478179792751142
+      },
+      "relative_spread": 8.235973627036397e-06
+    },
+    "UD45S_Ey": {
+      "values_fine_to_coarse": [
+        17504726093.704407,
+        17504731353.837627,
+        17504870263.35424
+      ],
+      "convergence": {
+        "status": "ESTIMATED",
+        "observed_order": 4.722902292336094,
+        "richardson": 17504725886.677628,
+        "fine_gci_absolute": 258.78347506101045,
+        "fine_gci_pct": 1.4783634641051722e-06,
+        "r21": 2.0,
+        "r32": 2.0,
+        "warning": "Üç nokta asimptotik bölgeyi tek başına kanıtlamaz; şok/mod takibi ayrıca incelenmeli."
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": -95894.56209182739,
+          "percent": -0.0005478179792751142
+        },
+        {
+          "absolute": -90634.42887115479,
+          "percent": -0.0005177683550961395
+        },
+        {
+          "absolute": 48275.08774185181,
+          "percent": 0.000275781654758961
+        }
+      ],
+      "error_fine": {
+        "absolute": -95894.56209182739,
+        "percent": -0.0005478179792751142
+      },
+      "relative_spread": 8.235973627036397e-06
+    },
+    "UD45S_Gxy": {
+      "values_fine_to_coarse": [
+        32377259485.01635,
+        32376545768.384613,
+        32378911881.712307
+      ],
+      "convergence": {
+        "status": "OSCILLATORY",
+        "reason": "Monoton yakınsama yok"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": 17568688.65593338,
+          "percent": 0.05429189285674318
+        },
+        {
+          "absolute": 16854972.024196625,
+          "percent": 0.05208631976821098
+        },
+        {
+          "absolute": 19221085.351890564,
+          "percent": 0.05939823551729491
+        }
+      ],
+      "error_fine": {
+        "absolute": 17568688.65593338,
+        "percent": 0.05429189285674318
+      },
+      "relative_spread": 7.307575178368876e-05
+    },
+    "UD45S_D11beam": {
+      "values_fine_to_coarse": [
+        0.6844965407268718,
+        0.6844961705261745,
+        0.6845989165851959
+      ],
+      "convergence": {
+        "status": "OSCILLATORY",
+        "reason": "Monoton yakınsama yok"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": 2.574240594910293e-05,
+          "percent": 0.0037609209935985143
+        },
+        {
+          "absolute": 2.537220525178352e-05,
+          "percent": 0.0037068353118970376
+        },
+        {
+          "absolute": 0.0001281182642731693,
+          "percent": 0.01871785685926362
+        }
+      ],
+      "error_fine": {
+        "absolute": 2.574240594910293e-05,
+        "percent": 0.0037609209935985143
+      },
+      "relative_spread": 0.0001500821233166521
+    },
+    "UD45S_wB3": {
+      "values_fine_to_coarse": [
+        0.08205700520833334,
+        0.08205673083333334,
+        0.08205328833333332
+      ],
+      "convergence": {
+        "status": "ESTIMATED",
+        "observed_order": 3.6492357146193584,
+        "richardson": 0.08205702897053989,
+        "fine_gci_absolute": 2.9702758186342163e-08,
+        "fine_gci_pct": 3.6197711713863136e-05,
+        "r21": 2.0,
+        "r32": 2.0,
+        "warning": "Üç nokta asimptotik bölgeyi tek başına kanıtlamaz; şok/mod takibi ayrıca incelenmeli."
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": -0.0001259311683080716,
+          "percent": -0.15323274375465684
+        },
+        {
+          "absolute": -0.00012620554330806943,
+          "percent": -0.15356660259700872
+        },
+        {
+          "absolute": -0.00012964804330808932,
+          "percent": -0.15775542834575423
+        }
+      ],
+      "error_fine": {
+        "absolute": -0.0001259311683080716,
+        "percent": -0.15323274375465684
+      },
+      "relative_spread": 4.5296254604722614e-05
+    },
+    "UD45S_TX_L1_s11": {
+      "values_fine_to_coarse": [
+        1145131.47265625,
+        1145104.40625,
+        1145106.9375
+      ],
+      "convergence": {
+        "status": "OSCILLATORY",
+        "reason": "Monoton yakınsama yok"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": 45.389442475512624,
+          "percent": 0.003963845438425343
+        },
+        {
+          "absolute": 18.323036225512624,
+          "percent": 0.0016001448706884618
+        },
+        {
+          "absolute": 20.854286225512624,
+          "percent": 0.0018211981204926903
+        }
+      ],
+      "error_fine": {
+        "absolute": 45.389442475512624,
+        "percent": 0.003963845438425343
+      },
+      "relative_spread": 2.3636068780134646e-05
+    },
+    "UD45S_TX_L2_s11": {
+      "values_fine_to_coarse": [
+        1145131.296875,
+        1145103.359375,
+        1145108.40625
+      ],
+      "convergence": {
+        "status": "OSCILLATORY",
+        "reason": "Monoton yakınsama yok"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": 45.213661225745454,
+          "percent": 0.003948494518320383
+        },
+        {
+          "absolute": 17.276161225745454,
+          "percent": 0.001508721613073713
+        },
+        {
+          "absolute": 22.323036225745454,
+          "percent": 0.0019494635864488105
+        }
+      ],
+      "error_fine": {
+        "absolute": 45.213661225745454,
+        "percent": 0.003948494518320383
+      },
+      "relative_spread": 2.439676574750851e-05
+    },
+    "UD45S_TX_L3_s11": {
+      "values_fine_to_coarse": [
+        1145131.296875,
+        1145103.359375,
+        1145108.40625
+      ],
+      "convergence": {
+        "status": "OSCILLATORY",
+        "reason": "Monoton yakınsama yok"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": 45.213661225745454,
+          "percent": 0.003948494518320383
+        },
+        {
+          "absolute": 17.276161225745454,
+          "percent": 0.001508721613073713
+        },
+        {
+          "absolute": 22.323036225745454,
+          "percent": 0.0019494635864488105
+        }
+      ],
+      "error_fine": {
+        "absolute": 45.213661225745454,
+        "percent": 0.003948494518320383
+      },
+      "relative_spread": 2.439676574750851e-05
+    },
+    "UD45S_TX_L4_s11": {
+      "values_fine_to_coarse": [
+        1145131.47265625,
+        1145104.40625,
+        1145106.9375
+      ],
+      "convergence": {
+        "status": "OSCILLATORY",
+        "reason": "Monoton yakınsama yok"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": 45.389442475745454,
+          "percent": 0.003963845438445676
+        },
+        {
+          "absolute": 18.323036225745454,
+          "percent": 0.0016001448707087952
+        },
+        {
+          "absolute": 20.854286225745454,
+          "percent": 0.0018211981205130236
+        }
+      ],
+      "error_fine": {
+        "absolute": 45.389442475745454,
+        "percent": 0.003963845438445676
+      },
+      "relative_spread": 2.3636068780134646e-05
+    },
+    "SKIN_F_Ex": {
+      "values_fine_to_coarse": [
+        5478035949.633327,
+        5478398526.737966,
+        5478189130.782621
+      ],
+      "convergence": {
+        "status": "OSCILLATORY",
+        "reason": "Monoton yakınsama yok"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": 182705.95981311798,
+          "percent": 0.003335356967150022
+        },
+        {
+          "absolute": 545283.0644521713,
+          "percent": 0.009954320428024063
+        },
+        {
+          "absolute": 335887.1091079712,
+          "percent": 0.006131728875648397
+        }
+      ],
+      "error_fine": {
+        "absolute": 182705.95981311798,
+        "percent": 0.003335356967150022
+      },
+      "relative_spread": 6.618304653621917e-05
+    },
+    "SKIN_F_Ey": {
+      "values_fine_to_coarse": [
+        5478035949.633327,
+        5478398526.737966,
+        5478189130.782621
+      ],
+      "convergence": {
+        "status": "OSCILLATORY",
+        "reason": "Monoton yakınsama yok"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": 182705.9598121643,
+          "percent": 0.0033353569671326112
+        },
+        {
+          "absolute": 545283.0644512177,
+          "percent": 0.009954320428006652
+        },
+        {
+          "absolute": 335887.1091070175,
+          "percent": 0.0061317288756309865
+        }
+      ],
+      "error_fine": {
+        "absolute": 182705.9598121643,
+        "percent": 0.0033353569671326112
+      },
+      "relative_spread": 6.618304653621917e-05
+    },
+    "SKIN_F_Gxy": {
+      "values_fine_to_coarse": [
+        9129615279.122211,
+        9130086314.781807,
+        9128557760.930937
+      ],
+      "convergence": {
+        "status": "OSCILLATORY",
+        "reason": "Monoton yakınsama yok"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": 75327.54836273193,
+          "percent": 0.0008250968697469379
+        },
+        {
+          "absolute": 546363.2079582214,
+          "percent": 0.005984564510986487
+        },
+        {
+          "absolute": -982190.642911911,
+          "percent": -0.010758380467381496
+        }
+      ],
+      "error_fine": {
+        "absolute": 75327.54836273193,
+        "percent": 0.0008250968697469379
+      },
+      "relative_spread": 0.00016741943045986004
+    },
+    "SKIN_F_D11beam": {
+      "values_fine_to_coarse": [
+        27.1597747078583,
+        27.1597648724835,
+        27.160091902508295
+      ],
+      "convergence": {
+        "status": "OSCILLATORY",
+        "reason": "Monoton yakınsama yok"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": 6.484797465944325e-05,
+          "percent": 0.00023876534393773923
+        },
+        {
+          "absolute": 5.5012599858628164e-05,
+          "percent": 0.00020255223690693672
+        },
+        {
+          "absolute": 0.0003820426246541331,
+          "percent": 0.0014066520836381639
+        }
+      ],
+      "error_fine": {
+        "absolute": 6.484797465944325e-05,
+        "percent": 0.00023876534393773923
+      },
+      "relative_spread": 1.2040829094738923e-05
+    },
+    "SKIN_F_wB3": {
+      "values_fine_to_coarse": [
+        0.004909788041666666,
+        0.00490978675,
+        0.004909775083333333
+      ],
+      "convergence": {
+        "status": "ESTIMATED",
+        "observed_order": 3.1750867073088944,
+        "richardson": 0.004909788202476572,
+        "fine_gci_absolute": 2.010123826413544e-10,
+        "fine_gci_pct": 4.09411528431519e-06,
+        "r21": 2.0,
+        "r32": 2.0,
+        "warning": "Üç nokta asimptotik bölgeyi tek başına kanıtlamaz; şok/mod takibi ayrıca incelenmeli."
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": -1.921860234968542e-06,
+          "percent": -0.03912812998635095
+        },
+        {
+          "absolute": -1.923151901634529e-06,
+          "percent": -0.03915442768494847
+        },
+        {
+          "absolute": -1.9348185683011263e-06,
+          "percent": -0.03939195528530778
+        }
+      ],
+      "error_fine": {
+        "absolute": -1.921860234968542e-06,
+        "percent": -0.03912812998635095
+      },
+      "relative_spread": 2.639285692704845e-06
+    },
+    "SKIN_F_TX_L1_s11": {
+      "values_fine_to_coarse": [
+        466527.81640624994,
+        466534.3312500001,
+        466541.4843750001
+      ],
+      "convergence": {
+        "status": "ESTIMATED",
+        "observed_order": 0.1348430745784432,
+        "richardson": 466461.3203449931,
+        "fine_gci_absolute": 83.1200765710674,
+        "fine_gci_pct": 0.017816746107736238,
+        "r21": 2.0,
+        "r32": 2.0,
+        "warning": "Üç nokta asimptotik bölgeyi tek başına kanıtlamaz; şok/mod takibi ayrıca incelenmeli."
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": -127.53740335488692,
+          "percent": -0.027330106108012665
+        },
+        {
+          "absolute": -121.02255960472394,
+          "percent": -0.025934034318205013
+        },
+        {
+          "absolute": -113.8694346047123,
+          "percent": -0.02440118465911161
+        }
+      ],
+      "error_fine": {
+        "absolute": -127.53740335488692,
+        "percent": -0.027330106108012665
+      },
+      "relative_spread": 2.9296363148680864e-05
+    },
+    "SKIN_F_TX_L3_s11": {
+      "values_fine_to_coarse": [
+        466527.81640624994,
+        466534.3312500001,
+        466541.484375
+      ],
+      "convergence": {
+        "status": "ESTIMATED",
+        "observed_order": 0.1348430745549637,
+        "richardson": 466461.320344981,
+        "fine_gci_absolute": 83.1200765862274,
+        "fine_gci_pct": 0.017816746110985777,
+        "r21": 2.0,
+        "r32": 2.0,
+        "warning": "Üç nokta asimptotik bölgeyi tek başına kanıtlamaz; şok/mod takibi ayrıca incelenmeli."
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": -127.53740335488692,
+          "percent": -0.027330106108012665
+        },
+        {
+          "absolute": -121.02255960472394,
+          "percent": -0.025934034318205013
+        },
+        {
+          "absolute": -113.86943460482871,
+          "percent": -0.024401184659136557
+        }
+      ],
+      "error_fine": {
+        "absolute": -127.53740335488692,
+        "percent": -0.027330106108012665
+      },
+      "relative_spread": 2.9296363148431345e-05
+    },
+    "CAP_Ex": {
+      "values_fine_to_coarse": [
+        9136110401.60154,
+        9134107517.449215,
+        9131468531.148825
+      ],
+      "convergence": {
+        "status": "ESTIMATED",
+        "observed_order": 0.39790488384213785,
+        "richardson": 9142416849.299969,
+        "fine_gci_absolute": 7883059.623035266,
+        "fine_gci_pct": 0.08628463620200325,
+        "r21": 2.0,
+        "r32": 2.0,
+        "warning": "Üç nokta asimptotik bölgeyi tek başına kanıtlamaz; şok/mod takibi ayrıca incelenmeli."
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": 5677238.128894806,
+          "percent": 0.062179285771536606
+        },
+        {
+          "absolute": 3674353.9765701294,
+          "percent": 0.04024293164172986
+        },
+        {
+          "absolute": 1035367.6761798859,
+          "percent": 0.011339743226224953
+        }
+      ],
+      "error_fine": {
+        "absolute": 5677238.128894806,
+        "percent": 0.062179285771536606
+      },
+      "relative_spread": 0.0005080795052456033
+    },
+    "CAP_Ey": {
+      "values_fine_to_coarse": [
+        6870005874.99527,
+        6870374312.61511,
+        6869257255.025263
+      ],
+      "convergence": {
+        "status": "OSCILLATORY",
+        "reason": "Monoton yakınsama yok"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": 930086.2369470596,
+          "percent": 0.013540194715411418
+        },
+        {
+          "absolute": 1298523.8567876816,
+          "percent": 0.018903909299018043
+        },
+        {
+          "absolute": 181466.26694011688,
+          "percent": 0.002641785773234558
+        }
+      ],
+      "error_fine": {
+        "absolute": 930086.2369470596,
+        "percent": 0.013540194715411418
+      },
+      "relative_spread": 0.00016259049929731888
+    },
+    "CAP_Gxy": {
+      "values_fine_to_coarse": [
+        8383345847.158672,
+        8383810783.828699,
+        8381195869.796437
+      ],
+      "convergence": {
+        "status": "OSCILLATORY",
+        "reason": "Monoton yakınsama yok"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": 587771.8881759644,
+          "percent": 0.0070116766212055814
+        },
+        {
+          "absolute": 1052708.5582027435,
+          "percent": 0.012558021462032644
+        },
+        {
+          "absolute": -1562205.474059105,
+          "percent": -0.018635936526281004
+        }
+      ],
+      "error_fine": {
+        "absolute": 587771.8881759644,
+        "percent": 0.0070116766212055814
+      },
+      "relative_spread": 0.0003119004113625374
+    },
+    "CAP_D11beam": {
+      "values_fine_to_coarse": [
+        75.67973074564503,
+        75.68036458561588,
+        75.68601042993593
+      ],
+      "convergence": {
+        "status": "ESTIMATED",
+        "observed_order": 3.154998802004953,
+        "richardson": 75.67965058747264,
+        "fine_gci_absolute": 0.00010019771548695457,
+        "fine_gci_pct": 0.00013239702956094413,
+        "r21": 2.0,
+        "r32": 2.0,
+        "warning": "Üç nokta asimptotik bölgeyi tek başına kanıtlamaz; şok/mod takibi ayrıca incelenmeli."
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": -0.017130844616119134,
+          "percent": -0.022630851869191785
+        },
+        {
+          "absolute": -0.016497004645273705,
+          "percent": -0.021793512040922107
+        },
+        {
+          "absolute": -0.010851160325216824,
+          "percent": -0.014335020101563749
+        }
+      ],
+      "error_fine": {
+        "absolute": -0.017130844616119134,
+        "percent": -0.022630851869191785
+      },
+      "relative_spread": 8.29702114727733e-05
+    },
+    "CAP_wB3": {
+      "values_fine_to_coarse": [
+        0.0017629273125,
+        0.0017629089583333331,
+        0.0017628264166666666
+      ],
+      "convergence": {
+        "status": "ESTIMATED",
+        "observed_order": 2.1690149559600815,
+        "richardson": 0.0017629325608027697,
+        "fine_gci_absolute": 6.560378462166659e-09,
+        "fine_gci_pct": 0.0003721298329006778,
+        "r21": 2.0,
+        "r32": 2.0,
+        "warning": "Üç nokta asimptotik bölgeyi tek başına kanıtlamaz; şok/mod takibi ayrıca incelenmeli."
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": -1.4162082281844388e-08,
+          "percent": -0.0008033211814476148
+        },
+        {
+          "absolute": -3.251624894860805e-08,
+          "percent": -0.0018444315604017757
+        },
+        {
+          "absolute": -1.1505791561519652e-07,
+          "percent": -0.0065264739229337594
+        }
+      ],
+      "error_fine": {
+        "absolute": -1.4162082281844388e-08,
+        "percent": -0.0008033211814476148
+      },
+      "relative_spread": 5.723198717153696e-05
+    },
+    "CAP_TX_L1_s11": {
+      "values_fine_to_coarse": [
+        686409.5847656253,
+        686565.57890625,
+        686964.6843750001
+      ],
+      "convergence": {
+        "status": "ESTIMATED",
+        "observed_order": 1.3552782072381215,
+        "richardson": 686309.4899979448,
+        "fine_gci_absolute": 125.1184596006611,
+        "fine_gci_pct": 0.018227959279354007,
+        "r21": 2.0,
+        "r32": 2.0,
+        "warning": "Üç nokta asimptotik bölgeyi tek başına kanıtlamaz; şok/mod takibi ayrıca incelenmeli."
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": 56.1066776746884,
+          "percent": 0.008174603825275404
+        },
+        {
+          "absolute": 212.10081829933915,
+          "percent": 0.030902563339550843
+        },
+        {
+          "absolute": 611.2062870494556,
+          "percent": 0.08905124058701637
+        }
+      ],
+      "error_fine": {
+        "absolute": 56.1066776746884,
+        "percent": 0.008174603825275404
+      },
+      "relative_spread": 0.0008080467919246771
+    },
+    "CAP_TX_L2_s11": {
+      "values_fine_to_coarse": [
+        129736.27343750006,
+        130331.96718749996,
+        130114.46874999999
+      ],
+      "convergence": {
+        "status": "OSCILLATORY",
+        "reason": "Monoton yakınsama yok"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": -1472.124389769364,
+          "percent": -1.1219742136531203
+        },
+        {
+          "absolute": -876.43063976946,
+          "percent": -0.6679684031530098
+        },
+        {
+          "absolute": -1093.9290772694367,
+          "percent": -0.8337340409487739
+        }
+      ],
+      "error_fine": {
+        "absolute": -1472.124389769364,
+        "percent": -1.1219742136531203
+      },
+      "relative_spread": 0.0045705881899482026
+    },
+    "CAP_TX_L4_s12": {
+      "values_fine_to_coarse": [
+        -425909.2031250003,
+        -426070.8257812498,
+        -426153.26249999995
+      ],
+      "convergence": {
+        "status": "NO_OBSERVED_ORDER",
+        "reason": "0.05 < p < 10 içinde pozitif mertebe bulunamadı"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": 321.5714099899051,
+          "percent": 0.07544537588604049
+        },
+        {
+          "absolute": 159.94875374040566,
+          "percent": 0.03752632688592389
+        },
+        {
+          "absolute": 77.51203499024268,
+          "percent": 0.018185461872105988
+        }
+      ],
+      "error_fine": {
+        "absolute": 321.5714099899051,
+        "percent": 0.07544537588604049
+      },
+      "relative_spread": 0.0005727032888775841
+    },
+    "WEB_Ex": {
+      "values_fine_to_coarse": [
+        15578281769.901447,
+        15578281769.901447,
+        15578281769.901447
+      ],
+      "convergence": {
+        "status": "EXACT_OR_ROUNDOFF",
+        "reason": "Farklar sıfır/yuvarlama düzeyinde; p ve GCI tanımsız"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": -3045.2047691345215,
+          "percent": -1.9547753846313014e-05
+        },
+        {
+          "absolute": -3045.2047691345215,
+          "percent": -1.9547753846313014e-05
+        },
+        {
+          "absolute": -3045.2047691345215,
+          "percent": -1.9547753846313014e-05
+        }
+      ],
+      "error_fine": {
+        "absolute": -3045.2047691345215,
+        "percent": -1.9547753846313014e-05
+      },
+      "relative_spread": 0.0
+    },
+    "WEB_Ey": {
+      "values_fine_to_coarse": [
+        15578281769.901447,
+        15578281769.901447,
+        15578281769.901447
+      ],
+      "convergence": {
+        "status": "EXACT_OR_ROUNDOFF",
+        "reason": "Farklar sıfır/yuvarlama düzeyinde; p ve GCI tanımsız"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": -3045.2047691345215,
+          "percent": -1.9547753846313014e-05
+        },
+        {
+          "absolute": -3045.2047691345215,
+          "percent": -1.9547753846313014e-05
+        },
+        {
+          "absolute": -3045.2047691345215,
+          "percent": -1.9547753846313014e-05
+        }
+      ],
+      "error_fine": {
+        "absolute": -3045.2047691345215,
+        "percent": -1.9547753846313014e-05
+      },
+      "relative_spread": 0.0
+    },
+    "WEB_Gxy": {
+      "values_fine_to_coarse": [
+        26190476986.890606,
+        26190476987.703945,
+        26190476986.920193
+      ],
+      "convergence": {
+        "status": "EXACT_OR_ROUNDOFF",
+        "reason": "Farklar sıfır/yuvarlama düzeyinde; p ve GCI tanımsız"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": 796.414421081543,
+          "percent": 3.0408550623113467e-06
+        },
+        {
+          "absolute": 797.2277603149414,
+          "percent": 3.0439605393843222e-06
+        },
+        {
+          "absolute": 796.4440078735352,
+          "percent": 3.0409680300625894e-06
+        }
+      ],
+      "error_fine": {
+        "absolute": 796.414421081543,
+        "percent": 3.0408550623113467e-06
+      },
+      "relative_spread": 3.105476978446359e-11
+    },
+    "WEB_D11beam": {
+      "values_fine_to_coarse": [
+        0.1976798535236211,
+        0.19767980720976658,
+        0.1976884219602255
+      ],
+      "convergence": {
+        "status": "OSCILLATORY",
+        "reason": "Monoton yakınsama yok"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": 1.119028501250785e-07,
+          "percent": 5.6608152766484817e-05
+        },
+        {
+          "absolute": 6.558899559583331e-08,
+          "percent": 3.317942195698501e-05
+        },
+        {
+          "absolute": 8.68033945453095e-06,
+          "percent": 0.00439111230283947
+        }
+      ],
+      "error_fine": {
+        "absolute": 1.119028501250785e-07,
+        "percent": 5.6608152766484817e-05
+      },
+      "relative_spread": 4.357741527558142e-05
+    },
+    "WEB_wB3": {
+      "values_fine_to_coarse": [
+        0.28373999999999994,
+        0.2837387458333334,
+        0.28371987499999995
+      ],
+      "convergence": {
+        "status": "ESTIMATED",
+        "observed_order": 3.911357147468949,
+        "richardson": 0.2837400892866997,
+        "fine_gci_absolute": 1.1160837469621527e-07,
+        "fine_gci_pct": 3.9334734156698135e-05,
+        "r21": 2.0,
+        "r32": 2.0,
+        "warning": "Üç nokta asimptotik bölgeyi tek başına kanıtlamaz; şok/mod takibi ayrıca incelenmeli."
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": -0.0008149063974173254,
+          "percent": -0.286379316995225
+        },
+        {
+          "absolute": -0.0008161605640838454,
+          "percent": -0.2868200638030725
+        },
+        {
+          "absolute": -0.0008350313974173074,
+          "percent": -0.2934517657731332
+        }
+      ],
+      "error_fine": {
+        "absolute": -0.0008149063974173254,
+        "percent": -0.286379316995225
+      },
+      "relative_spread": 7.092760978354116e-05
+    },
+    "WEB_TX_L1_s12": {
+      "values_fine_to_coarse": [
+        -936329.6000000081,
+        -936329.599999998,
+        -936329.6000000006
+      ],
+      "convergence": {
+        "status": "EXACT_OR_ROUNDOFF",
+        "reason": "Farklar sıfır/yuvarlama düzeyinde; p ve GCI tanımsız"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": -0.011985026532784104,
+          "percent": -1.280000833701342e-06
+        },
+        {
+          "absolute": -0.011985016404651105,
+          "percent": -1.2799997520167376e-06
+        },
+        {
+          "absolute": -0.011985018965788186,
+          "percent": -1.2800000255461779e-06
+        }
+      ],
+      "error_fine": {
+        "absolute": -0.011985026532784104,
+        "percent": -1.280000833701342e-06
+      },
+      "relative_spread": 1.0816845904415754e-14
+    }
+  },
+  "reasons": [],
+  "note": "Eşikler iter5 mühendislik taramasıdır; deney belirsizliği ve fiziksel tasarım kabulü yerine geçmez."
+}

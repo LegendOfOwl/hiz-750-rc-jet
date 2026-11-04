@@ -1,12 +1,17 @@
 """Solver gerektirmeyen anlamlı nümerik ve sonuç-durumu regresyonları."""
 import math
 from pathlib import Path
+
+import numpy as np
 import tempfile
 import unittest
 
 from validation.convergence import error, gci
 from validation.study import evaluate
 from fem.cases import frequencies, node_blocks, set_lines, tsai_wu
+from fem import clt
+from fem.coupon import element_stresses
+from fem.wing_post import tsai_wu_ratio
 from thermal.cases import energy_solution, stack_mesh
 from cfd.inlet_metrics import calculate
 from cfd.cases import csv_rows, pick, coordinates
@@ -119,6 +124,72 @@ class FemTests(unittest.TestCase):
 
     def test_ccx_set_line_limit(self):
         self.assertEqual([len(s.split(',')) for s in set_lines(range(33))], [16, 16, 1])
+
+
+class CltTests(unittest.TestCase):
+    """Bağımsız kapalı formlarla CLT (fem/clt.py) doğrulaması; CalculiX kupon benchmarkının referansıdır."""
+    UD = dict(E1=125e9, E2=9e9, nu12=.3, G12=5e9, G13=5e9, G23=3.5e9)
+
+    def test_single_ply_axes_and_rotation(self):
+        e = clt.engineering_constants([(self.UD, 1e-3, 0.)])
+        for key, ref in (("Ex", 125e9), ("Ey", 9e9), ("Gxy", 5e9), ("nuxy", .3)):
+            self.assertAlmostEqual(e[key] / ref, 1., places=10)
+        self.assertAlmostEqual(clt.engineering_constants([(self.UD, 1e-3, 90.)])["Ex"] / 9e9, 1., places=10)
+        # Lekhnitskii dönüşümü: 1/Ex(θ) = c^4/E1 + (1/G12 - 2nu12/E1) s^2 c^2 + s^4/E2
+        for theta in (15., 30., 45., 60.):
+            c, s_ = math.cos(math.radians(theta)), math.sin(math.radians(theta))
+            inv = c**4 / 125e9 + (1 / 5e9 - 2 * .3 / 125e9) * s_**2 * c**2 + s_**4 / 9e9
+            self.assertAlmostEqual(clt.engineering_constants([(self.UD, 1e-3, theta)])["Ex"] * inv, 1., places=10)
+        q0, q180 = clt.q_bar(self.UD, 20.), clt.q_bar(self.UD, 200.)
+        self.assertTrue(abs(q0 - q180).max() < 1e-6 * abs(q0).max())
+
+    def test_coupling_and_bending_closed_forms(self):
+        t = .2e-3
+        a, b, d, h = clt.abd([(self.UD, t, 0.), (self.UD, t, 90.)])
+        q = clt.q_matrix(self.UD)
+        self.assertAlmostEqual(b[0, 0] / ((q[1, 1] - q[0, 0]) * t * t / 2), 1., places=10)
+        self.assertAlmostEqual(b[1, 1], -b[0, 0], delta=1e-9 * abs(b[0, 0]))
+        a, b, d, h = clt.abd([(self.UD, t, 0.), (self.UD, t, 90.), (self.UD, t, 90.), (self.UD, t, 0.)])
+        self.assertTrue(abs(b).max() < 1e-12 * abs(a).max())
+        iso = dict(E1=70e9, E2=70e9, nu12=.3, G12=70e9 / 2.6)
+        e = clt.engineering_constants([(iso, 2e-3, 0.)])
+        self.assertAlmostEqual(e["D11"] / (70e9 * 8e-9 / (12 * (1 - .09))), 1., places=10)
+        self.assertAlmostEqual(e["D11_beam"] / (70e9 * 8e-9 / 12), 1., places=10)
+        w, bend, shear = clt.three_point_deflection([(iso, 2e-3, 0.)], 10., .2, .02)
+        self.assertAlmostEqual(bend / (10 * .2**3 / (48 * 70e9 * .02 * 8e-9 / 12)), 1., places=10)
+        self.assertAlmostEqual(shear / (10 * .2 / (4 * .02 * 5 / 6 * 70e9 / 2.6 * 2e-3)), 1., places=10)
+
+    def test_ply_stress_equilibrium_and_offset_reference(self):
+        lay = [(self.UD, .2e-3, 0.), (self.UD, .2e-3, 90.), (self.UD, .2e-3, 90.), (self.UD, .2e-3, 0.)]
+        plies, _ = clt.ply_stresses(lay, [1000., 0., 0.])
+        # Global sigma_x katmanlar boyunca toplamı Nx olmalı (0° katta s11, 90° katta s22 = sigma_x).
+        self.assertAlmostEqual((plies[0][0] + plies[1][1] + plies[2][1] + plies[3][0]) * .2e-3, 1000., places=6)
+        unsym = [(self.UD, .6e-3, 0.), (self.UD, .2e-3, 90.)]
+        k_mid = clt.ply_stresses(unsym, [1000., 0., 0.])[1][3:]
+        k_top = clt.ply_stresses(unsym, [1000., 0., 0.], z_ref=.8e-3)[1][3:]
+        # Referans yüzey değişince yük aynı yüzeye uygulandığından eğrilik değişir; ABD invariantı:
+        a, b, d, h = clt.abd(unsym)
+        a2, b2, d2, _ = clt.abd(unsym, z_ref=.8e-3)
+        self.assertTrue(abs(d2 - (d + 2 * (-.4e-3) * b + .4e-3**2 * a)).max() < 1e-9 * abs(d2).max())
+        self.assertFalse(np.allclose(k_mid, k_top))
+
+    def test_sandwich_shear_and_strength_ratio(self):
+        core = dict(E1=70e6, E2=70e6, nu12=.3, G12=19e6, G13=19e6, G23=19e6)
+        lay = [(self.UD, 1e-3, 0.), (core, 4e-3, 0.), (self.UD, 1e-3, 0.)]
+        self.assertAlmostEqual(clt.shear_stiffness(lay, 1) / (19e6 * 5e-3**2 / 4e-3), 1., places=10)
+        mat = dict(Xt=1000., Xc=800., Yt=50., Yc=150., S12=60., F12=-.5 / math.sqrt(1000 * 800 * 50 * 150))
+        for stress in ((300., 10., 5.), (-200., -40., 20.), (0., 0., 30.)):
+            r = tsai_wu_ratio(*stress, mat)
+            self.assertAlmostEqual(tsai_wu(*(r * v for v in stress), mat), 1., places=10)
+
+    def test_composite_stress_parser_ignores_orientation_name_digits(self):
+        text = "\n".join([
+            " stresses (elem, integ.pnt.,sxx,syy,szz,sxy,sxz,syz) for set E and time  0.1E+01", "",
+            "         7   9  1.0E+06 -2.0E+05  0.0E+00  3.0E+04  0.0E+00  0.0E+00 OR12_shell_0000000007", "",
+            " stresses (elem, integ.pnt.,sxx,syy,szz,sxy,sxz,syz) for set E and time  0.2E+01", "",
+            "         7   9  9.0E+09  0.0E+00  0.0E+00  0.0E+00  0.0E+00  0.0E+00 OR12_shell_0000000007", ""])
+        s = element_stresses(text)
+        self.assertEqual(s[(7, 9)], [1e6, -2e5, 0., 3e4, 0., 0.])  # yalnız ilk (statik) blok
 
 
 if __name__ == "__main__":

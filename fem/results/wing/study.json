@@ -1,5 +1,379 @@
 {
-  "status": "PENDING",
-  "reason": "Üç ağ sonucu bekleniyor",
-  "metrics": {}
+  "status": "REVIEW_REQUIRED",
+  "case": "wing",
+  "metrics": {
+    "tip_deflection_m": {
+      "values_fine_to_coarse": [
+        0.04769263742186562,
+        0.04773073564903031,
+        0.04769418656608679
+      ],
+      "convergence": {
+        "status": "OSCILLATORY",
+        "reason": "Monoton yakınsama yok"
+      },
+      "errors_fine_to_coarse": [
+        null,
+        null,
+        null
+      ],
+      "error_fine": null
+    },
+    "tip_w_max_m": {
+      "values_fine_to_coarse": [
+        0.05004577,
+        0.05008705,
+        0.05005231
+      ],
+      "convergence": {
+        "status": "OSCILLATORY",
+        "reason": "Monoton yakınsama yok"
+      },
+      "errors_fine_to_coarse": [
+        null,
+        null,
+        null
+      ],
+      "error_fine": null
+    },
+    "tip_twist_deg": {
+      "values_fine_to_coarse": [
+        2.0314796354479188,
+        2.032147454401617,
+        2.01871830954871
+      ],
+      "convergence": {
+        "status": "OSCILLATORY",
+        "reason": "Monoton yakınsama yok"
+      },
+      "errors_fine_to_coarse": [
+        null,
+        null,
+        null
+      ],
+      "error_fine": null
+    },
+    "tsai_wu_R_min": {
+      "values_fine_to_coarse": [
+        1.8805143707132315,
+        2.2555561947157834,
+        2.893153672453111
+      ],
+      "convergence": {
+        "status": "ESTIMATED",
+        "observed_order": 0.7655944308173512,
+        "richardson": 1.3447941614914285,
+        "fine_gci_absolute": 0.6696502615272536,
+        "fine_gci_pct": 35.60995182787527,
+        "r21": 2.0,
+        "r32": 2.0,
+        "warning": "Üç nokta asimptotik bölgeyi tek başına kanıtlamaz; şok/mod takibi ayrıca incelenmeli."
+      },
+      "errors_fine_to_coarse": [
+        null,
+        null,
+        null
+      ],
+      "error_fine": null
+    },
+    "tsai_wu_R_min_ex_root": {
+      "values_fine_to_coarse": [
+        3.6610187323430994,
+        3.5168638779435613,
+        3.684316703370124
+      ],
+      "convergence": {
+        "status": "OSCILLATORY",
+        "reason": "Monoton yakınsama yok"
+      },
+      "errors_fine_to_coarse": [
+        null,
+        null,
+        null
+      ],
+      "error_fine": null
+    },
+    "tsai_wu_R_min_kd": {
+      "values_fine_to_coarse": [
+        1.022999817667998,
+        1.2270225699253863,
+        1.5738755978144925
+      ],
+      "convergence": {
+        "status": "ESTIMATED",
+        "observed_order": 0.7655944308173512,
+        "richardson": 0.7315680238513371,
+        "fine_gci_absolute": 0.36428974227082606,
+        "fine_gci_pct": 35.609951827875285,
+        "r21": 2.0,
+        "r32": 2.0,
+        "warning": "Üç nokta asimptotik bölgeyi tek başına kanıtlamaz; şok/mod takibi ayrıca incelenmeli."
+      },
+      "errors_fine_to_coarse": [
+        null,
+        null,
+        null
+      ],
+      "error_fine": null
+    },
+    "tsai_wu_R_min_kd_ex_root": {
+      "values_fine_to_coarse": [
+        1.9915941903946466,
+        1.9131739496012972,
+        2.0042682866333474
+      ],
+      "convergence": {
+        "status": "OSCILLATORY",
+        "reason": "Monoton yakınsama yok"
+      },
+      "errors_fine_to_coarse": [
+        null,
+        null,
+        null
+      ],
+      "error_fine": null
+    },
+    "ud_cap_s11_min_outboard_Pa": {
+      "values_fine_to_coarse": [
+        -256984100.0,
+        -249649900.0,
+        -237066700.0
+      ],
+      "convergence": {
+        "status": "ESTIMATED",
+        "observed_order": 0.7787873435231321,
+        "richardson": -267231859.50466755,
+        "fine_gci_absolute": 12809699.380834445,
+        "fine_gci_pct": 4.984627212669751,
+        "r21": 2.0,
+        "r32": 2.0,
+        "warning": "Üç nokta asimptotik bölgeyi tek başına kanıtlamaz; şok/mod takibi ayrıca incelenmeli."
+      },
+      "errors_fine_to_coarse": [
+        null,
+        null,
+        null
+      ],
+      "error_fine": null
+    },
+    "core_shear_max_ex_root_Pa": {
+      "values_fine_to_coarse": [
+        27354.575262862334,
+        22963.804227418415,
+        17383.246834932077
+      ],
+      "convergence": {
+        "status": "ESTIMATED",
+        "observed_order": 0.34593492276011173,
+        "richardson": 43558.215665679556,
+        "fine_gci_absolute": 20254.550503521525,
+        "fine_gci_pct": 74.04447083855808,
+        "r21": 2.0,
+        "r32": 2.0,
+        "warning": "Üç nokta asimptotik bölgeyi tek başına kanıtlamaz; şok/mod takibi ayrıca incelenmeli."
+      },
+      "errors_fine_to_coarse": [
+        null,
+        null,
+        null
+      ],
+      "error_fine": null
+    },
+    "f1_Hz": {
+      "values_fine_to_coarse": [
+        39.51045,
+        39.33011,
+        39.54847
+      ],
+      "convergence": {
+        "status": "OSCILLATORY",
+        "reason": "Monoton yakınsama yok"
+      },
+      "errors_fine_to_coarse": [
+        null,
+        null,
+        null
+      ],
+      "error_fine": null
+    },
+    "f2_Hz": {
+      "values_fine_to_coarse": [
+        124.7996,
+        124.9708,
+        126.6301
+      ],
+      "convergence": {
+        "status": "ESTIMATED",
+        "observed_order": 3.2768201410359454,
+        "richardson": 124.77990411934681,
+        "fine_gci_absolute": 0.02461985081647702,
+        "fine_gci_pct": 0.019727507793676435,
+        "r21": 2.0,
+        "r32": 2.0,
+        "warning": "Üç nokta asimptotik bölgeyi tek başına kanıtlamaz; şok/mod takibi ayrıca incelenmeli."
+      },
+      "errors_fine_to_coarse": [
+        null,
+        null,
+        null
+      ],
+      "error_fine": null
+    },
+    "f3_Hz": {
+      "values_fine_to_coarse": [
+        272.5444,
+        273.0093,
+        277.6855
+      ],
+      "convergence": {
+        "status": "ESTIMATED",
+        "observed_order": 3.330344303955167,
+        "richardson": 272.49307807802813,
+        "fine_gci_absolute": 0.06415240246479721,
+        "fine_gci_pct": 0.023538330805841987,
+        "r21": 2.0,
+        "r32": 2.0,
+        "warning": "Üç nokta asimptotik bölgeyi tek başına kanıtlamaz; şok/mod takibi ayrıca incelenmeli."
+      },
+      "errors_fine_to_coarse": [
+        null,
+        null,
+        null
+      ],
+      "error_fine": null
+    },
+    "f4_Hz": {
+      "values_fine_to_coarse": [
+        284.3962,
+        283.3054,
+        286.0435
+      ],
+      "convergence": {
+        "status": "OSCILLATORY",
+        "reason": "Monoton yakınsama yok"
+      },
+      "errors_fine_to_coarse": [
+        null,
+        null,
+        null
+      ],
+      "error_fine": null
+    },
+    "f5_Hz": {
+      "values_fine_to_coarse": [
+        296.6109,
+        300.4435,
+        298.3704
+      ],
+      "convergence": {
+        "status": "OSCILLATORY",
+        "reason": "Monoton yakınsama yok"
+      },
+      "errors_fine_to_coarse": [
+        null,
+        null,
+        null
+      ],
+      "error_fine": null
+    },
+    "f_1B_Hz": {
+      "values_fine_to_coarse": [
+        39.51045,
+        39.33011,
+        39.54847
+      ],
+      "convergence": {
+        "status": "OSCILLATORY",
+        "reason": "Monoton yakınsama yok"
+      },
+      "errors_fine_to_coarse": [
+        null,
+        null,
+        null
+      ],
+      "error_fine": null
+    },
+    "f_2B_Hz": {
+      "values_fine_to_coarse": [
+        124.7996,
+        124.9708,
+        126.6301
+      ],
+      "convergence": {
+        "status": "ESTIMATED",
+        "observed_order": 3.2768201410359454,
+        "richardson": 124.77990411934681,
+        "fine_gci_absolute": 0.02461985081647702,
+        "fine_gci_pct": 0.019727507793676435,
+        "r21": 2.0,
+        "r32": 2.0,
+        "warning": "Üç nokta asimptotik bölgeyi tek başına kanıtlamaz; şok/mod takibi ayrıca incelenmeli."
+      },
+      "errors_fine_to_coarse": [
+        null,
+        null,
+        null
+      ],
+      "error_fine": null
+    },
+    "f_3B_Hz": {
+      "values_fine_to_coarse": [
+        296.6109,
+        300.4435,
+        298.3704
+      ],
+      "convergence": {
+        "status": "OSCILLATORY",
+        "reason": "Monoton yakınsama yok"
+      },
+      "errors_fine_to_coarse": [
+        null,
+        null,
+        null
+      ],
+      "error_fine": null
+    },
+    "f_1T_Hz": {
+      "values_fine_to_coarse": [
+        272.5444,
+        273.0093,
+        277.6855
+      ],
+      "convergence": {
+        "status": "ESTIMATED",
+        "observed_order": 3.330344303955167,
+        "richardson": 272.49307807802813,
+        "fine_gci_absolute": 0.06415240246479721,
+        "fine_gci_pct": 0.023538330805841987,
+        "r21": 2.0,
+        "r32": 2.0,
+        "warning": "Üç nokta asimptotik bölgeyi tek başına kanıtlamaz; şok/mod takibi ayrıca incelenmeli."
+      },
+      "errors_fine_to_coarse": [
+        null,
+        null,
+        null
+      ],
+      "error_fine": null
+    },
+    "f_1IP_Hz": {
+      "values_fine_to_coarse": [
+        284.3962,
+        283.3054,
+        286.0435
+      ],
+      "convergence": {
+        "status": "OSCILLATORY",
+        "reason": "Monoton yakınsama yok"
+      },
+      "errors_fine_to_coarse": [
+        null,
+        null,
+        null
+      ],
+      "error_fine": null
+    }
+  },
+  "reasons": [],
+  "note": "Eşikler iter5 mühendislik taramasıdır; deney belirsizliği ve fiziksel tasarım kabulü yerine geçmez."
 }

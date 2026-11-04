@@ -95,16 +95,28 @@ def evaluate(directory):
     case = rows[0]["case"]
     targets = {"cantilever": ("tip_deflection_m", "f1_Hz"), "thermal_1d": ("outer_K", "heat_flux_W_m2"),
                "rae2822": ("cl", "cd"), "flat_plate": ("cf_mean",)}.get(case, ())
+    if case == "coupon":
+        # Homojen membran durumları ağdan bağımsızdır; yuvarlama düzeyindeki salınımda GCI tanımsızdır.
+        # Bu durumda üç ağın bağıl yayılımı <= kabul eşiğinin 1/4'ü ve üç ağın her biri eşik içinde olmalı.
+        targets = tuple(rows[0].get("acceptance_metrics", ()))
     accepted = bool(targets) and all(r["status"] == "COMPUTED" and not r.get("diagnostic") for r in rows)
     reasons = []
     for name in targets:
         conv = metrics[name]["convergence"]
+        if case == "coupon":
+            values = metrics[name]["values_fine_to_coarse"]
+            spread = (max(values) - min(values)) / max(abs(v) for v in values)
+            metrics[name]["relative_spread"] = spread
+            limit = rows[0].get("acceptance_limit_pct", 2)
+            each = [abs((r.get("errors", {}).get(name) or {}).get("percent", float("inf"))) for r in rows]
+            if conv["status"] not in ("ESTIMATED", "EXACT_OR_ROUNDOFF") and spread <= limit / 400 and max(each) <= limit:
+                continue
         if conv["status"] not in ("ESTIMATED", "EXACT_OR_ROUNDOFF"):
             accepted = False; reasons.append(f"{name}: GCI {conv['status']}")
         if conv.get("fine_gci_pct", 0) is not None and conv.get("fine_gci_pct", 0) > 5:
             accepted = False; reasons.append(f"{name}: GCI > %5")
-    if case in ("cantilever", "thermal_1d", "rae2822"):
-        limits = {"cantilever": 2, "thermal_1d": .1, "rae2822": 5}
+    if case in ("cantilever", "thermal_1d", "rae2822", "coupon"):
+        limits = {"cantilever": 2, "thermal_1d": .1, "rae2822": 5, "coupon": rows[0].get("acceptance_limit_pct", 2)}
         for name in targets:
             e = rows[0].get("errors", {}).get(name, {}).get("percent")
             limit = 15 if name == "cd" else limits[case]

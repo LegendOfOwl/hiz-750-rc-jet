@@ -15,6 +15,7 @@ CASES = {
     "rae2822": ("validation", "cfd", (), "15–90 dk/ağ/model; tahmin"),
     "flat_plate": ("validation", "cfd", (), "5–30 dk/ağ/model; tahmin"),
     "cantilever": ("validation", "fem", (), "<2 dk/ağ; tahmin"),
+    "coupon": ("validation", "fem", (), "<1 dk/ağ; CLT kompozit kabuk kuponu"),
     "thermal_1d": ("validation", "thermal", (), "<1 dk/ağ; tahmin"),
     "airfoil": ("cfd", "cfd", ("rae2822", "flat_plate"), "10–60 dk/nokta/ağ/model; tahmin"),
     "aircraft": ("cfd", "cfd", ("rae2822", "flat_plate"), "1–6 saat/ağ; pilot koşuyla ölçülmeli"),
@@ -32,6 +33,8 @@ def case_id(args):
         key += f"_M{args.mach:.4f}_A{args.alpha:.4f}"
     if args.case == "aircraft":
         key += f"_A{args.alpha:.4f}"
+    if args.case == "wing" and getattr(args, "wing_fuel", "full") == "empty":
+        key += "_empty"
     if args.case == "engine_thermal":
         key += f"_T{args.motor_C:g}_F{args.felt_mm:g}"
         if args.thermal_inputs and args.thermal_inputs.is_file():
@@ -131,6 +134,7 @@ def parser():
     p.add_argument("--mach", type=float, default=.61)
     p.add_argument("--motor-C", type=float, default=250.)
     p.add_argument("--felt-mm", type=float, default=0.)
+    p.add_argument("--wing-fuel", choices=("full", "empty"), default="full", help="Kanat tankı dolu/boş kütle")
     p.add_argument("--tools", type=Path, default=ROOT / "validation/tools.local.json")
     for flag in ("airfoil", "reference", "mesh", "mesh-review", "deck", "thermal-inputs"):
         p.add_argument("--" + flag, type=Path)

@@ -14,7 +14,7 @@
   "reason": null,
   "design_accepted": false,
   "provenance": {
-    "utc": "2026-11-04T16:42:16.495851+00:00",
+    "utc": "2026-11-04T19:37:08.983787+00:00",
     "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
     "packages": {
       "gmsh": "4.15.2",
@@ -23,38 +23,44 @@
       "aerosandbox": "4.2.10",
       "matplotlib": "3.11.2"
     },
-    "params_sha256": "7f01e01ca9c785d252e0b56c8cd462026dd1eb7ba49c724ac6f6e92a86373ecd",
+    "params_sha256": "e5d0fbfb4d51757613c47971e20b32292c6469e33742318aa9cc169a8e407f6c",
     "inputs": {
-      "C:\\Users\\Urungu\\.claude\\claudex\\worktrees\\J3A5\\structures\\structures.py": "184b745c6502ecde5f2b7f12454b79f335ba7ee710ee172d16235fe02de47496",
-      "C:\\Users\\Urungu\\.claude\\claudex\\worktrees\\J3A5\\structures\\fe_modal.py": "d9d219f8d247ec6a5e8305a6316e921170dd4c8304c920bd0df99b8d9d4ad3b1",
-      "C:\\Users\\Urungu\\.claude\\claudex\\worktrees\\J3A5\\aero\\aero_analysis.py": "736b1316370c6bec2155b94b0e6830b452d226fbd694476b75168c069f650376",
-      "C:\\Users\\Urungu\\.claude\\claudex\\worktrees\\J3A5\\performance\\inlet_analysis.py": "baf48a026581019d6edb5c7fdd2a1db838bedf375d671e36cc4c439cf18aa11e",
-      "C:\\Users\\Urungu\\.claude\\claudex\\worktrees\\J3A5\\cad\\out\\cad_report.json": "503ce7c71cc87fec1f23029e4daff953b1b0264496afb8a395e2b56388bdd622"
+      "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\structures\\structures.py": "184b745c6502ecde5f2b7f12454b79f335ba7ee710ee172d16235fe02de47496",
+      "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\structures\\fe_modal.py": "d9d219f8d247ec6a5e8305a6316e921170dd4c8304c920bd0df99b8d9d4ad3b1",
+      "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\aero\\aero_analysis.py": "736b1316370c6bec2155b94b0e6830b452d226fbd694476b75168c069f650376",
+      "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\performance\\inlet_analysis.py": "baf48a026581019d6edb5c7fdd2a1db838bedf375d671e36cc4c439cf18aa11e",
+      "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\cad\\out\\cad_report.json": "503ce7c71cc87fec1f23029e4daff953b1b0264496afb8a395e2b56388bdd622"
     }
   },
   "estimated_runtime": "<2 dk/ağ; tahmin",
   "diagnostic": false,
-  "raw_directory": "C:\\hz750run\\cantilever_coarse_gsaphand",
+  "raw_directory": "C:\\hz750run\\cantilever_coarse_tdyox83q",
   "code_sha256": {
-    "validation\\__init__.py": "923575c9b9f21a8328ab5ad72dbf387fcd97023337898f524d88bd133cd06401",
-    "validation\\common.py": "274d7154a903e7b43f4eaa8a41536b42ae3204d8a13d116ba18d55ab9121c1ad",
-    "validation\\convergence.py": "57177741e9bd9b5ed2d7e5859b5962058abba64b6a45dff48559980c9a28e39e",
-    "validation\\fetch_reference.py": "0c2417336a8a8b283fc4949ee35824d962e207fcafea439aa321420cb5c1739d",
-    "validation\\report.py": "2c7319a8e6076fd3c6998804cdb477a0a3c5067e2e8dd9d9539b7da4bc006365",
-    "validation\\run_case.py": "5013e3082e5ae5de038a29b79f5d30c9aded2e5e6d2bb201699a8c6cf3a5c065",
-    "validation\\run_native_su2.py": "cf4b4488c27e90b47f37953540238e8e3dff434aadfd75970d8b1ad579e250a4",
-    "validation\\study.py": "837d929b4509a0260cd7c371d8bf0729f9d3c428e761dadc8a6678ab8c674b51",
-    "validation\\test_validation.py": "05fc0dc55bbb6e892c6b866a0fe1b73f5cc372497462cf3775992c6b86fd9a37",
-    "cfd\\cases.py": "ed8e17d18b31f6403b5aaa7f7bd3e9fb213a38a2d89f6f442636c8d8fb47f287",
-    "cfd\\draft_domains.py": "1228253fb0e3dee0301248e6663a09fb7d6cac30a1204cfb67d308beb06c0a75",
-    "cfd\\face_samples.py": "dac50ca0de6e181fa2f2ba71aeafd80620d56993829452e1d8b97a5d9f54d949",
-    "cfd\\inlet_metrics.py": "10ac196d010ce1599b18e9d5da7596afc76e2c647319ab27a05de17b20e6131d",
-    "cfd\\prepare_3d.py": "8999f6bbca80f4bb878912754590fccc9ef6cf7dabbc93a822fd99135993306c",
-    "fem\\cases.py": "8b6c71871a16ebc093ee844238e6702b72d3a7fbbaed58e44a7ad9d50d2a6e3d",
-    "fem\\export_wing_inputs.py": "47e246619f12dfd278ab40e6ee855a970185e7955e7b37665490a6595b753f14",
-    "fem\\laminate_post.py": "8bde0a6a28b22ca1aedaee922eecaf8619c4d982d9821092e6b39334960fa7f2",
-    "fem\\wing_shell.py": "a301b4893ec1c052ffbaafd4836e33535b00f688264f327b74628310f7ba6131",
-    "thermal\\cases.py": "6d9fb56e4a7e6da67225d7b224968a70be76430c3529930023811f260076cf20"
+    "validation\\__init__.py": "318a65d09bef1fd777be440b8eb9b4285b723995a4633e65336b9c38c567f47a",
+    "validation\\common.py": "740454c523dd01b8419f1bf4a21c281c346c3a3e65127ee04e14dbf2eb4dfd34",
+    "validation\\convergence.py": "31e7603e4ee00ca544881c222cb898b3b87477e17543f558b7984048b2e06a55",
+    "validation\\fetch_reference.py": "81173fc6673acd5ab27ddb967bd383685457b77abf798a0a41272a4feb9832b2",
+    "validation\\report.py": "4c423d5ddbe5710d383ae3f07ca3f81f04cf6f1d2f3bf23dd8bd331f9cf280f0",
+    "validation\\run_case.py": "3f952de187deb8bd5258338608cb6091a09562a797e343a6239d5c167c437c34",
+    "validation\\run_native_su2.py": "594c7ceb53f049767e713d84c0d6c66405cb321fc15a0ed8682f2d28adb431f2",
+    "validation\\study.py": "1e8ae7f70f7a2c4a0045b63d27229bb72e12cce862ac3a0c65b9ff90a2af0d7f",
+    "validation\\test_validation.py": "254648f8e40ca764dd07fc2368764c4c0988f4346fa2816a70b74eb638b6d1b5",
+    "cfd\\cases.py": "771cf63a82153d9e631197c25d0aed2d2051f8bd8294e1ff511111659e9e641c",
+    "cfd\\draft_domains.py": "9585362a9035920352c5fee60a5863d60797b98428ae77adf4226d3612eca79b",
+    "cfd\\face_samples.py": "098f62c8909be089d3c7618eb9d339262c98c311a19907a9b498d5d4bd6a6b0f",
+    "cfd\\inlet_metrics.py": "e9d975c4a5820fd3988ac9bfe3b6b6e9f073b68ea466f19eb104e3a89b49b004",
+    "cfd\\prepare_3d.py": "80dd17820be83bf466e9811d145d1bc98f061ec879159ecd00b71565c9657ffe",
+    "fem\\cases.py": "65175f16723b0c4a948f3ed678ca5894b3ee89829e7c6d63242daaf0a38d2096",
+    "fem\\clt.py": "6e936ef14568274eef68a471ffc9ebe390dec00b43d3fbe2ec80ffe080758701",
+    "fem\\coupon.py": "6ecb6cc2876a7f20ba54ae7bffdd994dd9613c1a9f9bf8eef067e554b2da0ca2",
+    "fem\\export_wing_inputs.py": "2129df518888c3963dec1e67bc414181e4682385245b23b2dedcaad5d41520ed",
+    "fem\\laminate_post.py": "5e34e6d15b5384f61ca968ca7359ace7adc93f9e7b1e8f8f40909e79fa1cf355",
+    "fem\\run_wing_study.py": "7914a01fa634477015d75958499b67d0e557b42580cf0f874c217d3afc64bb5f",
+    "fem\\wing_compare.py": "e27d38baeda1cb41414e4d2021504cb14cc961966866e578bad071228cee9c0f",
+    "fem\\wing_post.py": "72c78c9ec7fa849cec09f8ed6fdb5993e6f659dcfdfeee3e5c73a507b4b4beb0",
+    "fem\\wing_review.py": "4ff5c8bade3015f96cbb39626a38079ec184c049c19e224d476effc76b2c5309",
+    "fem\\wing_shell.py": "fe822741c270034714a287cc81ab273d1dfc9c210f7cbc9ea24c8f08dc935f20",
+    "thermal\\cases.py": "fe91f662ad2bbc6bc6a032576d00eeab798bab42962bdae2738ea1c2f56ce2aa"
   },
   "input_sha256": {},
   "mesh": {
@@ -79,7 +85,7 @@
   },
   "errors": {
     "tip_deflection_m": {
-      "absolute": -0.000007457280952380928,
+      "absolute": -7.457280952380928e-06,
       "percent": -1.9575362499999938
     },
     "f1_Hz": {
@@ -94,16 +100,18 @@
       "case"
     ],
     "executable_sha256": "419adbe276ac14ebd8e187a2272b058a47e366f1cffb822dfb0236e6eebe21f9",
-    "log_sha256": "bfc1f9e2ceb0abc92d904bca5c8a9095f52dfbbece8bbb81835d74d554ea3a91"
+    "log_sha256": "e9567171e78bbb53d7f3c09f9e9fcdc90fd6cd92d7287b008ea116f7d9d6f2c4"
   },
   "quality": {
-    "force_balance_relative": 0.000009999999996068709
+    "force_balance_relative": 9.999999996068709e-06
   },
   "limitations": [
     "İlk frekans otomatik olarak 1T değildir. Kanatta mod şekilleri incelenmeli.",
     "Lineer statik çözüm burkulma, yapıştırıcı, cıvata veya hasar ilerlemesini doğrulamaz."
   ],
-  "elapsed_s": 0.9690000000409782,
-  "artifacts": [],
-  "artifact_policy": "Summaries/final plots and CFD config or wing draft retained; complete raw inputs/fields remain in raw_directory."
+  "elapsed_s": 0.921000000089407,
+  "artifacts": [
+    "validation\\results\\cantilever\\coarse_plot.png",
+    "validation\\results\\cantilever\\coarse_case.inp"
+  ]
 }

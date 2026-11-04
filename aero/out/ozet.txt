@@ -1,0 +1,97 @@
+=== HIZ-750 aerodinamik/stabilite ===
+Kanat MAC=0.3122 m, x_MAC_LE=1.0817 m, S=0.42 m2, b=1.449 m
+
+[1] Profil ozet (NeuralFoil):
+   naca64a007  Re=1.5e+06: Clmax=0.75 @ 15.0 deg, Cd0=0.00371, Cm0=+0.0000, Cla=6.18/rad
+   naca64a007  Re=4.5e+06: Clmax=1.14 @ 11.5 deg, Cd0=0.00351, Cm0=+0.0000, Cla=6.07/rad
+   naca64a006  Re=1.5e+06: Clmax=0.77 @ 15.0 deg, Cd0=0.00349, Cm0=-0.0000, Cla=6.31/rad
+   naca64a006  Re=4.5e+06: Clmax=0.86 @ 8.5 deg, Cd0=0.00341, Cm0=+0.0000, Cla=6.05/rad
+   naca0006    Re=1.5e+06: Clmax=0.83 @ 8.2 deg, Cd0=0.00348, Cm0=-0.0000, Cla=6.38/rad
+   naca0006    Re=4.5e+06: Clmax=1.30 @ 13.2 deg, Cd0=0.00410, Cm0=+0.0000, Cla=6.24/rad
+   t/c=0.06: 2B M_dd(Korn, Cl=0)~0.81; 3B c/4 ok acisi ile ~0.88
+   t/c=0.07: 2B M_dd(Korn, Cl=0)~0.80; 3B c/4 ok acisi ile ~0.87
+   750 km/h M=0.613: Prandtl-Glauert Cl_alpha artisi x1.27 (2B)
+
+[2] Boylamsal kararlilik (AeroBuildup, 750 km/h, alfa 0.5 deg):
+   CL_alpha=4.918 /rad   Cm_alpha=-1.568 /rad   Cm_q=-10.17 /rad
+   Notr nokta x_np=1.2506 m (%54.1 MAC); dusuk hizda x_np=1.2441 m
+   Tam yakit CG x=1.1510 -> statik marj %31.9 MAC
+   Bos yakit CG x=1.2113 -> statik marj %12.6 MAC
+   VLM (govdesiz, M=0) CL_alpha=4.395/rad, x_np=1.2355 m (govde destabilize etkisi ~-4.8% MAC)
+   CL_de=0.619/rad  Cm_de=-1.611/rad  (2 deg sonlu fark)
+
+   Trim (yuksek hiz):
+   750 km/h tam yakit          : alfa=+0.08 deg  de=+0.08 deg  CL=0.0154  CD=0.01423  D=154 N
+   750 km/h bos                : alfa=+0.02 deg  de=+0.22 deg  CL=0.0118  CD=0.01422  D=154 N
+
+   Tek yarikli flap (cf=0.25, eta 0.12-0.50, Sflap/S=0.45, tau=0.61, Helmbold a_t=3.66/rad):
+   [nominal] 2B Dcl_max=1.37: flap 35 deg dCLmax=+0.537, dCL0=+0.497, dCm0 kanat=-0.098 / +kuyruk downwash=+0.012, dCD=+0.0208
+   [nominal] CLmax temiz=0.62 -> inis 1.11 (trimli), kalkis(18 deg) 0.89; Vs inis (14.0 kg)=79 km/h, Vs kalkis (17.0 kg)=97 km/h, temas 1.1Vs=87 km/h
+   [muhafazakar] 2B Dcl_max=0.90: flap 35 deg dCLmax=+0.354, dCL0=+0.497, dCm0 kanat=-0.098 / +kuyruk downwash=+0.012, dCD=+0.0208
+   [muhafazakar] CLmax temiz=0.62 -> inis 0.92 (trimli), kalkis(18 deg) 0.78; Vs inis (14.0 kg)=87 km/h, Vs kalkis (17.0 kg)=104 km/h, temas 1.1Vs=95 km/h
+   Yaklasma 1.3Vs=103 km/h (%25 yakit): flap 35: alfa=+1.40 de=-1.55 CD=0.0881 D=18 N | flapsiz: alfa=+8.36 de=-4.13 D=14 N
+
+[3] Yanal/yon kararlilik (750 km/h):
+   Cn_beta=+0.0629/rad  Cl_beta=-0.0713/rad  CY_beta=-0.326/rad
+   Dusuk hiz (alfa 4): Cn_beta=+0.1155  Cl_beta=-0.0798
+   Kuyruk hacim katsayilari: V_h=0.528  V_v=0.0761
+   Sonum: Cl_p=-0.517  Cn_r=-0.1487  Cm_q=-10.17
+
+[4] Surukleme (750 km/h, trim):
+   AeroBuildup CD=0.01423 (CL=0.0154) -> D=154 N
+   sizing.py CD0~0.0183 -> D~198 N ; fark %-22
+   +%12 alik/egzoz/bosluk payi eklenmis gercekci itki ihtiyaci ~173 N
+
+[5] Dinamik modlar (750 km/h, tam yakit; Roskam atalet yaricaplari):
+   Ixx~0.558  Iyy~2.708  Izz~3.621 kg.m2 (tahmini)
+   Kisa periyot: wn=45.9 rad/s (7.30 Hz), sonum zeta=0.30
+   Dutch roll: wn=16.6 rad/s (2.64 Hz), zeta=0.098
+   Roll modu zaman sabiti tau=20 ms
+   Spiral kriteri Clb*Cnr - Cnb*Clr = +0.00779 (kararli)
+
+[6] Kontrol otoritesi (yuksek hiz limitleri: aileron +-2, elevator +-1.5, rudder +-2 deg):
+   Aileron +-2 deg @750: dCl=-0.01105 (AeroBuildup) -> pb/2V=0.021, p=352 deg/s (@800: 375 deg/s)
+   Elevator +-1.5 deg @750 (tam yakit): ~7.5 g (@800: 8.5 g), gradyan 0.200 deg/g (limit 12 g)
+   Elevator +-1.5 deg @750 (bos yakit): ~24.7 g (@800: 28.1 g), gradyan 0.061 deg/g (limit 12 g)
+   Rudder +-2 deg @750: Cn_dr=+0.2547/rad -> kararli sapma 8.10 deg, yanal yuk ~2.99 g
+
+   Yaw damper: hedef zeta_DR=0.3; gerekli dN_r=-6.71 1/s -> K = 0.0061 s (rudder deg / yaw rate deg/s) @750 km/h
+   1 deg rudder ~ 165 deg/s yaw rate'te; dusuk hizda kazanc ~(750/V)^2 ile olceklenmeli (hiza bagli kazanc). Yikanan (washout) filtre tau~1 s, rudder siniri +-2 deg.
+
+   Dolly kalkisi (tam yakit, flap 18 deg, deniz seviyesi):
+   Vs_TO (muhafazakar)=104 km/h; birakma hizi 1.2Vs = 125 km/h (34.6 m/s), CL=0.540
+   [nominal flap] dolly alfa=+2.03 deg, trim de=-2.87 deg (downwash kredisiz: alfa=+2.47, de=-5.97)
+   [muhafazakar flap] dolly alfa=+2.03 deg, trim de=-2.87 deg (downwash kredisiz: alfa=+2.47, de=-5.97)
+
+   Kizakla inis flare (%25 yakit, flap 35; h/b=0.071, yer etkisinde downwash %44 azalir):
+   Inis kutlesi 14.01 kg, CG x=1.193, SM %18.5
+   [nominal] temas 87 km/h CL=0.914: alfa=+5.62 deg, de=-7.05 deg; yer etkisi payi -2.48 deg -> toplam -9.54 deg (limit -20, pay 10.5 deg)
+   [muhafazakar] temas 95 km/h CL=0.763: alfa=+3.52 deg, de=-6.42 deg; yer etkisi payi -2.07 deg -> toplam -8.49 deg (limit -20, pay 11.5 deg)
+
+[8] Alcak kanat - Cl_beta ve dihedral secimi:
+   DATCOM govde-kanat ΔCl_beta(z_w=80 mm, D=165 mm) = +0.0337/rad (destabilize)
+   dCl_beta/dGamma: AeroBuildup -0.0150 (750) / -0.0084 (yaklasma) /rad/deg; serit teorisi -0.0158
+   Gamma=-1 deg: Cl_beta 750 km/h=+0.0075  yaklasma=-0.0174 /rad
+   Gamma=+0 deg: Cl_beta 750 km/h=-0.0075  yaklasma=-0.0258 /rad
+   Gamma=+1 deg: Cl_beta 750 km/h=-0.0225  yaklasma=-0.0342 /rad
+   Gamma=+2 deg: Cl_beta 750 km/h=-0.0375  yaklasma=-0.0426 /rad
+   Gamma=+3 deg: Cl_beta 750 km/h=-0.0525  yaklasma=-0.0510 /rad
+   Hedef Cl_beta=-0.035 (750 km/h) icin gereken dihedral = +1.83 deg -> onerilen +2.0 deg (750: -0.0375, yaklasma: -0.0426)
+   Yanal modlar (4x4 durum matrisi [beta,p,r,phi]; Ixz=0):
+   Gamma=+0.0 750 km/h: DR wn=16.6 rad/s zeta=0.097, roll tau=20 ms, spiral kararsiz (ikilenme 363 s)
+   Gamma=+0.0 yaklasma: DR wn=3.3 rad/s zeta=0.084, roll tau=184 ms, spiral kararsiz (ikilenme 7 s)
+   Gamma=+1.0 750 km/h: DR wn=16.5 rad/s zeta=0.100, roll tau=20 ms, spiral kararli (yari sure 541 s)
+   Gamma=+1.0 yaklasma: DR wn=3.4 rad/s zeta=0.075, roll tau=183 ms, spiral kararsiz (ikilenme 8 s)
+   Gamma=+1.5 750 km/h: DR wn=16.4 rad/s zeta=0.102, roll tau=20 ms, spiral kararli (yari sure 237 s)
+   Gamma=+1.5 yaklasma: DR wn=3.4 rad/s zeta=0.071, roll tau=182 ms, spiral kararsiz (ikilenme 9 s)
+   Gamma=+2.0 750 km/h: DR wn=16.4 rad/s zeta=0.103, roll tau=20 ms, spiral kararli (yari sure 151 s)
+   Gamma=+2.0 yaklasma: DR wn=3.4 rad/s zeta=0.067, roll tau=182 ms, spiral kararsiz (ikilenme 10 s)
+   Yaw damper (Gamma=+2.0, 750 km/h, 4x4): zeta 0.30 icin dN_r=-6.54 1/s -> K=0.0059 deg rudder/(deg/s); damperli DR wn=16.5 rad/s
+   Yaw damper yaklasmada (103 km/h) K=K_hs*(V_hs/V)^2=0.315 deg/(deg/s): DR zeta 0.067 -> 0.433 (yari kazancla 0.659); spiral kararli (0 s)
+
+[7] Yakit durumuna gore CG ve statik marj (x_np=1.2506 m):
+   yakit %100: m=17.01 kg  x_cg=1.1510 m (%22.2 MAC)  SM=%31.9
+   yakit % 75: m=16.01 kg  x_cg=1.1632 m (%26.1 MAC)  SM=%28.0
+   yakit % 50: m=15.01 kg  x_cg=1.1771 m (%30.6 MAC)  SM=%23.5
+   yakit % 25: m=14.01 kg  x_cg=1.1930 m (%35.6 MAC)  SM=%18.5
+   yakit %  0: m=13.01 kg  x_cg=1.2113 m (%41.5 MAC)  SM=%12.6

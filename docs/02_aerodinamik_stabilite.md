@@ -1,7 +1,4 @@
-# 02: Aerodinamik ve Stabilite Analizi (İterasyon 3)
-
-> **İter3 kapanış güncellemesi (ana entegrasyon):** Bu analizden sonra params'a işlenen değişiklikler: kanat kökü z −0,065 → **−0,080 m**, dihedral → **+2,0°** (bu analizin tekrarında z −80 mm için önerilen değer), yakıt CG'si 0,955 m (CAD), MTOW 17,01 kg. Script bu değerlerle yeniden çalıştırıldı. **Güncel sonuçlar:** x_np 1,251 m, statik marj tam yakıtta **%31,9**, boşta **%12,6** MAC. Cl_β (750 km/h, DATCOM düzeltmeli) ≈ −0,037 /rad, spiral kararlı. Dutch roll 2,64 Hz, ζ 0,10; yaw damper gerekli. Elevator ±1,5° ile tam yakıtta 7,5 g, boşta 24,7 g; g-limiter zorunlu. İniş temas hızı 87 km/h (nominal) – 95 km/h (muhafazakâr). Metinde bunlardan farklı ara değerler varsa güncel olan `aero/out/ozet.txt`'tir.
-
+# 02: Aerodinamik ve Stabilite Analizi (İterasyon 3, iter4 kütle güncellemesiyle)
 
 **Kaynak script:** `aero/aero_analysis.py`. Tekrar çalıştırmak için:
 
@@ -16,32 +13,33 @@ C:/Users/Urungu/.hz750/Scripts/python aero/aero_analysis.py
 - Raymer: flap modeli (ampirik).
 - 4×4 yanal durum matrisi.
 
-**Girdi (`params.py`, iter3):**
-- MTOW 16,81 kg.
-- CG tam yakıtta x = 1,159 m, boşta x = 1,212 m. Yakıt CG'si geçici olarak 0,987 m; CAD'den sonra güncellenecek.
+**Girdi (`params.py`, güncel):**
+- Kanat kökü x = 0,92 m, z = −0,080 m (alçak kanat), dihedral **+2,0°**.
+- MTOW 17,16 kg (iter4: gövde kabuğu CG'si CAD alan merkezine, x = 1,15 m'ye kaydı; burunda 0,15 kg balast / ek RX aküsü eklendi).
+- CG tam yakıtta x = 1,152 m, boşta x = 1,212 m. Yakıt CG'si 0,955 m (CAD iç hacimlerinden ölçüldü).
 - MAC 0,312 m, x_MAC_LE = 1,082 m.
 
-**Ham sonuçlar:** `aero/out/ozet.txt`, `aero/out/sonuclar.json`.
+**Ham sonuçlar:** `aero/out/ozet.txt`, `aero/out/sonuclar.json`. Uçuş kontrol tasarımı (kontrol yasaları, paylar, kazanç tablosu) ayrıca `docs/09_ucus_kontrol.md`'de.
 
-## Değişiklik özeti (iter1 → iter3)
+## Değişiklik özeti (iter1 → güncel)
 
-| Konu | İter1 | İter2 | İter3 |
+| Konu | İter1 | İter2 | Güncel (iter3 + iter4 kütle) |
 |---|---|---|---|
-| Kanat kökü x / z | 1,00 / −0,035 | 0,92 / −0,035 | 0,92 / **−0,065 (alçak kanat)** |
-| Dihedral | −1° | −1° | 0° → **öneri +1,5°** |
+| Kanat kökü x / z | 1,00 / −0,035 | 0,92 / −0,035 | 0,92 / **−0,080 (alçak kanat)** |
+| Dihedral | −1° | −1° | **+2,0°** |
 | Flap | Düz, cf 0,22, 30° | Düz, cf 0,22, 30° | **Tek yarıklı, cf 0,25, 35°** |
 | Elevator cf / yüksek hız limiti | 0,28 / ±3° | 0,28 / ±1,5° | **0,22 / ±1,5°** |
 | Dikey kuyruk | 0,050 m² | 0,060 m² | 0,060 m² |
 | Kalkış / iniş | Tekerlek | Dolly + kızak | Dolly + kızak (kızak 1,45 m'ye uzadı) |
-| MTOW | 18,30 kg | 16,77 kg | 16,81 kg |
-| x_np | 1,318 m | 1,251 m | **1,250 m** |
-| SM tam / %25 / boş | %40 / – / %29 | %31 / %21 / %16 | **%29 / %18 / %12** |
-| Cl_β @ 750 (girişim dahil) | – | – | Γ = 0'da −0,012 → Γ = +1,5'te **−0,034** |
-| Vs iniş (nominal) | 89 km/h | 86 km/h | **79 km/h** |
+| MTOW | 18,30 kg | 16,77 kg | **17,16 kg** |
+| x_np | 1,318 m | 1,251 m | **1,251 m** |
+| SM tam / %25 / boş | %40 / – / %29 | %31 / %21 / %16 | **%31,7 / %18,3 / %12,5** |
+| Cl_β @ 750 (girişim dahil) | – | – | **−0,0375** (Γ = +2°) |
+| Vs iniş (nominal) | 89 km/h | 86 km/h | **80 km/h** |
 
 İter2 notlarındaki açık maddeler birleştirildi:
 - **Flap ΔCD:** ampirik değer artık Raymer'in yarıklı flap formülüyle (0,021) hesaplanıyor; önceki 0,05–0,08 aralığının yerini aldı.
-- **Boş yakıtta elevator otoritesi:** cf 0,22 ile de 12 g limiti aşılıyor; §6'da çözüm önerisi var.
+- **Boş yakıtta elevator otoritesi:** cf 0,22 ile de 12 g limiti aşılıyor (24,6 g). Çözüm g-limiter'lı uçuş kontrolcüsü; bkz. §6 ve doküman 09.
 - **Dutch roll sönümü:** Yaw damper gereksinimi doğrulandı ve 4×4 modelle yeniden hesaplandı.
 - **İniş hızı:** Yarıklı flapla düştü.
 
@@ -71,23 +69,23 @@ Kanat kökünde NACA 64A007, ucunda 64A006 var (64A010 koordinatları kalınlık
 
 | Büyüklük | Değer |
 |---|---|
-| CL_α (750 km/h) | 4,92 /rad (VLM, gövdesiz: 4,41) |
-| Cm_α (tam yakıt CG) | −1,45 /rad |
-| Cm_q | −10,0 /rad |
-| CL_δe / Cm_δe (cf 0,22) | 0,62 / −1,60 /rad (iter2'de cf 0,28: 0,75 / −1,94) |
-| **x_np** | **1,250 m** (düşük hızda 1,243 m) |
+| CL_α (750 km/h) | 4,92 /rad (VLM, gövdesiz: 4,40) |
+| Cm_α (tam yakıt CG) | −1,56 /rad |
+| Cm_q | −10,2 /rad |
+| CL_δe / Cm_δe (cf 0,22) | 0,62 / −1,61 /rad (iter2'de cf 0,28: 0,75 / −1,94) |
+| **x_np** | **1,251 m** (%54,1 MAC; düşük hızda 1,244 m) |
 
 ### Yakıt durumuna göre statik marj
 
 | Yakıt | m [kg] | x_cg [m] | CG [%MAC] | SM [%MAC] |
 |---|---|---|---|---|
-| %100 | 16,81 | 1,159 | 24,6 | **29,4** |
-| %75 | 15,81 | 1,169 | 28,1 | 25,9 |
-| %50 | 14,81 | 1,182 | 32,0 | 22,0 |
-| %25 (iniş) | 13,81 | 1,196 | 36,6 | **17,5** |
-| %0 | 12,81 | 1,212 | 41,8 | **12,2** |
+| %100 | 17,16 | 1,152 | 22,4 | **31,7** |
+| %75 | 16,16 | 1,164 | 26,3 | 27,8 |
+| %50 | 15,16 | 1,178 | 30,7 | 23,3 |
+| %25 (iniş) | 14,16 | 1,193 | 35,8 | **18,3** |
+| %0 | 13,16 | 1,212 | 41,6 | **12,5** |
 
-İter2'ye göre boş yakıtta SM %16'dan %12'ye düştü (yakıt CG'si 0,987 m'ye öne alındı). Değer hâlâ hedef bandın (%8–15) içinde.
+İter4'te gövde kabuğu CG'si CAD'e göre 1,05 m'den 1,15 m'ye kaydı. Bu kayma boş SM'yi düşürecekti; burun balastı (0,15 kg, x = 0,20 m) eklenerek boş yakıtta SM **%12,5**'te tutuldu. Değer hedef bandın (%8–15) içinde.
 
 ![statik marj](../aero/out/statik_marj.png)
 
@@ -95,8 +93,8 @@ Kanat kökünde NACA 64A007, ucunda 64A006 var (64A010 koordinatları kalınlık
 
 | Durum | α | δe | CL | CD | D |
 |---|---|---|---|---|---|
-| 750 km/h, tam yakıt | +0,08° | +0,08° | 0,0152 | 0,0142 | 154 N |
-| 750 km/h, boş | +0,02° | +0,21° | 0,0116 | 0,0142 | 154 N |
+| 750 km/h, tam yakıt | +0,09° | +0,08° | 0,0155 | 0,0142 | 154 N |
+| 750 km/h, boş | +0,03° | +0,21° | 0,0119 | 0,0142 | 154 N |
 
 ## 3. Tek yarıklı flap (cf 0,25, η 0,12–0,50)
 
@@ -119,24 +117,24 @@ Kanat kökünde NACA 64A007, ucunda 64A006 var (64A010 koordinatları kalınlık
 |---|---|---|
 | ΔCL_max nominal / muhafazakâr | +0,54 / +0,35 | ~+0,32 / +0,21 |
 | ΔCL0 | +0,50 | – |
-| ΔCm0 kanat / kanat + kuyruk downwash | −0,098 / +0,011 | – |
+| ΔCm0 kanat / kanat + kuyruk downwash | −0,098 / +0,012 | – |
 | ΔCD | +0,021 | – |
 
 | Durum | Nominal | Muhafazakâr |
 |---|---|---|
 | CL_max temiz | 0,62 | 0,62 |
 | CL_max iniş (trimli) | **1,11** | 0,92 |
-| Vs iniş (13,8 kg) | **79 km/h** | 86 km/h |
-| Temas (1,1 Vs) | **86 km/h** | 95 km/h |
+| Vs iniş (14,2 kg) | **80 km/h** | 87 km/h |
+| Temas (1,1 Vs) | **87 km/h** | 96 km/h |
 | CL_max kalkış (18°, trimli) | 0,89 | 0,78 |
-| Vs kalkış (16,8 kg) | 97 km/h | 103 km/h |
+| Vs kalkış (17,2 kg) | 98 km/h | 104 km/h |
 
-**Yaklaşma** (1,3 Vs = 102 km/h, %25 yakıt):
+**Yaklaşma** (1,3 Vs = 103 km/h, %25 yakıt):
 
 | Konfigürasyon | α | δe | CD | D |
 |---|---|---|---|---|
-| Flap 35° | +1,4° | −1,6° | 0,088 | 18 N |
-| Flapsız | +8,3° | −3,9° | – | 14 N |
+| Flap 35° | +1,4° | −1,6° | 0,088 | 19 N |
+| Flapsız | +8,4° | −4,1° | – | 14 N |
 
 ## 4. Yön ve yanal kararlılık: alçak kanat ve dihedral
 
@@ -144,57 +142,61 @@ Kanat kökünde NACA 64A007, ucunda 64A006 var (64A010 koordinatları kalınlık
 
 AeroBuildup, kanadın gövdeye göre dikey konumunun Cl_β'ya etkisini modellemiyor. Bu yüzden DATCOM 5.2.1.1 düzeltmesi eklendi:
 
-ΔCl_β = 1,2 · √A · (z_w/b) · (2D/b) = **+0,027 /rad**. Hesap z_w = 65 mm (gövde ekseninin altı), D = 165 mm ile yapıldı. Alçak kanatta bu etki destabilize edici.
+ΔCl_β = 1,2 · √A · (z_w/b) · (2D/b) = **+0,034 /rad**. Hesap z_w = 80 mm (gövde ekseninin altı), D = 165 mm ile yapıldı. Alçak kanatta bu etki destabilize edici.
 
 Dihedral etkinliği:
-- AeroBuildup: 750 km/h'te −0,0150 /rad/°, yaklaşmada −0,0086 /rad/°.
+- AeroBuildup: 750 km/h'te −0,0150 /rad/°, yaklaşmada −0,0084 /rad/°.
 - Şerit teorisi: −0,0158 /rad/°.
 
-| Γ | Cl_β @ 750 km/h | Cl_β yaklaşma (102 km/h) |
+| Γ | Cl_β @ 750 km/h | Cl_β yaklaşma (103 km/h) |
 |---|---|---|
-| −1° | +0,004 (kararsız) | −0,020 |
-| 0° | −0,012 | −0,029 |
-| +1° | −0,027 | −0,038 |
-| **+1,5°** | **−0,034** | **−0,042** |
-| +2° | −0,042 | −0,046 |
-| +3° | −0,057 | −0,055 |
+| −1° | +0,008 (kararsız) | −0,017 |
+| 0° | −0,008 | −0,026 |
+| +1° | −0,023 | −0,034 |
+| **+2° (uygulandı)** | **−0,0375** | **−0,043** |
+| +3° | −0,052 | −0,051 |
 
-Diğer yanal türevler (750 km/h):
-- Cn_β = +0,062 /rad, düşük hızda +0,116 /rad.
-- CY_β = −0,32 /rad.
-- Cl_p = −0,52, Cn_r = −0,146.
-- Kuyruk hacimleri: V_h = 0,52, V_v = 0,075.
+750 km/h'te Cl_β = −0,035 hedefi için gereken dihedral +1,84°; params'ta **+2,0°** uygulandı. AeroBuildup'ın ham Cl_β değeri Γ = +2°'de −0,071 /rad; DATCOM düzeltmesiyle −0,0375 /rad.
+
+Diğer yanal türevler (750 km/h, tam yakıt CG):
+- Cn_β = +0,063 /rad, düşük hızda +0,115 /rad.
+- CY_β = −0,33 /rad.
+- Cl_p = −0,52, Cn_r = −0,148.
+- Kuyruk hacimleri: V_h = 0,53, V_v = 0,076.
 
 ### 4.2 Yanal modlar (4×4: [β, p, r, φ], Ixz = 0, Roskam atalet tahminleri)
 
 | Γ | Koşul | Dutch roll ωn / ζ | Roll τ | Spiral |
 |---|---|---|---|---|
-| 0° | 750 km/h | 16,5 rad/s / 0,098 | 19 ms | Kararsız, T2 = 836 s |
-| 0° | Yaklaşma | 3,3 / 0,081 | 181 ms | **Kararsız, T2 = 8 s** |
-| +1° | 750 km/h | 16,3 / 0,101 | 19 ms | Kararlı |
-| +1° | Yaklaşma | 3,4 / 0,072 | 180 ms | Kararsız, T2 = 10 s |
-| **+1,5°** | 750 km/h | 16,3 / 0,103 | 19 ms | Kararlı (yarılanma 169 s) |
-| **+1,5°** | Yaklaşma | 3,4 / 0,068 | 179 ms | Kararsız, T2 = 11 s |
-| +2° | Yaklaşma | 3,4 / 0,063 | 178 ms | Kararsız, T2 = 12 s |
+| 0° | 750 km/h | 16,5 rad/s / 0,096 | 20 ms | Kararsız, T2 = 362 s |
+| 0° | Yaklaşma | 3,3 / 0,083 | 185 ms | **Kararsız, T2 = 7 s** |
+| +1° | 750 km/h | 16,4 / 0,100 | 20 ms | Kararlı (yarılanma 540 s) |
+| +1° | Yaklaşma | 3,4 / 0,074 | 183 ms | Kararsız, T2 = 8 s |
+| +1,5° | 750 km/h | 16,3 / 0,101 | 20 ms | Kararlı (yarılanma 237 s) |
+| +1,5° | Yaklaşma | 3,4 / 0,070 | 183 ms | Kararsız, T2 = 9 s |
+| **+2°** | 750 km/h | **16,3 / 0,103** (2,6 Hz) | 20 ms | Kararlı (yarılanma 151 s) |
+| **+2°** | Yaklaşma | **3,4 / 0,066** | 182 ms | Kararsız, T2 = 10 s |
 
-**Öneri: Γ = +1,5°.** Gerekçeler:
-- 750 km/h'te Cl_β = −0,034; hedef bandın (−0,02…−0,04) kararlı yarısında.
+**Seçim: Γ = +2,0°.** Gerekçeler:
+- 750 km/h'te Cl_β = −0,0375; hedef bandın (−0,02…−0,04) kararlı yarısında.
 - Yüksek hızda spiral kararlı.
-- Yaklaşmada spiral ikilenme süresi 11 s. MIL-F-8785C ölçeğinde Level 2 sınırında; gyro ile kabul edilebilir.
+- Yaklaşmada spiral ikilenme süresi 10 s. MIL-F-8785C ölçeğinde Level 2 sınırında; gyro ile kabul edilebilir.
 - Daha fazla dihedral spirali az iyileştiriyor, ama Dutch roll sönümünü düşürüyor ve 750 km/h'te Cl_β'yı banttan çıkarıyor.
+
+CAD ataletleriyle (Ixx 0,387, Izz 3,03, Ixz +0,041 kg·m²) hesaplanan güncel yanal modlar doküman 09'da. Ixx'in Roskam tahmininden ~%30 düşük çıkması roll modunu hızlandırıyor; Dutch roll sönümü yine ~0,1 düzeyinde.
 
 ### 4.3 Yaw damper
 
 | Koşul | Kazanç K [° rudder / (°/s) yaw rate] | Sonuç |
 |---|---|---|
-| 750 km/h, Γ = +1,5° (ζ hedefi 0,30) | **0,0059** | ΔN_r = −6,5 1/s |
-| 102 km/h, K = K_hs·(V_hs/V)² = 0,32 | 0,32 | ζ 0,07 → 0,44 |
-| 102 km/h, yarım kazanç (0,16) | 0,16 | ζ ≈ 0,66 (spiral de kararlı) |
+| 750 km/h, Γ = +2° (ζ hedefi 0,30) | **0,0060** | ΔN_r = −6,5 1/s |
+| 103 km/h, K = K_hs·(V_hs/V)² = 0,31 | 0,31 | ζ 0,066 → 0,44 |
+| 103 km/h, yarım kazanç (0,16) | 0,16 | ζ ≈ 0,65 (spiral de kararlı) |
 
 **Uygulama:**
 - Kazanç planlaması (V_hs/V)^1…2 ile yapılmalı, düşük hızda 0,15–0,3 ile sınırlanmalı.
 - Washout filtresi τ ≈ 1 s; rudder otoritesi ±2°.
-- Düşük hızdaki ζ değerleri kaba modelden. Mod ayrışması kazanca duyarlı; uçuş testinde ayarlanmalı.
+- Bu tablo gecikmesiz, sürekli zamanlı kaba hesap. Servo + 50 Hz döngü gecikmesi dahil tasarım ve kazanç programı doküman 09'da.
 
 ## 5. Sürükleme kontrolü
 
@@ -210,36 +212,36 @@ P400-PRO 750 km/h'te ~300 N veriyor; **itki payı %50'nin üzerinde**.
 
 | Mod (750 km/h, tam yakıt) | Değer |
 |---|---|
-| Kısa periyot | 44,5 rad/s (7,1 Hz), ζ = 0,31 |
-| Dutch roll / roll / spiral | §4.2 |
+| Kısa periyot | 45,5 rad/s (7,2 Hz), ζ = 0,30 |
+| Dutch roll | 16,5 rad/s (2,6 Hz), ζ = 0,097 |
+| Roll modu | τ = 20 ms |
+| Spiral | Kararlı (§4.2) |
 
-Atalet tahminleri: Ixx ≈ 0,55, Iyy ≈ 2,68, Izz ≈ 3,58 kg·m².
+Bu bölümdeki atalet tahminleri (Roskam): Ixx ≈ 0,56, Iyy ≈ 2,73, Izz ≈ 3,65 kg·m². CAD (iter4, params yakıtı 4,0 kg): Ixx 0,387, Iyy 2,729, Izz 3,030, Ixz +0,041 kg·m². Doküman 09 CAD değerlerini kullanır.
 
 | Kontrol (yüksek hız limitleri) | 750 km/h | 800 km/h | Değerlendirme |
 |---|---|---|---|
-| Aileron ±2° | **351 °/s** (pb/2V 0,021) | 374 °/s | Yeterli |
-| Elevator ±1,5°, cf 0,22, tam yakıt | **8,2 g** (0,18°/g) | 9,3 g | Limitin (12 g) altında |
-| Elevator ±1,5°, cf 0,22, boş | **25,7 g** (0,058°/g) | 29,2 g | **Limit aşılıyor**, aşağıya bak |
-| Rudder ±2° | 8,2° sapma, 3,0 g yanal | – | Pilot girdisi ±0,5–1° olmalı; ±2° damper otoritesi |
+| Aileron ±2° | **352 °/s** (pb/2V 0,021) | 375 °/s | Yeterli |
+| Elevator ±1,5°, cf 0,22, tam yakıt | **7,5 g** (0,200°/g) | 8,5 g | Limitin (12 g) altında |
+| Elevator ±1,5°, cf 0,22, boş | **24,6 g** (0,061°/g) | 27,9 g | **Limit aşılıyor**, aşağıya bak |
+| Rudder ±2° | 8,1° sapma, 3,0 g yanal | – | Pilot girdisi ±0,5–1° olmalı; ±2° damper otoritesi |
 
-**Neden cf düşürmek yetmedi:** Elevator veter oranını 0,28'den 0,22'ye düşürmek Cm_δe'yi yalnız %18 azalttı. Aynı dönemde boş yakıtta SM %16'dan %12'ye indiği için ulaşılabilir g azalmadı, aksine 24 g'den 26 g'ye arttı.
+**Neden cf düşürmek yetmedi:** Elevator veter oranını 0,28'den 0,22'ye düşürmek Cm_δe'yi yalnız %18 azalttı. Aynı dönemde boş yakıtta SM %16'dan %12,5'e indiği için ulaşılabilir g azalmadı, aksine 24 g'den 25 g'ye arttı.
 
-**Elevator limitinin yakıt ve hızla planlanması önerilir:**
-- Boş yakıt, yüksek hız: ±0,6°.
-- %40 yakıt: ±1,0°.
-- Ya da uçuş kontrolcüsünde n ≤ 10 g limitörü (pitch rate komut modu).
+**Çözüm: uçuş kontrolcüsünde g-limiter.** Normal ivme (n_z) komutlu iç döngü, komut |n| ≤ 10 g'de doyuruluyor, kazançlar hız ve yakıtla planlanıyor (doküman 09). Yedek önlemler:
+- Elevator limitinin yakıt ve hızla planlanması: boş yakıt, yüksek hız ±0,6°; %40 yakıt ±1,0°.
 - Ölçüm turları ≥ %40 yakıtla bitirilmeli.
 
 ### 6.1 Dolly kalkışı (tam yakıt, flap 18°, deniz seviyesi)
 
 | Büyüklük | Değer |
 |---|---|
-| Vs kalkış (muhafazakâr) | 103 km/h |
-| Bırakma hızı (1,2 Vs) | **124 km/h** (34,4 m/s), CL = 0,54 |
-| Dolly sabit hücum açısı | **α ≈ +2,0°** (downwash kredisi olmadan +2,4°) |
-| Bırakmada trim elevatörü | **δe ≈ −2,7°** (downwash kredisi olmadan −5,8°) |
+| Vs kalkış (muhafazakâr) | 104 km/h |
+| Bırakma hızı (1,2 Vs) | **125 km/h** (34,8 m/s), CL = 0,54 |
+| Dolly sabit hücum açısı | **α ≈ +2,0°** (downwash kredisi olmadan +2,5°) |
+| Bırakmada trim elevatörü | **δe ≈ −2,9°** (downwash kredisi olmadan −6,0°) |
 
-Flap 18°'nin ΔCL0 katkısı yüksek olduğu için dolly açısı iter2'deki 6°'den 2°'ye düştü. Önerilen ayar:
+Flap 18°'nin ΔCL0 katkısı yüksek olduğu için dolly açısı iter2'deki 6°'den 2°'ye düştü. Önerilen ayar (params'ta uygulandı):
 - Dolly açısı **+3°**, CL payı için.
 - Elevator trimi **−4°**; iki model arasında.
 - Mandal L/W ≥ 1,0'da açılmalı.
@@ -247,28 +249,28 @@ Flap 18°'nin ΔCL0 katkısı yüksek olduğu için dolly açısı iter2'deki 6�
 ### 6.2 Kızakla iniş flare (%25 yakıt, flap 35°)
 
 **Koşullar:**
-- Kütle 13,81 kg, CG x = 1,196 m, SM %17,5.
+- Kütle 14,16 kg, CG x = 1,193 m, SM %18,3.
 - Yer etkisi: h/b = 0,071 (McCormick); kuyruktaki downwash %44 azalıyor.
 - Kötümser varsayım: kuyruk downwash kredisi kullanılmadı.
 
 | Durum | Temas hızı | CL | α | δe trim | Yer etkisi payı | Toplam δe | Pay (limit −20°) |
 |---|---|---|---|---|---|---|---|
-| Nominal flap | 86 km/h | 0,91 | +5,6° | −6,9° | −2,5° | **−9,4°** | 10,6° |
-| Muhafazakâr flap | 95 km/h | 0,76 | +3,5° | −6,3° | −2,1° | **−8,4°** | 11,6° |
+| Nominal flap | 87 km/h | 0,91 | +5,6° | −7,0° | −2,5° | **−9,5°** | 10,5° |
+| Muhafazakâr flap | 96 km/h | 0,76 | +3,5° | −6,4° | −2,1° | **−8,5°** | 11,5° |
 
 **Flare için elevatör yeterli.** Temas açısı ≈ 4–6°. Kızağın 1,45 m'ye uzatılmasıyla hedeflenen ≥ 9° kuyruk çarpma açısı bu değerin rahatça üstünde.
 
-## 7. Öneriler (params.py)
+## 7. Öneriler ve durum
 
-1. **`WING["dihedral"] = 1.5`** (şu an 0,0). Gerekçe §4.2'de.
-2. **Elevator:** cf 0,22 kalabilir; kalkış ve flare'de bol pay var. Asıl çözüm yazılımda: yakıt ve hıza bağlı elevator limiti ya da g-limiter. Gerekirse `HTAIL["elevator"]["defl_max_hs"]` değeri 1,0'a düşürülebilir; boşta 800 km/h'te ~19 g, yine limitör gerekir.
-3. **Yaw damper zorunlu.** K_hs ≈ 0,006 °/(°/s), düşük hızda 0,15–0,3, washout 1 s. Damper arızasında ölçüm turu yapılmamalı.
-4. **Dolly:** α = +3°, δe trim −4°, bırakma ≥ 124 km/h.
-5. **Yakıt CG'si:** CAD'den sonra güncellendiğinde script yeniden çalıştırılmalı. 0,987 m'de boş SM %12,2. Yakıt CG'si boş uçak CG'sini etkilemez; yalnız yakıtlı durumların SM'si değişir.
+1. **Dihedral +2,0°** params'ta uygulandı (§4.2).
+2. **Elevator:** cf 0,22 kalabilir; kalkış ve flare'de bol pay var. Asıl çözüm yazılımda: g-limiter'lı n_z komut döngüsü (doküman 09). `HTAIL["elevator"]["defl_max_hs"]` 1,0'a düşürülse bile boşta 800 km/h'te ~19 g; limitör yine gerekir.
+3. **Yaw damper zorunlu.** Gecikme dahil kazanç programı doküman 09'da. Damper arızasında ölçüm turu yapılmamalı.
+4. **Dolly:** α = +3°, δe trim −4°, bırakma ≥ 125 km/h.
+5. **Yakıt CG'si** CAD'den alındı (0,955 m). Kütle kalemleri değişirse script yeniden çalıştırılmalı.
 
 ## Varsayımlar ve sınırlar
 - AeroBuildup sonuçları yarı-ampirik. Gövde-kanat girişimi için DATCOM ΔCl_β ayrıca eklendi; diğer girişimler (Cn_β'ya gövde katkısı dışında) yok.
 - Flap modeli tamamen ampirik. Nominal ve muhafazakâr ikilisi belirsizlik aralığını gösteriyor.
-- Yanal modlar 4×4 modelle hesaplandı; Ixz = 0, atalet momentleri Roskam tahmini. Düşük hızda yaw damperli mod ayrışması kazanca duyarlı.
+- Bu dokümandaki yanal modlar 4×4 modelle hesaplandı; Ixz = 0, atalet momentleri Roskam tahmini. CAD ataletli hesap doküman 09'da. Düşük hızda yaw damperli mod ayrışması kazanca duyarlı.
 - Yer etkisi McCormick bağıntısıyla hesaplandı; kızak-kanat yüksekliği yaklaşık 0,09 m varsayıldı.
 - Boylamsal dinamikte Cm_α̇ = 0,3·Cm_q varsayıldı.

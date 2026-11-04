@@ -160,6 +160,10 @@ HIZ-750
 1. 🔄 Codex 5HV4 kullanım limitine takılıp durdu (yeniden açılma 23:26). İşi Claude devraldı. Codex'in kodu ve sonuçları hâlâ yalnız `C:/Users/Urungu/.claude/claudex/worktrees/5HV4` içinde (özet: `cfd/RESULTS_iter5.md`), ana repoya alınmadı. ILU/1e-6 pilotları bu worktree'de koşuyor; loglar `C:/hz750run/logs/pilot_*_ilu.log`. Pilot yakınsarsa ıraksamanın sebebi eski ayardı, yine ıraksarsa ağ.
 2. ✅ FEM alt ajanı bitti, commit 692fdd3 (özet `fem/RESULTS_iter5.md`). **Tasarım kararı bekliyor:** 1350 km/h flutter payı için f_1T'yi 272 → ≥316 Hz'e çıkarmak (kabuk katı/kaburga/kiriş) ya da model payını yeniden tanımlamak. Not: `study.py` kaynak SHA'larını tutuyor; Codex cfd yaması alınınca cantilever, coupon ve kanat çalışmaları sırayla yeniden koşulmalı.
 
+3. 🔄 **Kanat rijitleştirme (kullanıcı onayladı):** FEM alt ajanı (id a17d5c8c0f049b750) seçenek çalışması yapıyor: skin_plies (4,1)/(5,1)/(3,2)/(4,2), web'e ek ±45 kat, kaburga aralığı 0,065 m. Hedef: dolu tankta f_1T ≥ 316 Hz, kesit CG ≤ 0,45c, en hafif seçenek. Çıktı `fem/results/stiffening/` + `fem/RESULTS_iter5.md`. Ajan params'a dokunmuyor. **Devralan yapacak:** seçimi `params.py` WING["skin_plies"] ve kanat kütle kalemine işle → `run_all.sh` → fe_modal flutter, kütle/CG kontrolü → dokümanlar.
+4. 🔄 MG0 + CFL_ADAPT CFD pilotları: `C:/hz750run/pilot_mg0_rae2822`, `pilot_mg0_flat_plate` (solver.log). Yakınsarsa sebep multigrid → `cfd/cases.py` ayarını MG0'a çevir, 3 ağı yeniden koş. Iraksarsa sebep ağ (RAE: ±30c uzak alan, min köşe sinüsü 0,277).
+5. ⏳ Codex worktree yaması (`C:/Users/Urungu/.claude/claudex/worktrees/5HV4`) ana repoya alınmadı; Codex limiti 23:26'da açılıyor.
+
 **Sıradakiler:**
 1. Codex yamasını incele ve al (`mcp__claudex__apply`).
 2. FEM ve CFD sonuçlarını `docs/10`, README ve CHANGELOG [0.6.0]'a işle. f_1T değişirse flutter ve GVT ölçütlerini güncelle.

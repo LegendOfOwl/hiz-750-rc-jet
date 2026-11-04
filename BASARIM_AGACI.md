@@ -67,7 +67,8 @@ HIZ-750
     │   ├─ ❌ RAE2822 Case 6 kendi ağımız: 1430. iterasyonda ıraksadı
     │   ├─ 🟡 Düz levha orta ağ: 7 restart sonrası kapıyı geçti (Cf 0,0028585, Schlichting'e −%4,8)
     │   ├─ 🟡 Resmi SU2 RAE2822 cfg+ağ native: iteratif kapı ✅, CL −%2,6 / CD +%5,9 / Cm +%2,3 → çözücü/cfg referansı KABUL; Cp RMSE 0,098 > 0,08 → deney Cp kabulü YOK (SA şok konumu)
-    │   ├─ 🔄 ILU + LINEAR_SOLVER_ERROR 1e-6 pilotları (RAE kaba, düz levha ince) — Claude koşturuyor
+    │   ├─ ❌ ILU + LINEAR_SOLVER_ERROR 1e-6 pilotları: ikisi de yine ıraksadı (RAE 1452, düz levha 1155. iter) → bu ayar sebep DEĞİL
+    │   ├─ 🔄 MGLEVEL 0 + CFL_ADAPT (1→100) pilotları — ortak faktör multigrid mi? (`C:/hz750run/pilot_mg0_*`)
     │   ├─ ⏳ NACA 64A007 M0,61 (3 ağ) ↔ NeuralFoil + Kármán-Tsien
     │   └─ ⏳ (zaman kalırsa) 3B sınır tabaka ağları
     ├─ ⏳ Codex yamasının incelenip alınması
@@ -114,6 +115,7 @@ HIZ-750
 | "Bütün RMS < −6" yakınsama kapısı aşırı katıydı | Koşular | Yeni kapı: CD Cauchy 1e-6/100 iterasyon + ρ ve ν̃'de ≥ 4 mertebe düşüş; enerji residual'ı yalnızca bilgi amaçlı |
 | **SU2'de LINEAR_SOLVER_PREC varsayılanı LU_SGS sanıldı; gerçek değer ILU** (CConfig.cpp sat. 1699; eski doc comment yanıltıcı). Pilot koşuda LINEAR_SOLVER_ERROR 0,01 kullanıldı (resmi varsayılan 1e-6) | Codex'in SU2 v8.2.0 kaynak incelemesi | Iraksamaların muhtemel sebebi. Resmi cfg ile satır satır karşılaştırılıyor |
 | Resmi ağ dosyasının nokta satırları x/y/z/ID biçiminde; denetim betiği yanlış okuyordu | Ağ denetimi | Son sütun ID olarak okunuyor, test eklendi |
+| "ILU/1e-6 ıraksamayı açıklar" hipotezi | Resmi ayarlarla pilot: ikisi de aynı biçimde (önce ~4 mertebe düşüş, sonra ani patlama) ıraksadı | Hipotez çürütüldü. Ortak faktör MGLEVEL 3 ve sabit CFL; sırada MG0 + CFL_ADAPT testi |
 | Gecikmiş onay cevabı "rejected by user" sayıldı | Codex köprüsü | 10 dk zaman aşımı. Gerekirse Codex'ten isteği yeniden yollaması istenir |
 
 ---

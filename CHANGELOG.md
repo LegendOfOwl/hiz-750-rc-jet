@@ -20,6 +20,25 @@ Sürümleme: `0.MAJOR_ITERASYON.PATCH`. 1.0.0 sürümü, prototip uçuş testind
 - g-limiter, boş yakıtta tam çubukta n'yi 10,05 g'de tutuyor (FC'siz 28 g). ζ_DR 0,31–0,44. GM ≥ 9,4 dB, PM ≥ 50°.
 - Alık η_r = 0,970 @ 750 km/h. Eşdeğer k_ram 0,67, taban model kötümser kalıyor.
 - 15 m/s kısa rüzgâr hamlesi 19–27 g üretiyor ve FC bunu azaltamıyor. Sakin hava sınırlaması korunuyor.
+### Düzeltildi (PR #1 incelemesi)
+- `cad/mass_properties.py`:
+  - Kanat tankları artık kullanılabilir hacimle (0,57 L) dolduruluyor.
+  - Tolerans bayrakları aynı yakıt kütlesinde karşılaştırılıyor.
+  - "Motor yatağı" artık motor katısına değil, kendi bölgesine yerleştiriliyor.
+  - Kanat bağlantısı ve bulkhead çerçeveleri artık çift sayılmıyor.
+  - Çıktıya 4,0 kg yakıtın CG'si eklendi.
+- `params.py`: yakıt CG'si 0,955 → 0,940 m (CAD, kullanılabilir hacimlerle). Kapasite yorumları güncellendi.
+- `performance/inlet_analysis.py`:
+  - Dudak gömülme derinliği sınır tabaka modeline girdi.
+  - Kanal kesiti CAD raporundan, ofset params'tan okunuyor.
+  - Motor debisi sizing ile aynı k_ram ve yoğunluk oranını kullanıyor.
+- `structures/structures.py`:
+  - `wing_section_model()` global yakıt kütlesini geri yüklüyor.
+  - Kanat yakıtı için kullanılabilir hacim tercih ediliyor.
+- `run_all.sh`:
+  - Yorumlayıcıyı kendisi buluyor (`.venv`, `~/.hz750`, PATH).
+  - Her scriptin çıktısını `logs/` altına yazıyor.
+  - Hatada durup son satırları gösteriyor.
 
 ## [0.4.0] - 2026-11-04 · İterasyon 3
 ### Değişti

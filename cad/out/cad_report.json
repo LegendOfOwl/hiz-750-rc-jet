@@ -36,7 +36,7 @@
   },
   "fuel_cg_x_m": 0.9511,
   "fuel_cg_z_m": -0.0283,
-  "fuel_cg_target_x_m": 0.955,
+  "fuel_cg_target_x_m": 0.94,
   "fuel_cg_ok": true,
   "wetted_area_m2": {
     "fuselage": 0.9164,
@@ -129,7 +129,7 @@
     "skid_x1_needed_for_9deg_mm": 1930.2608027570475,
     "skid_depth_at_needed_x1_mm": 25.4,
     "dolly_rear_wheel_contact_mm": [
-      1501.7,
+      1498.2,
       -202.5
     ],
     "dolly_clearance_0deg": [
@@ -139,12 +139,12 @@
     "dolly_clearance_alpha": {
       "alpha_deg": 3.0,
       "clearance_mm_at_x": [
-        86.5,
+        86.3,
         1930.0
       ]
     },
     "dolly_clearance_6deg": [
-      63.7,
+      63.3,
       1930.0
     ]
   },

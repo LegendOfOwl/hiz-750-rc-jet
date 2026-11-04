@@ -19,16 +19,16 @@ Bu hız, türbinli RC uçaklarda Guinness dünya rekoru seviyesinde: Niels Herbr
 | Hava alığı | Dorsal, yarı gömülü pitot dudak, 60 cm², rampalı; S-kanal ofset/uzunluk 0,27 |
 | Kalkış / iniş | Bırakılan dolly ile kalkış (α 3°) / kızak + kuyruk tamponuyla çim iniş, yarıklı flap 35°, temas 87–95 km/h |
 | MTOW / yakıtsız | 17,16 kg / 13,16 kg (Türkiye İHA1 sınıfı, < 25 kg) |
-| Yakıt | 4,0 kg (5,0 L) yüklenir; kullanılabilir ~5,14 L (gövde 3,73 + kanat kutusu ortası 0,27 + kanat kökü 2 × 0,57 L), yakıt CG x 0,951–0,955 m |
+| Yakıt | 4,0 kg (5,0 L) yüklenir; kullanılabilir 5,14 L (gövde 3,73 + kanat kutusu ortası 0,27 + kanat kökü 2 × 0,57 L), yakıt CG x 0,940 m (CAD) |
 | Azami hız | ~878 km/h kötümser model; alık analiziyle (η_r 0,97) ~897 km/h |
 | 750 km/h'te itki payı | %40–90 (sürükleme 154–210 N, kullanılabilir itki ~300 N) |
-| Statik marj | Tam yakıtta %31,7, %25 yakıtta %18,3, boşta %12,5 MAC (nötr nokta 1,251 m) |
+| Statik marj | Tam yakıtta %32,8, %25 yakıtta %18,7, boşta %12,5 MAC (nötr nokta 1,251 m) |
 | Flutter / diverjans | **FE modal: 1307 km/h** (pay %21; 3B–1T modları), 2-DOF 1465 km/h; ok açılı kanatta diverjans yok. Gereksinim ≥ 1080 km/h |
 | Kanat kütlesi (kat planından) | 1,74 kg (bütçe 1,75 kg); tek parça, gövde içinden geçen kutu, 4× M6 |
 | Yapısal limit | +12 / −8 g, emniyet katsayısı 1,5 |
 | Servolar | 6× 45 kg·cm + 1× 60 kg·cm (rudder), HV, boşluksuz; aileron servosu ≤ 60 g ince tip; elevator veteri %22 |
 | Uçuş kontrol | n_z komutlu pitch + g-limiter (−6/+10 g), yaw damper (ζ_DR 0,31–0,44), p komutlu roll; 4 hız × 3 yakıt kazanç tablosu; GM ≥ 9,4 dB, PM ≥ 50° |
-| Atalet (CAD, 4 kg yakıt) | Ixx 0,387 · Iyy 2,73 · Izz 3,03 · Ixz 0,041 kg·m² |
+| Atalet (CAD, 4 kg yakıt) | Ixx 0,378 · Iyy 2,79 · Izz 3,08 · Ixz 0,044 kg·m² |
 | Tahmini maliyet | ~€12.500–15.500 |
 
 ## 2. Doküman paketi

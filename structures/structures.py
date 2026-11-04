@@ -73,7 +73,7 @@ _T = FUEL.get("tanks", {})
 ETA_T = _T.get("wing_eta", (0.06, 0.40))
 Y_T0 = max(ETA_T[0] * B2, Y0)
 Y_T1 = ETA_T[1] * B2
-M_WT_HALF_PARAMS = _T.get("wing_integral_L_each", 0.9) * FUEL["density"]
+M_WT_HALF_PARAMS = _T.get("wing_integral_usable_L_each", _T.get("wing_integral_L_each", 0.9)) * FUEL["density"]   # iter4: kullanilabilir hacim
 M_WT_HALF = M_WT_HALF_PARAMS               # main() icinde gercek tank kapasitesiyle sinirlanir
 X_FUEL_C = 0.5 * (XS_F + XS_R)              # tank yakit agirlik merkezi (veter orani)
 MS = mass_summary(1.0)
@@ -997,14 +997,18 @@ def wing_section_model(n_face=None, n_aft=None):
     global M_WT_HALF
     if n_face is None or n_aft is None:
         n_face, n_aft = WING.get("skin_plies", (3, 1))
-    M_WT_HALF = 0.0
-    _, V0, M0, T0 = span_loads(plot=False)
-    ws_pre = size_wing(M0, V0, T0, 2)
-    M_WT_HALF = min(M_WT_HALF_PARAMS, ws_pre["V_tank_half_L"] * FUEL["density"])
-    _, V, M, T = span_loads(plot=False)
-    ws = size_wing(M, V, T, n_face, n_aft)
-    return dict(ws=ws, ws_pre=ws_pre, YS=YS, m_fuel_half=M_WT_HALF, fuel_per_span=fuel_per_span(),
-                M=M, V=V, T=T, Y0=Y0, B2=B2, X_EA=X_EA, X_FUEL_C=X_FUEL_C, Y_T0=Y_T0, Y_T1=Y_T1)
+    saved = M_WT_HALF
+    try:
+        M_WT_HALF = 0.0
+        _, V0, M0, T0 = span_loads(plot=False)
+        ws_pre = size_wing(M0, V0, T0, 2)
+        M_WT_HALF = min(M_WT_HALF_PARAMS, ws_pre["V_tank_half_L"] * FUEL["density"])
+        _, V, M, T = span_loads(plot=False)
+        ws = size_wing(M, V, T, n_face, n_aft)
+        return dict(ws=ws, ws_pre=ws_pre, YS=YS, m_fuel_half=M_WT_HALF, fuel_per_span=fuel_per_span(),
+                    M=M, V=V, T=T, Y0=Y0, B2=B2, X_EA=X_EA, X_FUEL_C=X_FUEL_C, Y_T0=Y_T0, Y_T1=Y_T1)
+    finally:
+        M_WT_HALF = saved               # modul durumu cagri oncesine doner
 
 
 # ================================================================== ana akis

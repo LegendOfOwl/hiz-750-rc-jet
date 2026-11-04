@@ -23,7 +23,7 @@
 | Govde alti kizak + dolly kilit mekanizmasi | 0.25 | 0.960 | -0.080 | 0.240 |
 | Kuyruk tamponu (egzoz konisi alti) | 0.04 | 1.900 | -0.060 | 0.076 |
 | Boya / dolgu / balans | 0.35 | 1.000 | 0.000 | 0.350 |
-| Yakit (5.0 L) | 4.00 | 0.955 | -0.029 | 3.820 |
-| **MTOW** | **17.16** | **1.152** | -0.015 | |
+| Yakit (5.0 L) | 4.00 | 0.940 | -0.026 | 3.760 |
+| **MTOW** | **17.16** | **1.148** | -0.014 | |
 
-MAC = 0.312 m, MAC hucum kenari x = 1.082 m.  CG tam yakit %22.4 MAC, yakitsiz %41.6 MAC.
+MAC = 0.312 m, MAC hucum kenari x = 1.082 m.  CG tam yakit %21.3 MAC, yakitsiz %41.6 MAC.

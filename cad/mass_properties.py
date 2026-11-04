@@ -110,10 +110,8 @@ SOLID_MAP = {
     "Kanat (": WING_PARTS,
     "Yatay kuyruk": ["htail", "elevator_L", "elevator_R", "ht_carry_yoke"],
     "Dikey kuyruk": ["vtail", "rudder"],
-    "Motor yatagi": ["engine"],                  # yatak + kalkan motor boyunca dagilir varsayimi
     "Hava alik": ["inlet_duct"],
     "Egzoz": ["exhaust_pipe"],
-    "Bulkhead": ["frames"],                       # 5 cerceve halkasi (kizak + kanat baglanti)
     "Motor JetCat": ["engine"],
     "Govde alti kizak": ["skid"],
     "Kuyruk tamponu": ["tail_bumper"],
@@ -127,6 +125,7 @@ ATTACH_X_MM = (960.0, 1200.0)
 # Katisi olmayan kalemler: (y dagilimi listesi [(y [m], pay)], kutu olculeri [m], not)
 POINT_MAP = {
     "Motor bolgesi isi kecesi": ([(0.0, 1.0)], (0.30, 0.10, 0.01), "motor alti plaka"),
+    "Motor yatagi": ([(0.0, 1.0)], (0.12, 0.17, 0.17), "motor on yuzu cevresinde halka/kelepce bolgesi"),
     "ECU + pompa": ([(0.0, 1.0)], (0.10, 0.07, 0.05), "merkez hatti"),
     "Servolar: aileron+flap": ([(+0.22, .25), (-0.22, .25), (+0.50, .25), (-0.50, .25)],
                                (0.04, 0.03, 0.012), "flap servolari +-0.22 m, aileron +-0.50 m"),
@@ -144,6 +143,10 @@ POINT_MAP = {
 FUEL_TANKS = ["tank_fuselage", "tank_center", "tank_wing_L", "tank_wing_R"]
 
 
+def _attach_box():
+    return cq.Solid.makeBox(ATTACH_X_MM[1] - ATTACH_X_MM[0], 400, 400, cq.Vector(ATTACH_X_MM[0], -200, -200))
+
+
 def match(name, table):
     for k, v in table.items():
         if name.startswith(k):
@@ -155,11 +158,10 @@ def build_items():
     bodies, rows = [], []
     for name, m, x, z in P.MASS_ITEMS:
         sol, srf, pt = match(name, SOLID_MAP), match(name, SURFACE_MAP), match(name, POINT_MAP)
-        if name.startswith("Kanat baglantisi"):
-            fr = load("frames")
-            cut = fr.intersect(cq.Solid.makeBox(ATTACH_X_MM[1] - ATTACH_X_MM[0], 400, 400,
-                                                cq.Vector(ATTACH_X_MM[0], -200, -200)))
-            b, q = solid_body(name, m, ["frames[x960-1200]"], shape=cut)
+        if name.startswith("Kanat baglantisi"):       # frames katisinin kanat baglanti dilimi
+            b, q = solid_body(name, m, ["frames[x960-1200]"], shape=load("frames").intersect(_attach_box()))
+        elif name.startswith("Bulkhead"):             # geri kalan cerceveler (dilim cikarilmis; cift sayim yok)
+            b, q = solid_body(name, m, ["frames-[x960-1200]"], shape=load("frames").cut(_attach_box()))
         elif sol:
             b, q = solid_body(name, m, sol)
         elif srf:
@@ -189,7 +191,10 @@ def fuel_tanks():
             Vin = V - A * T_TANK_WALL_MM
         else:                           # kanat/orta tanklari zaten ic bosluk katisi
             Vin = V
-        tanks[t] = dict(V_L=Vin * 1e-6, c=c * MM, J_unit=J, V_solid=V)
+        V_L = Vin * 1e-6
+        if t.startswith("tank_wing"):   # brut bosluk -> kullanilabilir hacim (duvar/kapak/kullanilamaz yakit)
+            V_L = min(V_L, P.FUEL["tanks"].get("wing_integral_usable_L_each", V_L))
+        tanks[t] = dict(V_L=V_L, V_gross_L=Vin * 1e-6, c=c * MM, J_unit=J, V_solid=V)
     return tanks
 
 
@@ -242,8 +247,9 @@ def main():
                                      dm_pct=round(100 * (b.m - ms_nom["m"]) / ms_nom["m"], 3),
                                      dx_mm=round((b.r[0] - ms_nom["x_cg"]) * 1e3, 2)),
         )
-        r["check"]["ok_mass_1pct"] = bool(abs(r["check"]["params_nominal_frac"]["dm_pct"]) <= 1.0)
-        r["check"]["ok_xcg_5mm"] = bool(abs(r["check"]["params_nominal_frac"]["dx_mm"]) <= 5.0)
+        # tolerans kontrolu ayni yakit KUTLESINDE (kapasite farki kontrolu bozmasin)
+        r["check"]["ok_mass_1pct"] = bool(abs(r["check"]["dm_pct"]) <= 1.0)
+        r["check"]["ok_xcg_5mm"] = bool(abs(r["check"]["dx_mm"]) <= 5.0)
         rk = roskam(b.m)
         r["roskam_same_mass"] = {k: round(v, 4) for k, v in rk.items()}
         r["ratio_cad_over_roskam"] = {k: round(r[k] / rk[k], 3) for k in ("Ixx", "Iyy", "Izz")}
@@ -278,6 +284,7 @@ def main():
              "(ucus ekseninde x ileri/z asagi iken de ayni isaret). Ixy, Iyz ~0 (simetri).",
         fuel=dict(density_kg_L=P.FUEL["density"], capacity_L=round(cap_L, 4), capacity_kg=round(cap_kg, 4),
                   params_fuel_kg=P.FUEL["mass"],
+                  cg_params_fuel_m=[round(v, 4) for v in combine(fuel_bodies(tanks, f_par), "yakit").r],
                   tanks={t: dict(V_L=round(d["V_L"], 4), cg_m=[round(v, 4) for v in d["c"]])
                          for t, d in tanks.items()},
                   model="her tanktan ayni oranda bosalma; yakit tank katisinin hacim merkezinde ve "
@@ -296,8 +303,9 @@ def main():
     for r in rows:
         print(f"{r['item'][:44]:44s} {r['m']:5.2f} {r['x_params']:6.3f} {r['x_cad']:6.3f} "
               f"{r['dx_mm']:6.1f} {r['dz_mm']:6.1f}  {r['src']}")
-    print(f"\nyakit kapasitesi {cap_L:.3f} L = {cap_kg:.3f} kg; tanklar:",
-          {t: round(d['V_L'], 3) for t, d in tanks.items()})
+    print(f"\nyakit kapasitesi (kullanilabilir) {cap_L:.3f} L = {cap_kg:.3f} kg; tanklar:",
+          {t: round(d['V_L'], 3) for t, d in tanks.items()},
+          "| params yakiti CG:", out["fuel"]["cg_params_fuel_m"])
     for k, r in res.items():
         c = r["check"]
         print(f"[{k:12s}] m={r['m']:.3f} cg=({r['cg_m'][0]:.4f},{r['cg_m'][1]:.4f},{r['cg_m'][2]:.4f}) "

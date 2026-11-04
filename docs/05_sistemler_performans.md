@@ -67,7 +67,7 @@ Trade study: [trade_S_motor.png](../out/trade_S_motor.png).
 | Gövde ana tankı (x 0,75–1,00 m) | 3,73 L (iter4: +0,10 L) | ~0,87 m |
 | Kanat kutusu orta tankı (gövde içinde) | 0,27 L | 1,082 m |
 | Kanat kökü entegre tanklar (2×, η 0,06–0,55) | 2 × 0,715 L brüt; **kullanılabilir 2 × 0,57 L** | 1,151 m |
-| **Toplam** | **5,43 L brüt / ~5,14 L kullanılabilir** (≥ 5,0 L gereken) | **0,951 m** (CAD) |
+| **Toplam** | **5,43 L brüt / 5,14 L kullanılabilir** (≥ 5,0 L gereken) | **0,940 m** (CAD, 4,0 kg yakıt) |
 
 Notlar:
 - Yapı analizi kanat tankı için %5 bölme payı ve ara bölmeyle ~0,57–0,65 L/yarı veriyor. En kötü durumda toplam hacim ~5,2 L kalır ve yine yeterlidir.

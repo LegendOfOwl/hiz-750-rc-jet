@@ -32,10 +32,14 @@ GAM = 1.4
 
 I = P.INLET
 A_CAP = I["width"] * I["height"]
-A_FACE = 125e-4                       # CAD: motor yuzundeki kanal kesiti [m2]
 L_DUCT = I["duct_length"]
-OFFSET = 0.088                         # CAD: dudak merkezi - motor ekseni dikey ofseti [m]
+OFFSET = I["lip_z_center"]             # motor ekseni z = 0 -> dikey ofset = dudak merkezi z [m]
 R_FUS = P.FUSELAGE["d_max"] / 2
+try:                                    # motor yuzundeki kanal kesiti CAD raporundan
+    with open(os.path.join(ROOT, "cad", "out", "cad_report.json"), encoding="utf-8") as _f:
+        A_FACE = json.load(_f)["inlet"]["face_area_cm2"] * 1e-4
+except (OSError, KeyError, ValueError):
+    A_FACE = 125e-4                     # CAD raporu yoksa iter3 degeri
 BURY = R_FUS - (I["lip_z_center"] - I["height"] / 2)   # dudak alt kenarinin govde yuzeyinin altinda kalan kismi [m]
 RAMP_THICKENING = 1.5                  # 7 deg rampada sinir tabaka kalinlasmasi (ampirik, NACA gomulu alik verisi araligi 1.3-1.8)
 
@@ -50,9 +54,11 @@ def boundary_layer(V, x, nu):
 
 
 def ingested_recovery(Minf, delta, h_cap, bury):
-    """Dudak kesitinin alt `bury`+... kismina giren sinir tabakanin kutle-agirlikli pt orani.
-    Dudak alt kenari rampa tabanina (duvar) yakin kabul edilir: kesitte y=0 duvar."""
-    y = np.linspace(1e-5, h_cap, 2000)
+    """Dudak kesitine giren sinir tabakanin kutle-agirlikli pt orani.
+    bury > 0: dudak alt kenari rampa tabaninda (duvarda), y = 0'dan itibaren yutar.
+    bury <= 0: dudak govde yuzeyinin -bury kadar ustunde (diverterli), y = -bury'den itibaren yutar."""
+    y0 = max(0.0, -bury)
+    y = np.linspace(y0 + 1e-5, y0 + h_cap, 2000)
     u = np.where(y < delta, (y / delta) ** (1 / 7), 1.0)
     # statik basinc sabit, sicaklik Crocco-Busemann ile adyabatik duvar yaklasimi
     T_ratio = 1 + (GAM - 1) / 2 * Minf ** 2 * (1 - u ** 2)    # T/T_inf
@@ -63,7 +69,7 @@ def ingested_recovery(Minf, delta, h_cap, bury):
     return float(np.trapezoid(w * pt_loc, y) / np.trapezoid(w, y)), float(np.trapezoid(w, y) / h_cap)
 
 
-def internal_losses(MFR, Minf):
+def internal_losses(MFR):
     """Ic kayiplari serbest akim dinamik basincina orani (Delta pt / q_inf) olarak."""
     q_ratio_lip = MFR ** 2          # dudak ici q / q_inf (sikistirilamaz yaklasim)
     K_lip = 0.02 if MFR <= 1.0 else 0.02 + 0.25 * (MFR - 1.0) ** 2   # MFR>1: dudak ayrilmasi (kalkis)
@@ -84,11 +90,12 @@ def analyse(V):
     nu = mu / rho
     M = V / a
     delta0 = boundary_layer(V, I["x_lip"], nu)
-    delta = delta0 * RAMP_THICKENING
-    mdot = P.ENGINE["mdot_air"] * (1 + 0.6 * M * M)           # ram ile debi artisi (sizing ile tutarli)
+    delta = delta0 * (RAMP_THICKENING if BURY > 0 else 1.0)  # rampa yalniz gomulu dudakta
+    sigma = rho / SZ.isa(0.0)[0]
+    mdot = P.ENGINE["mdot_air"] * sigma * (1 + D["k_ram"] * M * M)   # sizing itki modeliyle ayni ram varsayimi
     MFR = mdot / (rho * V * A_CAP)
     eta_bl, mass_frac = ingested_recovery(M, delta, I["height"], BURY)
-    dpt_q, k = internal_losses(MFR, M)
+    dpt_q, k = internal_losses(MFR)
     q = 0.5 * GAM * M * M          # q / p
     eta_int = 1 - dpt_q * q / pt_over_p(M)
     eta_r = eta_bl * eta_int

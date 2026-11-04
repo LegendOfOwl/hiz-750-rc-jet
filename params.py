@@ -129,11 +129,11 @@ MASS_ITEMS = [
     ("Kuyruk tamponu (egzoz konisi alti)",      0.04, 1.90, -0.06),
     ("Boya / dolgu / balans",                   0.35, 1.00, 0.00),
 ]
-FUEL = dict(mass=4.0, x=0.955, z=-0.029, density=0.80,  # iter3 son: CAD ic hacimlerinden olculen yakit CG si (5.33 L kapasite)
+FUEL = dict(mass=4.0, x=0.940, z=-0.026, density=0.80,  # iter4: cad/mass_properties.py, 4.0 kg yakitin CG si (kullanilabilir hacimlerle)
             tanks=dict(fuselage_L=3.73, wing_integral_L_each=0.715, wing_eta=(0.06, 0.55),
                        wing_integral_usable_L_each=0.57,   # iter4: FE/yapi uzlasmasi (brut 0.715; duvar, kapak, %5 kullanilamaz, %2 dolum payi)
                        center_L=0.27,      # iter3: govde icinden gecen kanat kutusu orta tanki
-                       belly_tank=False))  # alcak kanatta karin tanki yeri kalmadi; toplam 5.2 L ic hacim
+                       belly_tank=False))  # alcak kanatta karin tanki yeri kalmadi; kullanilabilir toplam 5.14 L (brut 5.43 L)
 
 
 def wing_geom(w=WING):

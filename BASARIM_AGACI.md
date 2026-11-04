@@ -59,7 +59,12 @@ HIZ-750
     ├─ ✅ FEM konsol benchmark (S8R, 3 ağ) kabul
     ├─ ✅ Termal 1B benchmark (3 ağ) kabul
     ├─ 🟡 Motor bölmesi termal → 2 mm ısı keçesi ZORUNLU (h/k/ε ölçülmedi)
-    ├─ 🔄 FEM: CLT kupon + kanat kabuk statik/modal + Tsai-Wu (Claude alt ajanı)
+    ├─ ✅ FEM CLT kupon benchmark (5 laminat, 3 ağ, hata ≤ %1,12 < %2)
+    ├─ 🟡 FEM kompozit kanat kabuk (7168 S8R, dolu/boş tank; REVIEW_REQUIRED — malzeme sabitleri varsayım)
+    │   ├─ f_1B 39,5 Hz, f_1T 272,5 Hz (1D fe_modal 305,7 Hz → kabuk %11 düşük; GVT ≥ 230 Hz yine OK)
+    │   ├─ 18 g uç sehim 47,7 mm; min Tsai-Wu R 3,66 (KD 0,544 ile 1,99), arka kiriş kapağı
+    │   ├─ ⚠️ Flutter (f_1T ölçekleme) 1307 → ≈1185 km/h: 1080 OK, 1,25 model payı (1350) YOK → f_1T ≥ 316 Hz gerek
+    │   └─ ⚠️ Kaburgalar f_1T'yi belirliyor (kaburgasız 198–207 Hz < 230)
     ├─ 🔄 CFD doğrulama (Codex 5HV4)
     │   ├─ 🟡 Düz levha kaba ağ: kapıyı geçti (Cf 0,002854, y+max 0,49)
     │   ├─ 🔄 Düz levha orta ağ: ν̃ 3,07 mertebe düştü, devam koşusu
@@ -116,6 +121,9 @@ HIZ-750
 | **SU2'de LINEAR_SOLVER_PREC varsayılanı LU_SGS sanıldı; gerçek değer ILU** (CConfig.cpp sat. 1699; eski doc comment yanıltıcı). Pilot koşuda LINEAR_SOLVER_ERROR 0,01 kullanıldı (resmi varsayılan 1e-6) | Codex'in SU2 v8.2.0 kaynak incelemesi | Iraksamaların muhtemel sebebi. Resmi cfg ile satır satır karşılaştırılıyor |
 | Resmi ağ dosyasının nokta satırları x/y/z/ID biçiminde; denetim betiği yanlış okuyordu | Ağ denetimi | Son sütun ID olarak okunuyor, test eklendi |
 | "ILU/1e-6 ıraksamayı açıklar" hipotezi | Resmi ayarlarla pilot: ikisi de aynı biçimde (önce ~4 mertebe düşüş, sonra ani patlama) ıraksadı | Hipotez çürütüldü. Ortak faktör MGLEVEL 3 ve sabit CFL; sırada MG0 + CFL_ADAPT testi |
+| 1D fe_modal burulma frekansı iyimser (%11) | Kabuk FEM | Flutter payı %21'den ~%10'a indi; kabuk mod şekilleriyle aeroelastik çözüm gerek |
+| CalculiX 2.20: çok iş parçacığı sahte gerilme, PaStiX gürültü/askı, kompozit kabukta MASS elemanı çalışmıyor, kökte 1-6 kısıtı yük kaybettiriyor | FEM alt ajanı kupon/konsol koşuları | `--threads 1`, SPOOLES, NSM tabakası + `*EQUATION` kütleleri, 1-3 ankastre |
+| Taslak kanatta web'ler 0° (G 4,5 GPa) | FEM incelemesi | ±45 kumaşa çevrildi |
 | Gecikmiş onay cevabı "rejected by user" sayıldı | Codex köprüsü | 10 dk zaman aşımı. Gerekirse Codex'ten isteği yeniden yollaması istenir |
 
 ---
@@ -150,7 +158,7 @@ HIZ-750
 
 **Şu an (2026-11-04, 22:20):**
 1. 🔄 Codex 5HV4 kullanım limitine takılıp durdu (yeniden açılma 23:26). İşi Claude devraldı. Codex'in kodu ve sonuçları hâlâ yalnız `C:/Users/Urungu/.claude/claudex/worktrees/5HV4` içinde (özet: `cfd/RESULTS_iter5.md`), ana repoya alınmadı. ILU/1e-6 pilotları bu worktree'de koşuyor; loglar `C:/hz750run/logs/pilot_*_ilu.log`. Pilot yakınsarsa ıraksamanın sebebi eski ayardı, yine ıraksarsa ağ.
-2. 🔄 FEM alt ajanı: CLT kupon, ardından kanat kabuğu 3 ağda, Tsai-Wu ve `fe_modal` f_1T karşılaştırması (flutter etkisi dahil). Çıktı `fem/RESULTS_iter5.md`. Çalışma ağacındaki kaydedilmemiş `fem/` ve `validation/` değişiklikleri bu ajana ait.
+2. ✅ FEM alt ajanı bitti, commit 692fdd3 (özet `fem/RESULTS_iter5.md`). **Tasarım kararı bekliyor:** 1350 km/h flutter payı için f_1T'yi 272 → ≥316 Hz'e çıkarmak (kabuk katı/kaburga/kiriş) ya da model payını yeniden tanımlamak. Not: `study.py` kaynak SHA'larını tutuyor; Codex cfd yaması alınınca cantilever, coupon ve kanat çalışmaları sırayla yeniden koşulmalı.
 
 **Sıradakiler:**
 1. Codex yamasını incele ve al (`mcp__claudex__apply`).
@@ -169,3 +177,4 @@ HIZ-750
 ## 7. Güncelleme günlüğü
 - 2026-11-04: İlk sürüm (v0.6 taslağı; CFD ve FEM sürüyor).
 - 2026-11-04 22:20: Resmi RAE native sonuçları ve ikili kabul kararı işlendi; Codex limiti doldu, CFD'yi Claude devraldı.
+- 2026-11-04: ILU pilotları ıraksadı (hipotez çürüdü), MG0 testi başladı. FEM bitti: kupon kabul, kanat f_1T 272,5 Hz, flutter ≈1185 km/h.

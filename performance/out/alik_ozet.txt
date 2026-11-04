@@ -1,0 +1,15 @@
+Capture 60.5 cm2, motor yuzu 125 cm2 (AR 2.07), kanal 330 mm, ofset/uzunluk 0.267, dudak gomulme 22 mm
+ km/h     M  d_SL mm   MFR  eta_SL  eta_ic   eta_r ram ideal  ram eff  k_ram
+  150 0.123     25.1  2.52  0.9991  0.9482  0.9473    1.0106   0.9574 -2.824
+  300 0.246     21.8  1.30  0.9970  0.9850  0.9820    1.0429   1.0241  0.399
+  450 0.369     20.1  0.90  0.9938  0.9860  0.9799    1.0984   1.0762  0.561
+  600 0.491     19.0  0.72  0.9898  0.9854  0.9753    1.1795   1.1504  0.623
+  750 0.614     18.2  0.61  0.9852  0.9846  0.9701    1.2900   1.2515  0.666
+  800 0.655     17.9  0.59  0.9836  0.9844  0.9682    1.3342   1.2918  0.680
+
+Ic kayip katsayilari (dudak ici q'ya gore) @750: lip 0.020, surtunme 0.056, S-bukum 0.047, difuzor 0.077
+
+Vmax etkisi:
+  sizing tabani (k_ram 0.60, kayip %4)          Vmax  878 km/h (+0), T@750  299 N
+  alik analizi (k_ram 0.67, egzoz kaybi %2)     Vmax  897 km/h (+19), T@750  311 N
+  kotumser (+%2 pt kaybi)                       Vmax  887 km/h (+8), T@750  305 N

@@ -300,7 +300,8 @@ def solve(args, work, solver):
     converged = quality['iterative_converged']
     surface = csv_rows(work / "surface_flow.csv")
     yplus = max(pick(r, "Y_Plus", "yplus") for r in surface)
-    metrics = dict(cl=cl[-1], cd=cd[-1], cm=pick(rows[-1], "CMz", "Moment_z"))
+    moment_columns = ("CMy", "Moment_y") if args.case in ("aircraft", "inlet") else ("CMz", "Moment_z")
+    metrics = dict(cl=cl[-1], cd=cd[-1], cm=pick(rows[-1], *moment_columns))
     if args.case in ('rae2822','airfoil'):
         metrics['cm_su2_z'] = metrics['cm']
         metrics['cm'] = -metrics['cm']  # x downstream, y up; conventional nose-up Cm

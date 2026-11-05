@@ -2,14 +2,39 @@
 from pathlib import Path
 import tempfile
 import unittest
+from unittest import mock
 
 from cfd.mesh_audit import audit
-from cfd.cases import configuration
+from cfd.cases import configuration, solve
 from validation.run_case import parser
 from cfd.convergence import assess
 
 
 class MeshTests(unittest.TestCase):
+    def test_pitch_moment_uses_case_axis_and_preserves_2d_sign(self):
+        history = [dict(CD=.003, CL=.7, CMy=.12, CMz=.34)] * 100
+        surface = [dict(Y_Plus=.5, x=0., Pressure_Coefficient=0.)]
+        for case, expected in (("rae2822", -.34), ("flat_plate", .34), ("aircraft", .12), ("inlet", .12)):
+            for aliases in (False, True):
+                rows = [dict(row) for row in history]
+                if aliases:
+                    for row in rows:
+                        row["Moment_y"] = row.pop("CMy")
+                        row["Moment_z"] = row.pop("CMz")
+                with self.subTest(case=case, aliases=aliases), tempfile.TemporaryDirectory() as tmp:
+                    args = parser().parse_args([case])
+                    with mock.patch("cfd.cases.mesh_2d", return_value={}), \
+                         mock.patch("cfd.cases.reviewed_mesh", return_value={}), \
+                         mock.patch("cfd.cases.run_solver", return_value={}), \
+                         mock.patch("cfd.cases.csv_rows", side_effect=[rows, surface]), \
+                         mock.patch("cfd.convergence.assess", return_value=dict(iterative_converged=True)), \
+                         mock.patch("cfd.face_samples.samples", return_value=[]), \
+                         mock.patch("cfd.inlet_metrics.calculate", return_value=dict(mdot_kg_s=1.)):
+                        result = solve(args, Path(tmp), "synthetic_solver")
+                    self.assertEqual(result["metrics"]["cm"], expected)
+                    if case == "rae2822":
+                        self.assertEqual(result["metrics"]["cm_su2_z"], .34)
+
     def test_stable_force_does_not_hide_insufficient_residual_drop(self):
         rows = [dict(CD=.003, **{'rms[Rho]':-1-i*.05,'rms[nu]':-2-i*.05,'rms[RhoE]':3.}) for i in range(101)]
         self.assertTrue(assess(rows)['iterative_converged'])

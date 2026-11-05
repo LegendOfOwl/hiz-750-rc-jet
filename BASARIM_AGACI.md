@@ -1,7 +1,7 @@
 # HIZ-750 Başarım Ağacı (devir notu)
 
 > Farklı bir sohbete veya başka bir yapay zekâya devir için yazıldı. Projenin nereye geldiğini, her sonucun nasıl elde edildiğini, nelerin yanlış çıktığını ve sırada ne olduğunu anlatır.
-> **Son güncelleme:** 2026-11-04 · dal `iter5/yuksek-dogruluk` · son commit `1e280cc`
+> **Son güncelleme:** 2026-11-06 · dal `iter5/yuksek-dogruluk` · son kayıtlı commit `e1170e7`
 > **Güncelleme kuralı:** Her kilometre taşında (bir analiz kabul edildiğinde, yama alındığında, PR açıldığında, sürüm çıktığında) ve en az her çalışma oturumunun sonunda güncellenir. En yeni bilgi "Şu an" bölümündedir.
 
 İşaretler: ✅ bitti ve doğrulandı · 🟡 bitti ama koşullu ya da yalnızca masa başı · 🔄 sürüyor · ⏳ bekliyor · ❌ yanlış çıktı veya terk edildi
@@ -16,14 +16,14 @@
 
 **Dallar ve sürümler:**
 - `main` = v0.5.0, yayımlandı.
-- Çalışma dalı `iter5/yuksek-dogruluk` (v0.6 taslağı).
+- Çalışma dalı `iter5/yuksek-dogruluk` (v0.6.0 kapanışı, CHANGELOG tarihi 2026-11-06).
 - Etiketler: v0.4.0, v0.5.0.
 
 **Ana kurallar:**
 - Tek veri kaynağı `params.py`. Analizler ve CAD değerlerini buradan okur; sayılar başka bir yere sabit yazılmaz.
 - Bütün zincir `run_all.sh` ile yeniden üretilir. Bu dosya LF satır sonu ister (`.gitattributes`).
 - `main`'e birleştirmek için kullanıcıdan **açıkça** onay alınır.
-- Kullanıcı Codex'in kullanılmasına izin verdi (aşağıdaki Codex köprüsü bölümüne bak). Limit bitmek üzereyse yeni bir sürüme başlanmaz.
+- Güncel çalışma aracı `codex-cli`. Kapanış düzeltmeleri repo kökünde yürütülür.
 
 **Python ortamı:** `C:/Users/Urungu/.hz750/Scripts/python.exe`. Kısa yolun sebebi: OCP/CadQuery uzun Windows yollarında DLL hatası veriyor.
 
@@ -57,7 +57,7 @@ HIZ-750
 └─ 🔄 v0.6.0 İter5: yüksek doğruluk (SU2 / CalculiX / gmsh)
     ├─ ✅ Araç kurulumu (host, SHA256 kayıtlı)
     ├─ ✅ FEM konsol benchmark (S8R, 3 ağ) kabul
-    ├─ ✅ Termal 1B benchmark (3 ağ) kabul
+    ├─ ⚠️ Termal 1B benchmark (3 ağ) tarihsel kabul; params değişikliği nedeniyle STALE, yeniden koşulmalı
     ├─ 🟡 Motor bölmesi termal → 2 mm ısı keçesi ZORUNLU (h/k/ε ölçülmedi)
     ├─ ✅ FEM CLT kupon benchmark (5 laminat, 3 ağ, hata ≤ %1,12 < %2)
     ├─ 🟡 FEM kompozit kanat kabuk (7168 S8R, dolu/boş tank; REVIEW_REQUIRED — malzeme sabitleri varsayım)
@@ -65,22 +65,18 @@ HIZ-750
     │   ├─ 18 g uç sehim 47,7 mm; min Tsai-Wu R 3,66 (KD 0,544 ile 1,99), arka kiriş kapağı
     │   ├─ ⚠️ Flutter (f_1T ölçekleme) 1307 → ≈1185 km/h: 1080 OK, 1,25 model payı (1350) YOK → f_1T ≥ 316 Hz gerek
     │   ├─ ⚠️ Kaburgalar f_1T'yi belirliyor (kaburgasız 198–207 Hz < 230)
-    │   └─ 🟡 Rijitleştirme çalışması (21 seçenek orta, 4 ince ağ): 316 Hz'e HİÇBİRİ ulaşmıyor, kat eklemek kütleyle birlikte doyuyor (6/1 → 281 Hz). Seçilen s41r043w1: 4/1 kat + 43 mm kaburga + web +1 kat → f_1T 295,2 Hz (inceleme sonrası düzeltilmiş model), Vf ≈1267 km/h (1080'e %17 pay), +0,28 kg, kesit CG 0,428c, Tsai-Wu R 4,23. params'a işlendi, `run_all.sh` temiz geçti: MTOW 17,16 → 17,44 kg, statik marj %13,0–32,8.
+    │   └─ 🟡 Rijitleştirme: ilk tarama 21 orta / 4 ince seçenek; inceleme sonrası 5 varyant yeniden çözüldü. Seçilen s41r043w1 (4/1 kat + 43 mm kaburga + web +1 kat), f_1T 295,2 Hz dolu / 302,2 Hz boş, Vf ≈1267 / 1271 km/h, 1080 km/h gereksinime %17 pay, toplam +0,285 kg, kesit CG 0,428c, Tsai-Wu R 4,16, uç sehim 43,0 mm. 316 Hz hedefine ulaşılamadı. Önceki params/zincir yenilemesiyle MTOW 17,44 kg, statik marj %13,0–32,8.
     │       └─ ⚠️ 1D fe_modal yeni kat planıyla Vf 1813 km/h veriyor ve Vf(f_T) eğrisi düz (kritik mod değişti) → 1D sonuç GÜVENİLMEZ/iyimser. Tasarım değeri kabuk-FEM ölçekli **≈1267 km/h** (sabit iter4 referansı). Kabuk mod şekilleriyle p-k çözümü açık iş
-    ├─ 🔄 CFD doğrulama (Codex 5HV4)
-    │   ├─ 🟡 Düz levha kaba ağ: kapıyı geçti (Cf 0,002854, y+max 0,49)
-    │   ├─ 🔄 Düz levha orta ağ: ν̃ 3,07 mertebe düştü, devam koşusu
-    │   ├─ ❌ Düz levha ince ağ: 1202. iterasyonda ıraksadı → yeniden koşulacak
-    │   ├─ ❌ RAE2822 Case 6 kendi ağımız: 1430. iterasyonda ıraksadı
-    │   ├─ 🟡 Düz levha orta ağ: 7 restart sonrası kapıyı geçti (Cf 0,0028585, Schlichting'e −%4,8)
-    │   ├─ 🟡 Resmi SU2 RAE2822 cfg+ağ native: iteratif kapı ✅, CL −%2,6 / CD +%5,9 / Cm +%2,3 → çözücü/cfg referansı KABUL; Cp RMSE 0,098 > 0,08 → deney Cp kabulü YOK (SA şok konumu)
-    │   ├─ ❌ ILU + LINEAR_SOLVER_ERROR 1e-6 pilotları: ikisi de yine ıraksadı (RAE 1452, düz levha 1155. iter) → bu ayar sebep DEĞİL
-    │   ├─ 🟡 MG0 + CFL_ADAPT düz levha ince: ıraksamadı, SU2 ölçütüyle 3082. iterasyonda durdu (Cauchy 9,99e-7) → ıraksama MULTIGRID kaynaklıydı. AMA proje kapısı geçmedi (bağıl Cauchy100 3,4e-5, ν̃ 3,12 mertebe < 4) → devam koşusu gerek, henüz GCI girdisi değil
-    │   ├─ ❌ MG0 RAE kaba (kendi C-ağı): 20000 iter ıraksamadı ama yakınsamadı (ρ −4,7, Cauchy 7,5e-5); CL 0,696 (−%6), CD 0,0157 (+%24) → sorun AĞ (±30c uzak alan, köşe sinüsü 0,277); resmi ağ aynı cfg ile iyi
-    │   ├─ ⏳ NACA 64A007 M0,61 (3 ağ) ↔ NeuralFoil + Kármán-Tsien
-    │   └─ ⏳ (zaman kalırsa) 3B sınır tabaka ağları
-    ├─ ⏳ Codex yamasının incelenip alınması
-    ├─ ⏳ docs/10, README, CHANGELOG [0.6.0] entegrasyonu
+    ├─ 🔄 CFD doğrulama
+    │   ├─ ✅ Düz levha SA, üç ağ BENCHMARK_ACCEPTED; ince Cf 0,0028613, Schlichting −%4,74, p 0,434, ince GCI %0,88
+    │   ├─ ✅ Düz levha MG3 ıraksaması sonrası MG0 + CFL_ADAPT ve proje kapısıyla uyumlu durma kuralıyla üç ağ kapıyı geçti
+    │   ├─ 🟡 Resmi SU2 RAE ağı+cfg çözücü kontrolü kabul; CL −%2,6, CD +%5,9; Cp RMSE 0,0984 > 0,08, deney Cp kabulü açık
+    │   ├─ ⚠️ RAE2822 PENDING (iz bölgesi); yeni tek bloklu C-ağı 100c, min köşe sinüsü 0,707; MG3 ıraksadı, MG0 ıraksamıyor ama kaba kapı geçmedi
+    │   │   └─ Ara CL 0,730 (−%1,8), CD 0,01345 (+%5,9), Cp RMSE 0,092; residual x≈1,2–2c iz kesitinde, orta/ince ve GCI bekliyor
+    │   ├─ ⏳ SST ve profil α/Mach taraması
+    │   └─ ⏳ 3B sınır tabaka ağları
+    ├─ ✅ İnceleme kapanış düzeltmeleri kodlandı, GCI plato reddi / 3B CMy / v0.5.0 baseline; Python regresyonları erişim nedeniyle çalıştırılamadı
+    ├─ ✅ docs/10, README, CHANGELOG [0.6.0] ve başarım ağacı güncellendi (2026-11-06)
     ├─ ⏳ PR → kullanıcı onayı → birleştirme
     └─ ⏳ v0.6.0 etiketi ve release
 ```
@@ -144,43 +140,29 @@ HIZ-750
 
 ---
 
-## 5. Codex köprüsü (yerel ayar)
+## 5. Güncel çalışma aracı
 
-- Değişen dosya: `C:/Users/Urungu/.claude/mods/claudex/scripts/appserver.mjs`. Orijinali: `appserver.mjs.bak-orig`.
-- Aç/kapa: `~/.claude/mods/claudex/claude-approves.json` içinde `{"enabled": true}`.
-- Codex'in sandbox dışındaki her isteği Claude'a `approve-...` sorusu olarak gelir. Cevap `mcp__claudex__tell` ile verilir:
-  - **ALLOW:** salt okuma, analiz ve worktree içine yazım. Kapsamı belli çözücü koşuları da bu sınıfa girer.
-  - **DENY:** yanlış vaka, kapsam dışı iş, gerekçesi olmayan indirme.
-- Codex'e verilen talimatlar:
-  - Salt okuma işlerini önce kendi sandbox'ında denesin.
-  - Onayı yalnızca çözücü başlatırken, süreç durdururken ve bir şey indirirken istesin.
-  - İlerlemeyi en fazla 15 dakikada bir kontrol etsin.
-  - `docs/10`, README ve CHANGELOG'a dokunmasın; özetini `cfd/RESULTS_iter5.md`'ye yazsın.
-- Codex'in worktree'si: `C:/Users/Urungu/.claude/claudex/worktrees/5HV4`.
+Çalışma repo kökünde codex-cli ile yürütülüyor. Claudex köprüsü ve 5HV4 worktree'si önceki oturumların tarihsel kayıtlarıdır. Kurtarılan CFD değişiklikleri ana çalışma dalına alındı, son CFD paketi e1170e7 kaydında.
 
 ---
 
 ## 6. Şu an ve sıradakiler
 
-**Şu an (2026-11-04, 22:20):**
-1. 🔄 Codex 5HV4 kullanım limitine takılıp durdu (yeniden açılma 23:26). İşi Claude devraldı. Codex'in kodu ve sonuçları hâlâ yalnız `C:/Users/Urungu/.claude/claudex/worktrees/5HV4` içinde (özet: `cfd/RESULTS_iter5.md`), ana repoya alınmadı. ILU/1e-6 pilotları bu worktree'de koşuyor; loglar `C:/hz750run/logs/pilot_*_ilu.log`. Pilot yakınsarsa ıraksamanın sebebi eski ayardı, yine ıraksarsa ağ.
-2. ✅ FEM alt ajanı bitti, commit 692fdd3 (özet `fem/RESULTS_iter5.md`). **Tasarım kararı bekliyor:** 1350 km/h flutter payı için f_1T'yi 272 → ≥316 Hz'e çıkarmak (kabuk katı/kaburga/kiriş) ya da model payını yeniden tanımlamak. Not: `study.py` kaynak SHA'larını tutuyor; Codex cfd yaması alınınca cantilever, coupon ve kanat çalışmaları sırayla yeniden koşulmalı.
+**Şu an (2026-11-06)**
 
-3. 🔄 **Kanat rijitleştirme (kullanıcı onayladı):** FEM alt ajanı (id a17d5c8c0f049b750) seçenek çalışması yapıyor: skin_plies (4,1)/(5,1)/(3,2)/(4,2), web'e ek ±45 kat, kaburga aralığı 0,065 m. Hedef: dolu tankta f_1T ≥ 316 Hz, kesit CG ≤ 0,45c, en hafif seçenek. Çıktı `fem/results/stiffening/` + `fem/RESULTS_iter5.md`. Ajan params'a dokunmuyor. **Devralan yapacak:** seçimi `params.py` WING["skin_plies"] ve kanat kütle kalemine işle → `run_all.sh` → fe_modal flutter, kütle/CG kontrolü → dokümanlar.
-4. 🔄 MG0 + CFL_ADAPT CFD pilotları: `C:/hz750run/pilot_mg0_rae2822`, `pilot_mg0_flat_plate` (solver.log). Yakınsarsa sebep multigrid → `cfd/cases.py` ayarını MG0'a çevir, 3 ağı yeniden koş. Iraksarsa sebep ağ (RAE: ±30c uzak alan, min köşe sinüsü 0,277).
-5. ⏳ Codex worktree yaması (`C:/Users/Urungu/.claude/claudex/worktrees/5HV4`) ana repoya alınmadı; Codex limiti 23:26'da açılıyor.
+- Düzeltilmiş s41r043w1 seçimi geçerli. f_1T 295,2 / 302,2 Hz, ölçekli flutter ≈1267 / 1271 km/h, toplam ek kütle +0,285 kg, Tsai-Wu R 4,16, uç sehim 43,0 mm. 316 Hz hedefi sağlanmadı, kabuk mod şekilleriyle p-k açık.
+- Düz levha SA üç ağda BENCHMARK_ACCEPTED, ince GCI %0,88 ve p 0,434. RAE2822 PENDING, residual iz bölgesinde. MG0 ıraksamayı önledi, iteratif kapı ve deney Cp kabulü bekliyor.
+- GCI tek-fark platosu kabulden çıkarıldı, 3B CFD yunuslama momenti CMy'ye bağlandı. Tarihsel baseline v0.5.0 Git byte'larına sabitlendi, güncel analiz dosyaları ayrı listelendi.
+- README, CHANGELOG [0.6.0] ve docs/10 güncellendi. Sürüm kaydı 2026-11-06 tarihli. Commit, etiket ve push bu kapanışta yapılmadı.
+- Python erişim engeli nedeniyle yeni regresyonlar ve solver yeniden koşumları bu oturumda çalıştırılamadı. Hash karşılaştırmasında düz levha, konsol ve kupon kayıtlarının kaynakları farklı, yeniden değerlendirmede STALE sonucu bekleniyor. Kayıtlı benchmark kabulü kaynak koşusuna aittir. thermal_1d ayrıca params değişikliği nedeniyle STALE.
 
-**Sıradakiler:**
-1. Codex yamasını incele ve al (`mcp__claudex__apply`).
-2. FEM ve CFD sonuçlarını `docs/10`, README ve CHANGELOG [0.6.0]'a işle. f_1T değişirse flutter ve GVT ölçütlerini güncelle.
-3. Ağır analizler bitince `run_all.sh`'yi koş; çıktılar tutarlı mı kontrol et.
-4. PR aç (iter5 → main). Birleştirmek için kullanıcı onayı al.
-5. v0.6.0 etiketi ve GitHub Release.
-6. Sonraki iterasyon adayları (başlamadan önce kullanıcıya sor):
-   - 3B tam uçak RANS
-   - S-kanal DC60
-   - 350 km/h altı kontrol yasası
-   - Hamle yükü azaltma
+**Sıradakiler**
+
+1. RAE iz bloğu ağı. İz kesiti normal dağılımı gevşetilip katman eğimi sınırlanmalı, kaba MG3/MG0 ardından kapı geçerse orta/ince koşulmalı.
+2. Kabuk mod şekilleriyle p-k flutter çözümü.
+3. thermal_1d yeniden koşusu (params nedeniyle STALE).
+4. SST ve profil taraması.
+5. GVT ve fiziksel testler.
 
 ---
 
@@ -188,3 +170,4 @@ HIZ-750
 - 2026-11-04: İlk sürüm (v0.6 taslağı; CFD ve FEM sürüyor).
 - 2026-11-04 22:20: Resmi RAE native sonuçları ve ikili kabul kararı işlendi; Codex limiti doldu, CFD'yi Claude devraldı.
 - 2026-11-04: ILU pilotları ıraksadı (hipotez çürüdü), MG0 testi başladı. FEM bitti: kupon kabul, kanat f_1T 272,5 Hz, flutter ≈1185 km/h.
+- 2026-11-06: İter5 kapanışı. Düzeltilmiş FEM sayıları, düz levha SA kabulü (GCI %0,88), RAE iz bölgesi PENDING ve thermal_1d STALE işlendi. GCI plato reddi, 3B CMy ve tarihsel v0.5.0 baseline düzeltmeleri yapıldı. Güncel araç codex-cli, sıradaki beş iş yenilendi. Python regresyonları erişim engeli nedeniyle çalıştırılamadı.

@@ -15,7 +15,7 @@ from fem.wing_post import tsai_wu_ratio
 from thermal.cases import energy_solution, stack_mesh
 from cfd.inlet_metrics import calculate
 from cfd.cases import csv_rows, pick, coordinates
-from validation.common import Blocked
+from validation.common import Blocked, ROOT, digest, write_json
 from types import SimpleNamespace
 
 
@@ -57,6 +57,28 @@ class GridConvergenceTests(unittest.TestCase):
             gci([2, 1, 3], [1, 2, 3])
         self.assertEqual(gci([1, 1.1, 1.2], [1, 2, 3])["status"], "INSUFFICIENT_REFINEMENT")
         self.assertIsNone(error(1e-6, 0)["percent"])
+
+    def test_single_roundoff_difference_is_unresolved(self):
+        for values in ([1, 1, 2], [1, 2, 2], [1, 1 + 1e-12, 2], [1, 2, 2 + 1e-12]):
+            with self.subTest(values=values):
+                self.assertEqual(gci([1, 2, 4], values)["status"], "PLATEAU_UNRESOLVED")
+        self.assertEqual(gci([1, 2, 4], [1, 1 + 1e-12, 1 + 2e-12])["status"], "EXACT_OR_ROUNDOFF")
+
+    def test_plateau_never_passes_study_including_coupon_spread_exception(self):
+        for case in ("flat_plate", "coupon"):
+            for values in ([1, 1, 1.001], [1, 1.001, 1.001]):
+                with self.subTest(case=case, values=values), tempfile.TemporaryDirectory() as tmp:
+                    for level, h, value in zip(("fine", "medium", "coarse"), (1, 2, 4), values):
+                        row = dict(case=case, case_id=case, status="COMPUTED", mesh=dict(h=h),
+                                   provenance=dict(params_sha256=digest(ROOT / "params.py")),
+                                   code_sha256={}, execution=dict(executable_sha256="synthetic"),
+                                   conditions={}, assumptions={}, acceptance_metrics=["cf_mean"],
+                                   metrics=dict(cf_mean=value, cf_ittc=1., cf_schlichting=1.),
+                                   errors=dict(cf_mean=dict(percent=0.)))
+                        write_json(Path(tmp) / f"{level}.json", row)
+                    result = evaluate(tmp)
+                    self.assertEqual(result["status"], "REVIEW_REQUIRED")
+                    self.assertIn("cf_mean: GCI PLATEAU_UNRESOLVED", result["reasons"])
 
     def test_missing_results_never_pass(self):
         with tempfile.TemporaryDirectory() as tmp:

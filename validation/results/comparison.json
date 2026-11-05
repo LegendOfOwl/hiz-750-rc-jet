@@ -1,11 +1,12 @@
 {
   "baseline": {
-    "kind": "EXISTING_SEMI_EMPIRICAL_NOT_ITER5_RESULTS",
+    "kind": "HISTORICAL_SEMI_EMPIRICAL_BASELINE",
+    "source_ref": "v0.5.0",
     "source_sha256": {
-      "aero/out/sonuclar.json": "213825540fce1c87f013c0036ff3ba3f828690141777895c18c3eb13d9d291e6",
-      "structures/out/fe_sonuclar.json": "814e191d7584db65208afd0fdb72e5dafee997cf23f92c000906fcf901a6ea03",
-      "performance/out/alik_sonuclar.json": "18e106e39fe72754bd1db3d07f041fe124697ac1d7f04974e45e62cb5869600e",
-      "cad/out/cad_report.json": "503ce7c71cc87fec1f23029e4daff953b1b0264496afb8a395e2b56388bdd622"
+      "aero/out/sonuclar.json": "573be3271908461b2e384423ec4964986c6680b882f1c84aec98c3ea1632a9b5",
+      "structures/out/fe_sonuclar.json": "933f5d7dad5cad1f993170ce3dfd3640cc15bf7f417681e65ad200b59b75f0a3",
+      "performance/out/alik_sonuclar.json": "ab2071481e69977051ea10c2da3efd957358b2d7f5f20aceb5959350fb72a0b8",
+      "cad/out/cad_report.json": "c61695794b15a1967045512b80154ec2345146565a4a7a1f65a3a5c4ccfb662b"
     },
     "drag_aerobuildup_N": 154.35340036596253,
     "drag_sizing_approx_N": 210,
@@ -117,9 +118,18 @@
     },
     "clearance_cad_mm": {
       "min": 5.97,
-      "at_x": 1565.0,
+      "at_x": 1565,
       "front": 6.8,
-      "target": 3.0
+      "target": 3
+    }
+  },
+  "current": {
+    "kind": "CURRENT_ANALYSIS_ARTIFACTS",
+    "source_sha256": {
+      "aero/out/sonuclar.json": "4139d9cbe94496f6e4db8f5b60ecafb66b40951f713c6d54ef29a8e86bb147b0",
+      "structures/out/fe_sonuclar.json": "cdce0dd85119d2fb8b31f1e98e33e374ffd28f56591ac5fbd6e8ff852c7a2440",
+      "performance/out/alik_sonuclar.json": "18e106e39fe72754bd1db3d07f041fe124697ac1d7f04974e45e62cb5869600e",
+      "cad/out/cad_report.json": "0c9a53b8b558910c392569b4266b56f7dcda4c1f443c7942094d691a30e24200"
     }
   },
   "studies": {

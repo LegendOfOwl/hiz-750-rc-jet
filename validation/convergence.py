@@ -17,8 +17,10 @@ def gci(h, q):
         return dict(status="INSUFFICIENT_REFINEMENT", reason="h oranı < 1.3")
     d21, d32 = q[1] - q[0], q[2] - q[1]
     scale = max(max(abs(x) for x in q), 1e-30)
-    if min(abs(d21), abs(d32)) < 1e-10 * scale:
+    if max(abs(d21), abs(d32)) < 1e-10 * scale:
         return dict(status="EXACT_OR_ROUNDOFF", reason="Farklar sıfır/yuvarlama düzeyinde; p ve GCI tanımsız")
+    if min(abs(d21), abs(d32)) < 1e-10 * scale:
+        return dict(status="PLATEAU_UNRESOLVED", reason="Yalnız bir ağ farkı yuvarlama düzeyinde; yakınsama çözümlenemedi")
     if d21 * d32 <= 0:
         return dict(status="OSCILLATORY", reason="Monoton yakınsama yok")
     ratio = d32 / d21

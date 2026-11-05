@@ -124,7 +124,7 @@ def evaluate(directory):
     reasons = []
     for name in targets:
         conv = metrics[name]["convergence"]
-        if case == "coupon":
+        if case == "coupon" and conv["status"] != "PLATEAU_UNRESOLVED":
             values = metrics[name]["values_fine_to_coarse"]
             spread = (max(values) - min(values)) / max(abs(v) for v in values)
             metrics[name]["relative_spread"] = spread

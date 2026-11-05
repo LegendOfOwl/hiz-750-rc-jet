@@ -1,8 +1,8 @@
 # İter5 karşılaştırma (otomatik)
 
-Mevcut sonuçlar yeni solver sonucu değildir.
+Tarihsel baseline v0.5.0 Git içeriklerinden okunur. Güncel analiz dosyalarının SHA256 değerleri comparison.json içindeki current alanında ayrıca listelenir. Solver çalışmaları aşağıda önceki rapor üretiminin durumlarıyla korunmuştur.
 
-| Büyüklük | Mevcut model | İter5 |
+| Büyüklük | v0.5.0 modeli | İter5 |
 |---|---|---|
 | D @750 [N] | 154.353 / yaklaşık 210 | bekliyor |
 | η_r | 0.970955 | bekliyor |

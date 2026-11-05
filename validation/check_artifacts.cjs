@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const assert = require('assert');
+const { execFileSync } = require('child_process');
 process.chdir(path.resolve(__dirname, '..'));
 const read = p => JSON.parse(fs.readFileSync(p, 'utf8').replace(/^\uFEFF/, ''));
 const roots = ['validation', 'cfd', 'fem', 'thermal'];
@@ -45,10 +46,17 @@ for (const root of roots) {
   }
 }
 const comparison = read('validation/results/comparison.json');
+assert.equal(comparison.baseline.source_ref, 'v0.5.0');
+assert.deepEqual(Object.keys(comparison.current.source_sha256).sort(), Object.keys(comparison.baseline.source_sha256).sort());
 for (const [file, expected] of Object.entries(comparison.baseline.source_sha256)) {
+  const historical = execFileSync('git', ['show', `v0.5.0:${file}`]);
+  assert.equal(crypto.createHash('sha256').update(historical).digest('hex'), expected);
+}
+for (const [file, expected] of Object.entries(comparison.current.source_sha256)) {
   assert.equal(crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex'), expected);
 }
-assert.equal(comparison.baseline.drag_aerobuildup_N, read('aero/out/sonuclar.json').D_750);
+const historicalAero = JSON.parse(execFileSync('git', ['show', 'v0.5.0:aero/out/sonuclar.json'], {encoding: 'utf8'}).replace(/^\uFEFF/, ''));
+assert.equal(comparison.baseline.drag_aerobuildup_N, historicalAero.D_750);
 const msh = fs.readFileSync('validation/meshes/thermal_1d_coarse.msh', 'utf8').trim().split(/\r?\n/);
 let k = msh.indexOf('$Nodes'), n = Number(msh[++k]), nodes = {};
 for (let i = 0; i < n; i++) {

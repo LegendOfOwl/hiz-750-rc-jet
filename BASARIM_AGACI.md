@@ -127,6 +127,7 @@ HIZ-750
 | 1D fe_modal burulma frekansı iyimser (%11) | Kabuk FEM | Flutter payı %21'den ~%10'a indi; kabuk mod şekilleriyle aeroelastik çözüm gerek |
 | CalculiX 2.20: çok iş parçacığı sahte gerilme, PaStiX gürültü/askı, kompozit kabukta MASS elemanı çalışmıyor, kökte 1-6 kısıtı yük kaybettiriyor | FEM alt ajanı kupon/konsol koşuları | `--threads 1`, SPOOLES, NSM tabakası + `*EQUATION` kütleleri, 1-3 ankastre |
 | Taslak kanatta web'ler 0° (G 4,5 GPa) | FEM incelemesi | ±45 kumaşa çevrildi |
+| Codex 5HV4 worktree'si commit edilmeden claudex tarafından silindi (2026-11-05 23:00), patch dosyası da yok | Entegrasyon denemesi | Kod, Codex oturum kaydındaki FileChange kayıtlarından (`~/.codex/sessions/2026/11/04/rollout-...21-40-43...jsonl`) kurtarılıyor. **Ders:** dış ajan işi bitince hemen ana repoya commit'le; worktree'ye güvenme. Codex CLI sandbox'ı workspace dışını okuyamıyor, dosyaları önce workspace'e kopyala |
 | Gecikmiş onay cevabı "rejected by user" sayıldı | Codex köprüsü | 10 dk zaman aşımı. Gerekirse Codex'ten isteği yeniden yollaması istenir |
 
 ---

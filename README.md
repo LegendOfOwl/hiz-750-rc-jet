@@ -18,13 +18,13 @@ Bu hız, türbinli RC uçaklarda Guinness dünya rekoru seviyesinde: Niels Herbr
 | Kuyruk | Yatay kuyruk 0,085 m² (iki yarı, egzoz üstü yoke), dikey kuyruk 0,060 m² |
 | Hava alığı | Dorsal, yarı gömülü pitot dudak, 60 cm², rampalı; S-kanal ofset/uzunluk 0,27 |
 | Kalkış / iniş | Bırakılan dolly ile kalkış (α 3°) / kızak + kuyruk tamponuyla çim iniş, yarıklı flap 35°, temas 87–95 km/h |
-| MTOW / yakıtsız | 17,16 kg / 13,16 kg (Türkiye İHA1 sınıfı, < 25 kg) |
+| MTOW / yakıtsız | **17,44 kg / 13,44 kg** (Türkiye İHA1 sınıfı, < 25 kg); iter5 kanat rijitleştirmesi MTOW'yi 17,16 → 17,44 kg yaptı |
 | Yakıt | 4,0 kg (5,0 L) yüklenir; kullanılabilir 5,14 L (gövde 3,73 + kanat kutusu ortası 0,27 + kanat kökü 2 × 0,57 L), yakıt CG x 0,940 m (CAD) |
 | Azami hız | ~878 km/h kötümser model; alık analiziyle (η_r 0,97) ~897 km/h |
 | 750 km/h'te itki payı | %40–90 (sürükleme 154–210 N, kullanılabilir itki ~300 N) |
-| Statik marj | Tam yakıtta %32,8, %25 yakıtta %18,7, boşta %12,5 MAC (nötr nokta 1,251 m) |
-| Flutter / diverjans | **FE modal: 1307 km/h** (pay %21; 3B–1T modları), 2-DOF 1465 km/h; ok açılı kanatta diverjans yok. Gereksinim ≥ 1080 km/h |
-| Kanat kütlesi (kat planından) | 1,74 kg (bütçe 1,75 kg); tek parça, gövde içinden geçen kutu, 4× M6 |
+| Statik marj | Tam yakıtta %32,8, %25 yakıtta %19,0, boşta %13,0 MAC (nötr nokta 1,251 m; iter5 ile güncellendi) |
+| Flutter / diverjans | **Tasarım değeri ≈1266 km/h** (iter5 kabuk-FEM ölçekli, f_1T 294,9 Hz; pay %17; 1350 km/h = ×1,25 payı sağlanmıyor; kabuk mod şekilli p-k açık iş). Eski değerler: iter4 1D FE modal 1307 km/h (kabuk FEM'e göre iyimser; yeni kat planında 1D sonuç güvenilmez), 2-DOF 1465 km/h; ok açılı kanatta diverjans yok. Gereksinim ≥ 1080 km/h |
+| Kanat kütlesi / kat planı | **2,03 kg** (iter5: kabuk **4/1** kat, **43 mm** kaburga aralığı, web +1 ±45 kat; iter3/4: 3/1 kat, 1,74 kg); tek parça, gövde içinden geçen kutu, 4× M6. GVT kriteri f_1T ≥ 230 Hz, kabuk tasarım f_1T ≈295 Hz |
 | Yapısal limit | +12 / −8 g, emniyet katsayısı 1,5 |
 | Servolar | 6× 45 kg·cm + 1× 60 kg·cm (rudder), HV, boşluksuz; aileron servosu ≤ 60 g ince tip; elevator veteri %22 |
 | Uçuş kontrol | n_z komutlu pitch + g-limiter (−6/+10 g), yaw damper (ζ_DR 0,31–0,44), p komutlu roll; 4 hız × 3 yakıt kazanç tablosu; GM ≥ 9,4 dB, PM ≥ 50° |
@@ -115,6 +115,10 @@ Analiz klasörlerinde de `*_iter1` arşivleri var.
 - **Alçak kanat Cl_β'yı bozuyordu.** DATCOM düzeltmesiyle hesaplanıp +2° dihedral verildi; spiral mod kararlı.
 - **İniş hızı yüksekti.** Yarıklı flap ile temas hızı 95–100 → 87–95 km/h'ye indi.
 - **Boş yakıtta elevator aşırı güçlüydü.** Veter %28 → %22'ye düşürüldü; bu yetmediği için g-limiter ve yakıta bağlı sapma limiti zorunlu.
+
+**İter5'te (v0.6 taslağı) kanat FEM'i ve rijitleştirme:**
+- **Kompozit kanat kabuk FEM'i (CalculiX S8R) 1D modelin burulma iyimserliğini ortaya çıkardı.** CLT kupon benchmarkı kabul edildi (hata ≤ %1,12); kanat REVIEW_REQUIRED (malzeme sabitleri varsayım). 3/1 kabukta f_1T 272,5 Hz (1D 305,7 Hz'in %89'u), flutter ≈1185 km/h.
+- **Rijitleştirme:** 316 Hz (1350 km/h) hedefine hiçbir seçenek ulaşmadı. Seçilen 4/1 kat + 43 mm kaburga + web +1 kat: f_1T 294,9 Hz, flutter ≈1266 km/h (1080 km/h'e %17 pay), +0,28 kg, MTOW 17,44 kg. Ayrıntı: [doküman 04 §15](docs/04_yapi_flutter.md), [doküman 10 §10.7](docs/10_yuksek_dogruluk_dogrulama.md).
 
 **İter4'te (v0.5.0) masa başında doğrulananlar:**
 - **Kütle ve atalet CAD'den hesaplandı.** Gövde kabuğunun ağırlık merkezi 100 mm geride çıktı, bu yüzden boş yakıtta statik marj %8,4'e düşüyordu. Kabuğun konumu düzeltildi ve 0,15 kg burun balastı eklendi; marj yeniden %12,5. Ixx, Roskam tahmininin %69'u.

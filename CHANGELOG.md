@@ -9,11 +9,24 @@ Sürümleme: `0.MAJOR_ITERASYON.PATCH`. 1.0.0 sürümü, prototip uçuş testind
 - `fem/`: gmsh S8R konsol benchmarkı, kat planını okuyan taslak kompozit kanat, açık malzeme varsayımları, statik/modal runner ve lokal tabaka CSV'sinden Tsai–Wu.
 - `thermal/`: CalculiX 1B iletim+taşınım benchmarkı ve ölçülmemiş h/k/emissiviteyle koşullu motor–keçe–kabuk senaryoları.
 - `docs/10_yuksek_dogruluk_dogrulama.md`: bekleyen hata tabloları, LES/DES maliyeti, belirsizlik bütçesi ve tasarım önerileri.
+- `fem/clt.py`, `fem/coupon.py`, `fem/wing_shell.py` (yeniden yazıldı), `fem/wing_post.py`, `fem/wing_review.py`, `fem/run_wing_study.py`, `fem/wing_compare.py`: bağımsız CLT referansı, 5 laminatlık kupon benchmarkı, S8R kompozit kanat kabuk modeli (dolu/boş tank, üç ağ, otomatik inceleme) ve kiriş teorisi çapraz kontrolü; sonuçlar `fem/RESULTS_iter5.md`.
+- `fem/results/stiffening/`: 21 seçenekli (orta ağ) ve 4 seçenekli (ince ağ) kanat rijitleştirme çalışması.
+- Motor bölgesi ısı keçesi (2 mm) ve G10 plaka kütle bütçesinde (0,05 kg); `docs/06`, `docs/07` (FMEA 9) ve termokupl kriteri güncel.
+### Değişti
+- `params.py` `WING`: `skin_plies` (3, 1) → **(4, 1)**; yeni parametreler `rib_pitch = 0,043 m` (ara kaburga aralığı, eski varsayım 0,086 m) ve `web_extra_plies = 1` (ön/arka kiriş web'ine ek ±45 kumaş katı). Kabuk FEM sonucu: f_1T 272,5 → 294,9 Hz (dolu tank), kesit CG 0,451c → 0,428c.
+- `MASS_ITEMS` kanat kalemi 1,75 → **2,03 kg** (kabuk 4/1 kat + kiriş + 43 mm kaburga); kabuk FEM ek kütlesi +0,28 kg. **MTOW 17,16 → 17,44 kg**, yakıtsız 13,44 kg; statik marj tam yakıtta %32,8, yakıtsız %13,0 MAC (`run_all.sh` temiz geçti).
+- Flutter tasarım değeri **1307 km/h (1D fe_modal) → ≈1266 km/h (kabuk-FEM ölçekli, f_1T ölçeklemesi)**; 1080 km/h gereksinime pay %17. 1350 km/h (×1,25 model payı) sağlanmıyor.
+### Bulgular (FEM)
+- CLT kupon benchmarkı **BENCHMARK_ACCEPTED** (5 laminat, 3 ağ, en büyük hata %1,12 < %2). Kompozit kanat **REVIEW_REQUIRED** (malzeme sabitleri varsayım).
+- Taban 3/1 kabukta f_1T 272,5 Hz (1D 305,7 Hz'in %89'u): flutter ≈1185 km/h. Kaburgalar f_1T'yi belirliyor (kaburgasız 198-207 Hz). 18 g uç sehim 47,7 mm, Tsai-Wu R_min 3,66.
+- Rijitleştirmede hiçbir seçenek 316 Hz (1350 km/h) hedefine ulaşmadı; kat eklemek kütleyle doyuyor (6/1 → 281 Hz). Seçilen 4/1 + 43 mm kaburga + web +1 kat: f_1T 294,9 Hz (dolu) / 301,8 Hz (boş), Tsai-Wu R_min 4,23, uç sehim 42,3 mm.
+- **Uyarı:** 1D `fe_modal` yeni kat planıyla dolu tankta 1813 km/h veriyor ve V_F(f_T) eğrisi düz (kritik mod değişti); 1D sonuç güvenilmez/iyimser. GVT kabul kriteri f_1T ≥ 230 Hz korunur; kabuk tasarım hedefi ≈295 Hz. Kabuk mod şekilleriyle p-k flutter açık iş.
+- CalculiX 2.20 bulguları: tek iş parçacığı, SPOOLES, MASS yerine NSM, kök 1-3 ankastre.
 ### Doğrulama durumu
 - İkinci turda araçlar Claude tarafından host'ta kuruldu; escalation ile Python testleri ve solver koşuları yapıldı. Konsol ve 1B termal üç ağda kabul aldı; koşullu motor termal sonuçları kaydedildi. CFD yakınsaması/deney kabulü tamamlanmadı.
 - Gerçek koşularla CalculiX sayı alanı uzunluğu, Lednicer profil sırası, SU2 çıktı sütunları ve düz levha köşe ağı düzeltildi. Resmi SU2 düz levha ayar/ağ kontrolü ayrıca kaydediliyor.
-- B/C sınır katmanlı temiz akış hacmi/ağı ve D imalat detayları host'ta incelenmeli. 3B tetra/kompozit kanat ön modelleri DRAFT. CLT coupon benchmarkı tamamlanmadı.
-- `params.py`, mevcut analizler ve `run_all.sh` değiştirilmedi. v0.6 yayımlanmadı.
+- B/C sınır katmanlı temiz akış hacmi/ağı ve D imalat detayları host'ta incelenmeli. 3B tetra/kompozit kanat ön modelleri DRAFT. CLT kupon benchmarkı iter5'te kabul edildi; kompozit kanat REVIEW_REQUIRED (imalat detayları ve malzeme verisi eksik).
+- İlk turlarda `params.py`, mevcut analizler ve `run_all.sh` değiştirilmedi; iter5 sonunda yalnız `WING` kat planı (yukarıda) güncellendi. v0.6 yayımlanmadı.
 
 ## [0.5.0] - 2026-11-04 · İter4: masa başı doğrulamaları
 ### Eklendi

@@ -171,3 +171,4 @@ HIZ-750
 - 2026-11-04 22:20: Resmi RAE native sonuçları ve ikili kabul kararı işlendi; Codex limiti doldu, CFD'yi Claude devraldı.
 - 2026-11-04: ILU pilotları ıraksadı (hipotez çürüdü), MG0 testi başladı. FEM bitti: kupon kabul, kanat f_1T 272,5 Hz, flutter ≈1185 km/h.
 - 2026-11-06: İter5 kapanışı. Düzeltilmiş FEM sayıları, düz levha SA kabulü (GCI %0,88), RAE iz bölgesi PENDING ve thermal_1d STALE işlendi. GCI plato reddi, 3B CMy ve tarihsel v0.5.0 baseline düzeltmeleri yapıldı. Güncel araç codex-cli, sıradaki beş iş yenilendi. Python regresyonları erişim engeli nedeniyle çalıştırılamadı.
+- 2026-11-06: PR https://github.com/LegendOfOwl/hiz-750-rc-jet/pull/2 açıldı (iter5 → main). Birleştirme ve v0.6.0 release kullanıcı onayı bekliyor (otomatik birleştirme izin sınıflandırıcısı tarafından engellendi). İnceleme paketi: C:/Users/Urungu/Desktop/HIZ-750_Inceleme (`tools/inceleme_paketi_olustur.py` ile yeniden üretilir).

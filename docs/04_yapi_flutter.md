@@ -5,7 +5,7 @@
 - İter4: [`structures/fe_modal.py`](../structures/fe_modal.py) (FE modal + modal flutter, §14). Çıktılar `structures/out/fe_*`; sayılar `structures/out/fe_sonuclar.json`.
 - Arşiv: `structures/structures_iter1.py`, `structures/structures_iter2.py`, `structures/out_iter1/`, `structures/out_iter2/`, `structures/04_yapi_flutter_iter{1,2}.md`.
 
-> **iter5 ile güncellendi:** Kabuk FEM ve rijitleştirme sonrası kat planı **4/1**, kaburga aralığı **43 mm**, web +1 kat; MTOW **17,44 kg**, kanat kütle kalemi **2,03 kg**, flutter tasarım değeri **≈1266 km/h** (kabuk-FEM ölçekli). Güncel değerler [§15](#15-iter5-kompozit-kabuk-fem-kanat-rijitleştirme-ve-yeni-flutter-tasarım-değeri-iter5-ile-güncellendi) içindedir; §14'e kadar olan sayılar iter3/iter4 tabanıdır ve tarihsel olarak korunmuştur.
+> **iter5 ile güncellendi:** Kabuk FEM ve rijitleştirme sonrası kat planı **4/1**, kaburga aralığı **43 mm**, web +1 kat; MTOW **17,44 kg**, kanat kütle kalemi **2,03 kg**, flutter tasarım değeri **≈1267 km/h** (kabuk-FEM ölçekli; inceleme sonrası düzeltildi, eski ≈1266). Güncel değerler [§15](#15-iter5-kompozit-kabuk-fem-kanat-rijitleştirme-ve-yeni-flutter-tasarım-değeri-iter5-ile-güncellendi) içindedir; §14'e kadar olan sayılar iter3/iter4 tabanıdır ve tarihsel olarak korunmuştur.
 
 **Tasarım durumu (params, iter3 kapanış):** MTOW **17,01 kg**, W/S = 397 Pa, alçak kanat (z_root = −80 mm, dihedral +2°), tek parça kanat, kızakla iniş. Kanat bağlantısı (0,15 kg) ve motor bölgesi ısı keçesi kalemleri kütle bütçesinde; yakıt CG'si x = 0,955 m.
 
@@ -512,7 +512,7 @@ V_F'nin 1T çarpanına bağımlılığı (f_B = 1): dolu 0.7→1.064, 0.8→1.13
 
 ### 14.9 Sonuç ve params önerileri
 
-> **iter5 ile güncellendi:** Aşağıdaki sonuç tablosu iter4 1D modelidir. Kabuk FEM 1T'yi 305,7 → 272,5 Hz (3/1) buldu; 4/1 + 43 mm kaburga + web +1 seçiminden sonra tasarım değeri f_1T 294,9 Hz, V_F ≈1266 km/h'dir (§15). `skin_plies = (3, 1)` önerisi (madde 3) aşılmıştır.
+> **iter5 ile güncellendi:** Aşağıdaki sonuç tablosu iter4 1D modelidir. Kabuk FEM 1T'yi 305,7 → 272,5 Hz (3/1) buldu; 4/1 + 43 mm kaburga + web +1 seçiminden sonra tasarım değeri f_1T 295,2 Hz, V_F ≈1267 km/h (inceleme sonrası düzeltildi; eski 294,9 Hz, 1266 km/h)'dir (§15). `skin_plies = (3, 1)` önerisi (madde 3) aşılmıştır.
 
 | Büyüklük | Değer |
 |---|---|
@@ -532,7 +532,7 @@ V_F'nin 1T çarpanına bağımlılığı (f_B = 1): dolu 0.7→1.064, 0.8→1.13
 
 ## 15. İter5: kompozit kabuk FEM, kanat rijitleştirme ve yeni flutter tasarım değeri (iter5 ile güncellendi)
 
-> **Önemli:** §5-§14'teki 3/1 kat planı, 1307 km/h FE modal flutter ve 305,7 Hz 1T değerleri **iter4 tabanı olarak korunmuştur**. İter5'te kabuk FEM bu tabanı düzeltmiştir; **güncel tasarım değerleri bu bölümdedir** (kat planı 4/1, kaburga aralığı 43 mm, web +1 kat; flutter tasarım değeri ≈1266 km/h). Ayrıntı ve ham sayılar: [`fem/RESULTS_iter5.md`](../fem/RESULTS_iter5.md), [`fem/results/stiffening/`](../fem/results/stiffening/).
+> **Önemli:** §5-§14'teki 3/1 kat planı, 1307 km/h FE modal flutter ve 305,7 Hz 1T değerleri **iter4 tabanı olarak korunmuştur**. İter5'te kabuk FEM bu tabanı düzeltmiştir; **güncel tasarım değerleri bu bölümdedir** (kat planı 4/1, kaburga aralığı 43 mm, web +1 kat; flutter tasarım değeri ≈1267 km/h, inceleme sonrası düzeltildi — §15.2a). Ayrıntı ve ham sayılar: [`fem/RESULTS_iter5.md`](../fem/RESULTS_iter5.md), [`fem/results/stiffening/`](../fem/results/stiffening/).
 
 ### 15.1 Kabuk FEM (CalculiX 2.20, S8R kompozit, taban 3/1 kat)
 
@@ -553,6 +553,8 @@ Model: gmsh ağı, ince ağda 7168 S8R eleman (açıklık 8/16/32 × veter 13/26
 - Çözücü bulguları: tek iş parçacığı (`--threads 1`; çok iş parçacıklı sonuç hesabı sahte gerilme üretti), SPOOLES (PaStiX gürültülü/askıda), MASS elemanı yerine NSM tabakası + `*EQUATION` kaldıraç kütleleri, kök 1-3 ankastre (1-6 yük kaybettirdi).
 
 ### 15.2 Rijitleştirme çalışması (21 seçenek orta ağ, 4 seçenek ince ağ)
+
+> **İnceleme sonrası düzeltildi:** Bu tablodaki ilk çalışma, çapraz incelemenin bulduğu model/kapı hatalarından önce yapıldı (sandviç çakışma bayrağı zorunlu değildi ve seçilen ince ağda −0,17 mm çakışma vardı; ince ağda 160 uyumsuz kaburga–web kenarı; flutter ölçeği değişken dosyaya bağlıydı; varyantlar params'tan değer devralıyordu; 21,6 mm ve 65 mm kaburga ağda doğru temsil edilmiyordu). Düzeltilmiş modelle 5 varyant yeniden çözüldü: **§15.2a**. Aşağıdaki tablo tarihsel kayıttır; 65 mm (r065) ve orta ağdaki 21,6 mm (r022) satırları düzeltilmiş modelde geçersizdir (aralık ağda temsil edilemiyor).
 
 Hedef: dolu tankta f_1T ≥ 316 Hz, kesit CG ≤ 0,45c, en hafif seçenek. **Hiçbir seçenek 316 Hz'e ulaşmadı** (otomatik seçim kuralı sonuç vermedi: `choice = null`). Seçenekler kat planı (`skin_plies`), ara kaburga aralığı (`rib_pitch`), web'e ek ±45 kat (`web_extra_plies`) ve kaburga katı üzerinde tarandı. Tablodaki değerler, "ince" denmedikçe orta ağ değerleridir. Ek kütle yarı kanat başına verilmiştir (kaynak `mass_increase_kg`; yarı kanat olduğu varsayımı, toplam +0,28 kg ile tutarlı).
 
@@ -576,20 +578,36 @@ Bulgular:
 - Arka kat sayısını 2 yapmak (3/2, 4/2) kesit CG'sini 0,466-0,490c'ye kaydırıp flutter için kötü yöne götürüyor (CG kısıtını bozuyor).
 - Seçilen kombinasyon 316 Hz hedefine %93 oranında ulaşıyor (294,9/316). Hedefe ulaşan seçenek olmadığı için seçim, CG'yi koruyan ve ek kütlesi düşük en iyi tasarım olarak yapılmıştır (karar kaydı: [BASARIM_AGACI.md](../BASARIM_AGACI.md)).
 
+### 15.2a Rijitleştirme (düzeltilmiş model, inceleme sonrası)
+
+Düzeltmeler: 6 inceleme bayrağının hepsi zorunlu ve başarısız incelemede zincir durur; monolitik burun/uç hücrelerinde kat geçişi (üst+alt kalınlık profil derinliğini aşmaz, en küçük boşluk +0,095 mm); web ve kaburga aynı dikey bölüntü (uyumsuz kenar 0); web/kaburga ek kütlesi tek yerde (kabuk modeli; 1D referans iter4 tabanı); flutter ölçeği sabit iter4 referansı (`fem/reference/fe_sonuclar_iter4_v0.5.0.json`, SHA256 933f5d7d…); kaburga aralığı ağda temsil edilemiyorsa seçenek reddedilir; CCX tek iş parçacığı. İnce ağ (orta ağ parantezde), dolu/boş tank, yük MTOW 17,44 kg ile:
+
+| Varyant | f_1T dolu [Hz] | f_1T boş [Hz] | V_F dolu / boş [km/h] | Ek kütle / yarı [kg] | Kesit CG (η 0,70) | Tsai-Wu R | Uç sehim [mm] |
+|---|---|---|---|---|---|---|---|
+| s31 (3/1, 8 kaburga, web+0, taban) | 272,6 (273,0) | 280,9 (281,9) | 1185 / 1194 | 0 | 0,451c | 3,60 | 48,5 |
+| s31r043 (3/1 + 43 mm) | 284,8 (285,1) | 295,0 (296,9) | 1227 / 1242 | 0,018 | 0,450c | 3,70 | 48,0 |
+| s41r043 (4/1 + 43 mm, web+0) | 293,7 (294,0) | 300,7 (302,8) | 1261 / 1265 | 0,136 | 0,429c | 4,13 | 43,2 |
+| **s41r043w1 (seçilen)** | **295,2** (295,5) | **302,2** (304,2) | **1267 / 1271** | **0,143** | **0,428c** | **4,16** | **43,0** |
+| s51r043w1 | 300,0 (300,1) | 305,2 (306,3) | 1285 / 1283 | 0,261 | 0,412c | 5,03 | 38,4 |
+
+- Orta → ince f_1T farkı ≤ %0,7 (seçilen dolu %0,10); 43 mm kaburga kaba ağda temsil edilemediğinden üç ağlı GCI yok. Web/kaburga yüksekliği 8 eleman (bütçe dışı tanılama) ile fark %0,02.
+- **Seçim değişmedi:** web+0 (s41r043) yarı kanatta 6,6 g daha hafif ama 1,4 Hz düşük; s51r043w1 +118 g/yarı ile yalnız +4,8 Hz. 316 Hz'e yine hiçbir varyant ulaşmıyor. params ve kanat kalemi (2,03 kg) değişmedi.
+- Ayrıntı ve bulgu tablosu: [`fem/RESULTS_iter5.md`](../fem/RESULTS_iter5.md) §9.
+
 **Seçilen tasarım (s41r043w1), params'a işlendi:** `WING["skin_plies"] = (4, 1)`, `WING["rib_pitch"] = 0.043` m, `WING["web_extra_plies"] = 1`.
-- f_1T **294,9 Hz** (dolu) / **301,8 Hz** (boş); kabuk/1D 1T oranı, 1D iter4 değeri (305,7 Hz) baz alınırsa ≈0,96.
+- f_1T **295,2 Hz** (dolu) / **302,2 Hz** (boş) (inceleme sonrası düzeltildi; eski 294,9 / 301,8 Hz); kabuk/1D 1T oranı, 1D iter4 değeri (305,7 Hz) baz alınırsa ≈0,97.
 - Kanat kütle kalemi **2,03 kg** (kabuk 4/1 kat + kiriş + 43 mm kaburga); kabuk FEM ek kütlesi **+0,28 kg**. MTOW 17,16 → **17,44 kg**; statik marj tam yakıtta %32,8, yakıtsız %13,0 MAC (iter4: %12,5); yakıtsız kütle 13,44 kg.
-- Kesit CG 0,451c → 0,428c (flutter için olumlu yönde); Tsai-Wu R_min 3,66 → 4,23; 18 g uç sehim 47,7 → 42,3 mm.
+- Kesit CG 0,451c → 0,428c (flutter için olumlu yönde); Tsai-Wu R_min 3,60 → 4,16 ve 18 g uç sehim 48,5 → 43,0 mm (inceleme sonrası düzeltildi, MTOW 17,44 kg yüküyle; eski 3,66 → 4,23 ve 47,7 → 42,3 mm).
 
 ### 15.3 Yeni flutter tasarım değeri ve 1D modelin sınırı
 
-- **Tasarım değeri (kabuk-FEM ölçekli): V_F ≈ 1266 km/h** (dolu). 1080 km/h gereksinime pay **%17**. **1350 km/h (×1,25 payı) hâlâ sağlanmıyor** (−%6). Önceki değerler (iter4 1D 1307 km/h; 3/1 kabuk 1185 km/h) tarihsel olarak durur; güncel tasarım değeri budur.
-- **1D `fe_modal` uyarısı:** `structures/fe_modal.py` yeni kat planıyla (`logs/structures_fe_modal.log`) dolu tankta V_F = 1813 km/h, boşta 1656 km/h veriyor ve dolu tank için V_F(f_T) eğrisi **düz** (f_T çarpanı boyunca 1813 km/h): kritik mod 1T eşleşmesinden başka bir moda (4. mod dalı) geçti. Bu nedenle 1D sonucu bu kat planı için **güvenilmez ve iyimser** sayılmalı; flutter hızı için f_1T ölçeklemeli kabuk-FEM değeri (≈1266 km/h) kullanılır. 1D'nin yeni 1T değeri de (dolu 327,3 Hz) kabuktan (294,9 Hz) yüksektir; 1D'nin burulma iyimserliği sürüyor.
-- **Açık iş:** kabuk mod şekilleriyle (güçlü eğilme-burulma bağlaşımı, düzlem içi mod) p-k modal aeroelastik çözüm kurulmadı. 1266 km/h yalnız frekans ölçeklemesidir (`gvt.Vf_vs_fT`, doğrusal ara değerleme). f_B'nin de ölçeklendiği iki boyutlu ızgara, mod değişimli tekil nokta içerdiği için raporlanan değere katılmadı.
+- **Tasarım değeri (kabuk-FEM ölçekli): V_F ≈ 1267 km/h** (dolu; boş 1271 km/h; inceleme sonrası düzeltildi, eski 1266 km/h; ölçek sabit iter4 eğrisi `fem/reference/fe_sonuclar_iter4_v0.5.0.json`). 1080 km/h gereksinime pay **%17**. **1350 km/h (×1,25 payı) hâlâ sağlanmıyor** (−%6). Önceki değerler (iter4 1D 1307 km/h; 3/1 kabuk 1185 km/h) tarihsel olarak durur; güncel tasarım değeri budur.
+- **1D `fe_modal` uyarısı:** `structures/fe_modal.py` yeni kat planıyla (`logs/structures_fe_modal.log`) dolu tankta V_F = 1813 km/h, boşta 1656 km/h veriyor ve dolu tank için V_F(f_T) eğrisi **düz** (f_T çarpanı boyunca 1813 km/h): kritik mod 1T eşleşmesinden başka bir moda (4. mod dalı) geçti. Bu nedenle 1D sonucu bu kat planı için **güvenilmez ve iyimser** sayılmalı; flutter hızı için f_1T ölçeklemeli kabuk-FEM değeri (≈1267 km/h) kullanılır. 1D'nin yeni 1T değeri de (dolu 327,3 Hz) kabuktan (295,2 Hz) yüksektir; 1D'nin burulma iyimserliği sürüyor.
+- **Açık iş:** kabuk mod şekilleriyle (güçlü eğilme-burulma bağlaşımı, düzlem içi mod) p-k modal aeroelastik çözüm kurulmadı. 1267 km/h yalnız frekans ölçeklemesidir (`gvt.Vf_vs_fT`, doğrusal ara değerleme). f_B'nin de ölçeklendiği iki boyutlu ızgara, mod değişimli tekil nokta içerdiği için raporlanan değere katılmadı.
 
 ### 15.4 GVT kabul kriteri (iter5)
 
-- **Kabul kriteri değişmedi: f_1T ≥ 230 Hz** (dolu ve boş), alt sınırdır (§14.7). Kabuk modeli tasarım değerinde bu kriteri yaklaşık %28 payla sağlıyor (294,9 Hz).
+- **Kabul kriteri değişmedi: f_1T ≥ 230 Hz** (dolu ve boş), alt sınırdır (§14.7). Kabuk modeli tasarım değerinde bu kriteri yaklaşık %28 payla sağlıyor (295,2 Hz dolu, 302,2 Hz boş; inceleme sonrası düzeltildi, eski 294,9 Hz).
 - **Tasarım hedefi (kabukta): f_1T ≈ 295 Hz ve üstü, dolu tank.** GVT'de 230-295 Hz arası ölçüm kabul sınırını geçer, ancak beklenen tasarım değerinin altında kalır ve flutter payını daraltır; kaburga yerleşimi, laminat ve menteşe web'i imalat tanımıyla doğrulanmalı (f_1T'ye birinci derece etkili).
 - 1350 km/h payı için gereken f_1T ≥ 316 Hz tasarımla sağlanmadı; model payı yeniden tanımlanmalı ya da GVT sonucuna göre rijitleştirme sürdürülmeli.
 - Mod etiketleri GVT ile doğrulanmalı (kabuk FEM'de 4. mod 1. düzlem içi eğilme, 5. mod burulma bağlaşımlı 3B).

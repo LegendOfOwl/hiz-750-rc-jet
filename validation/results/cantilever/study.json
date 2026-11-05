@@ -1,6 +1,8 @@
 {
   "status": "BENCHMARK_ACCEPTED",
   "case": "cantilever",
+  "acceptance_label": "BENCHMARK_ACCEPTED",
+  "reference_basis": null,
   "metrics": {
     "tip_deflection_m": {
       "values_fine_to_coarse": [

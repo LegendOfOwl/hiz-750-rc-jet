@@ -192,5 +192,52 @@ class CltTests(unittest.TestCase):
         self.assertEqual(s[(7, 9)], [1e6, -2e5, 0., 3e4, 0., 0.])  # yalnız ilk (statik) blok
 
 
+class WingStudyGuardTests(unittest.TestCase):
+    """Kanat rijitleştirme çalışması inceleme düzeltmeleri (Codex çapraz incelemesi, iter5)."""
+
+    def test_variants_define_every_option_explicitly(self):
+        from fem.stiffening_study import VARIANTS
+        from fem.wing_shell import OPTION_KEYS
+        for name, env in VARIANTS.items():
+            self.assertEqual(set(env), set(OPTION_KEYS), name)
+            self.assertTrue(all(str(v).strip() for v in env.values()), name)
+
+    def test_variant_without_explicit_options_is_blocked(self):
+        import os
+        from unittest import mock
+        from fem.wing_shell import options
+        with mock.patch.dict(os.environ, {"HZ750_VARIANT": "x", "HZ750_SKIN_PLIES": "3,1"}, clear=False):
+            for k in ("HZ750_WEB_EXTRA", "HZ750_RIB_PITCH", "HZ750_RIB_PLIES"):
+                os.environ.pop(k, None)
+            with self.assertRaises(Blocked):
+                options()
+
+    def test_rib_pitch_must_be_representable_on_mesh(self):
+        from fem.wing_shell import rib_rows
+        b2 = .7245688
+        self.assertEqual(rib_rows(32, .0216, b2), list(range(1, 33)))       # ince: her şerit sınırı
+        self.assertEqual(rib_rows(16, .043, b2), list(range(1, 17)))
+        self.assertEqual(rib_rows(16, .086, b2), list(range(2, 17, 2)))
+        for ny, pitch in ((16, .0216), (8, .043), (32, .065)):          # orta 21.6 mm, kaba 43 mm, 65 mm
+            with self.assertRaises(Blocked):
+                rib_rows(ny, pitch, b2)
+
+    def test_every_review_flag_is_required(self):
+        import re
+        from fem import wing_review
+        from fem.cases import REQUIRED_REVIEW_FLAGS
+        documented = set(re.findall(r"^  (\w+)\s+:", wing_review.__doc__, re.M))
+        self.assertIn("sandwich_no_overlap", documented)
+        self.assertEqual(documented, set(REQUIRED_REVIEW_FLAGS))
+
+    def test_wing_gate_needs_coupon_and_iter4_reference_is_pinned(self):
+        from validation.run_case import CASES
+        self.assertEqual(set(CASES["wing"][2]), {"cantilever", "coupon"})
+        from fem.stiffening_study import iter4_reference
+        gvt, info = iter4_reference()
+        self.assertAlmostEqual(gvt["dolu"]["f1T"], 305.677, places=2)
+        self.assertEqual(info["sha256"][:12], "933f5d7dad5c")
+
+
 if __name__ == "__main__":
     unittest.main()

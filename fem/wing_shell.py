@@ -18,8 +18,12 @@ Taslaktan farklar (fem/RESULTS_iter5.md):
     ve kesit ataletine eşlenir (iki veter kolonu NSM). Yakıt kiriş arası kabuklara alan başına düzgün.
   * Kök y=.035 m (cıvata hattı, fe_modal ile aynı) tüm düğümlerde öteleme 1-3 (genişletilmiş düğümler
     dahil -> ankastre).
-  * Kaburgalar (taslakta yoktu): 0.086 m aralık (structures m_ribs'ten), uç kapama ve tank kapama
-    kaburgası dahil 8 adet; kesit distorsiyonunu sınırlar (1D Bredt GJ kesitin korunduğunu varsayar).
+  * Kaburgalar (taslakta yoktu): iter4 tabanı 0.086 m aralık (8 adet, uç ve tank kapama dahil); iter5
+    tasarımı params WING rib_pitch (0.043 m, 16 adet). Kaburgalar zorunlu ağ hatlarındadır (aralık ağda
+    temsil edilemiyorsa Blocked) ve web'lerle aynı dikey bölüntüyü paylaşır (uyumlu kesişim). Kesit
+    distorsiyonunu sınırlar (1D Bredt GJ kesitin korunduğunu varsayar).
+  * Monolitik (çekirdeksiz) bölgede üst+alt kabuk kalınlığı kaba hücrenin en küçük derinliğini aşmaz
+    (kat düşümü; burun ucu/uç bölge). Sandviç/kat kararı kaba hücrede -> üç ağ aynı laminatı çözer.
 Çözücü: *STATIC/*FREQUENCY SOLVER=SPOOLES (PaStiX kupon testinde gürültülüydü).
 """
 import math
@@ -55,19 +59,46 @@ def materials():
     return result
 
 
+OPTION_KEYS = ("HZ750_SKIN_PLIES", "HZ750_WEB_EXTRA", "HZ750_RIB_PITCH", "HZ750_RIB_PLIES")
+# 1D (structures) kütle referansının web/kaburga tabanı: iter4 (ek web katı yok, 0.086 m kaburga = 8 kaburga).
+# Seçenek artışları (ek web katı, fazla kaburga/kat) yalnız kabuk modelinde ``extra`` olarak sayılır; 1D
+# referans bunları İÇERMEZ (params'taki web_extra_plies/rib_pitch 1D'ye bu çağrıda girmez -> çift sayım yok).
+REF_WEB_EXTRA, REF_RIB_PITCH, REF_N_RIBS = 0, 0.086, 8
+
+
 def options():
-    """Rijitleştirme seçenekleri (params değiştirilmeden) ortam değişkeniyle:
+    """Rijitleştirme seçenekleri ortam değişkeniyle:
     HZ750_SKIN_PLIES="4,1" (ön, arka kat/yüz), HZ750_WEB_EXTRA=1 (ön/arka web'e ek ±45 kat),
-    HZ750_RIB_PITCH=0.065 (kaburga aralığı hedefi, m), HZ750_RIB_PLIES=2 (ara kaburga kat/yüz).
-    Boşsa params/taban değerleri."""
-    import os
+    HZ750_RIB_PITCH=0.043 (kaburga aralığı, m), HZ750_RIB_PLIES=1 (ara kaburga kat/yüz).
+    Rijitleştirme varyantında (HZ750_VARIANT) dördü de açıkça verilmeli; params'tan değer devralınmaz.
+    Varyant dışı (fem/results/wing) koşuda tasarım değerleri params WING'den alınır."""
     import params as P
-    sp = os.environ.get("HZ750_SKIN_PLIES")
-    rp = os.environ.get("HZ750_RIB_PITCH")
-    return dict(skin_plies=tuple(int(v) for v in sp.split(",")) if sp else tuple(P.WING["skin_plies"]),
-                web_extra=int(os.environ.get("HZ750_WEB_EXTRA", "") or P.WING.get("web_extra_plies", 0)),
-                rib_plies=int(os.environ.get("HZ750_RIB_PLIES", "1") or 1),
-                rib_pitch=float(rp) if rp else P.WING.get("rib_pitch"))
+    if os.environ.get("HZ750_VARIANT"):
+        missing = [k for k in OPTION_KEYS if not os.environ.get(k)]
+        if missing:
+            raise Blocked(f"Varyant {os.environ['HZ750_VARIANT']}: seçenekler açık verilmeli, eksik {missing}")
+        env = {k: os.environ[k] for k in OPTION_KEYS}
+    else:
+        env = dict(HZ750_SKIN_PLIES=",".join(map(str, P.WING["skin_plies"])),
+                   HZ750_WEB_EXTRA=str(P.WING.get("web_extra_plies", 0)),
+                   HZ750_RIB_PITCH=str(P.WING.get("rib_pitch", REF_RIB_PITCH)), HZ750_RIB_PLIES="1")
+    return dict(skin_plies=tuple(int(v) for v in env["HZ750_SKIN_PLIES"].split(",")),
+                web_extra=int(env["HZ750_WEB_EXTRA"]), rib_plies=int(env["HZ750_RIB_PLIES"]),
+                rib_pitch=float(env["HZ750_RIB_PITCH"]))
+
+
+def rib_rows(ny, rib_pitch, b2, y0=.035):
+    """Kaburga hatları (şerit sınırı indeksleri). Kaburgalar zorunlu ağ hatlarına oturur; istenen aralık
+    bu ağda tam temsil edilemiyorsa (ny kaburga sayısına bölünmüyorsa) seçenek reddedilir (Blocked):
+    düğüm satırlarına yuvarlama aralığı fiilen değiştiriyordu (ör. 21.6 mm orta ağda 43 mm oluyordu)."""
+    n_rib = max(1, round((b2 - y0) / rib_pitch))
+    if ny % n_rib:
+        raise Blocked(f"Kaburga aralığı {rib_pitch*1e3:.1f} mm ({n_rib} kaburga) bu ağda (ny={ny}) temsil edilemiyor; "
+                      "daha ince ağ veya ny'yi bölen kaburga sayısı gerekli.")
+    pitch_real = (b2 - y0) / n_rib
+    if abs(pitch_real / rib_pitch - 1) > .05:
+        raise Blocked(f"Kaburga aralığı {rib_pitch*1e3:.1f} mm, eşit bölmeyle {pitch_real*1e3:.1f} mm olur (>%5 fark).")
+    return [i * ny // n_rib for i in range(1, n_rib + 1)]
 
 
 def material_cards(mats):
@@ -120,8 +151,8 @@ def prepare(args, work):
     fuel_state = getattr(args, "wing_fuel", "full") or "full"
     opt = options()
     skin_plies = opt["skin_plies"]
-    # 1D referans (kütle/CG/n_ud/n_web) aynı kabuk kat planıyla structures'tan (params değişmeden).
-    base = ST.wing_section_model(*skin_plies)
+    # 1D referans (kütle/CG/n_ud/n_web) aynı kabuk kat planıyla, web/kaburga iter4 tabanında (REF_*).
+    base = ST.wing_section_model(*skin_plies, web_extra=REF_WEB_EXTRA, rib_pitch=REF_RIB_PITCH)
     ws, mat = base["ws"], materials()
     g = geometry(args.level)
     xx, yf, ny, xf, xr, cap_half = g["xx"], g["yf"], g["ny"], g["xf"], g["xr"], g["cap_half"]
@@ -182,6 +213,11 @@ def prepare(args, work):
             conn = [conn[i] for i in (0, 3, 2, 1, 7, 6, 5, 4)]
         return conn
 
+    # Kaburga hatları ve dikey (web/kaburga yüksekliği) bölüntü: web ve kaburga AYNI z bölüntüsünü kullanır
+    # (kaburga-web kesişimi uyumlu; ortak olmayan ara düğüm kalmaz). Sık kaburgada (>8) ince ağ 200k DOF
+    # bütçesini aşmasın diye ikisi birlikte en çok 4 eleman (ince ağda z yönü orta ağla aynı kalır).
+    coarse_rows = rib_rows(ny, opt["rib_pitch"], ST.B2)
+    nz_v = 2 * g["factor"] if len(coarse_rows) <= REF_N_RIBS else min(2 * g["factor"], 4)
     sandwich_report = []
     # Kat planı ve sandviç/monolitik kararı KABA hücre (düğüm aralığı x kaburga bölmesi) üzerinden verilir:
     # üç ağ aynı geometriyi/laminatı çözer (GCI için şart). Kat düşümleri kaburga hatlarında.
@@ -207,11 +243,25 @@ def prepare(args, work):
                             for xq in (x_lo, x_hi) for yq in (y_lo, y_hi))
             t_sand = sum(t for _, t, _ in sandwich)
             use_core = depth_min - 2 * t_sand >= CORE_CLEARANCE and x_lo >= .03
-            layers = sandwich if use_core else ud_layer + [("FAB", 2 * nf * t_fab, "DIAG")]
+            n_mono = 2 * nf
+            if not use_core:
+                # Kat geçişi: monolitik bölgede (iki yüz birleşik) üst+alt kabuk toplam kalınlığı kaba hücrenin
+                # en küçük profil derinliğini aşamaz (OFFSET=0.5 ile malzeme içe; aksi halde üst/alt çakışır).
+                # Sığmayan katlar düşürülür (burun ucu, uç bölge). depth_min hücre köşelerinde = hücre minimumu
+                # (yt tek tepeli, c ve t/c açıklıkta azalan).
+                t_ud_l = sum(t for _, t, _ in ud_layer)
+                n_fit = int(math.floor((depth_min / 2 - t_ud_l) / t_fab + 1e-9))
+                if n_fit < 1:
+                    raise Blocked(f"x/c={xm_c:.3f}, y={ym_c:.3f}: profil derinliği {depth_min*1e3:.2f} mm tek kata yetmiyor.")
+                n_mono = min(n_mono, n_fit)
+            layers = sandwich if use_core else ud_layer + [("FAB", n_mono * t_fab, "DIAG")]
             t_lam = sum(t for _, t, _ in layers)
             kind = ("CAP" if cap else "SKIN") + ("_F" if xm_c <= xr else "_A") + ("" if use_core else "_MONO")
-            sandwich_report.append(dict(strip=j, xc=xm, depth=depth, t_laminate=t_lam, core=use_core,
-                                        gap=depth - 2 * t_lam))
+            # Boşluk (gap) muhafazakâr: kaba hücrenin en küçük derinliğiyle (eleman merkezindeki değer
+            # orta ağda çakışmayı gizliyordu: s41r043w1 ince merkez −0.17 mm, hücre köşesinde −0.62 mm).
+            sandwich_report.append(dict(strip=j, xc=xm, depth=depth, depth_min=depth_min, t_laminate=t_lam,
+                                        core=use_core, plies_dropped=0 if use_core else 2 * nf - n_mono,
+                                        gap=depth_min - 2 * t_lam))
             for side in (1, -1):
                 mapping = (lambda s: (lambda u, v: node(u, v, s)))(side)
                 pos = (lambda s: (lambda u, v: position(u, v, s)))(side)
@@ -223,7 +273,7 @@ def prepare(args, work):
         nose_plies = 2 * skin_plies[0]
         for xweb, label, plies in ((X_NOSE, "WEB_N", nose_plies), (xf, "WEB_F", nw), (xr, "WEB_R", nw),
                                    (X_HINGE, "WEB_H", N_HINGE_PLIES)):
-            zs = np.linspace(-1, 1, 2 * g["factor"] + 1)
+            zs = np.linspace(-1, 1, nz_v + 1)
             for za, zb in zip(zs, zs[1:]):
                 mapping = (lambda xw: (lambda v, z: node(xw, v, z)))(xweb)
                 pos = (lambda xw: (lambda v, z: position(xw, v, z)))(xweb)
@@ -238,17 +288,9 @@ def prepare(args, work):
     # Ara kaburgalar: structures m_ribs = 0.08 c/cr kg/m ~ kökte 7-8 g'lık sandviç kaburga / ~0.09 m aralık
     # demektir; kaba şerit sınırlarında (her ağda aynı konum, 0.086 m aralık) hafif kaburga
     # (1 kat / 2 mm / 1 kat). Tank kapama kaburgası Y_T1'e en yakın kaba sınırda, 2 kat / 3 mm / 2 kat.
-    if opt["rib_pitch"] is None:
-        coarse_rows = [g["factor"] * i for i in range(1, 9)]
-    else:
-        # Seçenek: hedef aralık; düğüm satırlarına en yakın konuma oturtulur (orta ağda düzensiz olabilir).
-        n_rib = max(1, round((b2 - y0) / opt["rib_pitch"]))
-        coarse_rows = sorted({int(round(i * ny / n_rib)) for i in range(1, n_rib + 1)})
+    # Kaburga hatları rib_rows() ile (yukarıda); web ile aynı z bölüntüsü (nz_v) -> uyumlu kesişim.
     tank_row = min(coarse_rows, key=lambda k: abs(yf[k] - ST.Y_T1))
-    # Sık kaburgada ince ağ 200k DOF bütçesini aşar: >8 kaburgada kaburga yüksekliği en çok 4 eleman
-    # (düğümler web düğümlerinin alt kümesi; ince ağda kaburga-web kenarında ara düğümler bağlı değil).
-    nz_rib = 2 * g["factor"] if len(coarse_rows) <= 8 or os.environ.get("HZ750_RIB_FULLZ") else min(2 * g["factor"], 4)
-    zs = np.linspace(-1, 1, nz_rib + 1)
+    zs = np.linspace(-1, 1, nz_v + 1)
     for k in coarse_rows:
         rib_layers = ([("FAB", 2 * t_fab, "DIAG"), ("CORE", 3e-3, "SPAN"), ("FAB", 2 * t_fab, "DIAG")]
                       if k == tank_row else [("FAB", opt["rib_plies"] * t_fab, "DIAG"), ("CORE", t_core, "SPAN"),
@@ -315,8 +357,9 @@ def prepare(args, work):
     bays = []
     levers = []
     one_d = []
-    # Seçenek ek kütlesi 1D m'(y)'de yok: ek web katları ve taban (8 kaburga) üzerindeki fazla kaburgalar
-    # hedef kütleye ve momentlere kendi konumlarında eklenir (kalan kütleyle telafi edilmez).
+    # Seçenek ek kütlesi 1D m'(y)'de YOK (1D referans REF_WEB_EXTRA/REF_RIB_PITCH ile çağrıldı): ek web
+    # katları ve taban (8 kaburga, 1 kat/yüz) üzerindeki fazla kaburga/kat kütlesi yalnız burada, kendi
+    # konumlarında hedef kütleye ve momentlere eklenir (kalan kütleyle telafi edilmez). Tek sayım yeri.
     extra = np.zeros(ny)
     extra_x1 = np.zeros(ny)
     extra_x2 = np.zeros(ny)
@@ -327,11 +370,11 @@ def prepare(args, work):
         if kinds[t] in ("WEB_F", "WEB_R") and opt["web_extra"]:
             tt = sum(v for _, v, _ in layers_of[t])
             e = m_t * opt["web_extra"] * t_fab / tt
-        elif kinds[t] == "RIB" and (n_ribs > 8 or opt["rib_plies"] > 1):
+        elif kinds[t] == "RIB" and (n_ribs > REF_N_RIBS or opt["rib_plies"] > 1):
             # Taban (1D m_ribs): 8 kaburga, ara kaburgalar 1 kat/yüz. Fazla kaburga ve fazla kat ek kütledir.
             is_tank = layers_of[t][1][1] > 2.5e-3          # tank kaburgası: 3 mm çekirdek
             m_base = m_t if is_tank else areas[t] * (2 * t_fab * mat["FAB"]["rho"] + t_core * mat["CORE"]["rho"])
-            e = m_t - m_base * min(1., 8 / n_ribs)
+            e = m_t - m_base * min(1., REF_N_RIBS / n_ribs)
         xc = center_of[t][0]
         extra[strip_of[t]] += e
         extra_x1[strip_of[t]] += e * xc
@@ -562,7 +605,12 @@ def prepare(args, work):
                  strips=strips, bays=bays, servos=servos, levers=levers, n_modes=N_MODES,
                  sandwich_summary=dict(elements_core=sum(1 for r in sandwich_report if r["core"]),
                                        elements_monolithic=sum(1 for r in sandwich_report if not r["core"]),
-                                       min_gap_m=min(r["gap"] for r in sandwich_report)),
+                                       min_gap_m=min(r["gap"] for r in sandwich_report),
+                                       gap_basis="kaba hücre köşe derinliği (muhafazakâr)",
+                                       elements_with_ply_drop=sum(1 for r in sandwich_report if r["plies_dropped"]),
+                                       max_plies_dropped=max(r["plies_dropped"] for r in sandwich_report)),
+                 rib_web_z_elements=nz_v,
+                 one_d_reference=dict(web_extra=REF_WEB_EXTRA, rib_pitch=REF_RIB_PITCH, n_ribs=REF_N_RIBS),
                  assumptions="Görevde verilen tipik değerler; üretici/sıcak-nem verisi bekleniyor",
                  limitations=["ST.yt64 yaklaşık kesiti; gerçek profil, kaburgalar, cıvata esnekliği yok.",
                               "x/c>.75 kontrol yüzeyi/firar kenarı yalnız kütle; menteşe web'i 2 kat varsayımı.",

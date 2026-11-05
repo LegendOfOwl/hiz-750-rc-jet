@@ -3,10 +3,10 @@
   "h": 0.0625,
   "expanded_dof": 43974,
   "fuel_state": "full",
-  "deck_sha256": "274ed82c9ccc7e6b6559eb58af8fb2d3b3b4d04a00bdca169f992e2732e990ee",
-  "prepared_dir": "C:\\hz750run\\wing_s31_medium_2v03uwpw",
-  "wing_model_json_sha256": "4d3707d7ecf16b229c798ce79575a03d3a999cb8bfeeb365e0d6a204366d1d61",
-  "wing_nodes_json_sha256": "19da8752a3059d506936a880351cf0f1490de70d5d50ce73c81d14aee3ff3c57",
+  "deck_sha256": "ee126e6d722caa4f17188a41b5bdc4b29b5a723ffa1d2680dda871dbe3df04ed",
+  "prepared_dir": "C:\\hz750run\\wing_s31_medium_dzoz01gv",
+  "wing_model_json_sha256": "36c409700c936465f766170c3557865c6a602db519824abc68091552b9da5749",
+  "wing_nodes_json_sha256": "c457d4dc4f8eb9f5fc09ee2fd5b1009a09df475d9c61424d46006436b939a2ec",
   "laminate_materials_complete": true,
   "orientations_checked": true,
   "mass_reconciled": true,
@@ -29,22 +29,22 @@
       "relative_difference": 0.0,
       "max_bay_cg_diff_c": 0.0,
       "inertia_ratio_bays": [
-        0.8643068340297023,
+        0.8588884447743622,
         0.8559737933816252,
         0.8539729668194025,
         0.856446506117222,
-        0.9247370710396133,
-        0.9270900981342528,
+        0.9244486165279855,
+        0.9263128402583105,
         0.9354068185124813,
         0.9236833378236837
       ]
     },
     "load": {
-      "sum_Fz_N": 1414.6555701713903,
-      "target_N": 1414.5403931221563,
-      "relative": 8.142365519847594e-05,
+      "sum_Fz_N": 1437.7385281928346,
+      "target_N": 1437.6214717978087,
+      "relative": 8.142365519869799e-05,
       "n_ultimate": 18.0,
-      "root_moment_target_Nm": 411.86517251041136
+      "root_moment_target_Nm": 418.5855832506744
     },
     "connectivity": {
       "free_edges": 64,
@@ -55,7 +55,10 @@
     "sandwich": {
       "elements_core": 304,
       "elements_monolithic": 80,
-      "min_gap_m": 0.0009525861603854975
+      "min_gap_m": 9.54588919473945e-05,
+      "gap_basis": "kaba hücre köşe derinliği (muhafazakâr)",
+      "elements_with_ply_drop": 0,
+      "max_plies_dropped": 0
     }
   },
   "reviewer": "fem/wing_review.py (otomatik sayısal kontroller)",

@@ -21,7 +21,7 @@ CASES = {
     "airfoil": ("cfd", "cfd", ("rae2822", "flat_plate"), "10–60 dk/nokta/ağ/model; tahmin"),
     "aircraft": ("cfd", "cfd", ("rae2822", "flat_plate"), "1–6 saat/ağ; pilot koşuyla ölçülmeli"),
     "inlet": ("cfd", "cfd", ("rae2822", "flat_plate"), "1–4 saat/ağ; pilot koşuyla ölçülmeli"),
-    "wing": ("fem", "fem", ("cantilever",), "5–30 dk/ağ; <200k açılmış DOF; tahmin"),
+    "wing": ("fem", "fem", ("cantilever", "coupon"), "5–30 dk/ağ; <200k açılmış DOF; tahmin"),
     "engine_thermal": ("thermal", "thermal", ("thermal_1d",), "<2 dk/senaryo/ağ; tahmin"),
 }
 
@@ -83,6 +83,9 @@ def run_one(args):
                                for p in sorted((ROOT / folder).glob("*.py"))},
                   input_sha256={k: digest(v) for k in ("airfoil", "reference", "mesh", "mesh_review", "deck", "thermal_inputs")
                                 if (v := getattr(args, k, None)) and Path(v).is_file()})
+    result["provenance"]["solver_threads"] = dict(
+        used=args.threads, requested=getattr(args, "threads_requested", args.threads),
+        env="OMP_NUM_THREADS=CCX_NPROC_RESULTS=used" if CASES[args.case][1] in ("fem", "thermal") else None)
     started = time.monotonic()
     work = None
     try:
@@ -135,6 +138,8 @@ def parser():
     p.add_argument("--level", choices=LEVELS, default="coarse")
     p.add_argument("--study", action="store_true", help="Sırayla üç ağ + GCI/hata tablosu")
     p.add_argument("--model", choices=("SA", "SST"), default="SA")
+    p.add_argument("--rae-scheme", choices=("mg3", "mg0"), default="mg3",
+                   help="Profil/RAE: resmi SU2 MG3 W-cycle CFL2.5 veya MG0+CFL_ADAPT")
     p.add_argument("--alpha", type=float, default=0.0)
     p.add_argument("--mach", type=float, default=.61)
     p.add_argument("--motor-C", type=float, default=250.)
@@ -158,6 +163,11 @@ def main():
         raise SystemExit("Profil çalışma aralığı M=.61–.75, alpha=0–2 derece.")
     if args.timeout <= 0 or args.threads <= 0 or args.iterations < 100:
         raise SystemExit("Pozitif süre/thread ve >=100 iterasyon gerekli.")
+    # CCX vakaları (fem: cantilever, coupon, wing; thermal) tek iş parçacığına sabit: CCX 2.20 Windows'ta çok
+    # iş parçacıklı sonuç hesabı sahte gerilme/tekrarlanamayan frekans üretti (fem/RESULTS_iter5.md §0).
+    args.threads_requested = args.threads
+    if CASES[args.case][1] in ("fem", "thermal"):
+        args.threads = 1
     results = []
     for level in LEVELS if args.study else (args.level,):
         run_args = copy(args)

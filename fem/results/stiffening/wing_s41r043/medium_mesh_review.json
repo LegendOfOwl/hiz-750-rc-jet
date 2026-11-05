@@ -3,10 +3,10 @@
   "h": 0.0625,
   "expanded_dof": 59742,
   "fuel_state": "full",
-  "deck_sha256": "be691211ac8e6fc8e8025b4c6bc3f47fa648d473787d36f56424f053a26353cb",
-  "prepared_dir": "C:\\hz750run\\wing_s41r043_medium_8uyad6ai",
-  "wing_model_json_sha256": "6d8c29919bb450a4aff1011bca289dc761efa224b096cb5df0fb46c51d694e71",
-  "wing_nodes_json_sha256": "1aa22918e53b01ccc3b99febf8e75bbad1c5eb2a78f37470c8cbdcbfebaa53cf",
+  "deck_sha256": "f40487bf0878b4cc4af34dcbc781e85a54630eda05c8d79058bbf7124bc67565",
+  "prepared_dir": "C:\\hz750run\\wing_s41r043_medium_zqelovp6",
+  "wing_model_json_sha256": "d3c46368f4b6cbfd894c0b471bd6bbb7a88fcfdd6323ff1bc25ca0552345c976",
+  "wing_nodes_json_sha256": "7b15ad19597302a0b88719ed37a41c27c4ea5b61ad95ca5460d32861aa62be4d",
   "laminate_materials_complete": true,
   "orientations_checked": true,
   "mass_reconciled": true,
@@ -26,25 +26,25 @@
     },
     "outward_normal_violations": 0,
     "mass": {
-      "relative_difference": 2.220446049250313e-16,
-      "max_bay_cg_diff_c": 5.551115123125783e-17,
+      "relative_difference": 4.440892098500626e-16,
+      "max_bay_cg_diff_c": 0.0,
       "inertia_ratio_bays": [
-        0.8160308712029716,
-        0.8352548282358846,
+        0.826967741188136,
+        0.828924039515259,
         0.8289506218151427,
         0.8306541188831376,
         0.9012373701767444,
-        0.9039724148268242,
-        0.9267478912523653,
-        0.8912531311643778
+        0.9134261743396771,
+        0.9068989589300513,
+        0.8806993051048053
       ]
     },
     "load": {
-      "sum_Fz_N": 1414.6555701713903,
-      "target_N": 1414.5403931221563,
-      "relative": 8.142365519847594e-05,
+      "sum_Fz_N": 1437.7385281928346,
+      "target_N": 1437.6214717978087,
+      "relative": 8.142365519869799e-05,
       "n_ultimate": 18.0,
-      "root_moment_target_Nm": 411.86517251041136
+      "root_moment_target_Nm": 418.5855832506744
     },
     "connectivity": {
       "free_edges": 64,
@@ -55,7 +55,10 @@
     "sandwich": {
       "elements_core": 288,
       "elements_monolithic": 96,
-      "min_gap_m": 0.00024058616038549752
+      "min_gap_m": 9.54588919473945e-05,
+      "gap_basis": "kaba hücre köşe derinliği (muhafazakâr)",
+      "elements_with_ply_drop": 8,
+      "max_plies_dropped": 2
     }
   },
   "reviewer": "fem/wing_review.py (otomatik sayısal kontroller)",

@@ -13,7 +13,7 @@ $env:CCX="C:/hz750tools/CalculiX/calculix_2.20_4win/ccx_static.exe"
 & $py validation/run_case.py coupon --study --threads 1
 & $py fem/run_wing_study.py        # dolu + boş tank, üç ağ, otomatik inceleme -> --deck/--mesh-review
 & $py fem/wing_compare.py          # kiriş çapraz kontrolü, fe_modal, flutter ölçeklemesi
-& $py -m unittest validation.test_validation   # 18 test, hepsi geçti
+& $py -m unittest validation.test_validation validation.test_cfd_mesh   # inceleme sonrası 28 test, hepsi geçti
 ```
 
 ## 0. Çözücü bulguları (önemli)
@@ -185,6 +185,55 @@ Yani structures kapak gerilmesi/sehimi muhafazakâr, burulma frekansı ise iyims
 7. `validation/study.py` kayıt bütünlüğü cfd/*.py dahil tüm runner kaynaklarının SHA'sını tuttuğundan, paralel CFD
    değişiklikleri bu çalışmaları "STALE" yapabilir; entegrasyondan önce `run_case.py cantilever/coupon --study --threads 1`
    ve `fem/run_wing_study.py` yeniden koşulmalı.
+
+## 9. Rijitleştirme (düzeltilmiş)
+
+İlk rijitleştirme çalışması (21 seçenek orta ağ, 4 seçenek ince ağ; seçilen s41r043w1: f_1T 294,9 Hz, V_F ≈1266 km/h)
+bir çapraz incelemede doğrulanmamış bir modelden geldiği için yeniden yapıldı. **Bulgular ve düzeltmeler:**
+
+| # | Bulgu | Doğrulama | Düzeltme |
+|---|---|---|---|
+| 1 | Sandviç çakışma bayrağı zorunlu değil, inceleme başarısızlığı yok sayılıyor | Doğru: s41r043w1 ince ağ `sandwich_no_overlap=false`, boşluk −0,17 mm (eleman merkezinde; kaba hücre köşesinde −0,62 mm). Neden: uç bölgede burun hücresi (x/c .01–.04) monolitik 2×4 kat = 1,42 mm/yüz, profil derinliği 2,23 mm | `fem/cases.py` `REQUIRED_REVIEW_FLAGS` tüm 6 bayrak; `fem/run_wing_study.py` inceleme/hazırlık/çözüm başarısızsa durur (çıkış kodu ≠ 0); monolitik hücrede kat geçişi: üst+alt kalınlık kaba hücrenin en küçük derinliğini aşamaz (sığmayan kat düşülür, s41r043w1'de uçtaki burun hücrelerinde 8 → 6 kat); boşluk muhafazakâr hücre-köşe derinliğiyle raporlanır (şimdi her ağda +0,095 mm) |
+| 2 | İnce ağda kaburga–web bağlantısı uyumsuz | Doğru: 16 kaburgada ince ağda kaburga 4, web 8 eleman yüksekliğinde; 160 ortak olmayan kenar, `wing_review.py` bunları kontrol dışı bırakıyordu | Web ve kaburga aynı dikey bölüntüyü paylaşır (>8 kaburgada ikisi de 4 eleman; ≤ 8 kaburgada 2·factor); uyumsuz kenar artık bağlantı kontrolünü geçirmez (0 kenar). Tam yükseklik (8 eleman, 257 k DOF, bütçe dışı tanılama) ile fark: f_1T 295,10 vs 295,16 Hz (%0,02) |
+| 3 | Web/kaburga ek kütlesi iki kez sayılıyor | Doğru (yalnız yeniden koşuda): params 4/1+0.043+web 1'e geçince `ST.wing_section_model` 1D m'(y)'ye ek web/kaburga kütlesini kattı, kabuk `extra` yine ekledi: yarı kanat 1,0366 → 1,0789 kg (+42 g). Kayıtlı ilk sonuçlar eski params ile koşulduğundan bu hatayı içermiyordu | 1D referans açık iter4 tabanında çağrılır (`web_extra=0, rib_pitch=0.086`, `REF_*` sabitleri); seçenek artışları yalnız kabuk `extra`'da. `structures.size_wing/wing_section_model` bu iki değeri argüman olarak alır |
+| 4 | Flutter ölçeklemesinin referansı değişken | Doğru: güncel `structures/out/fe_sonuclar.json` (4/1) dolu eğrisi düz → 1813 km/h; iter4 eğrisiyle 1266 km/h | Sabit referans `fem/reference/fe_sonuclar_iter4_v0.5.0.json` = `git v0.5.0:structures/out/fe_sonuclar.json` (blob c39752e3), **SHA256 933f5d7dad5cad1f993170ce3dfd3640cc15bf7f417681e65ad200b59b75f0a3** (LF); eşleşmezse durur, özete `flutter_reference` olarak yazılır |
+| 5 | Varyantlar params'tan değer devralıyor | Doğru: güncel params ile s31 = 16 kaburga + web 1 olurdu | Her varyant dört seçeneği açık tanımlar (`_v()`); varyant koşusunda eksik seçenek `Blocked`; test `test_variants_define_every_option_explicitly` |
+| 6 | `structures.py main()` 4/1'i analiz etmiyor | Doğru: log "Secilen: 3/1 … 1.83 kg" | Tasarım `WING["skin_plies"]`'tan (`RES["layup_design"]`), aday taraması (4/1 eklendi) ayrı ve "bilgi" olarak (`RES["layup_candidate_1d"]`); log: "Tasarim (params WING): 4/1 …, kanat (1D) 2.07 kg (params kalemi 2.03 kg)" |
+| 7 | 21,6 mm kaburga orta ağda temsil edilmiyor | Doğru: orta ağda 32 kaburga 16 satıra yuvarlanıp fiilen 43 mm oluyordu (kaba ağda 43 mm de 86 mm oluyordu) | `rib_rows()`: ny kaburga sayısına bölünmüyorsa `Blocked`. 43 mm orta/ince, 21,6 mm yalnız ince, 65 mm hiçbir ağda temsil edilemez (eski r065 varyantları geçersiz) |
+| 8 | CCX çok iş parçacığıyla koşabiliyor | Doğru: `--threads` varsayılanı 4 | `run_case.py`: fem/thermal (CCX) vakalarında threads = 1 sabit; `provenance.solver_threads` (used/requested) |
+| 9 | Kanat kapısı kuponu önkoşul saymıyor | Doğru | `CASES["wing"]` önkoşulları `("cantilever", "coupon")` |
+
+Cantilever ve kupon benchmarkları bu kodla yeniden koşuldu (`--study --threads 1`): ikisi de BENCHMARK_ACCEPTED.
+Not: önceki 21 seçeneğin kayıtlı sonuçları düzeltme öncesi modeldendir; yalnız aşağıdaki 5 varyant yeniden çözüldü.
+
+**Sonuçlar** (`fem/results/stiffening/summary_fine_corrected.json`, `summary_medium_corrected.json`; dolu/boş tank,
+inceleme 6/6, SPOOLES, tek iş parçacığı; yük güncel MTOW 17,44 kg ile). V_F: sabit iter4 eğrisi üzerinde f_1T ölçeği.
+Kütle artışı yarı kanat, s31'e göre. CG: kabuk modeli kesit CG, η = 0,70.
+
+| Varyant | f_1T dolu ince (orta) [Hz] | f_1T boş ince (orta) [Hz] | V_F dolu / boş [km/h] | Δm/yarı [kg] | CG | Tsai-Wu R (y>.121) | Uç sehim [mm] |
+|---|---|---|---|---|---|---|---|
+| s31 (3/1, 8 kaburga, web+0) | 272,56 (273,03) | 280,87 (281,88) | 1185 / 1194 | 0 | 0,451c | 3,60 | 48,5 |
+| s31r043 (3/1, 16 kaburga) | 284,77 (285,15) | 295,03 (296,92) | 1227 / 1242 | 0,018 | 0,450c | 3,70 | 48,0 |
+| s41r043 (4/1, 16 kaburga, web+0) | 293,74 (293,98) | 300,71 (302,77) | 1261 / 1265 | 0,136 | 0,429c | 4,13 | 43,2 |
+| **s41r043w1 (seçilen)** | **295,16** (295,46) | **302,17** (304,17) | **1267 / 1271** | **0,143** | **0,428c** | **4,16** | **43,0** |
+| s51r043w1 | 299,95 (300,06) | 305,23 (306,33) | 1285 / 1283 | 0,261 | 0,412c | 5,03 | 38,4 |
+
+* **Ağ yakınsaması:** orta → ince f_1T farkı dolu −%0,10 (s41r043w1), boş −%0,66; s31 −%0,17. 43 mm kaburga kaba ağda
+  temsil edilemediği için üç ağlı GCI yoktur (iki ağ farkı raporlanır). Dikey bölüntü duyarlılığı %0,02 (yukarıda).
+* **GVT kriteri f_1T ≥ 230 Hz:** seçilen tasarım dolu 295,2 Hz / boş 302,2 Hz ile sağlıyor (%28 pay).
+* **316 Hz (1350 km/h) hedefi:** hiçbir varyant sağlamıyor (`choice = null`); en yakını s51r043w1 299,95 Hz.
+* **Seçim değişmedi (s41r043w1):** web+0 (s41r043) 6,6 g/yarı daha hafif ama 1,4 Hz (V_F −6 km/h) düşük; web katının
+  verimi (0,21 Hz/g) kabuk 3/1→4/1 adımından (0,08 Hz/g) iyi. s51r043w1 +118 g/yarı ile yalnız +4,8 Hz.
+  params değişmedi; kanat kalemi 2,03 kg geçerli (kabuk FEM yarı kanat yapısal kütle 1,0379 kg; s31 0,8953 kg;
+  toplam artış 2 × 0,143 = 0,285 kg).
+* **Düzeltmenin etkisi (seçilen, ince, dolu):** f_1T 294,89 → 295,16 Hz, boş 301,8 → 302,2 Hz, V_F 1266 → 1267 km/h,
+  Tsai-Wu 4,23 → 4,16, uç sehim 42,3 → 43,0 mm (ikincisi kısmen MTOW 17,16 → 17,44 kg yük artışından). Yani incelemenin
+  bulduğu hatalar sonucu değiştirmedi; ancak artık kapı (6/6 bayrak) ve sabit referansla doğrulanmış durumda.
+* 1D `fe_modal` (güncel params) dolu eğrisi hâlâ düz (1813 km/h); flutter tasarım değeri kabuk-FEM ölçekli **≈1267 km/h**.
+
+Yeniden üretim: `python fem/stiffening_study.py --level medium|fine --only s31 s41r043w1 s41r043 s31r043 s51r043w1
+--out summary_<level>_corrected` (önce `run_case.py cantilever|coupon --study --threads 1`; paralel CFD kod
+değişiklikleri benchmarkları STALE yapar ve kanat kapısı bloklar).
 
 ## Dosyalar
 

@@ -3,16 +3,16 @@
   "h": 0.0625,
   "expanded_dof": 59742,
   "fuel_state": "empty",
-  "deck_sha256": "38898ce660c77865256f9c25afd6f7718ab814d7d986e0283fecc398282db340",
-  "prepared_dir": "C:\\hz750run\\wing_empty_s51r043w1_medium_rgpwm5rw",
-  "wing_model_json_sha256": "e398c9808fc0423b5257ec4ce3310d8c43dab59c3b70ecb0298bd260b4f93814",
-  "wing_nodes_json_sha256": "5f58b6e5172dc6eb5332b3013070790c027bcbf89c2f5b1132b9f2a64e3f2ae8",
+  "deck_sha256": "a5550110485c30a92bc7f85df8aae4ef07e40963fb5ccb1639bc77e1ab810e76",
+  "prepared_dir": "C:\\hz750run\\wing_empty_s51r043w1_medium_qxmdn7kv",
+  "wing_model_json_sha256": "ab29303c4864a8e52bfa4471cec914b9f769b791c1885a2d2b4ab0a9a08fcc93",
+  "wing_nodes_json_sha256": "8e67f5d6fcea60f4183dffa7b6937c826ae3987e246985f871b7a9c3e5c315f6",
   "laminate_materials_complete": true,
   "orientations_checked": true,
   "mass_reconciled": true,
   "ultimate_load_checked": true,
   "shell_connectivity_checked": true,
-  "sandwich_no_overlap": false,
+  "sandwich_no_overlap": true,
   "details": {
     "materials": [
       "CORE",
@@ -26,25 +26,25 @@
     },
     "outward_normal_violations": 0,
     "mass": {
-      "relative_difference": 2.220446049250313e-16,
+      "relative_difference": 0.0,
       "max_bay_cg_diff_c": 0.0,
       "inertia_ratio_bays": [
         0.8015552892968101,
-        0.8038700780189081,
-        0.8056979601595669,
+        0.7981433485297976,
+        0.804218300824563,
         0.8056019633393212,
         0.8823276007038579,
-        0.8833989623295945,
-        0.8991300248847247,
-        0.8855419826184607
+        0.8775281123704993,
+        0.8923962234113172,
+        0.8819088251935261
       ]
     },
     "load": {
-      "sum_Fz_N": 1414.6555701713903,
-      "target_N": 1414.5403931221563,
-      "relative": 8.142365519847594e-05,
+      "sum_Fz_N": 1437.7385281928346,
+      "target_N": 1437.6214717978087,
+      "relative": 8.142365519869799e-05,
       "n_ultimate": 18.0,
-      "root_moment_target_Nm": 411.86517251041136
+      "root_moment_target_Nm": 418.5855832506744
     },
     "connectivity": {
       "free_edges": 64,
@@ -55,7 +55,10 @@
     "sandwich": {
       "elements_core": 272,
       "elements_monolithic": 112,
-      "min_gap_m": -0.00047141383961450244
+      "min_gap_m": 9.54588919473945e-05,
+      "gap_basis": "kaba hücre köşe derinliği (muhafazakâr)",
+      "elements_with_ply_drop": 12,
+      "max_plies_dropped": 4
     }
   },
   "reviewer": "fem/wing_review.py (otomatik sayısal kontroller)",

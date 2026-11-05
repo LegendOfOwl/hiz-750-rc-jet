@@ -7,7 +7,7 @@ Her bayrak yalnız ilgili kontrol sayısal olarak geçerse True yazılır (elle 
   mass_reconciled             : toplam kütle hedefle < %0.5, bölme CG farkı < .005c
   ultimate_load_checked       : sum Fz = int Schrenk(12g x 1.5) (bağıl < 1e-3), yük 18 g
   shell_connectivity_checked  : serbest kenarlar yalnız kök hattında; burun/menteşe web'leri ve kaburgalar bağlı
-  sandwich_no_overlap         : tüm kabuk elemanlarında iç yüzler arası boşluk >= 0
+  sandwich_no_overlap         : tüm kabuk hücrelerinde iç yüzler arası boşluk >= 0 (kaba hücre köşe derinliği)
 Kullanım: python fem/wing_review.py <hazırlık klasörü> --level fine --output <review.json>
 """
 import argparse
@@ -112,8 +112,10 @@ def review(prepared, level):
             edges[key] = edges.get(key, 0) + 1
     free = [k for k, v in edges.items() if v == 1]
     off_root = [k for k in free if not all(abs(nodes[n][1] - g["y_root"]) < 1e-9 for n in k)]
-    # Sık kaburga seçeneğinde (ince ağ) kaburga yüksekliği web'den kaba: kaburga kenarı web üzerinde,
-    # köşe düğümleri ortak, ara web düğümleri bağlı değil (bilinçli, DOF bütçesi). Ayrı sayılır.
+    # Kaburga-web kesişimi uyumlu olmalı: web hattı üzerindeki kaburga kenarları (ortak olmayan ara düğüm)
+    # ayrıca sayılır ve bağlantı kontrolünü GEÇİRMEZ (önceki sürüm bunları kontrol dışı bırakıyordu).
+    rib_nodes = {n for t, c in conn.items() if kinds[t] == "RIB" for n in c}
+
     def on_web_line(edge):
         xs = set()
         for n in edge:
@@ -121,10 +123,9 @@ def review(prepared, level):
             c = float(ST.chord(p_[1]))
             xs.add(round((p_[0] - g["x_root_le"] - sweep * p_[1]) / c, 6))
         return len(xs) == 1 and min(abs(next(iter(xs)) - x) for x in (g["xf"], g["xr"], g["x_hinge"], .01)) < 1e-6
-    rib_web = [k for k in off_root if on_web_line(k) and all(any(n in conn[t] for t in conn if kinds[t] == "RIB") for n in k[:2])]
-    off_root = [k for k in off_root if k not in rib_web]
+    rib_web = [k for k in off_root if on_web_line(k) and all(n in rib_nodes for n in k[:2])]
     used_nodes = {n for c in conn.values() for n in c}
-    checks["shell_connectivity_checked"] = bool(not off_root and used_nodes == set(nodes))
+    checks["shell_connectivity_checked"] = bool(not off_root and not rib_web and used_nodes == set(nodes))
     details["connectivity"] = dict(free_edges=len(free), free_edges_off_root=len(off_root),
                                    nonconforming_rib_web_edges=len(rib_web),
                                    unused_nodes=len(set(nodes) - used_nodes))

@@ -14,6 +14,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from validation.common import LEVELS, read_json  # noqa: E402
+from fem.cases import REQUIRED_REVIEW_FLAGS  # noqa: E402
 
 
 def run(args):
@@ -37,17 +38,28 @@ def main():
                       if variant else ROOT / "fem/results" / name)
         for level in a.levels:
             run(["wing", "--prepare-only", "--level", level, "--wing-fuel", fuel])
-            prepared = Path(read_json(result_dir / f"{level}.json")["raw_directory"])
+            prepared_result = read_json(result_dir / f"{level}.json")
+            if prepared_result["status"] != "PREPARED" or not prepared_result.get("raw_directory"):
+                print(f"DURDU: {name} {level} hazırlanamadı ({prepared_result['status']}: {prepared_result.get('reason')})")
+                return 2
+            prepared = Path(prepared_result["raw_directory"])
             review = prepared / "review.json"
-            subprocess.run([sys.executable, str(ROOT / "fem/wing_review.py"), str(prepared), "--level", level,
-                            "--output", str(review)], cwd=ROOT, check=False)
+            rc = subprocess.run([sys.executable, str(ROOT / "fem/wing_review.py"), str(prepared), "--level", level,
+                                 "--output", str(review)], cwd=ROOT, check=False).returncode
             shutil.copy2(review, result_dir / f"{level}_mesh_review.json")
+            failed = [k for k in REQUIRED_REVIEW_FLAGS if read_json(review).get(k) is not True]
+            if rc or failed:
+                # İnceleme başarısızsa zincir durur: çözüm koşulmaz, <level>.json PREPARED olarak kalır (sonuç sayılmaz).
+                print(f"DURDU: {name} {level} otomatik inceleme başarısız: {failed}")
+                return 3
             # CCX 2.20 Windows: çok iş parçacıklı sonuç hesabı (CCX_NPROC_RESULTS/OMP>1) bazı elemanlarda
             # bozuk gerilme ve tekrarlanamayan frekans üretti (iter5 bulgusu); tek iş parçacığı zorunlu.
-            run(["wing", "--level", level, "--wing-fuel", fuel, "--deck", str(prepared / "case.inp"),
-                 "--mesh-review", str(review), "--threads", "1"])
+            if run(["wing", "--level", level, "--wing-fuel", fuel, "--deck", str(prepared / "case.inp"),
+                    "--mesh-review", str(review), "--threads", "1"]):
+                print(f"DURDU: {name} {level} çözüm başarısız/bloklu ({read_json(result_dir / f'{level}.json').get('reason')})")
+                return 4
         print(fuel, save_study(result_dir)["status"])
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

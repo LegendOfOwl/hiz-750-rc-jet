@@ -7,6 +7,9 @@ import shutil
 from validation.common import Blocked, ROOT, digest, read_json, require_module, run_solver
 from validation.convergence import error
 
+# fem/wing_review.py'nin ürettiği tüm bayraklar zorunlu (sandviç çakışması dahil; test_validation kontrol eder).
+REQUIRED_REVIEW_FLAGS = ("laminate_materials_complete", "orientations_checked", "mass_reconciled",
+                         "ultimate_load_checked", "shell_connectivity_checked", "sandwich_no_overlap")
 NUMBER = r"[-+]?(?:\d+\.?\d*|\.\d+)(?:[EeDd][-+]?\d+)?"
 
 
@@ -129,7 +132,7 @@ def wing_input(args, work):
         raise Blocked("Kanat deck kendi içinde kapalı olmalı; *INCLUDE içeriğini tek dosyada birleştirin.")
     if review.get("deck_sha256") != digest(args.deck):
         raise Blocked("Kanat deck SHA256 inceleme kaydıyla eşleşmiyor.")
-    for key in ("laminate_materials_complete", "orientations_checked", "mass_reconciled", "ultimate_load_checked", "shell_connectivity_checked"):
+    for key in REQUIRED_REVIEW_FLAGS:
         if review.get(key) is not True:
             raise Blocked(f"Kanat FEM incelemesi eksik: {key}")
     if not 0 < review.get("expanded_dof", 0) <= 200_000:

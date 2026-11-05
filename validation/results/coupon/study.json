@@ -1,6 +1,8 @@
 {
   "status": "BENCHMARK_ACCEPTED",
   "case": "coupon",
+  "acceptance_label": "BENCHMARK_ACCEPTED",
+  "reference_basis": null,
   "metrics": {
     "UD0_Ex": {
       "values_fine_to_coarse": [

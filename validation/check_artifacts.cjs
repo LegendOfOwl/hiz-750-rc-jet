@@ -49,7 +49,7 @@ for (const [file, expected] of Object.entries(comparison.baseline.source_sha256)
   assert.equal(crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex'), expected);
 }
 assert.equal(comparison.baseline.drag_aerobuildup_N, read('aero/out/sonuclar.json').D_750);
-const msh = fs.readFileSync('validation/meshes/thermal_1d_coarse.msh', 'utf8').trim().split('\n');
+const msh = fs.readFileSync('validation/meshes/thermal_1d_coarse.msh', 'utf8').trim().split(/\r?\n/);
 let k = msh.indexOf('$Nodes'), n = Number(msh[++k]), nodes = {};
 for (let i = 0; i < n; i++) {
   const [id, ...xyz] = msh[++k].split(' ').map(Number);

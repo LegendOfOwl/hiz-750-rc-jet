@@ -1,0 +1,44 @@
+[
+  {
+    "path": "C:\\hz750run\\rae2822_native_aztl93ur\\mesh_RAE2822_turb.su2",
+    "cells": 22842,
+    "nodes": 13937,
+    "element_types": {
+      "5": 18042,
+      "9": 4800
+    },
+    "minimum_signed_area": 1.1628958559994906e-10,
+    "nonpositive_cells": 0,
+    "minimum_corner_sine": 0.37113305159182963,
+    "nonpositive_corners": 0,
+    "nonmanifold_edges": 0,
+    "boundary_mismatches": 0,
+    "markers": {
+      "AIRFOIL": 192,
+      "FARFIELD": 40
+    },
+    "bounds": [
+      -100.0,
+      100.0,
+      -100.0,
+      100.0
+    ],
+    "unique_x": 13893,
+    "unique_y": 13914,
+    "first_y_values": [
+      -100.0,
+      -98.7688369750977,
+      -95.1056518554688,
+      -89.2627639770508,
+      -89.1496047973633,
+      -89.1006546020508
+    ],
+    "last_y_values": [
+      89.589729309082,
+      95.1056518554688,
+      98.7688369750977,
+      100.0
+    ],
+    "minimum_wall_connected_edge": 1.008649470649426e-05
+  }
+]

@@ -1,0 +1,134 @@
+[
+  {
+    "path": "C:\\hz750run\\flatplate_native_jq96nkzw\\mesh_flatplate_turb_137x97.su2",
+    "cells": 13056,
+    "nodes": 13289,
+    "element_types": {
+      "9": 13056
+    },
+    "minimum_signed_area": 8.038973098035795e-09,
+    "nonpositive_cells": 0,
+    "minimum_corner_sine": 1.0,
+    "nonpositive_corners": 0,
+    "nonmanifold_edges": 0,
+    "boundary_mismatches": 0,
+    "markers": {
+      "farfield": 136,
+      "inlet": 96,
+      "outlet": 96,
+      "symmetry": 24,
+      "wall": 112
+    },
+    "bounds": [
+      -0.33333,
+      2.0,
+      2.220446049250313e-16,
+      1.0000000000000002
+    ],
+    "unique_x": 179,
+    "unique_y": 1344,
+    "first_y_values": [
+      2.220446049250313e-16,
+      2.0046541480120445e-06,
+      2.0046541480220446e-06,
+      2.0046541480320447e-06,
+      2.0046541480420448e-06,
+      2.0046541480520444e-06
+    ],
+    "last_y_values": [
+      0.7834888592340002,
+      0.7834888592350002,
+      0.8851490604630002,
+      1.0000000000000002
+    ],
+    "minimum_wall_connected_edge": 2.0046541478e-06
+  },
+  {
+    "path": "C:\\hz750run\\flat_plate_SA_coarse_92zr3is9\\mesh.su2",
+    "cells": 14400,
+    "nodes": 14661,
+    "element_types": {
+      "9": 14400
+    },
+    "minimum_signed_area": 2.50028033720295e-08,
+    "nonpositive_cells": 0,
+    "minimum_corner_sine": 1.0,
+    "nonpositive_corners": 0,
+    "nonmanifold_edges": 0,
+    "boundary_mismatches": 0,
+    "markers": {
+      "WALL": 160,
+      "SYMMETRY": 20,
+      "INLET": 80,
+      "OUTLET": 80,
+      "FARFIELD": 180
+    },
+    "bounds": [
+      -0.25,
+      2.0,
+      0.0,
+      1.0
+    ],
+    "unique_x": 9703,
+    "unique_y": 1751,
+    "first_y_values": [
+      0.0,
+      2.000224269771422e-06,
+      2.000224269772796e-06,
+      2.00022426977417e-06,
+      2.000224269775544e-06,
+      2.000224269776918e-06
+    ],
+    "last_y_values": [
+      0.8690313712567017,
+      0.8690313712567301,
+      0.8690313712567587,
+      1.0
+    ],
+    "minimum_wall_connected_edge": 2.0002242697989e-06
+  },
+  {
+    "path": "C:\\hz750run\\flat_plate_SA_coarse_usmdylpt\\mesh.su2",
+    "cells": 13056,
+    "nodes": 13289,
+    "element_types": {
+      "9": 13056
+    },
+    "minimum_signed_area": 4.872606270996328e-09,
+    "nonpositive_cells": 0,
+    "minimum_corner_sine": 1.0,
+    "nonpositive_corners": 0,
+    "nonmanifold_edges": 0,
+    "boundary_mismatches": 0,
+    "markers": {
+      "WALL": 112,
+      "SYMMETRY": 24,
+      "INLET": 96,
+      "OUTLET": 96,
+      "FARFIELD": 136
+    },
+    "bounds": [
+      -0.3333333333333333,
+      2.0,
+      0.0,
+      1.0
+    ],
+    "unique_x": 12891,
+    "unique_y": 2481,
+    "first_y_values": [
+      0.0,
+      2.000177818262117e-06,
+      2.000177818264857e-06,
+      2.000177818267282e-06,
+      2.000177818269429e-06,
+      2.000177818271328e-06
+    ],
+    "last_y_values": [
+      0.8915947973244058,
+      0.8915947973244511,
+      0.8915947973245024,
+      1.0
+    ],
+    "minimum_wall_connected_edge": 2.00017781828467e-06
+  }
+]

@@ -51,8 +51,12 @@ def coordinates(args):
 
 def mesh_2d(args, work):
     require_module("gmsh")
+    if args.case != "flat_plate":
+        from cfd.structured_airfoil import generate
+        xy, source = coordinates(args)
+        return generate(args, work, xy, source)
     import gmsh
-    factor = 2 ** ("coarse", "medium", "fine").index(args.level)
+    factor = (1, 1.5, 2)[("coarse", "medium", "fine").index(args.level)]
     gmsh.initialize()
     try:
         gmsh.option.setNumber("General.NumThreads", args.threads)
@@ -62,14 +66,14 @@ def mesh_2d(args, work):
         first = 2e-6 / factor
         if args.case == "flat_plate":
             # TMR benzeri M=.2, Re_x=5e6 @ x=1; üst sınır y=1, plaka x=0..2.
-            xy = [(-0.25, 0), (0, 0), (2, 0), (2, 1), (0, 1), (-0.25, 1)]
+            xy = [(-1/3, 0), (0, 0), (2, 0), (2, 1), (0, 1), (-1/3, 1)]
             pts = [geo.addPoint(x, y, 0, .08 / factor) for x, y in xy]
             lines = [geo.addLine(pts[i], pts[(i + 1) % 6]) for i in range(6)]
             shared = geo.addLine(pts[1],pts[4])
             wall, sym, far = [lines[1]], [lines[0]], lines[2:]
             faces = [geo.addPlaneSurface([geo.addCurveLoop([lines[0],shared,lines[4],lines[5]])]),
                      geo.addPlaneSurface([geo.addCurveLoop([lines[1],lines[2],lines[3],-shared])])]
-            ny = 80*factor
+            ny = int(96*factor)
             lo,hi = 1.000001,2.
             for _ in range(80):
                 r=(lo+hi)/2
@@ -78,36 +82,17 @@ def mesh_2d(args, work):
             ratio=(lo+hi)/2
             for curve in (lines[2],shared): geo.mesh.setTransfiniteCurve(curve,ny+1,"Progression",ratio)
             geo.mesh.setTransfiniteCurve(lines[5],ny+1,"Progression",1/ratio)
-            for curve in (lines[0],lines[4]): geo.mesh.setTransfiniteCurve(curve,20*factor+1)
-            for curve in (lines[1],lines[3]): geo.mesh.setTransfiniteCurve(curve,160*factor+1)
+            # Cluster both streamwise blocks at the plate leading edge,
+            # like SU2's official 137x97 tensor grid (24+112 by 96).
+            geo.mesh.setTransfiniteCurve(lines[0],int(24*factor)+1,"Progression",1/1.13**(1/factor))
+            geo.mesh.setTransfiniteCurve(lines[4],int(24*factor)+1,"Progression",1.13**(1/factor))
+            geo.mesh.setTransfiniteCurve(lines[1],int(112*factor)+1,"Progression",1.025**(1/factor))
+            geo.mesh.setTransfiniteCurve(lines[3],int(112*factor)+1,"Progression",1/1.025**(1/factor))
             for face in faces:
                 geo.mesh.setTransfiniteSurface(face)
                 geo.mesh.setRecombine(2,face)
             surface=faces[0]
             source = {"geometry": "2D flat plate x=0..2 m"}
-        else:
-            xy, source = coordinates(args)
-            write_json(work / "geometry.json", xy)
-            closed_te = math.dist(xy[0], xy[-1]) < 1e-10
-            if closed_te:
-                xy = xy[:-1]
-            ile = min(range(len(xy)), key=lambda i: xy[i][0])
-            if not 2 < ile < len(xy) - 3:
-                raise Blocked("Profil sırası hatalı: minimum x iç noktada olmalı.")
-            pts = [geo.addPoint(x, y, 0, .006 / factor) for x, y in xy]
-            wall = [geo.addSpline(pts[:ile + 1]), geo.addSpline(pts[ile:]+([pts[0]] if closed_te else []))]
-            if not closed_te:
-                wall.append(geo.addLine(pts[-1], pts[0]))
-            inner_loop = geo.addCurveLoop(wall)
-            for curve in wall[:2]:
-                geo.mesh.setTransfiniteCurve(curve, 128 * factor + 1, "Bump", .15)
-            if not closed_te:
-                geo.mesh.setTransfiniteCurve(wall[2], 3 * factor + 1)
-            center = geo.addPoint(.5, 0, 0)
-            outer = [geo.addPoint(.5 + 30 * math.cos(i * math.pi / 2),
-                                  30 * math.sin(i * math.pi / 2), 0, 1.5 / factor) for i in range(4)]
-            far = [geo.addCircleArc(outer[i], center, outer[(i + 1) % 4]) for i in range(4)]
-            surface = geo.addPlaneSurface([geo.addCurveLoop(far), inner_loop])
         geo.synchronize()
         boundary_groups = [("WALL",wall),("FARFIELD",far),("SYMMETRY",sym)]
         if args.case=="flat_plate":
@@ -117,17 +102,6 @@ def mesh_2d(args, work):
             if tags:
                 gmsh.model.addPhysicalGroup(1, tags, name=name)
         gmsh.model.addPhysicalGroup(2, faces if args.case=="flat_plate" else [surface], name="FLUID")
-        if args.case!="flat_plate":
-            bl = gmsh.model.mesh.field.add("BoundaryLayer")
-            gmsh.model.mesh.field.setNumbers(bl, "CurvesList", wall)
-            gmsh.model.mesh.field.setNumber(bl, "Size", first)
-            gmsh.model.mesh.field.setNumber(bl, "Thickness", .025)
-            gmsh.model.mesh.field.setNumber(bl, "Ratio", 1 + .20 / factor)
-            gmsh.model.mesh.field.setNumber(bl, "Quads", 1)
-            if closed_te:
-                gmsh.model.mesh.field.setNumbers(bl,"FanPointsList",[pts[0]])
-                gmsh.model.mesh.field.setNumbers(bl,"FanPointsSizesList",[20*factor])
-            gmsh.model.mesh.field.setAsBoundaryLayer(bl)
         gmsh.option.setNumber("Mesh.Algorithm", 6)
         gmsh.model.mesh.generate(2)
         gmsh.write(str(work / "mesh.su2"))
@@ -231,8 +205,9 @@ def configuration(args):
              "TIME_DISCRE_FLOW= EULER_IMPLICIT", "TIME_DISCRE_TURB= EULER_IMPLICIT",
              "CFL_NUMBER= 10.0", "CFL_ADAPT= NO", "MGLEVEL= 0",
              "LINEAR_SOLVER= FGMRES", "LINEAR_SOLVER_PREC= ILU", "LINEAR_SOLVER_ITER= 10",
-             "LINEAR_SOLVER_ERROR= 0.01", f"ITER= {args.iterations}",
-             "CONV_FIELD= RMS_DENSITY", "CONV_RESIDUAL_MINVAL= -8", "CONV_STARTITER= 100",
+             "LINEAR_SOLVER_ERROR= 1E-6", f"ITER= {args.iterations}",
+             "CONV_FIELD= DRAG", "CONV_CAUCHY_ELEMS= 100", "CONV_CAUCHY_EPS= 1e-6",
+             "CONV_RESIDUAL_MINVAL= -8", "CONV_STARTITER= 100",
              "MESH_FILENAME= mesh.su2", "MESH_FORMAT= SU2", "TABULAR_FORMAT= CSV",
              "CONV_FILENAME= history", "SURFACE_FILENAME= surface_flow", "VOLUME_FILENAME= flow",
              "OUTPUT_FILES= ( RESTART, SURFACE_CSV, PARAVIEW )", "OUTPUT_WRT_FREQ= 1000",
@@ -250,8 +225,13 @@ def configuration(args):
         for old,new in (("NUM_METHOD_GRAD= WEIGHTED_LEAST_SQUARES","NUM_METHOD_GRAD= GREEN_GAUSS"),
                         ("MUSCL_TURB= YES","MUSCL_TURB= NO"),
                         ("SLOPE_LIMITER_FLOW= VENKATAKRISHNAN","SLOPE_LIMITER_FLOW= NONE"),
-                        ("MGLEVEL= 0","MGLEVEL= 3")):
+                        # Iter5 devam: ayni ince ag MG3 + CFL 10 ile 1155. iterasyonda
+                        # iraksadi; MG0 + CFL_ADAPT ile 3082. iterasyonda yakinsadi
+                        # (C:/hz750run/pilot_mg0_flat_plate/solver.log). MGLEVEL= 0 kalir.
+                        ("CFL_NUMBER= 10.0","CFL_NUMBER= 1.0"),
+                        ("CFL_ADAPT= NO","CFL_ADAPT= YES")):
             lines[lines.index(old)]=new
+        lines.insert(lines.index("CFL_ADAPT= YES")+1,"CFL_ADAPT_PARAM= ( 0.5, 1.5, 1.0, 100.0 )")
         lines += ["MGCYCLE= V_CYCLE","MG_PRE_SMOOTH= (1,2,3,3)","MG_POST_SMOOTH= (2,2,2,2)",
                   "MG_CORRECTION_SMOOTH= (0,0,0,0)","MG_DAMP_RESTRICTION= 0.8","MG_DAMP_PROLONGATION= 0.8"]
     if args.case == "inlet":
@@ -260,6 +240,20 @@ def configuration(args):
         lines += ["ENGINE_INFLOW_TYPE= FAN_FACE_MDOT", f"MARKER_ENGINE_INFLOW= ( ENGINE, {mdot} )"]
         lines[lines.index("MARKER_PLOTTING= ( WALL )")] = "MARKER_PLOTTING= ( WALL, ENGINE )"
         # Tam kanal: yarı debi kullanılmaz; FARFIELD dış dudak/gövde hacmini de kapsar.
+    if args.case in ("rae2822", "airfoil"):
+        # SU2 v8.2.0 TestCases RAE2822 numerical settings (Case 6).
+        # Case 6 conditions match the NPARC archive; Case 9 is a separate benchmark.
+        for old,new in (("CFL_NUMBER= 10.0","CFL_NUMBER= 2.5"),
+                        ("CONV_NUM_METHOD_FLOW= ROE","CONV_NUM_METHOD_FLOW= JST"),
+                        ("MUSCL_FLOW= YES","MUSCL_FLOW= NO"),
+                        ("MGLEVEL= 0","MGLEVEL= 3"),
+                        ("MUSCL_TURB= YES","MUSCL_TURB= NO"),
+                        ("LINEAR_SOLVER= FGMRES","LINEAR_SOLVER= BCGSTAB"),
+                        ("LINEAR_SOLVER_ITER= 10","LINEAR_SOLVER_ITER= 20")):
+            lines[lines.index(old)] = new
+        lines += ["JST_SENSOR_COEFF= ( 0.5, 0.02 )", "MGCYCLE= W_CYCLE",
+                  "MG_PRE_SMOOTH= (1,2,3,3)","MG_POST_SMOOTH= (0,0,0,0)",
+                  "MG_CORRECTION_SMOOTH= (0,0,0,0)","MG_DAMP_RESTRICTION= 0.95","MG_DAMP_PROLONGATION= 0.95"]
     if args.case in ("aircraft", "inlet"):
         lines += ["INIT_OPTION= TD_CONDITIONS", f"FREESTREAM_PRESSURE= {atmo['pressure']}"]
     return "\n".join(lines) + "\n", dict(mach=mach, reynolds=re, alpha_deg=alpha, temperature_K=temp,
@@ -279,10 +273,15 @@ def solve(args, work, solver):
     cd = [pick(r, "CD", "Drag") for r in rows[-100:]]
     cl = [pick(r, "CL", "Lift") for r in rows[-100:]]
     rms = [v for k, v in rows[-1].items() if k.lower().replace('_', '').startswith('rms')]
-    converged = bool(rms) and all(math.isfinite(r) for r in rms) and max(rms) < -6 and max(cd) - min(cd) < 1e-5 and max(cl) - min(cl) < 1e-4
+    from cfd.convergence import assess
+    quality = assess(rows, args.model)
+    converged = quality['iterative_converged']
     surface = csv_rows(work / "surface_flow.csv")
     yplus = max(pick(r, "Y_Plus", "yplus") for r in surface)
     metrics = dict(cl=cl[-1], cd=cd[-1], cm=pick(rows[-1], "CMz", "Moment_z"))
+    if args.case in ('rae2822','airfoil'):
+        metrics['cm_su2_z'] = metrics['cm']
+        metrics['cm'] = -metrics['cm']  # x downstream, y up; conventional nose-up Cm
     if args.case == "aircraft":
         q = .5 * conditions["atmosphere"]["density"] * (conditions["mach"] * conditions["atmosphere"]["sound_speed"]) ** 2
         metrics["drag_N"] = 2 * q * conditions["ref_area_m2"] * cd[-1]
@@ -331,7 +330,7 @@ def solve(args, work, solver):
         errors["cf_mean"] = error(metrics["cf_mean"], metrics["cf_schlichting"])
     return dict(status="COMPUTED" if converged and yplus <= 1 else "UNCONVERGED", metrics=metrics,
                 errors=errors,
-                quality=dict(iterative_converged=converged, yplus_max=yplus, max_log_residual=max(rms) if rms else None),
+                quality=dict(quality, iterative_converged=converged, yplus_max=yplus),
                 mesh=mesh, conditions=conditions, execution=execution,
                 limitations=["Türbülanslı RANS; geçiş, pürüzlülük ve model-form hatası ayrıca incelenmeli.",
                              "inlet DC60 için motor yüzü örneklemesi ve cfd/inlet_metrics.py gerekir."])

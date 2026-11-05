@@ -24,7 +24,7 @@ def interpolate(points, x):
     return points[-1][1]
 
 
-def compare_reference(result, reference, work):
+def compare_reference(result, reference, work, allow_partial_cp=False):
     from cfd.cases import csv_rows, pick
     if not reference.get("source_url") or not reference.get("conditions"):
         raise ValueError("Referans URL'si ve vaka koşulları gerekli")
@@ -36,6 +36,8 @@ def compare_reference(result, reference, work):
         if value is not None:
             errors[key] = error(result["metrics"][key], value)
     cp_rmse = None
+    partial_rmse = None
+    coverage = None
     if result["case"] == "rae2822" and reference.get("cp_upper") and reference.get("cp_lower"):
         # Camber nedeniyle y işareti üst/alt ayırmaz: geometrinin iki dalına uzaklık kullanılır.
         geometry = read_json(work / "geometry.json")
@@ -44,18 +46,37 @@ def compare_reference(result, reference, work):
         measured = {"cp_upper": [], "cp_lower": []}
         for r in csv_rows(work / "surface_flow.csv"):
             x, y = pick(r, "x", "x_coord"), pick(r, "y", "y_coord")
-            du, dl = abs(y-interpolate(upper, x)), abs(y-interpolate(lower, x))
+            # Segment distances handle spline points slightly beyond source x
+            # extrema and cambered lower surfaces above the x axis.
+            def distance(branch):
+                best = math.inf
+                for a,b in zip(branch,branch[1:]):
+                    dx,dy = b[0]-a[0],b[1]-a[1]
+                    length2 = dx*dx+dy*dy
+                    t = max(0.,min(1.,((x-a[0])*dx+(y-a[1])*dy)/length2)) if length2 else 0.
+                    best = min(best,math.hypot(x-a[0]-t*dx,y-a[1]-t*dy))
+                return best
+            du, dl = distance(upper), distance(lower)
             sides = ("cp_upper", "cp_lower") if max(du,dl) < 1e-8 else ("cp_upper" if du <= dl else "cp_lower",)
             for which in sides:
                 measured[which].append((x, pick(r, "Pressure_Coefficient")))
-        diffs = []
+        diffs, excluded = [], []
         for side in measured:
-            diffs += [(interpolate(measured[side], x) - cp) ** 2 for x, cp in reference[side]]
-        cp_rmse = math.sqrt(sum(diffs) / len(diffs))
+            for x,cp in reference[side]:
+                try:
+                    diffs.append((interpolate(measured[side],x)-cp)**2)
+                except ValueError:
+                    if not allow_partial_cp:
+                        raise
+                    excluded.append(dict(side=side,x=x))
+        partial_rmse = math.sqrt(sum(diffs)/len(diffs)) if diffs else None
+        coverage = dict(compared=len(diffs),excluded=excluded)
+        cp_rmse = partial_rmse if not excluded else None
     metrics = dict(result["metrics"])
     if cp_rmse is not None:
         metrics["cp_rmse"] = cp_rmse
-    return dict(errors=errors, reference_source=reference, cp_rmse=cp_rmse, metrics=metrics)
+    return dict(errors=errors, reference_source=reference, cp_rmse=cp_rmse,
+                cp_rmse_partial=partial_rmse,cp_coverage=coverage,metrics=metrics)
 
 
 def evaluate(directory):
@@ -131,7 +152,11 @@ def evaluate(directory):
             metrics["cf_mean"]["error_" + correlation] = e
             if abs(e["percent"]) > 15:
                 accepted = False; reasons.append("Cf korelasyon farkı > %15")
+    secondary = case == "rae2822" and rows[0].get("reference_source", {}).get("scalar_source", {}).get("classification") == "secondary"
+    label = "BENCHMARK_ACCEPTED (CL/CD ikincil kaynak)" if accepted and secondary else "BENCHMARK_ACCEPTED" if accepted else "REVIEW_REQUIRED"
     return dict(status="BENCHMARK_ACCEPTED" if accepted else "REVIEW_REQUIRED", case=case,
+                acceptance_label=label,
+                reference_basis="Cp primary NASA; CL/CD secondary, primary file unverified" if secondary else None,
                 metrics=metrics, reasons=reasons,
                 note="Eşikler iter5 mühendislik taramasıdır; deney belirsizliği ve fiziksel tasarım kabulü yerine geçmez.")
 
@@ -140,7 +165,7 @@ def save_study(directory):
     directory = Path(directory)
     result = evaluate(directory)
     write_json(directory / "study.json", result)
-    lines = [f"# {directory.name}: {result['status']}", "", "| Büyüklük | Kaba / orta / ince | p | GCI ince [%] | Referans hata kaba / orta / ince [%] |", "|---|---|---|---|---|"]
+    lines = [f"# {directory.name}: {result.get('acceptance_label', result['status'])}", "", "| Büyüklük | Kaba / orta / ince | p | GCI ince [%] | Referans hata kaba / orta / ince [%] |", "|---|---|---|---|---|"]
     for name, row in result["metrics"].items():
         c, e = row["convergence"], row.get("error_fine") or {}
         values = " / ".join(f"{x:.8g}" for x in reversed(row["values_fine_to_coarse"]))

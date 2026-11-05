@@ -1,19 +1,18 @@
 # CFD uygulamaları
 
-Runner: `python validation/run_case.py <case> --level coarse --model SA|SST`.
-İkinci turda SU2/gmsh escalation ile çalıştırıldı. Kaba pilotlar yakınsamadığı için tasarım karşılaştırmasında kabul edilmez; [results/status.json](results/status.json) koşu dizinlerini gösterir. `validation/run_native_su2.py`, resmi v8.2 config+137×97 ağını ayrıca sınar. Bu kontrol tek ağdır, GCI/deney kabulü değildir.
+Güncel sonuçlar: [RESULTS_iter5.md](RESULTS_iter5.md). Solver exit-success fiziksel doğrulama kabulü değildir.
 
 ## 2B vakalar
 
-Gerçek ikinci tur kontrolleri: düz levhada BL uç köşe quads yerine iki transfinite blok kullanıldı. Resmi SU2 ayarları total inlet/static outlet, Green–Gauss, MG3 ve MUSCL_TURB=NO ile ayrıca denendi; kendi ağında FGMRES hatası verdi. Resmi config+resmi137×97 ağ6000 iterasyonda tamamlandı (Cf=.002849; Schlichting farkı−%5.151), ancak tek ağ sonucu üç-ağ kabulü değildir. RAE/profil pilotları UNCONVERGED olarak kaydedildi; CFD kabul eşiği değiştirilmedi.
+Runner: `python validation/run_case.py flat_plate --study --model SA`. RAE önce yalnız kaba ağda çalıştırılır; yakınsarsa orta/ince ayrıca başlatılır. Ağ başına sınır 7200 s.
 
-- `rae2822`: M=.729, Re=6.5e6, α=2.31°, T=288.15 K; düzeltilmiş Case 6. Sayısal deney verisi [referans şablonuna](../validation/reference/rae2822.example.json) kaynak gösterilerek girilmeli. Daha farklı M=.8, sabit CL=.724 olan optimizasyon tutorial'ı bu doğrulama vakasıyla aynı değildir.
-- `flat_plate`: M=.2, Re_x=5e6 @ x=1 m; duvar x=0..2 m, üst sınır y=1 m, giriş önünde simetri x=−.25..0. Cf_mean=CD (`REF_AREA=2 m²`, birim açıklık); Schlichting `.455/(log10(Re_L))^2.58`, ITTC `.075/(log10(Re_L)−2)^2`, Re_L=1e7. Bunlar tam türbülanslı ortalama Cf korelasyonlarıdır; noktasal `.0592/Re_x^.2` ile karıştırılmaz. [NASA TMR](https://tmbwg.github.io/turbmodels/flatplate.html) ile benzer koşulludur, aynı ağ/BC replikası değildir.
-- `airfoil`: projenin `airfoil_64a()` tanımıyla aynı **kalınlığı ölçeklenmiş 64A010**. Gerçek 64A007 diye yeni bir koordinat seti varsayılmaz. M=.61–.75, Re=4.5e6, α=0–2°. Birim normalize veterle Re/M eşleştirilir; buradan tam uçak kuvveti çıkarılmaz. `neuralfoil.json` hem aynı Mach hem eski M=0 değerini kaydeder. Tam türbülans RANS ile ncrit=9 geçişli NeuralFoil farkı sayısal hata değildir.
+- Düz levha: resmi SU2 137×97 topolojisine benzer iki transfinite quad blok; giriş x=−1/3, plaka x=0..2, üst y=1. Ön kenarda boyuna sıklaştırma kullanılır. Bu turdaki LU-SGS/.01 pilotlarından sonra kod resmi varsayılan ILU/1e−6'ya düzeltildi; geçmiş pilot kayıtları kendi cfg'lerini korur. Ağlar 13056/29376/52224 hücre; h oranları 1.5/1.333. İlk katman 2e−6/1.333e−6/1e−6 m.
+- RAE2822: Claude yönlendirmesiyle **Case 6**, M=.729, α=2.31°, Re=6.5e6. NASA NPARC Cp birincil; AGARD'a atfedilen CL=.743/CD=.0127/CM=−.095 ikincildir, birincil integral dosya doğrulanmadı. `python validation/fetch_reference.py --experiment` kaynakları ve hashleri üretir. Olası kabul etiketi `BENCHMARK_ACCEPTED (CL/CD ikincil kaynak)` olur. Case 9 ayrı çalışmadır.
+- Proje profili: `aero/aero_analysis.py` ile aynı kalınlığı ölçeklenmiş 64A010; bağımsız gerçek 64A007 koordinatı değildir. Dört transfinite quad bloklu C-ağında wake çizgisi ortaktır. Kaba/orta/ince 33792/76032/135168 hücre, uzak sınır 30c. Kapalı keskin TE gerekir; geometri sessizce değiştirilmez.
 
-gmsh 2B duvar katmanı ilk yüksekliği kaba 2e−6 c, orta 1e−6 c, ince .5e−6 c; katman bölgesi .025c, büyüme oranı da rafine edilir. Profil uzak sınırı 30c; ayrıca 60c alan testi önerilir. `y+max≤1`, tüm RMS log residual <−6 ve son 100 iterasyonda ΔCD<1e−5 / ΔCL<1e−4 olmadan sonuç COMPUTED olamaz. Eşik sağlanmazsa iterasyon artırın/ağı düzeltin. Yoğunluk residual'ının −8'e gelmesi tek başına yeterli değildir.
+Bu turdaki Claude talimatıyla yakınsama: son 100 adımda ortalama mutlak CD adımı / ortalama |CD| <1e−6 ve başlangıçtan rho ile ν̃ residual düşüşü ≥4 mertebe; y+max≤1. SST'de k/omega düşüşleri ayrı aranır. Enerji residual'ı bilgi olarak raporlanır. SU2 DRAG Cauchy duruşu residual düşüşünü tek başına garanti etmez; postprocessor ayrıca denetler. Eski tüm-RMS<−6 kapısı tarihsel kayıtlarda bulunabilir. `cfd/reassess.py` özgün kaynak kayıtlarını değiştirmeden geçmişleri yeniden değerlendirir.
 
-Mcrit: yüzey Cp_min, sonik Cp* ile karşılaştırılır. Sonik nokta görülen ilk Mach bir **üst sınır**, önceki subsonik nokta alt sınırdır; bütün tarama subsonikse Mcrit>.75 denebilir, kesin bir Mcrit=.75 sonucu verilemez. Mcrit ile drag divergence farklıdır. Cp karşılaştırması shock yakınında noktaları/pürüzlülük/transition varsayımını da incelemeli.
+GCI yalnız üç yakınsamış, tutarlı ağla hesaplanır. CL hata sınırı %5, CD %15, Cp RMSE .08 ve ince GCI %5 korunur. `cfd/neuralfoil_baseline.py` M0/eş-Mach bazlarını hesaplar; bu tablo RANS doğrulaması değildir. Mcrit için yakınsamış Cp_min/Cp* taraması gerekir.
 
 ## 3B hazırlık: B ve C
 

@@ -99,7 +99,7 @@ def run_one(args):
         else:
             from thermal.cases import solve
         result.update(solve(args, work, solver))
-        if args.reference and result["status"] == "COMPUTED":
+        if args.reference and result["status"] in ("COMPUTED", "UNCONVERGED"):
             from validation.study import compare_reference
             result.update(compare_reference(result, read_json(args.reference), work))
         if args.diagnostic and result["status"] == "COMPUTED":

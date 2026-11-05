@@ -75,7 +75,7 @@ HIZ-750
     │   ├─ 🟡 Düz levha orta ağ: 7 restart sonrası kapıyı geçti (Cf 0,0028585, Schlichting'e −%4,8)
     │   ├─ 🟡 Resmi SU2 RAE2822 cfg+ağ native: iteratif kapı ✅, CL −%2,6 / CD +%5,9 / Cm +%2,3 → çözücü/cfg referansı KABUL; Cp RMSE 0,098 > 0,08 → deney Cp kabulü YOK (SA şok konumu)
     │   ├─ ❌ ILU + LINEAR_SOLVER_ERROR 1e-6 pilotları: ikisi de yine ıraksadı (RAE 1452, düz levha 1155. iter) → bu ayar sebep DEĞİL
-    │   ├─ ✅ MG0 + CFL_ADAPT düz levha ince: 3082 iterasyonda yakınsadı (Cauchy 9,99e-7) → ince ağ ıraksaması MULTIGRID kaynaklıydı
+    │   ├─ 🟡 MG0 + CFL_ADAPT düz levha ince: ıraksamadı, SU2 ölçütüyle 3082. iterasyonda durdu (Cauchy 9,99e-7) → ıraksama MULTIGRID kaynaklıydı. AMA proje kapısı geçmedi (bağıl Cauchy100 3,4e-5, ν̃ 3,12 mertebe < 4) → devam koşusu gerek, henüz GCI girdisi değil
     │   ├─ ❌ MG0 RAE kaba (kendi C-ağı): 20000 iter ıraksamadı ama yakınsamadı (ρ −4,7, Cauchy 7,5e-5); CL 0,696 (−%6), CD 0,0157 (+%24) → sorun AĞ (±30c uzak alan, köşe sinüsü 0,277); resmi ağ aynı cfg ile iyi
     │   ├─ ⏳ NACA 64A007 M0,61 (3 ağ) ↔ NeuralFoil + Kármán-Tsien
     │   └─ ⏳ (zaman kalırsa) 3B sınır tabaka ağları
@@ -128,6 +128,7 @@ HIZ-750
 | CalculiX 2.20: çok iş parçacığı sahte gerilme, PaStiX gürültü/askı, kompozit kabukta MASS elemanı çalışmıyor, kökte 1-6 kısıtı yük kaybettiriyor | FEM alt ajanı kupon/konsol koşuları | `--threads 1`, SPOOLES, NSM tabakası + `*EQUATION` kütleleri, 1-3 ankastre |
 | Taslak kanatta web'ler 0° (G 4,5 GPa) | FEM incelemesi | ±45 kumaşa çevrildi |
 | Codex 5HV4 worktree'si commit edilmeden claudex tarafından silindi (2026-11-05 23:00), patch dosyası da yok | Entegrasyon denemesi | Kod, Codex oturum kaydındaki FileChange kayıtlarından (`~/.codex/sessions/2026/11/04/rollout-...21-40-43...jsonl`) kurtarılıyor. **Ders:** dış ajan işi bitince hemen ana repoya commit'le; worktree'ye güvenme. Codex CLI sandbox'ı workspace dışını okuyamıyor, dosyaları önce workspace'e kopyala |
+| Kurtarma sonucu | Opus ajanı | 47 kod değişikliğinin hepsi kurtarıldı ve birleştirildi, 21 test geçti. Çözücü sonuç JSON'ları ve NASA referans dosyaları kayıp (ham çıktılar `C:/hz750run`'da). RAE native değerleri yalnız `cfd/RESULTS_iter5.md` ve bu ağaçta kayıtlı; `fetch_reference --experiment` (indirme) + `postprocess_native` ile yeniden üretilebilir. `check_artifacts.cjs` baseline hash'leri 320f1ef zincir yenilemesinden beri eski |
 | Gecikmiş onay cevabı "rejected by user" sayıldı | Codex köprüsü | 10 dk zaman aşımı. Gerekirse Codex'ten isteği yeniden yollaması istenir |
 
 ---

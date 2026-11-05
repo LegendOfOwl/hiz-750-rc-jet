@@ -1,0 +1,21 @@
+﻿[
+    {
+        "name":  "SU2",
+        "version":  "8.2.0",
+        "url":  "https://github.com/su2code/SU2/releases/download/v8.2.0/SU2-v8.2.0-win64.zip",
+        "sha256":  "1431C3230DAC53D22F784126C35C6F3DBEACAB5D02237CC39DBF8C386AE3BEFD",
+        "exe":  "C:\\hz750tools\\SU2\\win64\\bin\\SU2_CFD.exe"
+    },
+    {
+        "name":  "CalculiX",
+        "version":  "2.20",
+        "url":  "https://www.dhondt.de/calculix_2.20_4win.zip",
+        "sha256":  "8DCACC4B2282DD3A5E75ACE29EFDCF828415DA78526DD441BA19B8210759339C",
+        "exe":  "C:/hz750tools/CalculiX/calculix_2.20_4win/ccx_static.exe"
+    },
+    {
+        "name":  "gmsh",
+        "version":  "4.15.2",
+        "source":  "pip gmsh==4.15.2 (C:/Users/Urungu/.hz750)"
+    }
+]

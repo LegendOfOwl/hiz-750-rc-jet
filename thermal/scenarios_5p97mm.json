@@ -1,0 +1,15 @@
+﻿{
+    "status":  "ASSUMPTIONS_NOT_MEASURED",
+    "clearance_m":  0.00597,
+    "shell_thickness_m":  0.0015,
+    "k_air":  0.033,
+    "k_shell":  0.5,
+    "k_felt":  0.06,
+    "h_bypass":  15.0,
+    "h_external":  100.0,
+    "bypass_K":  323.15,
+    "external_K":  293.15,
+    "emissivity_effective":  0.7,
+    "emissivity_external":  0.8,
+    "notes":  "Örnek duyarlılık girdileri; malzeme veri sayfası/ölçüm değildir. Açıklık CAD minimumu 5.97 mm ile de tekrarlanmalı. h_bypass=0 durma/arıza durumu ayrıca gerekli."
+}

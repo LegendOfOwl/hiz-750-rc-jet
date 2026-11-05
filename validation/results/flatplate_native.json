@@ -1,0 +1,59 @@
+{
+  "status": "SOLVER_COMPLETED_NOT_VALIDATED",
+  "raw_directory": "C:\\hz750run\\flatplate_native_jq96nkzw",
+  "sources": {
+    "case.cfg": {
+      "url": "https://raw.githubusercontent.com/su2code/SU2/v8.2.0/TestCases/rans/flatplate/turb_SA_flatplate.cfg",
+      "sha256": "948902c4545211bea6748f1213f938acc2acb3ee752a4fd3255d06a44a8b5c61"
+    },
+    "mesh_flatplate_turb_137x97.su2": {
+      "url": "https://raw.githubusercontent.com/su2code/TestCases/v8.2.0/rans/flatplate/mesh_flatplate_turb_137x97.su2",
+      "sha256": "8c720c21c0fc5a84f33565df9c0b0b361e4d3ac67d97fa96ab928783a52c6707"
+    }
+  },
+  "provenance": {
+    "utc": "2026-11-04T16:39:38.662063+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "packages": {
+      "gmsh": "4.15.2",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "aerosandbox": "4.2.10",
+      "matplotlib": "3.11.2"
+    },
+    "params_sha256": "7f01e01ca9c785d252e0b56c8cd462026dd1eb7ba49c724ac6f6e92a86373ecd",
+    "inputs": {}
+  },
+  "design_accepted": false,
+  "execution": {
+    "command": [
+      "C:/hz750tools/SU2/win64/bin/SU2_CFD.exe",
+      "case.cfg"
+    ],
+    "executable_sha256": "fdb623e2968e55e2b30ad2d5ec83dcb9e5c6b38e76fd73a739b11bb4aac0721c",
+    "log_sha256": "eeac97a9d19ecb9c30b6aa37017c35f748cd27eea0b9186a8f13b2148c7bdbee"
+  },
+  "last_history": {
+    "Time_Iter": "0",
+    "Outer_Iter": "0",
+    "Inner_Iter": "5999",
+    "rms[Rho]    ": "-8.411185332",
+    "rms[RhoU]   ": "-5.827351132",
+    "rms[RhoV]   ": "-8.048437985",
+    "rms[RhoE]   ": "-3.933380805",
+    "rms[nu]    ": "-10.15851451"
+  },
+  "elapsed_s": 394.5319999998901,
+  "note": "Resmi kaynak+mesh kontrolü; henüz üç ağ/GCI, y+ ve deney kabulü yok.",
+  "last_screen_coefficients": {
+    "iteration": 5999.0,
+    "rms_density": -8.411185,
+    "rms_nu": -10.158515,
+    "cl": -0.188287,
+    "cd": 0.002849
+  },
+  "screen_line": "|        5999|   -8.411185|  -10.158515|   -0.188287|    0.002849|",
+  "cf_schlichting": 0.003003713133159046,
+  "cf_correlation_error_percent": -5.1507293240194425,
+  "postprocess_note": "Last five-column screen row (ITER,RMS_RHO,RMS_NU,LIFT,DRAG); screen-rounded coefficients; not a validation pass."
+}

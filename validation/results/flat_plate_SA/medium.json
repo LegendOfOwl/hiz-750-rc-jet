@@ -1,0 +1,151 @@
+{
+  "case": "flat_plate",
+  "case_id": "flat_plate_SA",
+  "level": "medium",
+  "status": "COMPUTED",
+  "metrics": {
+    "cl": -0.188287565782,
+    "cd": 0.00285864622777,
+    "cm": -0.18781445223,
+    "cf_mean": 0.00285864622777,
+    "cf_ittc": 0.003,
+    "cf_schlichting": 0.003003713133159046
+  },
+  "reason": null,
+  "design_accepted": false,
+  "provenance": {
+    "utc": "2026-11-05T21:26:33.411054+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "packages": {
+      "gmsh": "4.15.2",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "aerosandbox": "4.2.10",
+      "matplotlib": "3.11.2"
+    },
+    "params_sha256": "fa1638053c86e03f33835ee14489ed94e8199e0b3e2c5c2cdb027fa8c2f022de",
+    "inputs": {
+      "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\structures\\structures.py": "411948ef5863c21c886db921a13635c9a6ce4567f41e007eb1856742a0308f75",
+      "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\structures\\fe_modal.py": "d9d219f8d247ec6a5e8305a6316e921170dd4c8304c920bd0df99b8d9d4ad3b1",
+      "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\aero\\aero_analysis.py": "736b1316370c6bec2155b94b0e6830b452d226fbd694476b75168c069f650376",
+      "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\performance\\inlet_analysis.py": "baf48a026581019d6edb5c7fdd2a1db838bedf375d671e36cc4c439cf18aa11e",
+      "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\cad\\out\\cad_report.json": "0c9a53b8b558910c392569b4266b56f7dcda4c1f443c7942094d691a30e24200"
+    },
+    "solver_threads": {
+      "used": 1,
+      "requested": 1,
+      "env": null
+    }
+  },
+  "estimated_runtime": "5–30 dk/ağ/model; tahmin",
+  "diagnostic": false,
+  "raw_directory": "C:\\hz750run\\flat_plate_SA_medium_43xadtg5",
+  "code_sha256": {
+    "validation\\__init__.py": "318a65d09bef1fd777be440b8eb9b4285b723995a4633e65336b9c38c567f47a",
+    "validation\\common.py": "740454c523dd01b8419f1bf4a21c281c346c3a3e65127ee04e14dbf2eb4dfd34",
+    "validation\\compare_su2_configs.py": "f4471453abd24148cc12845e6abe7437912390f69573aa94f828bf47835de919",
+    "validation\\convergence.py": "31e7603e4ee00ca544881c222cb898b3b87477e17543f558b7984048b2e06a55",
+    "validation\\fetch_reference.py": "754ef6504ef27f290f21ccf5ac4197d1f301a0ff6c73799c4e34506934c38232",
+    "validation\\postprocess_native.py": "bc75abb7e815bec52939d81743487059001dc5e0c063a50beb5e85afdbe9ead8",
+    "validation\\report.py": "4c423d5ddbe5710d383ae3f07ca3f81f04cf6f1d2f3bf23dd8bd331f9cf280f0",
+    "validation\\run_case.py": "f0d57d7584f3b638476254538d15ac7403f7ef41614221df7eccaf1431fcde11",
+    "validation\\run_native_su2.py": "60dd77b92f33e77644e41d11e298ea45ea599ff02f5076d167889b472c2c7e60",
+    "validation\\study.py": "1ef34eacfacda17f04e5216b04cfe8a3082085c83513adc5989c0e5fda6f4b22",
+    "validation\\test_cfd_mesh.py": "4e9db2f61ed84beb37d4551d425b0a0f2d1a4115bec0488e75b5ce3e086dbaf3",
+    "validation\\test_validation.py": "5067c97515b1d5b75743744d3c8eb63c9830db2bb138f257e8190e59fc70e68f",
+    "cfd\\cases.py": "71808a49d0ba4fb3275dc23eb4f45f0c7a56a8a776c49693ed080b490e2bc2e2",
+    "cfd\\continue_flatplate.py": "752141e6081542609fe9422acfeb24514ca459c829736c4404ffb57e83eae39f",
+    "cfd\\convergence.py": "be9bf0f2b1e9fd38c6d9f0f3e28f1c84d0ad76234e4a11d447bc4b7b73ad7b7d",
+    "cfd\\draft_domains.py": "9585362a9035920352c5fee60a5863d60797b98428ae77adf4226d3612eca79b",
+    "cfd\\face_samples.py": "098f62c8909be089d3c7618eb9d339262c98c311a19907a9b498d5d4bd6a6b0f",
+    "cfd\\inlet_metrics.py": "e9d975c4a5820fd3988ac9bfe3b6b6e9f073b68ea466f19eb104e3a89b49b004",
+    "cfd\\mesh_audit.py": "12be1ffa46a6f6faa2d3fcbfdf5db18439418ec326c506f78e0dce5b82ce0604",
+    "cfd\\neuralfoil_baseline.py": "9f89bc717e477cfd83da7a9665a40fc4b975d7bec8c464b3038f83d1d309acca",
+    "cfd\\prepare_3d.py": "80dd17820be83bf466e9811d145d1bc98f061ec879159ecd00b71565c9657ffe",
+    "cfd\\reassess.py": "2fb418c6e9a4450227ab2b6cc34a0b09270ee4b2d35262b7e2f1315537bc1167",
+    "cfd\\structured_airfoil.py": "f22c2851fd022db1ee2442f53101aef5714348b63201632cbcc3ad315866c221",
+    "fem\\cases.py": "b7f15fd89f066cc4356ee403bf842e49014a51d3e6ca0d3f2c5658f606c74036",
+    "fem\\clt.py": "6e936ef14568274eef68a471ffc9ebe390dec00b43d3fbe2ec80ffe080758701",
+    "fem\\coupon.py": "6ecb6cc2876a7f20ba54ae7bffdd994dd9613c1a9f9bf8eef067e554b2da0ca2",
+    "fem\\export_wing_inputs.py": "2129df518888c3963dec1e67bc414181e4682385245b23b2dedcaad5d41520ed",
+    "fem\\laminate_post.py": "5e34e6d15b5384f61ca968ca7359ace7adc93f9e7b1e8f8f40909e79fa1cf355",
+    "fem\\run_wing_study.py": "208e29c77fc6c8d1d770c382e9c6febf2d6be41508c51a1e0155ecab0a820e38",
+    "fem\\stiffening_study.py": "6747d865079f563675d4d9d07615ec7d36df23038332d3b1c5c66e728b5c8ee3",
+    "fem\\wing_compare.py": "e27d38baeda1cb41414e4d2021504cb14cc961966866e578bad071228cee9c0f",
+    "fem\\wing_post.py": "72c78c9ec7fa849cec09f8ed6fdb5993e6f659dcfdfeee3e5c73a507b4b4beb0",
+    "fem\\wing_review.py": "4254fd908ad4e4d37f884e8a684c242c5c9d3dc9619d317cb644284bc3120ca6",
+    "fem\\wing_shell.py": "5e57e6b28be50cfce29441dec324e8d1f394dc6be155ed40ddc3dbfb6d46d38e",
+    "thermal\\cases.py": "fe91f662ad2bbc6bc6a032576d00eeab798bab42962bdae2738ea1c2f56ce2aa"
+  },
+  "input_sha256": {},
+  "errors": {
+    "cf_mean": {
+      "absolute": -0.00014506690538904597,
+      "percent": -4.8295858811416235
+    }
+  },
+  "quality": {
+    "iterative_converged": true,
+    "drag_relative_cauchy_100": 3.4915215069339016e-07,
+    "residual_drop_decades": {
+      "rms[Rho]": 5.33267272882,
+      "rms[nu]": 5.06299290484
+    },
+    "final_log_residuals": {
+      "rms[Rho]": -7.86773772311,
+      "rms[RhoU]": -6.19251184575,
+      "rms[RhoV]": -7.30610681321,
+      "rms[RhoE]": -4.22789613771,
+      "rms[nu]": -10.0551399589
+    },
+    "max_log_residual": -4.22789613771,
+    "gate": "mean absolute CD step / mean absolute CD < 1e-6 over last 100 steps; rho and turbulence residual drop >=4 decades from iteration 0; energy informational",
+    "yplus_max": 0.3436755856185311
+  },
+  "mesh": {
+    "cells": 29376,
+    "dimension": 2,
+    "h": 0.005834500350116708,
+    "first_layer_m": 1.3333333333333332e-06,
+    "minimum_scaled_jacobian": 7.654077122412678e-05,
+    "source": {
+      "geometry": "2D flat plate x=0..2 m"
+    },
+    "mesh_sha256": "de4abdb8b3ec613ebfbf8c2cf473efb2db13be8dfa7a57f3910112603b34afa3",
+    "yplus_status": "Çözüm sonrası gerçek y+ kontrolü zorunlu"
+  },
+  "conditions": {
+    "mach": 0.2,
+    "reynolds": 5000000.0,
+    "alpha_deg": 0.0,
+    "temperature_K": 300.0,
+    "ref_length_m": 1.0,
+    "ref_area_m2": 2.0,
+    "atmosphere": {
+      "temperature": 286.2,
+      "pressure": 97772.56128213086,
+      "density": 1.1901174187036818,
+      "sound_speed": 339.13890074717176,
+      "viscosity": 1.779955964922234e-05
+    }
+  },
+  "execution": {
+    "command": [
+      "C:\\hz750tools\\SU2\\win64\\bin\\SU2_CFD.exe",
+      "case.cfg"
+    ],
+    "executable_sha256": "fdb623e2968e55e2b30ad2d5ec83dcb9e5c6b38e76fd73a739b11bb4aac0721c",
+    "log_sha256": "8a31d6b3bb1d3fbf3c17d00b8755c171eae0cfdd5cbb7d584d2ca64cedf6e692"
+  },
+  "limitations": [
+    "Türbülanslı RANS; geçiş, pürüzlülük ve model-form hatası ayrıca incelenmeli.",
+    "inlet DC60 için motor yüzü örneklemesi ve cfd/inlet_metrics.py gerekir."
+  ],
+  "elapsed_s": 490.094000000041,
+  "artifacts": [
+    "validation\\results\\flat_plate_SA\\medium_plot.png",
+    "validation\\results\\flat_plate_SA\\medium_case.cfg",
+    "validation\\results\\flat_plate_SA\\medium_mesh.json",
+    "validation\\results\\flat_plate_SA\\medium_surface.json"
+  ]
+}

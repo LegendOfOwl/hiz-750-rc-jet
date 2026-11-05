@@ -1,0 +1,9 @@
+# engine_thermal_T250_F2_803b2f042b: REVIEW_REQUIRED
+
+| Büyüklük | Kaba / orta / ince | p | GCI ince [%] | Referans hata kaba / orta / ince [%] |
+|---|---|---|---|---|
+| outer_K | 313.4313 / 313.4313 / 313.4313 | EXACT_OR_ROUNDOFF | — | -3.038210118217049e-06 / -3.038210118217049e-06 / -3.038210118217049e-06 |
+| heat_flux_W_m2 | 2130.9126 / 2130.9126 / 2130.9126 | EXACT_OR_ROUNDOFF | — | -4.71851476783635e-05 / -4.71851476783635e-05 / -4.71851476783635e-05 |
+| inner_K | 390.8545 / 390.8545 / 390.8545 | EXACT_OR_ROUNDOFF | — | -1.4454338455184536e-06 / -1.4454338455184536e-06 / -1.4454338455184536e-06 |
+| shell_inner_K | 319.8241 / 319.8241 / 319.8241 | EXACT_OR_ROUNDOFF | — | 1.5481229918810346e-05 / 1.5481229918810346e-05 / 1.5481229918810346e-05 |
+| shell_inner_C | 46.6741 / 46.6741 / 46.6741 | EXACT_OR_ROUNDOFF | — | bekliyor / bekliyor / bekliyor |

@@ -1,0 +1,87 @@
+[
+  {
+    "path": "C:\\hz750run\\rae2822_SA_coarse_32z7iixk\\mesh.su2",
+    "cells": 33792,
+    "nodes": 34192,
+    "element_types": {
+      "9": 33792
+    },
+    "minimum_signed_area": 1.8634597154274296e-09,
+    "nonpositive_cells": 0,
+    "minimum_corner_sine": 0.2771958492618181,
+    "nonpositive_corners": 0,
+    "nonmanifold_edges": 0,
+    "boundary_mismatches": 0,
+    "markers": {
+      "WALL": 256,
+      "FARFIELD": 544
+    },
+    "bounds": [
+      -29.0,
+      31.0,
+      -30.0,
+      30.0
+    ],
+    "unique_x": 24889,
+    "unique_y": 25206,
+    "first_y_values": [
+      -30.0,
+      -29.99993760769036,
+      -29.9997353439817,
+      -29.99936824627105,
+      -29.99880794285453,
+      -29.99802224582748
+    ],
+    "last_y_values": [
+      29.99936824626415,
+      29.99973534397889,
+      29.99993760768972,
+      30.0
+    ],
+    "minimum_wall_connected_edge": 1.948854040924574e-06
+  },
+  {
+    "path": "C:\\hz750run\\flat_plate_SA_fine_2_1l8ph_\\mesh.su2",
+    "cells": 52224,
+    "nodes": 52689,
+    "element_types": {
+      "9": 52224
+    },
+    "minimum_signed_area": 1.1808937572385378e-09,
+    "nonpositive_cells": 0,
+    "minimum_corner_sine": 1.0,
+    "nonpositive_corners": 0,
+    "nonmanifold_edges": 0,
+    "boundary_mismatches": 0,
+    "markers": {
+      "WALL": 224,
+      "SYMMETRY": 48,
+      "INLET": 192,
+      "OUTLET": 192,
+      "FARFIELD": 272
+    },
+    "bounds": [
+      -0.3333333333333333,
+      2.0,
+      0.0,
+      1.0
+    ],
+    "unique_x": 47920,
+    "unique_y": 9571,
+    "first_y_values": [
+      0.0,
+      1.000046850064372e-06,
+      1.000046850064373e-06,
+      1.000046850064527e-06,
+      1.000046850064692e-06,
+      1.000046850064867e-06
+    ],
+    "last_y_values": [
+      0.9444006059513463,
+      0.9444006059513583,
+      0.9444006059513712,
+      1.0
+    ],
+    "minimum_wall_connected_edge": 1.000046850064372e-06
+  }
+]

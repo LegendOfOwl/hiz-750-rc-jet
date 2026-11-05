@@ -1,0 +1,418 @@
+{
+  "level": "medium",
+  "target_f1T_full_Hz": 316.0,
+  "rule": "hedefi sağlayan, CG'yi geri kaydırmayan en hafif",
+  "choice": null,
+  "flutter_reference": {
+    "path": "fem/reference/fe_sonuclar_iter4_v0.5.0.json",
+    "sha256": "933f5d7dad5cad1f993170ce3dfd3640cc15bf7f417681e65ad200b59b75f0a3",
+    "git": "v0.5.0:structures/out/fe_sonuclar.json (blob c39752e3)"
+  },
+  "rows": [
+    {
+      "variant": "s31",
+      "env": {
+        "HZ750_SKIN_PLIES": "3,1",
+        "HZ750_RIB_PITCH": "0.086",
+        "HZ750_WEB_EXTRA": "0",
+        "HZ750_RIB_PLIES": "1"
+      },
+      "level": "medium",
+      "dolu": {
+        "f1B": 39.32873,
+        "f1T": 273.0296,
+        "f2B": 124.9688,
+        "modes": [
+          [
+            39.33,
+            "1B"
+          ],
+          [
+            124.97,
+            "2B"
+          ],
+          [
+            273.03,
+            "1T"
+          ],
+          [
+            283.29,
+            "1İB (düzlem içi)"
+          ],
+          [
+            300.43,
+            "3B"
+          ]
+        ],
+        "f1T_ratio_to_1D": 0.8931962287622135,
+        "Vf_kmh": 1185.8508354304124,
+        "tip_deflection_m": 0.04850955855279194,
+        "tsai_wu_R_ex_root": 3.4604007215830666
+      },
+      "structural_half_mass_kg": 0.8952946588092872,
+      "n_ribs": 8,
+      "xcg_shell_mass_weighted_c": 0.42865065145414816,
+      "xcg_shell_eta70_c": 0.4512199825353354,
+      "xcg_1D_eta70_c": 0.4511512500057729,
+      "option_extra_mass_kg": 0.0,
+      "bos": {
+        "f1B": 40.20125,
+        "f1T": 281.8832,
+        "f2B": 137.056,
+        "modes": [
+          [
+            40.2,
+            "1B"
+          ],
+          [
+            137.06,
+            "2B"
+          ],
+          [
+            281.88,
+            "1T"
+          ],
+          [
+            291.31,
+            "1İB (düzlem içi)"
+          ],
+          [
+            327.14,
+            "3B"
+          ]
+        ],
+        "f1T_ratio_to_1D": 0.8902258176121395,
+        "Vf_kmh": 1195.6023781645174,
+        "tip_deflection_m": 0.04847481912574378,
+        "tsai_wu_R_ex_root": 3.4670580763995984
+      },
+      "mass_increase_kg": 0.0,
+      "meets_f1T_316": false,
+      "meets_cg_045": false
+    },
+    {
+      "variant": "s41r043w1",
+      "env": {
+        "HZ750_SKIN_PLIES": "4,1",
+        "HZ750_RIB_PITCH": "0.043",
+        "HZ750_WEB_EXTRA": "1",
+        "HZ750_RIB_PLIES": "1"
+      },
+      "level": "medium",
+      "dolu": {
+        "f1B": 38.65346,
+        "f1T": 295.4643,
+        "f2B": 127.1301,
+        "modes": [
+          [
+            38.65,
+            "1B"
+          ],
+          [
+            127.13,
+            "2B"
+          ],
+          [
+            279.06,
+            "1İB (düzlem içi)"
+          ],
+          [
+            295.46,
+            "1T"
+          ],
+          [
+            313.02,
+            "3B"
+          ]
+        ],
+        "f1T_ratio_to_1D": 0.9665896975780913,
+        "Vf_kmh": 1268.0797424209545,
+        "tip_deflection_m": 0.04301661657186268,
+        "tsai_wu_R_ex_root": 4.340800212557506
+      },
+      "structural_half_mass_kg": 1.0378479962796188,
+      "n_ribs": 16,
+      "xcg_shell_mass_weighted_c": 0.4084759758013544,
+      "xcg_shell_eta70_c": 0.42817766666109586,
+      "xcg_1D_eta70_c": 0.42913170370537873,
+      "option_extra_mass_kg": 0.024459609700211757,
+      "bos": {
+        "f1B": 39.37276,
+        "f1T": 304.1746,
+        "f2B": 138.2282,
+        "modes": [
+          [
+            39.37,
+            "1B"
+          ],
+          [
+            138.23,
+            "2B"
+          ],
+          [
+            285.68,
+            "1İB (düzlem içi)"
+          ],
+          [
+            304.17,
+            "1T"
+          ],
+          [
+            339.77,
+            "3B"
+          ]
+        ],
+        "f1T_ratio_to_1D": 0.9606251170053608,
+        "Vf_kmh": 1278.6535256358197,
+        "tip_deflection_m": 0.04298422556385337,
+        "tsai_wu_R_ex_root": 4.350953923348882
+      },
+      "mass_increase_kg": 0.1425533374703316,
+      "meets_f1T_316": false,
+      "meets_cg_045": true
+    },
+    {
+      "variant": "s41r043",
+      "env": {
+        "HZ750_SKIN_PLIES": "4,1",
+        "HZ750_RIB_PITCH": "0.043",
+        "HZ750_WEB_EXTRA": "0",
+        "HZ750_RIB_PLIES": "1"
+      },
+      "level": "medium",
+      "dolu": {
+        "f1B": 38.65398,
+        "f1T": 293.9814,
+        "f2B": 126.4037,
+        "modes": [
+          [
+            38.65,
+            "1B"
+          ],
+          [
+            126.4,
+            "2B"
+          ],
+          [
+            279.15,
+            "1İB (düzlem içi)"
+          ],
+          [
+            293.98,
+            "1T"
+          ],
+          [
+            310.19,
+            "3B"
+          ]
+        ],
+        "f1T_ratio_to_1D": 0.9617384994382873,
+        "Vf_kmh": 1262.3582279907237,
+        "tip_deflection_m": 0.04327809644278666,
+        "tsai_wu_R_ex_root": 4.30622287051352
+      },
+      "structural_half_mass_kg": 1.0312581027199685,
+      "n_ribs": 16,
+      "xcg_shell_mass_weighted_c": 0.408775144975687,
+      "xcg_shell_eta70_c": 0.42860964017918807,
+      "xcg_1D_eta70_c": 0.42913170370537873,
+      "option_extra_mass_kg": 0.01786971614056134,
+      "bos": {
+        "f1B": 39.38422,
+        "f1T": 302.7665,
+        "f2B": 137.5782,
+        "modes": [
+          [
+            39.38,
+            "1B"
+          ],
+          [
+            137.58,
+            "2B"
+          ],
+          [
+            285.82,
+            "1İB (düzlem içi)"
+          ],
+          [
+            302.77,
+            "1T"
+          ],
+          [
+            337.43,
+            "3B"
+          ]
+        ],
+        "f1T_ratio_to_1D": 0.9561781440258442,
+        "Vf_kmh": 1272.966745054943,
+        "tip_deflection_m": 0.04324363782041498,
+        "tsai_wu_R_ex_root": 4.316979208364908
+      },
+      "mass_increase_kg": 0.13596344391068138,
+      "meets_f1T_316": false,
+      "meets_cg_045": true
+    },
+    {
+      "variant": "s31r043",
+      "env": {
+        "HZ750_SKIN_PLIES": "3,1",
+        "HZ750_RIB_PITCH": "0.043",
+        "HZ750_WEB_EXTRA": "0",
+        "HZ750_RIB_PLIES": "1"
+      },
+      "level": "medium",
+      "dolu": {
+        "f1B": 39.13525,
+        "f1T": 285.1461,
+        "f2B": 124.9476,
+        "modes": [
+          [
+            39.14,
+            "1B"
+          ],
+          [
+            124.95,
+            "2B"
+          ],
+          [
+            281.86,
+            "1İB (düzlem içi)"
+          ],
+          [
+            285.15,
+            "1T"
+          ],
+          [
+            306.68,
+            "3B"
+          ]
+        ],
+        "f1T_ratio_to_1D": 0.9328344661760226,
+        "Vf_kmh": 1228.2687435713956,
+        "tip_deflection_m": 0.0481033680568019,
+        "tsai_wu_R_ex_root": 3.8046420930203606
+      },
+      "structural_half_mass_kg": 0.9131643749498484,
+      "n_ribs": 16,
+      "xcg_shell_mass_weighted_c": 0.4275808969628224,
+      "xcg_shell_eta70_c": 0.4499457506320823,
+      "xcg_1D_eta70_c": 0.4511512500057729,
+      "option_extra_mass_kg": 0.01786971614056134,
+      "bos": {
+        "f1B": 39.98178,
+        "f1T": 296.917,
+        "f2B": 136.9055,
+        "modes": [
+          [
+            39.98,
+            "1B"
+          ],
+          [
+            136.91,
+            "2B"
+          ],
+          [
+            289.71,
+            "1İB (düzlem içi)"
+          ],
+          [
+            296.92,
+            "1T"
+          ],
+          [
+            334.75,
+            "3B"
+          ]
+        ],
+        "f1T_ratio_to_1D": 0.9377046205234779,
+        "Vf_kmh": 1249.342838366612,
+        "tip_deflection_m": 0.04806808843444368,
+        "tsai_wu_R_ex_root": 3.8147925391211333
+      },
+      "mass_increase_kg": 0.01786971614056121,
+      "meets_f1T_316": false,
+      "meets_cg_045": true
+    },
+    {
+      "variant": "s51r043w1",
+      "env": {
+        "HZ750_SKIN_PLIES": "5,1",
+        "HZ750_RIB_PITCH": "0.043",
+        "HZ750_WEB_EXTRA": "1",
+        "HZ750_RIB_PLIES": "1"
+      },
+      "level": "medium",
+      "dolu": {
+        "f1B": 38.63962,
+        "f1T": 300.0585,
+        "f2B": 128.7795,
+        "modes": [
+          [
+            38.64,
+            "1B"
+          ],
+          [
+            128.78,
+            "2B"
+          ],
+          [
+            282.42,
+            "1İB (düzlem içi)"
+          ],
+          [
+            300.06,
+            "1T"
+          ],
+          [
+            316.75,
+            "3B"
+          ]
+        ],
+        "f1T_ratio_to_1D": 0.9816192845319578,
+        "Vf_kmh": 1285.805672419854,
+        "tip_deflection_m": 0.0383959689371295,
+        "tsai_wu_R_ex_root": 5.261806935946092
+      },
+      "structural_half_mass_kg": 1.1558263274154303,
+      "n_ribs": 16,
+      "xcg_shell_mass_weighted_c": 0.3946958857492056,
+      "xcg_shell_eta70_c": 0.4123793567759778,
+      "xcg_1D_eta70_c": 0.4129411647763958,
+      "option_extra_mass_kg": 0.024459609700211757,
+      "bos": {
+        "f1B": 39.26978,
+        "f1T": 306.3309,
+        "f2B": 139.4027,
+        "modes": [
+          [
+            39.27,
+            "1B"
+          ],
+          [
+            139.4,
+            "2B"
+          ],
+          [
+            288.17,
+            "1İB (düzlem içi)"
+          ],
+          [
+            306.33,
+            "1T"
+          ],
+          [
+            343.68,
+            "3B"
+          ]
+        ],
+        "f1T_ratio_to_1D": 0.9674350082316454,
+        "Vf_kmh": 1287.3620015725744,
+        "tip_deflection_m": 0.038357629147680074,
+        "tsai_wu_R_ex_root": 5.260443024136308
+      },
+      "mass_increase_kg": 0.2605316686061432,
+      "meets_f1T_316": false,
+      "meets_cg_045": true
+    }
+  ]
+}

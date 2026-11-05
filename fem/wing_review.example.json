@@ -1,0 +1,13 @@
+{
+  "deck_sha256": null,
+  "level": "coarse",
+  "cells": null,
+  "h": null,
+  "expanded_dof": null,
+  "laminate_materials_complete": false,
+  "orientations_checked": false,
+  "mass_reconciled": false,
+  "ultimate_load_checked": false,
+  "shell_connectivity_checked": false,
+  "notes": "Örnek onay değildir. S8R/S6 composite, SI, kendi içinde kapalı deck, TIP/NALL *NODE PRINT U + static ve *FREQUENCY 5. Katman lokal gerilmeleri ayrı dışa aktarılmalı."
+}

@@ -1,0 +1,16 @@
+﻿{
+    "utc":  "2026-11-04T16:04:41.0708443Z",
+    "status":  "PROBE_ONLY",
+    "execution_scope":  "Inline PowerShell read-only checks; .ps1 File execution disabled by local policy",
+    "tools":  {
+                  "SU2_CFD":  null,
+                  "ccx":  null,
+                  "gmsh":  null
+              },
+    "python_path":  "C:/Users/Urungu/.hz750/Scripts/python.exe",
+    "python_exists":  true,
+    "python_output":  "python.exe : Unable to create process using \u0027\"C:\\Users\\Urungu\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" --ver\r\nsion\u0027\r\nAt line:2 char:577\r\n+ ... n_output\u0027]=(\u0026 \u0027C:/Users/Urungu/.hz750/Scripts/python.exe\u0027 --version 2 ...\r\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : NotSpecified: (Unable to creat...exe\" --version\u0027:String) [], RemoteException\r\n    + FullyQualifiedErrorId : NativeCommandError",
+    "python_exit":  101,
+    "wsl_output":  "wsl.exe : Linux i�in Windows Alt Sistemi y�kl� de\u001f\u0001il. \u0027wsl.exe --\r\ninstall\u0027 �al1\u0001_\u0001t1\u0001rarak y�kleme i_\u0001lemi abilirsiniz.\r\nAt line:2 char:728\r\n+ ... XITCODE; $probeData[\u0027wsl_output\u0027]=((\u0026 wsl --list --quiet 2\u003e\u00261 | Out-S ...\r\n+                                         ~~~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : NotSpecified: (Linux i�...rsiniz.:String) [], RemoteException\r\n    + FullyQualifiedErrorId : NativeCommandError\r\n \r\n\r\n\r\nDaha fazla bilgi i�in l�tfen _\u0001u adresi ziyaret https://aka.\r\nms/wslinstall",
+    "wsl_exit":  1
+}

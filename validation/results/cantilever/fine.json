@@ -1,0 +1,132 @@
+{
+  "case": "cantilever",
+  "case_id": "cantilever",
+  "level": "fine",
+  "status": "COMPUTED",
+  "metrics": {
+    "tip_deflection_m": 0.0003781402,
+    "f1_Hz": 8.422987,
+    "f2_Hz": 41.85491,
+    "f3_Hz": 52.76328,
+    "f4_Hz": 147.666,
+    "f5_Hz": 259.3141
+  },
+  "reason": null,
+  "design_accepted": false,
+  "provenance": {
+    "utc": "2026-11-05T21:26:46.379462+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "packages": {
+      "gmsh": "4.15.2",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "aerosandbox": "4.2.10",
+      "matplotlib": "3.11.2"
+    },
+    "params_sha256": "fa1638053c86e03f33835ee14489ed94e8199e0b3e2c5c2cdb027fa8c2f022de",
+    "inputs": {
+      "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\structures\\structures.py": "411948ef5863c21c886db921a13635c9a6ce4567f41e007eb1856742a0308f75",
+      "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\structures\\fe_modal.py": "d9d219f8d247ec6a5e8305a6316e921170dd4c8304c920bd0df99b8d9d4ad3b1",
+      "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\aero\\aero_analysis.py": "736b1316370c6bec2155b94b0e6830b452d226fbd694476b75168c069f650376",
+      "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\performance\\inlet_analysis.py": "baf48a026581019d6edb5c7fdd2a1db838bedf375d671e36cc4c439cf18aa11e",
+      "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\cad\\out\\cad_report.json": "0c9a53b8b558910c392569b4266b56f7dcda4c1f443c7942094d691a30e24200"
+    },
+    "solver_threads": {
+      "used": 1,
+      "requested": 1,
+      "env": "OMP_NUM_THREADS=CCX_NPROC_RESULTS=used"
+    }
+  },
+  "estimated_runtime": "<2 dk/ağ; tahmin",
+  "diagnostic": false,
+  "raw_directory": "C:\\hz750run\\cantilever_fine_2cxiekqa",
+  "code_sha256": {
+    "validation\\__init__.py": "318a65d09bef1fd777be440b8eb9b4285b723995a4633e65336b9c38c567f47a",
+    "validation\\common.py": "740454c523dd01b8419f1bf4a21c281c346c3a3e65127ee04e14dbf2eb4dfd34",
+    "validation\\compare_su2_configs.py": "f4471453abd24148cc12845e6abe7437912390f69573aa94f828bf47835de919",
+    "validation\\convergence.py": "31e7603e4ee00ca544881c222cb898b3b87477e17543f558b7984048b2e06a55",
+    "validation\\fetch_reference.py": "754ef6504ef27f290f21ccf5ac4197d1f301a0ff6c73799c4e34506934c38232",
+    "validation\\postprocess_native.py": "bc75abb7e815bec52939d81743487059001dc5e0c063a50beb5e85afdbe9ead8",
+    "validation\\report.py": "4c423d5ddbe5710d383ae3f07ca3f81f04cf6f1d2f3bf23dd8bd331f9cf280f0",
+    "validation\\run_case.py": "f0d57d7584f3b638476254538d15ac7403f7ef41614221df7eccaf1431fcde11",
+    "validation\\run_native_su2.py": "60dd77b92f33e77644e41d11e298ea45ea599ff02f5076d167889b472c2c7e60",
+    "validation\\study.py": "1ef34eacfacda17f04e5216b04cfe8a3082085c83513adc5989c0e5fda6f4b22",
+    "validation\\test_cfd_mesh.py": "4e9db2f61ed84beb37d4551d425b0a0f2d1a4115bec0488e75b5ce3e086dbaf3",
+    "validation\\test_validation.py": "5067c97515b1d5b75743744d3c8eb63c9830db2bb138f257e8190e59fc70e68f",
+    "cfd\\cases.py": "71808a49d0ba4fb3275dc23eb4f45f0c7a56a8a776c49693ed080b490e2bc2e2",
+    "cfd\\continue_flatplate.py": "752141e6081542609fe9422acfeb24514ca459c829736c4404ffb57e83eae39f",
+    "cfd\\convergence.py": "be9bf0f2b1e9fd38c6d9f0f3e28f1c84d0ad76234e4a11d447bc4b7b73ad7b7d",
+    "cfd\\draft_domains.py": "9585362a9035920352c5fee60a5863d60797b98428ae77adf4226d3612eca79b",
+    "cfd\\face_samples.py": "098f62c8909be089d3c7618eb9d339262c98c311a19907a9b498d5d4bd6a6b0f",
+    "cfd\\inlet_metrics.py": "e9d975c4a5820fd3988ac9bfe3b6b6e9f073b68ea466f19eb104e3a89b49b004",
+    "cfd\\mesh_audit.py": "12be1ffa46a6f6faa2d3fcbfdf5db18439418ec326c506f78e0dce5b82ce0604",
+    "cfd\\neuralfoil_baseline.py": "9f89bc717e477cfd83da7a9665a40fc4b975d7bec8c464b3038f83d1d309acca",
+    "cfd\\prepare_3d.py": "80dd17820be83bf466e9811d145d1bc98f061ec879159ecd00b71565c9657ffe",
+    "cfd\\reassess.py": "2fb418c6e9a4450227ab2b6cc34a0b09270ee4b2d35262b7e2f1315537bc1167",
+    "cfd\\structured_airfoil.py": "f22c2851fd022db1ee2442f53101aef5714348b63201632cbcc3ad315866c221",
+    "fem\\cases.py": "b7f15fd89f066cc4356ee403bf842e49014a51d3e6ca0d3f2c5658f606c74036",
+    "fem\\clt.py": "6e936ef14568274eef68a471ffc9ebe390dec00b43d3fbe2ec80ffe080758701",
+    "fem\\coupon.py": "6ecb6cc2876a7f20ba54ae7bffdd994dd9613c1a9f9bf8eef067e554b2da0ca2",
+    "fem\\export_wing_inputs.py": "2129df518888c3963dec1e67bc414181e4682385245b23b2dedcaad5d41520ed",
+    "fem\\laminate_post.py": "5e34e6d15b5384f61ca968ca7359ace7adc93f9e7b1e8f8f40909e79fa1cf355",
+    "fem\\run_wing_study.py": "208e29c77fc6c8d1d770c382e9c6febf2d6be41508c51a1e0155ecab0a820e38",
+    "fem\\stiffening_study.py": "6747d865079f563675d4d9d07615ec7d36df23038332d3b1c5c66e728b5c8ee3",
+    "fem\\wing_compare.py": "e27d38baeda1cb41414e4d2021504cb14cc961966866e578bad071228cee9c0f",
+    "fem\\wing_post.py": "72c78c9ec7fa849cec09f8ed6fdb5993e6f659dcfdfeee3e5c73a507b4b4beb0",
+    "fem\\wing_review.py": "4254fd908ad4e4d37f884e8a684c242c5c9d3dc9619d317cb644284bc3120ca6",
+    "fem\\wing_shell.py": "5e57e6b28be50cfce29441dec324e8d1f394dc6be155ed40ddc3dbfb6d46d38e",
+    "thermal\\cases.py": "fe91f662ad2bbc6bc6a032576d00eeab798bab42962bdae2738ea1c2f56ce2aa"
+  },
+  "input_sha256": {},
+  "mesh": {
+    "cells": 320,
+    "nodes": 1057,
+    "dimension": 2,
+    "h": 0.05590169943749474,
+    "nominal_dof": 6342,
+    "element": "S8R",
+    "mesh_sha256": "62dedf9b179e0efd6c1c05962012e653d5adee6e32f503fa32f0b705e4b81e7c"
+  },
+  "frequencies_Hz": [
+    8.422987,
+    41.85491,
+    52.76328,
+    147.666,
+    259.3141
+  ],
+  "references": {
+    "tip_deflection_m": 0.0003809523809523809,
+    "f1_Hz": 8.381902543799544
+  },
+  "errors": {
+    "tip_deflection_m": {
+      "absolute": -2.8121809523808865e-06,
+      "percent": -0.7381974999999827
+    },
+    "f1_Hz": {
+      "absolute": 0.041084456200454866,
+      "percent": 0.49015669158366454
+    }
+  },
+  "execution": {
+    "command": [
+      "C:\\hz750tools\\CalculiX\\calculix_2.20_4win\\ccx_static.exe",
+      "-i",
+      "case"
+    ],
+    "executable_sha256": "419adbe276ac14ebd8e187a2272b058a47e366f1cffb822dfb0236e6eebe21f9",
+    "log_sha256": "111e9d1f347620ee287011227ae067da78db2e11be03832cb7537ea13b136ea3"
+  },
+  "quality": {
+    "force_balance_relative": 3.2000000005361073e-07
+  },
+  "limitations": [
+    "İlk frekans otomatik olarak 1T değildir. Kanatta mod şekilleri incelenmeli.",
+    "Lineer statik çözüm burkulma, yapıştırıcı, cıvata veya hasar ilerlemesini doğrulamaz."
+  ],
+  "elapsed_s": 0.7339999999385327,
+  "artifacts": [
+    "validation\\results\\cantilever\\fine_plot.png",
+    "validation\\results\\cantilever\\fine_case.inp"
+  ]
+}

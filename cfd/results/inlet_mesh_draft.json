@@ -1,0 +1,8 @@
+{
+  "status": "DRAFT_NOT_RANS_READY",
+  "cells": 4727,
+  "step_sha256": "a59991083feb27eb5199d1151a2447cf3ade3cfb11c7e3a2cdd8ab8f24d19cb1",
+  "units_m": true,
+  "boundary_layers": false,
+  "note": "İzotrop tetra ön ağ. RANS için y+~1 prizmatik duvar katmanı ayrıca üretilmeli/denetlenmeli. 2M aşılırsa SU2 mesh yazılmaz."
+}

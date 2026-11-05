@@ -1,0 +1,144 @@
+{
+  "status": "BENCHMARK_ACCEPTED",
+  "case": "flat_plate",
+  "acceptance_label": "BENCHMARK_ACCEPTED",
+  "reference_basis": null,
+  "metrics": {
+    "cl": {
+      "values_fine_to_coarse": [
+        -0.18828701632,
+        -0.188287565782,
+        -0.188287546155
+      ],
+      "convergence": {
+        "status": "OSCILLATORY",
+        "reason": "Monoton yakınsama yok"
+      },
+      "errors_fine_to_coarse": [
+        null,
+        null,
+        null
+      ],
+      "error_fine": null
+    },
+    "cd": {
+      "values_fine_to_coarse": [
+        0.00286132662301,
+        0.00285864622777,
+        0.00285425170964
+      ],
+      "convergence": {
+        "status": "ESTIMATED",
+        "observed_order": 0.4344615788916978,
+        "richardson": 0.002881459761245492,
+        "fine_gci_absolute": 2.516642279436488e-05,
+        "fine_gci_pct": 0.8795368760764131,
+        "r21": 1.3333333333333335,
+        "r32": 1.4999999999999998,
+        "warning": "Üç nokta asimptotik bölgeyi tek başına kanıtlamaz; şok/mod takibi ayrıca incelenmeli."
+      },
+      "errors_fine_to_coarse": [
+        null,
+        null,
+        null
+      ],
+      "error_fine": null
+    },
+    "cm": {
+      "values_fine_to_coarse": [
+        -0.187811519196,
+        -0.18781445223,
+        -0.187818013547
+      ],
+      "convergence": {
+        "status": "NO_OBSERVED_ORDER",
+        "reason": "0.05 < p < 10 içinde pozitif mertebe bulunamadı"
+      },
+      "errors_fine_to_coarse": [
+        null,
+        null,
+        null
+      ],
+      "error_fine": null
+    },
+    "cf_mean": {
+      "values_fine_to_coarse": [
+        0.00286132662301,
+        0.00285864622777,
+        0.00285425170964
+      ],
+      "convergence": {
+        "status": "ESTIMATED",
+        "observed_order": 0.4344615788916978,
+        "richardson": 0.002881459761245492,
+        "fine_gci_absolute": 2.516642279436488e-05,
+        "fine_gci_pct": 0.8795368760764131,
+        "r21": 1.3333333333333335,
+        "r32": 1.4999999999999998,
+        "warning": "Üç nokta asimptotik bölgeyi tek başına kanıtlamaz; şok/mod takibi ayrıca incelenmeli."
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": -0.00014238651014904626,
+          "percent": -4.740349821598857
+        },
+        {
+          "absolute": -0.00014506690538904597,
+          "percent": -4.8295858811416235
+        },
+        {
+          "absolute": -0.00014946142351904626,
+          "percent": -4.975888738145098
+        }
+      ],
+      "error_fine": {
+        "absolute": -0.00014238651014904626,
+        "percent": -4.740349821598857
+      },
+      "error_cf_ittc": {
+        "absolute": -0.00013867337699000016,
+        "percent": -4.622445899666672
+      },
+      "error_cf_schlichting": {
+        "absolute": -0.00014238651014904626,
+        "percent": -4.740349821598857
+      }
+    },
+    "cf_ittc": {
+      "values_fine_to_coarse": [
+        0.003,
+        0.003,
+        0.003
+      ],
+      "convergence": {
+        "status": "EXACT_OR_ROUNDOFF",
+        "reason": "Farklar sıfır/yuvarlama düzeyinde; p ve GCI tanımsız"
+      },
+      "errors_fine_to_coarse": [
+        null,
+        null,
+        null
+      ],
+      "error_fine": null
+    },
+    "cf_schlichting": {
+      "values_fine_to_coarse": [
+        0.003003713133159046,
+        0.003003713133159046,
+        0.003003713133159046
+      ],
+      "convergence": {
+        "status": "EXACT_OR_ROUNDOFF",
+        "reason": "Farklar sıfır/yuvarlama düzeyinde; p ve GCI tanımsız"
+      },
+      "errors_fine_to_coarse": [
+        null,
+        null,
+        null
+      ],
+      "error_fine": null
+    }
+  },
+  "reasons": [],
+  "note": "Eşikler iter5 mühendislik taramasıdır; deney belirsizliği ve fiziksel tasarım kabulü yerine geçmez."
+}

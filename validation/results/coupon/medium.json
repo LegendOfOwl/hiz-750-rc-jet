@@ -1,0 +1,788 @@
+{
+  "case": "coupon",
+  "case_id": "coupon",
+  "level": "medium",
+  "status": "COMPUTED",
+  "metrics": {
+    "UD0_Ex": 124999999999.99998,
+    "UD0_Ey": 8999997660.00061,
+    "UD0_Gxy": 4999999999.977835,
+    "UD0_D11beam": 10.416668381344593,
+    "UD0_wB3": 0.005401419166666667,
+    "UD0_TX_L1_s11": 1000000.0,
+    "UD0_TX_L2_s11": 1000000.0,
+    "UD0_TX_L3_s11": 1000000.0,
+    "UD0_TX_L4_s11": 1000000.0,
+    "UD0_TX_L5_s11": 1000000.0,
+    "UD45S_Ex": 17504731353.837627,
+    "UD45S_Ey": 17504731353.837627,
+    "UD45S_Gxy": 32376545768.384613,
+    "UD45S_D11beam": 0.6844961705261745,
+    "UD45S_wB3": 0.08205673083333334,
+    "UD45S_TX_L1_s11": 1145104.40625,
+    "UD45S_TX_L2_s11": 1145103.359375,
+    "UD45S_TX_L3_s11": 1145103.359375,
+    "UD45S_TX_L4_s11": 1145104.40625,
+    "SKIN_F_Ex": 5478398526.737966,
+    "SKIN_F_Ey": 5478398526.737966,
+    "SKIN_F_Gxy": 9130086314.781807,
+    "SKIN_F_D11beam": 27.1597648724835,
+    "SKIN_F_wB3": 0.00490978675,
+    "SKIN_F_TX_L1_s11": 466534.3312500001,
+    "SKIN_F_TX_L3_s11": 466534.3312500001,
+    "CAP_Ex": 9134107517.449215,
+    "CAP_Ey": 6870374312.61511,
+    "CAP_Gxy": 8383810783.828699,
+    "CAP_D11beam": 75.68036458561588,
+    "CAP_wB3": 0.0017629089583333331,
+    "CAP_TX_L1_s11": 686565.57890625,
+    "CAP_TX_L2_s11": 130331.96718749996,
+    "CAP_TX_L4_s12": -426070.8257812498,
+    "WEB_Ex": 15578281769.901447,
+    "WEB_Ey": 15578281769.901447,
+    "WEB_Gxy": 26190476987.703945,
+    "WEB_D11beam": 0.19767980720976658,
+    "WEB_wB3": 0.2837387458333334,
+    "WEB_TX_L1_s12": -936329.599999998
+  },
+  "reason": null,
+  "design_accepted": false,
+  "provenance": {
+    "utc": "2026-11-05T21:26:49.124385+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "packages": {
+      "gmsh": "4.15.2",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "aerosandbox": "4.2.10",
+      "matplotlib": "3.11.2"
+    },
+    "params_sha256": "fa1638053c86e03f33835ee14489ed94e8199e0b3e2c5c2cdb027fa8c2f022de",
+    "inputs": {
+      "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\structures\\structures.py": "411948ef5863c21c886db921a13635c9a6ce4567f41e007eb1856742a0308f75",
+      "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\structures\\fe_modal.py": "d9d219f8d247ec6a5e8305a6316e921170dd4c8304c920bd0df99b8d9d4ad3b1",
+      "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\aero\\aero_analysis.py": "736b1316370c6bec2155b94b0e6830b452d226fbd694476b75168c069f650376",
+      "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\performance\\inlet_analysis.py": "baf48a026581019d6edb5c7fdd2a1db838bedf375d671e36cc4c439cf18aa11e",
+      "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\cad\\out\\cad_report.json": "0c9a53b8b558910c392569b4266b56f7dcda4c1f443c7942094d691a30e24200"
+    },
+    "solver_threads": {
+      "used": 1,
+      "requested": 1,
+      "env": "OMP_NUM_THREADS=CCX_NPROC_RESULTS=used"
+    }
+  },
+  "estimated_runtime": "<1 dk/ağ; CLT kompozit kabuk kuponu",
+  "diagnostic": false,
+  "raw_directory": "C:\\hz750run\\coupon_medium_4x4w6l56",
+  "code_sha256": {
+    "validation\\__init__.py": "318a65d09bef1fd777be440b8eb9b4285b723995a4633e65336b9c38c567f47a",
+    "validation\\common.py": "740454c523dd01b8419f1bf4a21c281c346c3a3e65127ee04e14dbf2eb4dfd34",
+    "validation\\compare_su2_configs.py": "f4471453abd24148cc12845e6abe7437912390f69573aa94f828bf47835de919",
+    "validation\\convergence.py": "31e7603e4ee00ca544881c222cb898b3b87477e17543f558b7984048b2e06a55",
+    "validation\\fetch_reference.py": "754ef6504ef27f290f21ccf5ac4197d1f301a0ff6c73799c4e34506934c38232",
+    "validation\\postprocess_native.py": "bc75abb7e815bec52939d81743487059001dc5e0c063a50beb5e85afdbe9ead8",
+    "validation\\report.py": "4c423d5ddbe5710d383ae3f07ca3f81f04cf6f1d2f3bf23dd8bd331f9cf280f0",
+    "validation\\run_case.py": "f0d57d7584f3b638476254538d15ac7403f7ef41614221df7eccaf1431fcde11",
+    "validation\\run_native_su2.py": "60dd77b92f33e77644e41d11e298ea45ea599ff02f5076d167889b472c2c7e60",
+    "validation\\study.py": "1ef34eacfacda17f04e5216b04cfe8a3082085c83513adc5989c0e5fda6f4b22",
+    "validation\\test_cfd_mesh.py": "4e9db2f61ed84beb37d4551d425b0a0f2d1a4115bec0488e75b5ce3e086dbaf3",
+    "validation\\test_validation.py": "5067c97515b1d5b75743744d3c8eb63c9830db2bb138f257e8190e59fc70e68f",
+    "cfd\\cases.py": "71808a49d0ba4fb3275dc23eb4f45f0c7a56a8a776c49693ed080b490e2bc2e2",
+    "cfd\\continue_flatplate.py": "752141e6081542609fe9422acfeb24514ca459c829736c4404ffb57e83eae39f",
+    "cfd\\convergence.py": "be9bf0f2b1e9fd38c6d9f0f3e28f1c84d0ad76234e4a11d447bc4b7b73ad7b7d",
+    "cfd\\draft_domains.py": "9585362a9035920352c5fee60a5863d60797b98428ae77adf4226d3612eca79b",
+    "cfd\\face_samples.py": "098f62c8909be089d3c7618eb9d339262c98c311a19907a9b498d5d4bd6a6b0f",
+    "cfd\\inlet_metrics.py": "e9d975c4a5820fd3988ac9bfe3b6b6e9f073b68ea466f19eb104e3a89b49b004",
+    "cfd\\mesh_audit.py": "12be1ffa46a6f6faa2d3fcbfdf5db18439418ec326c506f78e0dce5b82ce0604",
+    "cfd\\neuralfoil_baseline.py": "9f89bc717e477cfd83da7a9665a40fc4b975d7bec8c464b3038f83d1d309acca",
+    "cfd\\prepare_3d.py": "80dd17820be83bf466e9811d145d1bc98f061ec879159ecd00b71565c9657ffe",
+    "cfd\\reassess.py": "2fb418c6e9a4450227ab2b6cc34a0b09270ee4b2d35262b7e2f1315537bc1167",
+    "cfd\\structured_airfoil.py": "f22c2851fd022db1ee2442f53101aef5714348b63201632cbcc3ad315866c221",
+    "fem\\cases.py": "b7f15fd89f066cc4356ee403bf842e49014a51d3e6ca0d3f2c5658f606c74036",
+    "fem\\clt.py": "6e936ef14568274eef68a471ffc9ebe390dec00b43d3fbe2ec80ffe080758701",
+    "fem\\coupon.py": "6ecb6cc2876a7f20ba54ae7bffdd994dd9613c1a9f9bf8eef067e554b2da0ca2",
+    "fem\\export_wing_inputs.py": "2129df518888c3963dec1e67bc414181e4682385245b23b2dedcaad5d41520ed",
+    "fem\\laminate_post.py": "5e34e6d15b5384f61ca968ca7359ace7adc93f9e7b1e8f8f40909e79fa1cf355",
+    "fem\\run_wing_study.py": "208e29c77fc6c8d1d770c382e9c6febf2d6be41508c51a1e0155ecab0a820e38",
+    "fem\\stiffening_study.py": "6747d865079f563675d4d9d07615ec7d36df23038332d3b1c5c66e728b5c8ee3",
+    "fem\\wing_compare.py": "e27d38baeda1cb41414e4d2021504cb14cc961966866e578bad071228cee9c0f",
+    "fem\\wing_post.py": "72c78c9ec7fa849cec09f8ed6fdb5993e6f659dcfdfeee3e5c73a507b4b4beb0",
+    "fem\\wing_review.py": "4254fd908ad4e4d37f884e8a684c242c5c9d3dc9619d317cb644284bc3120ca6",
+    "fem\\wing_shell.py": "5e57e6b28be50cfce29441dec324e8d1f394dc6be155ed40ddc3dbfb6d46d38e",
+    "thermal\\cases.py": "fe91f662ad2bbc6bc6a032576d00eeab798bab42962bdae2738ea1c2f56ce2aa"
+  },
+  "input_sha256": {},
+  "mesh": {
+    "cells": 1600,
+    "nodes": 5540,
+    "h": 0.5,
+    "element": "S8R_COMPOSITE",
+    "deck_sha256": "c4899fe3b9d7a7383b13c55709dfd6578c125994e16b6fd4a7bd5c342311fc1d"
+  },
+  "references": {
+    "UD0": {
+      "Ex": 124999999999.99998,
+      "Ey": 9000000000.0,
+      "Gxy": 5000000000.0,
+      "nuxy": 0.3,
+      "D11_plate": 10.48460691950506,
+      "D11_beam": 10.416666666666666,
+      "w_B3": 0.0054018,
+      "w_B3_bending": 0.0054,
+      "w_B3_shear_esl": 1.7999999999999997e-06,
+      "w_B3_sandwich_theory": 0.0054018,
+      "h": 0.001,
+      "ply_TX": [
+        [
+          1000000.0,
+          -3.970800239103962e-12,
+          0.0
+        ],
+        [
+          1000000.0,
+          -3.3282143201224896e-13,
+          0.0
+        ],
+        [
+          1000000.0,
+          -3.3282143201224896e-13,
+          0.0
+        ],
+        [
+          1000000.0,
+          -3.3282143201224896e-13,
+          0.0
+        ],
+        [
+          1000000.0,
+          3.305157375079464e-12,
+          0.0
+        ]
+      ],
+      "layers": [
+        {
+          "material": "UD",
+          "t": 0.0002,
+          "theta": 0.0
+        },
+        {
+          "material": "UD",
+          "t": 0.0002,
+          "theta": 0.0
+        },
+        {
+          "material": "UD",
+          "t": 0.0002,
+          "theta": 0.0
+        },
+        {
+          "material": "UD",
+          "t": 0.0002,
+          "theta": 0.0
+        },
+        {
+          "material": "UD",
+          "t": 0.0002,
+          "theta": 0.0
+        }
+      ]
+    },
+    "UD45S": {
+      "Ex": 17504821988.2665,
+      "Ey": 17504821988.2665,
+      "Gxy": 32359690796.360416,
+      "nuxy": 0.7504821988266495,
+      "D11_plate": 1.709964838822235,
+      "D11_beam": 0.6844707983209227,
+      "w_B3": 0.08218293637664141,
+      "w_B3_bending": 0.08218027728573232,
+      "w_B3_shear_esl": 2.6590909090909083e-06,
+      "w_B3_sandwich_theory": 0.08218293637664141,
+      "h": 0.0008,
+      "ply_TX": [
+        [
+          1145086.0832137745,
+          104913.91678622673,
+          -624999.9999999998
+        ],
+        [
+          1145086.0832137743,
+          104913.91678622668,
+          624999.9999999998
+        ],
+        [
+          1145086.0832137743,
+          104913.9167862268,
+          624999.9999999998
+        ],
+        [
+          1145086.0832137743,
+          104913.91678622673,
+          -624999.9999999998
+        ]
+      ],
+      "layers": [
+        {
+          "material": "UD",
+          "t": 0.0002,
+          "theta": 45.0
+        },
+        {
+          "material": "UD",
+          "t": 0.0002,
+          "theta": -45.0
+        },
+        {
+          "material": "UD",
+          "t": 0.0002,
+          "theta": -45.0
+        },
+        {
+          "material": "UD",
+          "t": 0.0002,
+          "theta": 45.0
+        }
+      ]
+    },
+    "SKIN_F": {
+      "Ex": 5477853243.673513,
+      "Ey": 5477853243.673514,
+      "Gxy": 9129539951.573849,
+      "nuxy": 0.7290726104868347,
+      "D11_plate": 58.24393463696626,
+      "D11_beam": 27.15970985988364,
+      "w_B3": 0.004911709901901634,
+      "w_B3_bending": 0.004909232610407002,
+      "w_B3_shear_esl": 2.4772914946325344e-06,
+      "w_B3_sandwich_theory": 0.005073164397603477,
+      "h": 0.003068,
+      "ply_TX": [
+        [
+          466655.3538096048,
+          466655.3538096048,
+          -462977.61879135174
+        ],
+        [
+          3575.992631089479,
+          -1963.910499747208,
+          -1.0592557570634955e-14
+        ],
+        [
+          466655.3538096048,
+          466655.3538096048,
+          -462977.61879135174
+        ]
+      ],
+      "layers": [
+        {
+          "material": "FAB",
+          "t": 0.000534,
+          "theta": 45.0
+        },
+        {
+          "material": "CORE",
+          "t": 0.002,
+          "theta": 0.0
+        },
+        {
+          "material": "FAB",
+          "t": 0.000534,
+          "theta": 45.0
+        }
+      ]
+    },
+    "CAP": {
+      "Ex": 9130433163.472645,
+      "Ey": 6869075788.758323,
+      "Gxy": 8382758075.270496,
+      "nuxy": 0.7180754532507962,
+      "D11_plate": 241.37520983603605,
+      "D11_beam": 75.69686159026115,
+      "w_B3": 0.0017629414745822818,
+      "w_B3_bending": 0.0017614116428637707,
+      "w_B3_shear_esl": 1.5298317185109633e-06,
+      "w_B3_sandwich_theory": 0.0018924736162780592,
+      "h": 0.0036680000000000003,
+      "ply_TX": [
+        [
+          686353.4780879506,
+          -14617.951628537658,
+          -2.943869698471215e-13
+        ],
+        [
+          131208.39782726942,
+          131208.39782726942,
+          -110283.56300262142
+        ],
+        [
+          2086.130633897539,
+          -1123.7842060710766,
+          -6.203502023478479e-15
+        ],
+        [
+          425939.53407226136,
+          425939.53407226136,
+          -426230.7745349902
+        ]
+      ],
+      "layers": [
+        {
+          "material": "UD",
+          "t": 0.0006000000000000001,
+          "theta": 0.0
+        },
+        {
+          "material": "FAB",
+          "t": 0.000534,
+          "theta": 45.0
+        },
+        {
+          "material": "CORE",
+          "t": 0.002,
+          "theta": 0.0
+        },
+        {
+          "material": "FAB",
+          "t": 0.000534,
+          "theta": 45.0
+        }
+      ]
+    },
+    "WEB": {
+      "Ex": 15578284815.106216,
+      "Ey": 15578284815.106216,
+      "Gxy": 26190476190.476185,
+      "nuxy": 0.7309205350118018,
+      "D11_plate": 0.42442844163157883,
+      "D11_beam": 0.19767974162077098,
+      "w_B3": 0.28455490639741726,
+      "w_B3_bending": 0.2845511610790652,
+      "w_B3_shear_esl": 3.7453183520599242e-06,
+      "w_B3_sandwich_theory": 0.28455490639741726,
+      "h": 0.000534,
+      "ply_TX": [
+        [
+          936329.5880149811,
+          936329.5880149811,
+          -936329.5880149816
+        ]
+      ],
+      "layers": [
+        {
+          "material": "FAB",
+          "t": 0.000534,
+          "theta": 45.0
+        }
+      ]
+    }
+  },
+  "errors": {
+    "UD0_Ex": {
+      "absolute": 0.0,
+      "percent": 0.0
+    },
+    "UD0_Ey": {
+      "absolute": -2339.9993896484375,
+      "percent": -2.5999993218315972e-05
+    },
+    "UD0_Gxy": {
+      "absolute": -0.022165298461914062,
+      "percent": -4.4330596923828125e-10
+    },
+    "UD0_D11beam": {
+      "absolute": 1.7146779267562806e-06,
+      "percent": 1.6460908096860293e-05
+    },
+    "UD0_wB3": {
+      "absolute": -3.8083333333324004e-07,
+      "percent": -0.007050119096102041
+    },
+    "UD0_TX_L1_s11": {
+      "absolute": 0.0,
+      "percent": 0.0
+    },
+    "UD0_TX_L2_s11": {
+      "absolute": 0.0,
+      "percent": 0.0
+    },
+    "UD0_TX_L3_s11": {
+      "absolute": 0.0,
+      "percent": 0.0
+    },
+    "UD0_TX_L4_s11": {
+      "absolute": 0.0,
+      "percent": 0.0
+    },
+    "UD0_TX_L5_s11": {
+      "absolute": 0.0,
+      "percent": 0.0
+    },
+    "UD45S_Ex": {
+      "absolute": -90634.42887115479,
+      "percent": -0.0005177683550961395
+    },
+    "UD45S_Ey": {
+      "absolute": -90634.42887115479,
+      "percent": -0.0005177683550961395
+    },
+    "UD45S_Gxy": {
+      "absolute": 16854972.024196625,
+      "percent": 0.05208631976821098
+    },
+    "UD45S_D11beam": {
+      "absolute": 2.537220525178352e-05,
+      "percent": 0.0037068353118970376
+    },
+    "UD45S_wB3": {
+      "absolute": -0.00012620554330806943,
+      "percent": -0.15356660259700872
+    },
+    "UD45S_TX_L1_s11": {
+      "absolute": 18.323036225512624,
+      "percent": 0.0016001448706884618
+    },
+    "UD45S_TX_L2_s11": {
+      "absolute": 17.276161225745454,
+      "percent": 0.001508721613073713
+    },
+    "UD45S_TX_L3_s11": {
+      "absolute": 17.276161225745454,
+      "percent": 0.001508721613073713
+    },
+    "UD45S_TX_L4_s11": {
+      "absolute": 18.323036225745454,
+      "percent": 0.0016001448707087952
+    },
+    "SKIN_F_Ex": {
+      "absolute": 545283.0644521713,
+      "percent": 0.009954320428024063
+    },
+    "SKIN_F_Ey": {
+      "absolute": 545283.0644512177,
+      "percent": 0.009954320428006652
+    },
+    "SKIN_F_Gxy": {
+      "absolute": 546363.2079582214,
+      "percent": 0.005984564510986487
+    },
+    "SKIN_F_D11beam": {
+      "absolute": 5.5012599858628164e-05,
+      "percent": 0.00020255223690693672
+    },
+    "SKIN_F_wB3": {
+      "absolute": -1.923151901634529e-06,
+      "percent": -0.03915442768494847
+    },
+    "SKIN_F_TX_L1_s11": {
+      "absolute": -121.02255960472394,
+      "percent": -0.025934034318205013
+    },
+    "SKIN_F_TX_L3_s11": {
+      "absolute": -121.02255960472394,
+      "percent": -0.025934034318205013
+    },
+    "CAP_Ex": {
+      "absolute": 3674353.9765701294,
+      "percent": 0.04024293164172986
+    },
+    "CAP_Ey": {
+      "absolute": 1298523.8567876816,
+      "percent": 0.018903909299018043
+    },
+    "CAP_Gxy": {
+      "absolute": 1052708.5582027435,
+      "percent": 0.012558021462032644
+    },
+    "CAP_D11beam": {
+      "absolute": -0.016497004645273705,
+      "percent": -0.021793512040922107
+    },
+    "CAP_wB3": {
+      "absolute": -3.251624894860805e-08,
+      "percent": -0.0018444315604017757
+    },
+    "CAP_TX_L1_s11": {
+      "absolute": 212.10081829933915,
+      "percent": 0.030902563339550843
+    },
+    "CAP_TX_L2_s11": {
+      "absolute": -876.43063976946,
+      "percent": -0.6679684031530098
+    },
+    "CAP_TX_L4_s12": {
+      "absolute": 159.94875374040566,
+      "percent": 0.03752632688592389
+    },
+    "WEB_Ex": {
+      "absolute": -3045.2047691345215,
+      "percent": -1.9547753846313014e-05
+    },
+    "WEB_Ey": {
+      "absolute": -3045.2047691345215,
+      "percent": -1.9547753846313014e-05
+    },
+    "WEB_Gxy": {
+      "absolute": 797.2277603149414,
+      "percent": 3.0439605393843222e-06
+    },
+    "WEB_D11beam": {
+      "absolute": 6.558899559583331e-08,
+      "percent": 3.317942195698501e-05
+    },
+    "WEB_wB3": {
+      "absolute": -0.0008161605640838454,
+      "percent": -0.2868200638030725
+    },
+    "WEB_TX_L1_s12": {
+      "absolute": -0.011985016404651105,
+      "percent": -1.2799997520167376e-06
+    }
+  },
+  "execution": {
+    "command": [
+      "C:\\hz750tools\\CalculiX\\calculix_2.20_4win\\ccx_static.exe",
+      "-i",
+      "case"
+    ],
+    "executable_sha256": "419adbe276ac14ebd8e187a2272b058a47e366f1cffb822dfb0236e6eebe21f9",
+    "log_sha256": "f633961a77a247d2beb18fb7715f9dd864cc7c363e6b23ef693d62ceefcd4888"
+  },
+  "quality": {
+    "max_abs_error_pct": 0.6679684031530098,
+    "limit_pct": 2.0,
+    "detail": {
+      "UD0": {
+        "layer_stress_TX_fe": [
+          [
+            1000000.0,
+            6.859562046874999e-07,
+            -1.7573471125000005e-06
+          ],
+          [
+            1000000.0,
+            3.4314248828124994e-07,
+            -9.648796953124997e-07
+          ],
+          [
+            1000000.0,
+            4.340852820312533e-10,
+            -1.7243418803593748e-07
+          ],
+          [
+            1000000.0,
+            -3.421389744531251e-07,
+            6.200436131171872e-07
+          ],
+          [
+            1000000.0,
+            -6.846686226562497e-07,
+            1.4124978390625004e-06
+          ]
+        ],
+        "kappa_B3": 0.3599999407407406,
+        "w_center": -0.005401419166666667
+      },
+      "UD45S": {
+        "layer_stress_TX_fe": [
+          [
+            1145104.40625,
+            104919.29453125,
+            -625000.00859375
+          ],
+          [
+            1145103.359375,
+            104918.30625000001,
+            625000.0046874997
+          ],
+          [
+            1145103.359375,
+            104918.30625,
+            625000.0046874996
+          ],
+          [
+            1145104.40625,
+            104919.29453124998,
+            -625000.00859375
+          ]
+        ],
+        "kappa_B3": 5.478482074074077,
+        "w_center": -0.08205673083333334
+      },
+      "SKIN_F": {
+        "layer_stress_TX_fe": [
+          [
+            466534.3312500001,
+            466534.37265625,
+            -462955.9640625003
+          ],
+          [
+            3649.9401874999985,
+            -1890.1338125000009,
+            -0.000396077800078125
+          ],
+          [
+            466534.3312500001,
+            466534.37265625,
+            -462955.96406250034
+          ]
+        ],
+        "kappa_B3": 0.1840958500000003,
+        "w_center": -0.00490978675
+      },
+      "CAP": {
+        "layer_stress_TX_fe": [
+          [
+            686565.57890625,
+            -14186.006132812503,
+            -0.09452799218750013
+          ],
+          [
+            130331.96718749996,
+            130333.51015625003,
+            -110318.707265625
+          ],
+          [
+            2126.2483906250004,
+            -1083.2043210937502,
+            -0.0005183561301562499
+          ],
+          [
+            425970.7335937503,
+            425970.73281249986,
+            -426070.8257812498
+          ]
+        ],
+        "kappa_B3": 0.06606733499999973,
+        "w_center": -0.0017629089583333331
+      },
+      "WEB": {
+        "layer_stress_TX_fe": [
+          [
+            936329.599999998,
+            936329.599999998,
+            -936329.599999998
+          ]
+        ],
+        "kappa_B3": 18.970071111111075,
+        "w_center": -0.2837387458333334
+      }
+    },
+    "offset_check": {
+      "CAP_offset": 0.5,
+      "expanded_z_min": -0.003668,
+      "expanded_z_max": 0.0,
+      "expected": [
+        -0.0036680000000000003,
+        0.0
+      ],
+      "passed": true,
+      "note": "OFFSET=0.5: malzeme referans yüzeyin altında (-normal); ilk tabaka en altta."
+    }
+  },
+  "materials": {
+    "UD": {
+      "E2": 9000000000.0,
+      "E3": 9000000000.0,
+      "nu12": 0.3,
+      "nu13": 0.3,
+      "nu23": 0.3,
+      "G12": 5000000000.0,
+      "G13": 5000000000.0,
+      "G23": 3461538461.538461,
+      "Yt": 50000000.0,
+      "Yc": 200000000.0,
+      "S12": 80000000.0,
+      "E1": 125000000000.0,
+      "rho": 1550.0,
+      "Xt": 2100000000.0,
+      "Xc": 1200000000.0,
+      "F12": -3.1497039417435603e-18,
+      "name": "UD"
+    },
+    "FAB": {
+      "E1": 55000000000.0,
+      "E2": 55000000000.0,
+      "E3": 9000000000.0,
+      "nu12": 0.05,
+      "nu13": 0.3,
+      "nu23": 0.3,
+      "G12": 4500000000.0,
+      "G13": 4500000000.0,
+      "G23": 4500000000.0,
+      "rho": 1500.0,
+      "Xt": 600000000.0,
+      "Xc": 600000000.0,
+      "Yt": 600000000.0,
+      "Yc": 600000000.0,
+      "S12": 80000000.0,
+      "F12": -1.3888888888888889e-18,
+      "name": "FAB"
+    },
+    "CORE": {
+      "E1": 70000000.0,
+      "E2": 70000000.0,
+      "E3": 70000000.0,
+      "G12": 19000000.0,
+      "G13": 19000000.0,
+      "G23": 19000000.0,
+      "nu12": 0.3,
+      "nu13": 0.3,
+      "nu23": 0.3,
+      "rho": 52.0,
+      "S_core": 800000.0,
+      "name": "CORE"
+    }
+  },
+  "acceptance_metrics": [
+    "UD0_Ex",
+    "UD0_Ey",
+    "UD0_Gxy",
+    "UD0_D11beam",
+    "UD0_wB3",
+    "UD0_TX_L1_s11",
+    "UD0_TX_L2_s11",
+    "UD0_TX_L3_s11",
+    "UD0_TX_L4_s11",
+    "UD0_TX_L5_s11",
+    "UD45S_Ex",
+    "UD45S_Ey",
+    "UD45S_Gxy",
+    "UD45S_D11beam",
+    "UD45S_wB3",
+    "UD45S_TX_L1_s11",
+    "UD45S_TX_L2_s11",
+    "UD45S_TX_L3_s11",
+    "UD45S_TX_L4_s11",
+    "SKIN_F_Ex",
+    "SKIN_F_Ey",
+    "SKIN_F_Gxy",
+    "SKIN_F_D11beam",
+    "SKIN_F_wB3",
+    "SKIN_F_TX_L1_s11",
+    "SKIN_F_TX_L3_s11",
+    "CAP_Ex",
+    "CAP_Ey",
+    "CAP_Gxy",
+    "CAP_D11beam",
+    "CAP_wB3",
+    "CAP_TX_L1_s11",
+    "CAP_TX_L2_s11",
+    "CAP_TX_L4_s12",
+    "WEB_Ex",
+    "WEB_Ey",
+    "WEB_Gxy",
+    "WEB_D11beam",
+    "WEB_wB3",
+    "WEB_TX_L1_s12"
+  ],
+  "acceptance_limit_pct": 2.0,
+  "limitations": [
+    "CLT/eşdeğer tek katman referansı: sandviç çekirdek kayması (zigzag) CCX kabuk genişlemesinde temsil edilmez; w_B3_sandwich_theory ayrıca raporlanır.",
+    "Kupon yorumlama doğrulamasıdır; malzeme sabitleri ölçülmüş değildir."
+  ],
+  "elapsed_s": 1.5940000000409782,
+  "artifacts": [
+    "validation\\results\\coupon\\medium_plot.png",
+    "validation\\results\\coupon\\medium_case.inp"
+  ]
+}

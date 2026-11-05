@@ -1,0 +1,129 @@
+{
+  "case": "engine_thermal",
+  "case_id": "engine_thermal_T250_F0_1ed7ca8299",
+  "level": "coarse",
+  "status": "COMPUTED",
+  "metrics": {
+    "outer_K": 322.6096,
+    "heat_flux_W_m2": 3102.319790172417,
+    "inner_K": 331.9165,
+    "shell_inner_K": 331.9165,
+    "shell_inner_C": 58.76650000000001
+  },
+  "reason": null,
+  "design_accepted": false,
+  "provenance": {
+    "utc": "2026-11-04T16:42:20.626438+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "packages": {
+      "gmsh": "4.15.2",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "aerosandbox": "4.2.10",
+      "matplotlib": "3.11.2"
+    },
+    "params_sha256": "7f01e01ca9c785d252e0b56c8cd462026dd1eb7ba49c724ac6f6e92a86373ecd",
+    "inputs": {
+      "C:\\Users\\Urungu\\.claude\\claudex\\worktrees\\J3A5\\structures\\structures.py": "184b745c6502ecde5f2b7f12454b79f335ba7ee710ee172d16235fe02de47496",
+      "C:\\Users\\Urungu\\.claude\\claudex\\worktrees\\J3A5\\structures\\fe_modal.py": "d9d219f8d247ec6a5e8305a6316e921170dd4c8304c920bd0df99b8d9d4ad3b1",
+      "C:\\Users\\Urungu\\.claude\\claudex\\worktrees\\J3A5\\aero\\aero_analysis.py": "736b1316370c6bec2155b94b0e6830b452d226fbd694476b75168c069f650376",
+      "C:\\Users\\Urungu\\.claude\\claudex\\worktrees\\J3A5\\performance\\inlet_analysis.py": "baf48a026581019d6edb5c7fdd2a1db838bedf375d671e36cc4c439cf18aa11e",
+      "C:\\Users\\Urungu\\.claude\\claudex\\worktrees\\J3A5\\cad\\out\\cad_report.json": "503ce7c71cc87fec1f23029e4daff953b1b0264496afb8a395e2b56388bdd622"
+    }
+  },
+  "estimated_runtime": "<2 dk/senaryo/ağ; tahmin",
+  "diagnostic": false,
+  "raw_directory": "C:\\hz750run\\engine_thermal_T250_F0_1ed7ca8299_coarse_oilrzcz9",
+  "code_sha256": {
+    "validation\\__init__.py": "923575c9b9f21a8328ab5ad72dbf387fcd97023337898f524d88bd133cd06401",
+    "validation\\common.py": "274d7154a903e7b43f4eaa8a41536b42ae3204d8a13d116ba18d55ab9121c1ad",
+    "validation\\convergence.py": "57177741e9bd9b5ed2d7e5859b5962058abba64b6a45dff48559980c9a28e39e",
+    "validation\\fetch_reference.py": "0c2417336a8a8b283fc4949ee35824d962e207fcafea439aa321420cb5c1739d",
+    "validation\\report.py": "2c7319a8e6076fd3c6998804cdb477a0a3c5067e2e8dd9d9539b7da4bc006365",
+    "validation\\run_case.py": "5013e3082e5ae5de038a29b79f5d30c9aded2e5e6d2bb201699a8c6cf3a5c065",
+    "validation\\run_native_su2.py": "cf4b4488c27e90b47f37953540238e8e3dff434aadfd75970d8b1ad579e250a4",
+    "validation\\study.py": "837d929b4509a0260cd7c371d8bf0729f9d3c428e761dadc8a6678ab8c674b51",
+    "validation\\test_validation.py": "05fc0dc55bbb6e892c6b866a0fe1b73f5cc372497462cf3775992c6b86fd9a37",
+    "cfd\\cases.py": "ed8e17d18b31f6403b5aaa7f7bd3e9fb213a38a2d89f6f442636c8d8fb47f287",
+    "cfd\\draft_domains.py": "1228253fb0e3dee0301248e6663a09fb7d6cac30a1204cfb67d308beb06c0a75",
+    "cfd\\face_samples.py": "dac50ca0de6e181fa2f2ba71aeafd80620d56993829452e1d8b97a5d9f54d949",
+    "cfd\\inlet_metrics.py": "10ac196d010ce1599b18e9d5da7596afc76e2c647319ab27a05de17b20e6131d",
+    "cfd\\prepare_3d.py": "8999f6bbca80f4bb878912754590fccc9ef6cf7dabbc93a822fd99135993306c",
+    "fem\\cases.py": "8b6c71871a16ebc093ee844238e6702b72d3a7fbbaed58e44a7ad9d50d2a6e3d",
+    "fem\\export_wing_inputs.py": "47e246619f12dfd278ab40e6ee855a970185e7955e7b37665490a6595b753f14",
+    "fem\\laminate_post.py": "8bde0a6a28b22ca1aedaee922eecaf8619c4d982d9821092e6b39334960fa7f2",
+    "fem\\wing_shell.py": "a301b4893ec1c052ffbaafd4836e33535b00f688264f327b74628310f7ba6131",
+    "thermal\\cases.py": "6d9fb56e4a7e6da67225d7b224968a70be76430c3529930023811f260076cf20"
+  },
+  "input_sha256": {
+    "thermal_inputs": "1ed7ca82992bd7ae514157fbdf4d47a6b5463af9adac668588f52bd4494a994e"
+  },
+  "mesh": {
+    "cells": 4,
+    "nodes": 20,
+    "dimension": 1,
+    "h": 0.000375,
+    "element": "DC3D8",
+    "mesh_sha256": "6ebd9aa4860aa573a33d9c8d0b5eee744243bf2affee435f63fe8fb9fda54628"
+  },
+  "references": {
+    "inner_K": 331.91654833110374,
+    "outer_K": 322.60959162587983,
+    "shell_inner_K": 331.91654833110374,
+    "heat_flux_W_m2": 3102.318901741305
+  },
+  "errors": {
+    "inner_K": {
+      "absolute": -0.00004833110375557226,
+      "percent": -0.000014561221487323828
+    },
+    "outer_K": {
+      "absolute": 0.000008374120170628885,
+      "percent": 0.0000025957443262691604
+    },
+    "shell_inner_K": {
+      "absolute": -0.00004833110375557226,
+      "percent": -0.000014561221487323828
+    },
+    "heat_flux_W_m2": {
+      "absolute": 0.0008884311118890764,
+      "percent": 0.000028637646226195755
+    }
+  },
+  "quality": {
+    "heat_balance_relative": 0.000006379152943865379
+  },
+  "execution": {
+    "command": [
+      "C:\\hz750tools\\CalculiX\\calculix_2.20_4win\\ccx_static.exe",
+      "-i",
+      "case"
+    ],
+    "executable_sha256": "419adbe276ac14ebd8e187a2272b058a47e366f1cffb822dfb0236e6eebe21f9",
+    "log_sha256": "fd420ddff6db2ae74b6ca47800915a522a63250b13b3215d416b930fa38db23d"
+  },
+  "assumptions": {
+    "status": "ASSUMPTIONS_NOT_MEASURED",
+    "clearance_m": 0.0085,
+    "shell_thickness_m": 0.0015,
+    "k_air": 0.033,
+    "k_shell": 0.5,
+    "k_felt": 0.06,
+    "h_bypass": 15,
+    "h_external": 100,
+    "bypass_K": 323.15,
+    "external_K": 293.15,
+    "emissivity_effective": 0.7,
+    "emissivity_external": 0.8,
+    "notes": "Örnek duyarlılık girdileri; malzeme veri sayfası/ölçüm değildir. Açıklık CAD minimumu 5.97 mm ile de tekrarlanmalı. h_bypass=0 durma/arıza durumu ayrıca gerekli.",
+    "motor_K": 523.15,
+    "gap_m": 0.0085
+  },
+  "limitations": [
+    "Motor: yerel 1B kararlı durum, verilen h ve emissiviteyle koşullu sonuç.",
+    "Tg çalışma sıcaklığı izni değildir; hot/wet dayanım ve üretici limiti gerekli."
+  ],
+  "elapsed_s": 0.7660000000614673,
+  "artifacts": [],
+  "artifact_policy": "Summaries/final plots and CFD config or wing draft retained; complete raw inputs/fields remain in raw_directory."
+}

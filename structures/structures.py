@@ -290,7 +290,11 @@ def cell_props(t_c, x_end=None):
     return per, area, 2 * float(yt64(x_end, t_c))
 
 
-def size_wing(M, V, T, n_face_plies, n_aft=None):
+def size_wing(M, V, T, n_face_plies, n_aft=None, web_extra=None, rib_pitch=None):
+    """web_extra / rib_pitch verilmezse params WING (web_extra_plies, rib_pitch); kabuk FEM rijitlestirme
+    calismasi 1D referansi acik degerlerle (iter4 tabani: 0 kat, 0.086 m) cagirir (fem/wing_shell.py)."""
+    web_extra = WING.get("web_extra_plies", 0) if web_extra is None else web_extra
+    rib_pitch = WING.get("rib_pitch", 0.086) if rib_pitch is None else rib_pitch
     ud, fab, core = MAT["UD"], MAT["FAB"], MAT["CORE"]
     c = chord(YS)
     t_c = tc(YS)
@@ -328,7 +332,7 @@ def size_wing(M, V, T, n_face_plies, n_aft=None):
     # kontrol yuzeyi kesikleri nedeniyle burulma tasimaz kabul edilir (iter1'de tum profil sayilmisti)
     cp = np.array([cell_props(t) for t in t_c])
     per, ar, hw = cp[:, 0] * c, cp[:, 1] * c ** 2, cp[:, 2] * c
-    t_web = n_web * fab["t_ply"]
+    t_web = (n_web + web_extra) * fab["t_ply"]   # iter5: ek web kati
     GJ = 4 * ar ** 2 * fab["G45"] / (per / t_skin + hw / t_web)
     tau_skin = T / (2 * ar * t_skin)
     per_full = np.array([cell_props(t, 1.0)[0] for t in t_c]) * c
@@ -340,8 +344,8 @@ def size_wing(M, V, T, n_face_plies, n_aft=None):
     m_sk_f = lam(n_face_plies) * per
     m_sk_a = lam(n_aft) * (per_full - per)
     m_caps = 2 * A_cap * ud["rho"]
-    m_webs = 2 * n_web * fab["t_ply"] * h_box * fab["rho"] * 1.3
-    m_ribs = 0.08 * c / wg["cr"]
+    m_webs = 2 * (n_web + web_extra) * fab["t_ply"] * h_box * fab["rho"] * 1.3
+    m_ribs = 0.08 * c / wg["cr"] * (0.086 / rib_pitch)   # iter5: kaburga araligina gore
     ail = WING["aileron"]
     in_ail = (YS >= ail["eta0"] * B2) & (YS <= ail["eta1"] * B2)
     m_bal = np.where(in_ail, 0.023 / ((ail["eta1"] - ail["eta0"]) * B2), 0.0)
@@ -989,7 +993,7 @@ def htail_root():
 
 
 
-def wing_section_model(n_face=None, n_aft=None):
+def wing_section_model(n_face=None, n_aft=None, web_extra=None, rib_pitch=None):
     """iter4 yardimcisi (structures/fe_modal.py): main()'deki on boyutlandirma -> tank kapasitesi ->
     yakit rahatlatmali yuk -> size_wing adimlarini grafik/json yazmadan tekrarlar. Geriye uyumlu:
     main() akisini degistirmez. Kat plani verilmezse params WING["skin_plies"] kullanilir.
@@ -1004,7 +1008,7 @@ def wing_section_model(n_face=None, n_aft=None):
         ws_pre = size_wing(M0, V0, T0, 2)
         M_WT_HALF = min(M_WT_HALF_PARAMS, ws_pre["V_tank_half_L"] * FUEL["density"])
         _, V, M, T = span_loads(plot=False)
-        ws = size_wing(M, V, T, n_face, n_aft)
+        ws = size_wing(M, V, T, n_face, n_aft, web_extra, rib_pitch)
         return dict(ws=ws, ws_pre=ws_pre, YS=YS, m_fuel_half=M_WT_HALF, fuel_per_span=fuel_per_span(),
                     M=M, V=V, T=T, Y0=Y0, B2=B2, X_EA=X_EA, X_FUEL_C=X_FUEL_C, Y_T0=Y_T0, Y_T1=Y_T1)
     finally:
@@ -1038,10 +1042,10 @@ def main():
     Lp, V, M, T = span_loads()
     Uval = validate_k_method()
 
-    # kat plani secimi: flutter >= V_FLUTTER_REQ saglayan en az kat
-    trials = []
-    chosen = None
-    for nf, na in ((1, 1), (2, 1), (2, 2), (3, 1), (3, 3), (4, 4)):
+    # Aday taramasi (1D, bilgi amacli) ve guncel tasarim ayri: tasarim kat plani params WING["skin_plies"]'dan
+    # gelir (iter5: kabuk FEM rijitlestirme calismasi, fem/results/stiffening). Eski davranis (sabit listeden
+    # 1D kriteri saglayan en az kat) yalniz "aday_1d" olarak raporlanir; tasarimi degistirmez.
+    def evaluate_layup(nf, na):
         ws = size_wing(M, V, T, nf, na)
         combos = {}
         for fuel in (True, False):
@@ -1052,17 +1056,29 @@ def main():
         key = min(combos, key=lambda k: combos[k][0])
         Vf, sp, wh, wa = combos[key]
         Vdiv = divergence(ws)
-        trials.append(dict(n_face=nf, n_aft=na, xcg70=float(np.interp(Y0 + 0.7 * (B2 - Y0), YS, ws["xcg"])), m_wing=ws["m_wing"], f_h=wh / 2 / math.pi, f_a=wa / 2 / math.pi,
-                           V_flutter_kmh=Vf * 3.6, V_div_kmh=Vdiv * 3.6,
-                           critical=f"{'tank dolu' if key[0] else 'tank bos'}, eta={key[1]:.2f}",
-                           combos={f"{'dolu' if k[0] else 'bos'}_eta{k[1]:.2f}": dict(
-                               V_kmh=v[0] * 3.6, f_h=v[2] / 2 / math.pi, f_a=v[3] / 2 / math.pi,
-                               mu=v[1]["mu"], xa=v[1]["xa"], ra2=v[1]["ra2"]) for k, v in combos.items()}))
-        if chosen is None and Vf >= V_FLUTTER_REQ * FLUTTER_MODEL_FACTOR and Vdiv >= V_FLUTTER_REQ:
-            chosen = (ws, wh, wa, sp, Vf, Vdiv)
-    if chosen is None:
-        chosen = (ws, wh, wa, sp, Vf, Vdiv)
+        row = dict(n_face=nf, n_aft=na, xcg70=float(np.interp(Y0 + 0.7 * (B2 - Y0), YS, ws["xcg"])), m_wing=ws["m_wing"], f_h=wh / 2 / math.pi, f_a=wa / 2 / math.pi,
+                   V_flutter_kmh=Vf * 3.6, V_div_kmh=Vdiv * 3.6,
+                   critical=f"{'tank dolu' if key[0] else 'tank bos'}, eta={key[1]:.2f}",
+                   combos={f"{'dolu' if k[0] else 'bos'}_eta{k[1]:.2f}": dict(
+                       V_kmh=v[0] * 3.6, f_h=v[2] / 2 / math.pi, f_a=v[3] / 2 / math.pi,
+                       mu=v[1]["mu"], xa=v[1]["xa"], ra2=v[1]["ra2"]) for k, v in combos.items()})
+        return row, (ws, wh, wa, sp, Vf, Vdiv)
+
+    trials = []
+    candidate_1d = None
+    for nf, na in ((1, 1), (2, 1), (2, 2), (3, 1), (3, 3), (4, 1), (4, 4)):
+        row, res_ = evaluate_layup(nf, na)
+        trials.append(row)
+        if candidate_1d is None and res_[4] >= V_FLUTTER_REQ * FLUTTER_MODEL_FACTOR and res_[5] >= V_FLUTTER_REQ:
+            candidate_1d = (nf, na)
+    design_plies = tuple(WING.get("skin_plies", (3, 1)))
+    design_trial, chosen = evaluate_layup(*design_plies)
     ws, wh, wa, sp, Vf, Vdiv = chosen
+    RES["layup_design"] = dict(design_trial, source="params WING skin_plies (iter5 kabuk FEM rijitlestirme)",
+                               web_extra_plies=WING.get("web_extra_plies", 0), rib_pitch=WING.get("rib_pitch", 0.086))
+    RES["layup_candidate_1d"] = dict(
+        n_face=candidate_1d[0] if candidate_1d else None, n_aft=candidate_1d[1] if candidate_1d else None,
+        rule="1D 2-DOF: Vf >= 1.2 VD x model payi ve Vdiv >= 1.2 VD saglayan en az kat (yalniz bilgi; tasarimi belirlemez)")
     RES["layup_trials"] = trials
     RES["flutter"] = dict(**{k: float(v) for k, v in sp.items()}, V_flutter=Vf, V_flutter_kmh=Vf * 3.6,
                           V_div_kmh=Vdiv * 3.6, f_bend_Hz=wh / 2 / math.pi, f_tors_Hz=wa / 2 / math.pi,
@@ -1097,7 +1113,7 @@ def main():
     a2.set_xlabel("Hiz [km/h]")
     a2.set_xlim(0, 2000)
     a1.legend(fontsize=8)
-    a1.set_title(f"Kanat V-g (k-yontemi, kritik durum: {[t for t in trials if t['n_face'] == ws['n_face'] and t['n_aft'] == ws['n_aft']][0]['critical']}, "
+    a1.set_title(f"Kanat V-g (k-yontemi, kritik durum: {design_trial['critical']}, "
                  f"{ws['n_face']}/{ws['n_aft']} kat/yuz)", fontsize=10)
     fig.tight_layout()
     fig.savefig(os.path.join(OUT, "flutter_Vg.png"), dpi=130)
@@ -1184,14 +1200,20 @@ def main():
         print(f"   hamle {k}: n(VC)={v['n_VC']:.1f}  n(VD)={v['n_VD']:.1f}")
     print(f"Nihai kok: V={ld['V_root']:.0f} N  M={ld['M_root']:.0f} N.m ; govde yaninda M={ld['M_side']:.0f} N.m ; "
           f"T={ld['T_root_case1']:.1f}/{ld['T_root_case2']:.1f} N.m")
+    print("Aday taramasi (1D, bilgi; tasarimi belirlemez):")
     for t in trials:
         print(f"   kat/yuz={t['n_face']}/{t['n_aft']} xcg70={t['xcg70']:.3f}: kanat {t['m_wing']:.2f} kg, f_h={t['f_h']:.0f} Hz f_a={t['f_a']:.0f} Hz, "
               f"Vf={t['V_flutter_kmh']:.0f} km/h ({t['critical']}), Vdiv={t['V_div_kmh']:.0f} km/h")
         for k, v in t["combos"].items():
             print(f"        {k}: Vf={v['V_kmh']:.0f} f_h={v['f_h']:.0f} f_a={v['f_a']:.0f} mu={v['mu']:.1f} "
                   f"xa={v['xa']:.2f} ra2={v['ra2']:.2f}")
-    print(f"Secilen: {RES['wing_struct']['n_face_plies']}/{RES['wing_struct']['n_aft_plies']} kat/yuz, kanat {RES['wing_struct']['m_wing']:.2f} kg; "
-          f"flutter {fl['V_flutter_kmh']:.0f} km/h, diverjans {fl['V_div_kmh']:.0f} km/h")
+    cand = RES["layup_candidate_1d"]
+    print(f"   1D aday (bilgi): {cand['n_face']}/{cand['n_aft']} kat/yuz")
+    dt = RES["layup_design"]
+    print(f"Tasarim (params WING): {RES['wing_struct']['n_face_plies']}/{RES['wing_struct']['n_aft_plies']} kat/yuz, "
+          f"web +{dt['web_extra_plies']} kat, kaburga araligi {dt['rib_pitch']*1e3:.0f} mm; kanat (1D) {RES['wing_struct']['m_wing']:.2f} kg "
+          f"(params kalemi {RES['wing_struct']['m_wing_params']:.2f} kg); xcg70={dt['xcg70']:.3f}; "
+          f"flutter (1D 2-DOF) {fl['V_flutter_kmh']:.0f} km/h ({dt['critical']}), diverjans {fl['V_div_kmh']:.0f} km/h")
     print("Istasyonlar:")
     for s in tab:
         print(f"   y={s['y']:.3f} c={s['c']:.3f} h={s['h_box_mm']:.1f}mm M={s['M']:.0f} V={s['V']:.0f} "

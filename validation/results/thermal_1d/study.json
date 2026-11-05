@@ -1,0 +1,66 @@
+{
+  "status": "BENCHMARK_ACCEPTED",
+  "case": "thermal_1d",
+  "metrics": {
+    "outer_K": {
+      "values_fine_to_coarse": [
+        357.15,
+        357.15,
+        357.15
+      ],
+      "convergence": {
+        "status": "EXACT_OR_ROUNDOFF",
+        "reason": "Farklar sıfır/yuvarlama düzeyinde; p ve GCI tanımsız"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": 0.0,
+          "percent": 0.0
+        },
+        {
+          "absolute": 0.0,
+          "percent": 0.0
+        },
+        {
+          "absolute": 0.0,
+          "percent": 0.0
+        }
+      ],
+      "error_fine": {
+        "absolute": 0.0,
+        "percent": 0.0
+      }
+    },
+    "heat_flux_W_m2": {
+      "values_fine_to_coarse": [
+        1600.0,
+        1600.0,
+        1600.0
+      ],
+      "convergence": {
+        "status": "EXACT_OR_ROUNDOFF",
+        "reason": "Farklar sıfır/yuvarlama düzeyinde; p ve GCI tanımsız"
+      },
+      "errors_fine_to_coarse": [
+        {
+          "absolute": 0.0,
+          "percent": 0.0
+        },
+        {
+          "absolute": 0.0,
+          "percent": 0.0
+        },
+        {
+          "absolute": 0.0,
+          "percent": 0.0
+        }
+      ],
+      "error_fine": {
+        "absolute": 0.0,
+        "percent": 0.0
+      }
+    }
+  },
+  "reasons": [],
+  "note": "Eşikler iter5 mühendislik taramasıdır; deney belirsizliği ve fiziksel tasarım kabulü yerine geçmez."
+}

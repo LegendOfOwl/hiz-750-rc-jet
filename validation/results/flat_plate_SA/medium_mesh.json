@@ -1,0 +1,12 @@
+{
+  "cells": 29376,
+  "dimension": 2,
+  "h": 0.005834500350116708,
+  "first_layer_m": 1.3333333333333332e-06,
+  "minimum_scaled_jacobian": 7.654077122412678e-05,
+  "source": {
+    "geometry": "2D flat plate x=0..2 m"
+  },
+  "mesh_sha256": "de4abdb8b3ec613ebfbf8c2cf473efb2db13be8dfa7a57f3910112603b34afa3",
+  "yplus_status": "Çözüm sonrası gerçek y+ kontrolü zorunlu"
+}

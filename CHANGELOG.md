@@ -2,6 +2,42 @@
 
 Sürümleme: `0.MAJOR_ITERASYON.PATCH`. 1.0.0 sürümü, prototip uçuş testinden sonra verilecek.
 
+## [0.6.0] - 2026-11-06 · İter5 yüksek doğruluk doğrulama paketi
+### Eklendi
+- `validation/`: sabit sürümlü host kurulum adımları, araç yoklaması, tek vaka/üç ağ runner, kaynak/executable hash'leri, Richardson/GCI ve karşılaştırma raporları.
+- `cfd/`: SU2 sıkıştırılabilir SA/SST için RAE2822, düz levha ve HIZ profil koşuları; tam uçak/S-kanal için incelenmiş ağ girişi, gmsh 3B ön ağ ve recovery/DC60 postprocess.
+- `fem/`: gmsh S8R konsol benchmarkı, kat planını okuyan taslak kompozit kanat, açık malzeme varsayımları, statik/modal runner ve lokal tabaka CSV'sinden Tsai–Wu.
+- `thermal/`: CalculiX 1B iletim+taşınım benchmarkı ve ölçülmemiş h/k/emissiviteyle koşullu motor–keçe–kabuk senaryoları.
+- `docs/10_yuksek_dogruluk_dogrulama.md`: bekleyen hata tabloları, LES/DES maliyeti, belirsizlik bütçesi ve tasarım önerileri.
+- `fem/clt.py`, `fem/coupon.py`, `fem/wing_shell.py` (yeniden yazıldı), `fem/wing_post.py`, `fem/wing_review.py`, `fem/run_wing_study.py`, `fem/wing_compare.py`: bağımsız CLT referansı, 5 laminatlık kupon benchmarkı, S8R kompozit kanat kabuk modeli (dolu/boş tank, üç ağ, otomatik inceleme) ve kiriş teorisi çapraz kontrolü; sonuçlar `fem/RESULTS_iter5.md`.
+- `fem/results/stiffening/`: 21 seçenekli (orta ağ) ve 4 seçenekli (ince ağ) kanat rijitleştirme çalışması.
+- Motor bölgesi ısı keçesi (2 mm) ve G10 plaka kütle bütçesinde (0,05 kg); `docs/06`, `docs/07` (FMEA 9) ve termokupl kriteri güncel.
+### Değişti
+- `params.py` `WING` önceki iter5 çalışmasında `skin_plies` (3, 1) → **(4, 1)**, `rib_pitch = 0,043 m` ve `web_extra_plies = 1` olarak güncellendi. Düzeltilmiş kabuk FEM sonucu f_1T 295,2 Hz dolu / 302,2 Hz boş, kesit CG 0,428c.
+- `MASS_ITEMS` kanat kalemi 1,75 → **2,03 kg** (kabuk 4/1 kat + kiriş + 43 mm kaburga); düzeltilmiş kabuk FEM toplam ek kütlesi +0,285 kg. **MTOW 17,16 → 17,44 kg**, yakıtsız 13,44 kg; statik marj tam yakıtta %32,8, yakıtsız %13,0 MAC (önceki `run_all.sh` kaydı).
+- Flutter tasarım değeri **≈1267 km/h dolu / 1271 km/h boş** (kabuk-FEM frekans ölçeklemesi, sabit iter4 referansı); 1080 km/h gereksinime pay %17. 1350 km/h (×1,25 model payı) sağlanmıyor.
+### Bulgular (FEM)
+- CLT kupon benchmarkı **BENCHMARK_ACCEPTED** (5 laminat, 3 ağ, en büyük hata %1,12 < %2). Kompozit kanat **REVIEW_REQUIRED** (malzeme sabitleri varsayım).
+- Taban 3/1 kabukta f_1T 272,5 Hz (1D 305,7 Hz'in %89'u): flutter ≈1185 km/h. Kaburgalar f_1T'yi belirliyor (kaburgasız 198-207 Hz). 18 g uç sehim 47,7 mm, Tsai-Wu R_min 3,66.
+- Rijitleştirmede hiçbir seçenek 316 Hz (1350 km/h) hedefine ulaşmadı; ilk taramada kat eklemek kütleyle doydu (6/1 → 281 Hz). Düzeltilmiş modelde seçilen s41r043w1, 4/1 + 43 mm kaburga + web +1 kat ile f_1T 295,2 Hz (dolu) / 302,2 Hz (boş), Tsai-Wu R_min 4,16, uç sehim 43,0 mm verdi.
+- **Uyarı:** 1D `fe_modal` yeni kat planıyla dolu tankta 1813 km/h veriyor ve V_F(f_T) eğrisi düz (kritik mod değişti); 1D sonuç güvenilmez/iyimser. GVT kabul kriteri f_1T ≥ 230 Hz korunur; kabuk tasarım hedefi ≈295 Hz. Kabuk mod şekilleriyle p-k flutter açık iş.
+- CalculiX 2.20 bulguları: tek iş parçacığı, SPOOLES, MASS yerine NSM, kök 1-3 ankastre.
+### Doğrulama durumu
+- Düz levha SA üç ağda **BENCHMARK_ACCEPTED**. İnce Cf 0,0028613, Schlichting farkı −%4,74, p 0,434, ince GCI %0,88. MG3 ıraksamasından sonra MG0 + CFL_ADAPT ve proje kapısıyla uyumlu durma kuralı kullanıldı.
+- RAE2822 **PENDING**. Yeni tek bloklu C-ağı 100c uzak alan ve 0,707 minimum köşe sinüsüne sahip. MG3 ıraksadı, kaba MG0 ıraksamadı fakat iz bölgesi residual'ları nedeniyle kapıyı geçmedi. Ara CL 0,730 (−%1,8), CD 0,01345 (+%5,9), Cp RMSE 0,092. Resmi SU2 ağıyla çözücü/cfg kabul edildi, deneysel Cp kabulü açık.
+- Önceki host koşularında konsol ve 1B termal üç ağda kabul aldı; koşullu motor termal sonuçları kaydedildi. `thermal_1d`, params değişikliği nedeniyle **STALE** ve yeniden koşum bekliyor.
+- Gerçek koşularla CalculiX sayı alanı uzunluğu, Lednicer profil sırası, SU2 çıktı sütunları ve düz levha köşe ağı düzeltildi. Resmi SU2 düz levha ayar/ağ kontrolü ayrıca kaydediliyor.
+- B/C sınır katmanlı temiz akış hacmi/ağı ve D imalat detayları host'ta incelenmeli. 3B tetra/kompozit kanat ön modelleri DRAFT. CLT kupon benchmarkı iter5'te kabul edildi; kompozit kanat REVIEW_REQUIRED (imalat detayları ve malzeme verisi eksik).
+- İter5'te params bilerek değişti ve analiz çıktıları yeniden üretildi. Karşılaştırma baseline'ı `v0.5.0` Git içeriklerine sabitlendi, güncel dosya hash'leri ayrıca listelendi.
+### Düzeltildi
+- `validation/convergence.py` yuvarlama kararı için iki farkın da küçük olmasını gerektiriyor. Tek küçük fark `PLATEAU_UNRESOLVED` döndürüyor ve `study.py` kupon yayılım istisnası dahil kabul vermiyor. Regresyon testleri eklendi.
+- `cfd/cases.py` 3B yunuslama momentini CMy'den okuyor. 2B CMz ve mevcut Cm işaret dönüşümü korundu, eksenleri ayıran sentetik test eklendi.
+- `validation/check_artifacts.cjs` ve `validation/report.py` tarihsel hash'leri `git show v0.5.0:<yol>` byte'larından alıyor, güncel analiz dosyalarını ayrı doğruluyor.
+### Açık kalanlar
+- RAE iz bloğu ağı ve üç ağ kabulü, kabuk mod şekilleriyle p-k flutter, `thermal_1d` yeniden koşumu, SST ve profil taraması, GVT ve fiziksel testler.
+- 316 Hz hedefi ve 1350 km/h model payı sağlanmadı. Kanat REVIEW_REQUIRED, malzeme ve termal parametre varsayımları sürüyor.
+- Kapanış düzeltmelerinde Python erişim engeli nedeniyle yeni regresyon testleri çalıştırılamadı. Düz levha, konsol ve kupon kayıtlarında kaynak hash'leri farklı, yeniden değerlendirmede STALE sonucu bekleniyor. Yukarıdaki kabul ifadeleri kayıtlı koşulara aittir.
+
 ## [0.5.0] - 2026-11-04 · İter4: masa başı doğrulamaları
 ### Eklendi
 - `cad/mass_properties.py`: CAD katılarından kütle, CG ve atalet tensörünü hesaplıyor (yakıt %100 / %25 / %0 ve params yakıtı için). Çıktı `cad/out/mass_properties.json`.

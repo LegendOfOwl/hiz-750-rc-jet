@@ -1,0 +1,195 @@
+{
+  "official_sha256": "52864033c66ab1842750b818e42d98fb68ac532e5fa68271c2b9e3c8e2702e2b",
+  "generated_sha256": "ce54e23fc47c2a7b2664ba0ecdeabf0617e9b87baa96c6b98d5431a51d3428d7",
+  "differences": {
+    "ADJ_JST_SENSOR_COEFF": {
+      "official": "(0.0,0.01)",
+      "generated": null
+    },
+    "ADJ_SHARP_LIMITER_COEFF": {
+      "official": "3.0",
+      "generated": null
+    },
+    "CFL_ADAPT_PARAM": {
+      "official": "(1.5,0.5,1.0,100.0)",
+      "generated": null
+    },
+    "CFL_REDUCTION_ADJFLOW": {
+      "official": "0.75",
+      "generated": null
+    },
+    "CONV_CAUCHY_EPS": {
+      "official": "1E-6",
+      "generated": "1e-6"
+    },
+    "CONV_FIELD": {
+      "official": null,
+      "generated": "DRAG"
+    },
+    "CONV_NUM_METHOD_ADJFLOW": {
+      "official": "JST",
+      "generated": null
+    },
+    "CONV_STARTITER": {
+      "official": "10",
+      "generated": "100"
+    },
+    "DEFINITION_DV": {
+      "official": "(30,1.0|AIRFOIL|0,0.05);(30,1.0|AIRFOIL|0,0.10);(30,1.0|AIRFOIL|0,0.15);(30,1.0|AIRFOIL|0,0.20);(30,1.0|AIRFOIL|0,0.25);(30,1.0|AIRFOIL|0,0.30);(30,1.0|AIRFOIL|0,0.35);(30,1.0|AIRFOIL|0,0.40);(30,1.0|AIRFOIL|0,0.45);(30,1.0|AIRFOIL|0,0.50);(30,1.0|AIRFOIL|0,0.55);(30,1.0|AIRFOIL|0,0.60);(30,1.0|AIRFOIL|0,0.65);(30,1.0|AIRFOIL|0,0.70);(30,1.0|AIRFOIL|0,0.75);(30,1.0|AIRFOIL|0,0.80);(30,1.0|AIRFOIL|0,0.85);(30,1.0|AIRFOIL|0,0.90);(30,1.0|AIRFOIL|0,0.95);(30,1.0|AIRFOIL|1,0.05);(30,1.0|AIRFOIL|1,0.10);(30,1.0|AIRFOIL|1,0.15);(30,1.0|AIRFOIL|1,0.20);(30,1.0|AIRFOIL|1,0.25);(30,1.0|AIRFOIL|1,0.30);(30,1.0|AIRFOIL|1,0.35);(30,1.0|AIRFOIL|1,0.40);(30,1.0|AIRFOIL|1,0.45);(30,1.0|AIRFOIL|1,0.50);(30,1.0|AIRFOIL|1,0.55);(30,1.0|AIRFOIL|1,0.60);(30,1.0|AIRFOIL|1,0.65);(30,1.0|AIRFOIL|1,0.70);(30,1.0|AIRFOIL|1,0.75);(30,1.0|AIRFOIL|1,0.80);(30,1.0|AIRFOIL|1,0.85);(30,1.0|AIRFOIL|1,0.90);(30,1.0|AIRFOIL|1,0.95)",
+      "generated": null
+    },
+    "DV_KIND": {
+      "official": "FFD_SETTING",
+      "generated": null
+    },
+    "DV_MARKER": {
+      "official": "(AIRFOIL)",
+      "generated": null
+    },
+    "DV_PARAM": {
+      "official": "(1,0.5)",
+      "generated": null
+    },
+    "DV_VALUE": {
+      "official": "0.01",
+      "generated": null
+    },
+    "FREESTREAM_TURB2LAMVISCRATIO": {
+      "official": null,
+      "generated": "100.0"
+    },
+    "FREESTREAM_TURBULENCEINTENSITY": {
+      "official": null,
+      "generated": "0.001"
+    },
+    "FROZEN_VISC_CONT": {
+      "official": "YES",
+      "generated": null
+    },
+    "GRAD_OBJFUNC_FILENAME": {
+      "official": "of_grad.dat",
+      "generated": null
+    },
+    "HOLD_GRID_FIXED": {
+      "official": "NO",
+      "generated": null
+    },
+    "HOLD_GRID_FIXED_COORD": {
+      "official": "(-0.5,-0.49,0.0,2.5,0.49,0.0)",
+      "generated": null
+    },
+    "ITER": {
+      "official": "6000",
+      "generated": "20000"
+    },
+    "LINEAR_SOLVER_PREC": {
+      "official": null,
+      "generated": "LU_SGS"
+    },
+    "MARKER_HEATFLUX": {
+      "official": "(AIRFOIL,0.0)",
+      "generated": "(WALL,0.0)"
+    },
+    "MARKER_MONITORING": {
+      "official": "(AIRFOIL)",
+      "generated": "(WALL)"
+    },
+    "MARKER_PLOTTING": {
+      "official": "(AIRFOIL)",
+      "generated": "(WALL)"
+    },
+    "MESH_FILENAME": {
+      "official": "mesh_RAE2822_turb.su2",
+      "generated": "mesh.su2"
+    },
+    "MESH_OUT_FILENAME": {
+      "official": "mesh_out.su2",
+      "generated": null
+    },
+    "MUSCL_FLOW": {
+      "official": null,
+      "generated": "NO"
+    },
+    "OBJECTIVE_FUNCTION": {
+      "official": "DRAG",
+      "generated": null
+    },
+    "OPT_CONSTRAINT": {
+      "official": "NONE",
+      "generated": null
+    },
+    "OUTPUT_FILES": {
+      "official": "(RESTART,SURFACE_CSV)",
+      "generated": "(RESTART,SURFACE_CSV,PARAVIEW)"
+    },
+    "OUTPUT_PRECISION": {
+      "official": null,
+      "generated": "12"
+    },
+    "OUTPUT_WRT_FREQ": {
+      "official": "250",
+      "generated": "1000"
+    },
+    "REF_ORIGIN_MOMENT_Y": {
+      "official": "0.00",
+      "generated": "0"
+    },
+    "REF_ORIGIN_MOMENT_Z": {
+      "official": "0.00",
+      "generated": "0"
+    },
+    "RESTART_ADJ_FILENAME": {
+      "official": "restart_adj.dat",
+      "generated": null
+    },
+    "RESTART_FILENAME": {
+      "official": "restart_flow.dat",
+      "generated": null
+    },
+    "REYNOLDS_NUMBER": {
+      "official": "6.5E6",
+      "generated": "6500000.0"
+    },
+    "SCREEN_OUTPUT": {
+      "official": "(INNER_ITER,RMS_DENSITY,RMS_NU_TILDE,LIFT,DRAG,TOTAL_HEATFLUX)",
+      "generated": null
+    },
+    "SLOPE_LIMITER_FLOW": {
+      "official": null,
+      "generated": "VENKATAKRISHNAN"
+    },
+    "SOLUTION_ADJ_FILENAME": {
+      "official": "solution_adj.dat",
+      "generated": null
+    },
+    "SOLUTION_FILENAME": {
+      "official": "solution_flow.dat",
+      "generated": null
+    },
+    "SURFACE_ADJ_FILENAME": {
+      "official": "surface_adjoint",
+      "generated": null
+    },
+    "TIME_DISCRE_ADJFLOW": {
+      "official": "EULER_IMPLICIT",
+      "generated": null
+    },
+    "VENKAT_LIMITER_COEFF": {
+      "official": "0.03",
+      "generated": null
+    },
+    "VOLUME_ADJ_FILENAME": {
+      "official": "adjoint",
+      "generated": null
+    },
+    "VOLUME_OUTPUT": {
+      "official": null,
+      "generated": "(COORDINATES,SOLUTION,PRIMITIVE)"
+    },
+    "WRT_RESTART_COMPACT": {
+      "official": null,
+      "generated": "NO"
+    }
+  },
+  "note": "Explicit options only; null denotes implicit SU2 defaults. Different marker names map different mesh boundaries. This comparison alone does not identify a divergence cause."
+}

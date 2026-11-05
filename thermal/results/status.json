@@ -1,0 +1,57 @@
+{
+  "status": "PARTIAL",
+  "execution": "RUNS_PRESENT",
+  "updated_utc": "2026-11-04T16:46:13.228Z",
+  "cases": [
+    {
+      "case": "engine_thermal_T250_F0_1ed7ca8299",
+      "result_directory": "thermal/results/engine_thermal_T250_F0_1ed7ca8299",
+      "coarse": "COMPUTED",
+      "medium": "COMPUTED",
+      "fine": "COMPUTED",
+      "study": "REVIEW_REQUIRED"
+    },
+    {
+      "case": "engine_thermal_T250_F0_679b6a3875",
+      "result_directory": "thermal/results/engine_thermal_T250_F0_679b6a3875",
+      "coarse": "COMPUTED",
+      "medium": "COMPUTED",
+      "fine": "COMPUTED",
+      "study": "REVIEW_REQUIRED"
+    },
+    {
+      "case": "engine_thermal_T250_F0_803b2f042b",
+      "result_directory": "thermal/results/engine_thermal_T250_F0_803b2f042b",
+      "coarse": "COMPUTED",
+      "medium": "COMPUTED",
+      "fine": "COMPUTED",
+      "study": "REVIEW_REQUIRED"
+    },
+    {
+      "case": "engine_thermal_T250_F2_1ed7ca8299",
+      "result_directory": "thermal/results/engine_thermal_T250_F2_1ed7ca8299",
+      "coarse": "COMPUTED",
+      "medium": "COMPUTED",
+      "fine": "COMPUTED",
+      "study": "REVIEW_REQUIRED"
+    },
+    {
+      "case": "engine_thermal_T250_F2_679b6a3875",
+      "result_directory": "thermal/results/engine_thermal_T250_F2_679b6a3875",
+      "coarse": "COMPUTED",
+      "medium": "COMPUTED",
+      "fine": "COMPUTED",
+      "study": "REVIEW_REQUIRED"
+    },
+    {
+      "case": "engine_thermal_T250_F2_803b2f042b",
+      "result_directory": "thermal/results/engine_thermal_T250_F2_803b2f042b",
+      "coarse": "COMPUTED",
+      "medium": "COMPUTED",
+      "fine": "COMPUTED",
+      "study": "REVIEW_REQUIRED"
+    }
+  ],
+  "design_accepted": false,
+  "note": "Benchmark acceptance, conditional applications, UNCONVERGED/FAILED and PREPARED are separate. Historical round1 probe retained."
+}

@@ -1,0 +1,15 @@
+{
+  "status": "FAILED",
+  "reason": "SU2 residual >1e20 at inner iteration 1352 (official v8.2 MG3/W-cycle/CFL2.5/JST settings) on the iter5 v2 100c C-grid",
+  "raw_directory": "C:/hz750run/pilot_v2_rae_coarse_mg3",
+  "config_sha256": "5383b580033f98ea2b64e37596019b0100eb7f953b4ebd752360d4d27600daf7",
+  "mesh_sha256": "9d0ffe0cde8171f544da77e6562c8882cb866ca4e629d0815d5f964601472f33",
+  "rows": 1353,
+  "history_at_1000": {
+    "rho": -4.06076451826,
+    "nu": -3.67562377136,
+    "CL": 0.650962770282,
+    "CD": 0.010878030287
+  },
+  "note": "Pilot; not a validation result. Same SU2 binary/settings converge on the official hybrid mesh."
+}

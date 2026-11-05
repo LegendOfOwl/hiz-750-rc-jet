@@ -30,9 +30,9 @@ Sürümler [resmi SU2 release](https://github.com/su2code/SU2/releases/tag/v8.2.
 
 | Vaka / model | Büyüklük | Kaba | Orta | İnce | Referansla hata [%] | p / GCI ince |
 |---|---|---|---|---|---|---|
-| RAE2822 SA | CL, CD, Cp RMSE | bekliyor | bekliyor | bekliyor | deney verisi de bekliyor | bekliyor |
+| RAE2822 SA | CL, CD, Cp RMSE | yakınsamadı (yeni 100c C-ağı; MG3 ıraksadı, MG0 ρ≈−4.8'de durağan; ara CL .730/CD .01345/Cp RMSE .092) | koşulmadı | koşulmadı | NASA Cp yeniden üretildi; kabul yok | PENDING (§10.6.1) |
 | RAE2822 SST | CL, CD, Cp RMSE | bekliyor | bekliyor | bekliyor | deney verisi de bekliyor | bekliyor |
-| Düz levha SA | Cf_mean | bekliyor | bekliyor | bekliyor | bekliyor | bekliyor |
+| Düz levha SA | Cf_mean | .0028542517 | .0028586462 | .0028613266 | Schlichting −4.74, ITTC −4.62 (ince) | p .434 / GCI %0.88 — BENCHMARK_ACCEPTED (iter5 v2, §10.6.1) |
 | Düz levha SST | Cf_mean | bekliyor | bekliyor | bekliyor | bekliyor | bekliyor |
 
 **Konsol:** 1×.05×.01m, E210GPa, rho7800kg/m³, uçta1N. Euler–Bernoulli sehim ve f1, ayrıca reaksiyon dengesi. S8R ağlar10×2/20×4/40×8. [CalculiX kılavuzundaki](https://www.dhondt.de/ccx_2.22.pdf) composite desteği S8R/S6 içindir. Konsolun doğru çıkması kompozit tabaka yönlerini tek başına doğrulamaz; **CLT laminat kupon benchmarkı iter5'te tamamlandı ve kabul edildi** (§10.7.1, en büyük hata %1,12).
@@ -129,6 +129,14 @@ Yer/bypass yok senaryosunda keçesiz149.82°C, nominal Tg150°C'ye yalnız0.18°
 
 *(Kanat kaba taslağı iter5'te 7168 S8R'li modelle değiştirildi ve çözüldü, bkz. §10.7.)* Kanat kaba taslağı224 S8R/694 düğüm, açılmış DOF tahmini6246; çözülmedi. Uçak ön ağı5885, izole kanal ön ağı4727 tetra. Uçakta konik/silindirik gövde ve dörtgen kanat/kuyruk, kanalda CAD rapor kesitlerinin16 kenarlı yaklaşımı kullanıldı. Yalnız DRAFT/topoloji kontrolüdür: prizmatik BL yok, kanal dış gövde BL yutulmasını içermez. D ve η_r sonucu üretilmedi.
 
+### 10.6.1 İter5 v2 CFD: düz levha kabulü, yeni RAE ağı
+
+Ayrıntı ve ham klasörler: [cfd/RESULTS_iter5.md](../cfd/RESULTS_iter5.md) son bölüm.
+
+**Düz levha SA — BENCHMARK_ACCEPTED.** Resmi ağ+cfg RAE kontrolü (CL −%2.6, CD +%5.9) çözücüyü doğruladıktan sonra düz levha üç ağı aynı ayarla sıfırdan koşuldu: ROE+MUSCL, MGLEVEL=0, CFL 1 + CFL_ADAPT (0.5, 1.5, 1.0, 100), FGMRES+ILU, 1e−6. SU2'nin DRAG-Cauchy 1e−6 duruşu proje kapısından önce geliyordu (ince ağda Cf .0029177 → yakınsamış .0028613), bu yüzden durma kuralı ν̃ residual ≤−9.3 ve DRAG-Cauchy ≤1e−8 yapıldı. Üç ağ da proje kapısını geçti (bağıl Cauchy100 ≈3.5e−7, ρ/ν̃ düşüşü ≥5.28/4.97, y+max .49/.34/.27). Cf kaba/orta/ince .0028542517/.0028586462/.0028613266; monoton, p=.434, Richardson .0028815, ince GCI %0.88. İnce ağın Schlichting farkı −%4.74, ITTC farkı −%4.62. Düşük gözlenen mertebe ve korelasyon karşılaştırması nedeniyle bu, deney doğrulaması değil sayısal/korelasyon kabulüdür.
+
+**RAE2822 kendi ağı — PENDING.** `cfd/structured_airfoil.py` tek bloklu C-ağıyla değiştirildi: monoton açılı duvar-normali ışınları, 100c uzak alan/iz, iz ışınları çıkışa doğru 45° yelpaze, ilk hücre 2e−6c/factor, normal büyüme 1.18/1.12/1.09, minimum köşe sinüsü .707 (duvar yakınında ≥.97; eski ağ .277, resmi ağ .371), 33792/76032/135168 quad ([denetim](../validation/results/rae2822_v2_mesh_audit.json)). NASA NPARC Cp dosyaları ayrı klasöre yeniden indirildi, SHA256'ları kaydedildi ve `python -I` ile işlendi. Resmi MG3 ayarı bu ağda ~1340. iterasyonda ıraksadı. MG0+CFL_ADAPT ıraksamadı ama ρ residual'ı ≈−4.7…−4.9'da durağan kaldı. Ara değerler CL .730 (ikincil referansa −%1.8), CD .01345 (+%5.9), Cp RMSE .092 (>.08), y+max .81 ve resmi ağ sonucuyla aynı düzeydedir. Residual iz kesitinde (x≈1.2–2c) toplanıyor (2e−6c kalınlığında, en-boy oranı 1e3–1e7 iz hücreleri). Kaba ağ kapıyı geçmediğinden orta/ince koşulmadı; GCI ve kabul yok. Eşikler korunur (Cp RMSE ≤.08, |CL| ≤%5, |CD| ≤%15, GCI ≤%5). Sonraki adım: iz bölgesinde normal dağılımı gevşetilmiş, katman eğimi sınırlı bir iz bloğu veya hibrit iz ağı.
+
 ## 10.7 İter5 FEM sonuçları: CLT kupon, konsol, kompozit kanat ve rijitleştirme (iter5 ile güncellendi)
 
 Ayrıntı ve yeniden üretim komutları: [`fem/RESULTS_iter5.md`](../fem/RESULTS_iter5.md); yapı tasarımına etkisi [doküman 04 §15](04_yapi_flutter.md). Araç: CalculiX 2.20 (`ccx_static.exe`), gmsh 4.15.2, Python 3.12; tüm koşular `--threads 1`, çözücü SPOOLES. Bu bölüm 10.1-10.6'daki "bekliyor/uygulanmadı" ifadelerini FEM için günceller; CFD satırları bu bölümün kapsamı dışındadır.
@@ -175,13 +183,15 @@ Modal (ince ağ, dolu / boş tank): 1B 39,51 / 40,36 Hz, 2B 124,80 / 136,95 Hz, 
 
 Seçilen **s41r043w1**: kabuk 4/1 kat + 43 mm kaburga aralığı + web'e +1 ±45 kat. İnce ağ sonuçları: f_1T **294,9 Hz** dolu / **301,8 Hz** boş (taban 272,5 / 280,9), V_F ≈ **1266 km/h** (1080 km/h gereksinime %17 pay; 1350'ye ulaşılamadı), ek kütle ≈ +0,28 kg toplam, kesit CG 0,451c → 0,428c, Tsai-Wu R_min 4,23, 18 g uç sehim 42,3 mm. Seçenek tablosunun tamamı [doküman 04 §15.2](04_yapi_flutter.md)'dedir. Seçim `params.py`'ye (`WING`: `skin_plies=(4,1)`, `rib_pitch=0.043`, `web_extra_plies=1`) işlendi; kanat kütle kalemi 2,03 kg, MTOW 17,16 → 17,44 kg, statik marj %13,0-32,8.
 
-**1D modelin sınırı:** yeni kat planıyla `fe_modal` dolu tankta 1813 km/h (boşta 1656) verir ve V_F(f_T) eğrisi düz kalır (kritik mod değişti); bu sonuç güvenilmez ve iyimserdir. Flutter tasarım değeri kabuk-FEM ölçekli ≈1266 km/h'dir.
+**İnceleme sonrası düzeltildi (çapraz inceleme, 9 FEM bulgusu):** ilk çalışmada seçilen ince ağda sandviç çakışması (−0,17 mm) ve 160 uyumsuz kaburga–web kenarı inceleme kapısından kaçmıştı (çakışma bayrağı zorunlu değildi, inceleme başarısızlığı yok sayılıyordu); yeniden koşuda web/kaburga ek kütlesi iki kez sayılacaktı; flutter ölçeği güncel (değişken) `fe_sonuclar.json`'a bağlıydı; varyantlar params'tan değer devralıyordu; 21,6 mm kaburga orta ağda fiilen 43 mm idi; CCX varsayılanı 4 iş parçacığıydı ve kanat kapısı kuponu önkoşul saymıyordu. Hepsi düzeltildi (bulgu tablosu: [`fem/RESULTS_iter5.md`](../fem/RESULTS_iter5.md) §9): 6 bayrak zorunlu ve başarısızlıkta zincir durur, monolitik burun/uç hücrelerinde kat geçişi, web ve kaburga aynı dikey bölüntü, tek yerde kütle sayımı, sabit iter4 flutter referansı (`fem/reference/fe_sonuclar_iter4_v0.5.0.json`, SHA256 933f5d7d…), temsil edilemeyen kaburga aralığı reddedilir, CCX vakalarında tek iş parçacığı (provenance'a yazılır), kanat önkoşulu konsol + kupon. Konsol ve kupon benchmarkları yeniden BENCHMARK_ACCEPTED. Düzeltilmiş modelle s31, s31r043, s41r043, s41r043w1, s51r043w1 orta ve ince ağda, dolu/boş tankta çözüldü (inceleme 6/6): seçilen s41r043w1 f_1T **295,2 Hz** dolu / **302,2 Hz** boş (orta ağ 295,5 / 304,2; tam yükseklik web/kaburga tanılamasıyla fark %0,02), V_F **≈1267 km/h** dolu / 1271 km/h boş, Tsai-Wu R 4,16, uç sehim 43,0 mm (MTOW 17,44 kg yüküyle), ek kütle +0,143 kg/yarı (eski değerler 294,9 / 301,8 Hz, 1266 km/h, 4,23, 42,3 mm). Web+0 (s41r043) 1,4 Hz düşük ve yalnız 6,6 g/yarı hafif; **seçim değişmedi**, params ve 2,03 kg kanat kalemi aynı. 316 Hz'e yine hiçbir varyant ulaşmıyor (en yakın s51r043w1 300,0 Hz). GVT kriteri (≥ 230 Hz) %28 payla sağlanıyor. Yukarıdaki ilk çalışma sayıları tarihsel kayıttır.
+
+**1D modelin sınırı:** yeni kat planıyla `fe_modal` dolu tankta 1813 km/h (boşta 1656) verir ve V_F(f_T) eğrisi düz kalır (kritik mod değişti); bu sonuç güvenilmez ve iyimserdir. Flutter tasarım değeri kabuk-FEM ölçekli ≈1267 km/h'dir (inceleme sonrası düzeltildi, eski ≈1266).
 
 ### 10.7.4 FEM için kalan açıklar
 
 1. Kaburga yerleşimi/laminatı ve menteşe web'i imalat tanımıyla doğrulanmalı (f_1T'ye birinci derece etki).
-2. Kabuk mod şekilleriyle p-k flutter (güçlü eğilme-burulma bağlaşımı, düzlem içi mod) kurulmalı; 1266 km/h yalnız frekans ölçeklemesidir.
+2. Kabuk mod şekilleriyle p-k flutter (güçlü eğilme-burulma bağlaşımı, düzlem içi mod) kurulmalı; 1267 km/h yalnız frekans ölçeklemesidir.
 3. Malzeme üretici/kupon verisi (E1 125 vs 135 GPa, kumaş G12, dayanımlar, sıcak-nem), B-basis allowable.
 4. Burkulma, çekirdek kayması/kırışma (zigzag gerekir), yapıştırıcı ve kök cıvata hattı; kök bölmesi Tsai-Wu ve çekirdek kayması yakınsamadı.
-5. GVT: kabul kriteri f_1T ≥ 230 Hz korunur; kabuk tasarım hedefi ≈295 Hz ve üstü (model dolu 294,9 Hz).
+5. GVT: kabul kriteri f_1T ≥ 230 Hz korunur; kabuk tasarım hedefi ≈295 Hz ve üstü (model dolu 295,2 Hz; inceleme sonrası düzeltildi, eski 294,9 Hz).
 6. `validation/study.py` kayıt bütünlüğü cfd/*.py dahil runner kaynaklarının SHA'sını tuttuğundan paralel CFD değişiklikleri bu çalışmaları "STALE" yapabilir; entegrasyondan önce `run_case.py cantilever/coupon --study --threads 1` ve `fem/run_wing_study.py` yeniden koşulmalı.

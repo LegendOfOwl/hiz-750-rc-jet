@@ -1,6 +1,6 @@
 # HIZ-750 iter5 CFD — çalışma kaydı
 
-Bu çalışma henüz CFD doğrulamasını kapatmadı. Düz levhada iki ağ güncel yakınsama kapısını geçti, ince ağ ve üretilen RAE kaba ağı diverge oldu. docs/10, kök README/CHANGELOG, params, FEM ve thermal kaynakları değiştirilmedi.
+**Güncel durum (iter5 v2, en alttaki bölüm):** düz levha SA üç ağda BENCHMARK_ACCEPTED (ince GCI %0.88); RAE2822 yeni 100c C-ağıyla kaba ağda yakınsamadı, PENDING. Aşağıdaki ilk bölümler tarihsel kayıttır: o turda düz levhada iki ağ kapıyı geçmiş, ince ağ ve üretilen RAE kaba ağı diverge olmuştu. docs/10, kök README/CHANGELOG, params, FEM ve thermal kaynakları değiştirilmedi.
 
 ## Ağ ve ayar teşhisi
 
@@ -58,3 +58,59 @@ Bu bölüm Codex oturumu kapandıktan sonra ham çıktılardan (C:/hz750run) ekl
 Düz levha için ıraksamayı MG3 + CFL 10 kombinasyonu tetikliyordu; `cfd/cases.py` düz levha ayarları pilotla aynı olacak şekilde MGLEVEL=0, CFL_ADAPT=YES, CFL_ADAPT_PARAM=(0.5, 1.5, 1.0, 100.0), CFL_NUMBER=1.0 yapıldı (üretilen cfg pilot `case.cfg` ile satır satır aynı). RAE ayarlarına dokunulmadı. Not: pilotun proje kapısına (`cfd/convergence.py`) göre değerlendirmesi henüz geçmiyor: bağıl Cauchy100=3.4e−5 (>1e−6), ν̃ düşüşü 3.12 mertebe (<4). Yani SU2'nin kendi durma ölçütü sağlandı, proje kapısı sağlanmadı; ince ağ düz levha sonucu GCI girdisi olarak henüz kullanılamaz, devam koşusu gerekir.
 
 RAE'de aynı MG0/CFL ayarları ıraksamayı önledi ancak yakınsama sağlamadı; resmi cfg+resmi ağ aynı çözücüyle yakınsadığı için kalan sorun **AĞ**dır: kendi C-ağımız ±30c uzak alan (resmi ağ ±100c) ve minimum köşe sinüsü .277 (resmi ağ .371) ([denetim](../validation/results/diverged_mesh_audit.json), [resmi ağ](../validation/results/rae2822_native_mesh_audit.json)). Sonraki adım: uzak alanı büyütülmüş ve iz/firar kenarı köşe kalitesi iyileştirilmiş C-ağı. Deneysel/model-form belirsizlikleri ve uzak alan duyarlılığı ayrıca incelenmeli. Bu tur yeni yazılım kurulmadı; mevcut SU2 8.2.0, gmsh4.15.2, Python3.12 kullanıldı. 16 unittest geçti; Python derleme denetimi geçti. Artefakt kontrolündeki CRLF okuma hatası düzeltildi; rapor son kontrolü koşular tamamlanınca tekrarlanır.
+
+## Iter5 v2: düz levha kabulü ve yeni RAE C-ağı (bu tur)
+
+Bu turda kod değişti: `cfd/structured_airfoil.py` (yeni C-ağı), `cfd/cases.py` (düz levha ve profil durma kuralı, `--rae-scheme`), `validation/run_case.py` (`--rae-scheme mg3|mg0`), `validation/fetch_reference.py` (`--from-dir`), `validation/test_cfd_mesh.py` (+3 test). Eşikler değişmedi.
+
+### Düz levha SA: BENCHMARK_ACCEPTED
+
+Önce ince MG0 pilotu restart'tan devam ettirildi (`C:/hz750run/pilot_fp_fine_continue`, 2808 ek iterasyon): birleşik geçmişte proje kapısı geçti (bağıl Cauchy100 3.49e−7, ρ/ν̃ düşüşü 5.37/5.13). SU2'nin 1e−6 DRAG-Cauchy duruşunun erken olduğu görüldü: Cf .0029177 → .0028613 (−%1.9). Bu yüzden düz levha cfg'sinde durma kuralı `CONV_FIELD= ( RMS_NU_TILDE, DRAG )`, `CONV_RESIDUAL_MINVAL= -9.3` (başlangıç ν̃ ≈ −4.9…−5.1 → ≥4 mertebe), `CONV_CAUCHY_EPS= 1e-8` yapıldı. Sayısal şema değişmedi: ROE+MUSCL, GREEN_GAUSS, MGLEVEL=0, CFL 1 + CFL_ADAPT (0.5, 1.5, 1.0, 100.0), FGMRES+ILU, lineer hata 1e−6. Üç ağ aynı kodla ve aynı cfg ile `run_case.py flat_plate --study --threads 1 --iterations 30000` ile sıfırdan yeniden koşuldu (restart zinciri yok):
+
+| Ağ | Hücre | Cf_mean | Schlichting farkı | Bağıl Cauchy100 | ρ / ν̃ düşüşü | y+max | Süre | Durum |
+|---|---:|---:|---:|---:|---:|---:|---:|---|
+| kaba | 13056 | .0028542517 | −%4.98 | 3.50e−7 | 5.28 / 4.97 | .494 | 146 s | COMPUTED |
+| orta | 29376 | .0028586462 | −%4.83 | 3.49e−7 | 5.33 / 5.06 | .344 | 490 s | COMPUTED |
+| ince | 52224 | .0028613266 | −%4.74 | 3.49e−7 | 5.37 / 5.13 | .269 | 1095 s | COMPUTED |
+
+Richardson/GCI (h oranları 1.333/1.5): monoton, gözlenen mertebe p=.434, Richardson Cf=.0028815, **ince GCI %0.88** (<%5). İnce Cf'nin ITTC (.003) farkı −%4.62, Schlichting (.0030037) farkı −%4.74 (<%15). [Çalışma](../validation/results/flat_plate_SA/study.md): **BENCHMARK_ACCEPTED**. Not: p=.43 düşük; üç nokta asimptotik bölgeyi tek başına kanıtlamaz ve korelasyon farkı deney doğrulaması değildir. İlk çalışmanın sayıları (kaba .0028541914, orta .0028584677) farklı cfg/kapıyla elde edilmişti; bu tablo onların yerine geçer. Ham klasörler: `C:/hz750run/flat_plate_SA_coarse_arw5q73i`, `…_medium_43xadtg5`, `…_fine_zcht2836`.
+
+### RAE2822 ağı: yeni tek bloklu C-ağı
+
+`structured_airfoil.py` yeniden yazıldı (gmsh yok, numpy/scipy). C-eğrisi = alt iz → alt yüzey → üst yüzey → üst iz; yüzey noktaları iki taraflı tanh (Vinokur) dağılımı (LE 1e−3c, TE 4e−3c), iz geometrik (TE aralığından 100c'ye). Her C-noktasından düz ışın çıkar; ışın açısı duvar normalinden alınır, C-eğrisi boyunca monoton yapılır (alt yarıda kümülatif min, üst yarıda kümülatif maks) ve monotonluğu koruyan düzleştirmeyle (150×factor² geçiş) yumuşatılır; monoton açılı ışınlar yelpazelenir ve kesişemez. İz ışınları TE'de dikeyden çıkış ucunda 45°'ye yelpazelenir (iz sütunlarının 100c boyunca TE genişliğinde kalmasını önler). Katman mesafeleri tüm ışınlarda aynı geometrik dizi: ilk hücre 2e−6c/factor, toplam 100c. Uzak alan ±100c (ön −100c, üst/alt ±100c, çıkış ucu x≈101…172c).
+
+| Ağ | Quad | Yüzey hücre/taraf | İz | Normal | İlk hücre [c] | Normal büyüme | İz büyüme | Boyuna komşu oranı (duvar / tüm) | Min köşe sinüsü |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| kaba | 33792 | 128 | 48 | 96 | 2e−6 | 1.182 | 1.193 | 1.19 / 1.25 | .707 |
+| orta | 76032 | 192 | 72 | 144 | 1.33e−6 | 1.117 | 1.125 | 1.12 / 1.16 | .707 |
+| ince | 135168 | 256 | 96 | 192 | 1e−6 | 1.087 | 1.092 | 1.09 / 1.12 | .707 |
+
+Min köşe sinüsü .707 yalnız çıkış ucundaki 45° iz ışınlarında; duvar komşuluğunda ≥.97 (iz yelpazesiz ilk sürümde tüm ağ .971). Işının gerçek duvar normalinden en büyük sapması 11.8° (TE çentiği/alt firar içbükeyi). Negatif alan/köşe, nonmanifold kenar, sınır uyumsuzluğu yok. Önceki dört bloklu ağ: .277 ve 30c; resmi SU2 ağı: .371 ve 100c. [Denetim](../validation/results/rae2822_v2_mesh_audit.json). Kaba ağda "boyuna ≤1.2" duvarda sağlanıyor; uzak alan iz yelpazesinde 1.25'e çıkıyor (orta/ince ≤1.16). Gerçek y+max (1000. iterasyon) kaba ağda .81.
+
+Geometri: `validation/reference/rae2822.dat` (gitignore) kayıptı; önceki koşunun `geometry.json`'undan (ayrıştırılmış Selig noktaları, 129 nokta) yeniden yazıldı; kaynak ve hash'ler `rae2822.source.json`'da (özgün UIUC dosya SHA256 1b1f9575…; başlık farklı olduğundan yeni dosyanın hash'i farklı).
+
+### NASA NPARC referansı yeniden üretildi
+
+`cp.exp.gen`, `cfpost.cp.com`, `raetaf01.html` https://www.grc.nasa.gov/www/wind/valid/raetaf/raetaf01/ adresinden repo dışında ayrı klasöre (`C:/hz750run/download_nparc_raetaf01`) indirildi ve `python -I validation/fetch_reference.py --experiment --from-dir …` ile işlendi. SHA256: cp.exp.gen 498b8ccc63348bc5b1007f5c5d61cdd24283159a728f1f56c17b8ba73ed3658b, cfpost.cp.com 021a86151d540c6b02b6e5b574a482c73949029b23717845f1a058ee072dadda, raetaf01.html 7e026dbabb65ef98132c8c52b46f199c03013b01fdbfd9f21dc7b1422330c7fd. Üst dal 54, alt dal 50 nokta; dosya −Cp sakladığı (üst yüzeyde +1.2) için işaret ters çevrildi. CL/CD/CM ikincil kaynak (değişmedi). Çıktı: `validation/reference/rae2822.local.json`.
+
+### RAE2822 kaba koşuları: kapı geçmedi, PENDING
+
+| Koşu | Ayar | Sonuç |
+|---|---|---|
+| `pilot_v2_rae_coarse_mg3` (yelpazesiz ağ) | resmi MG3 W-cycle, CFL 2.5, JST | 1352. iterasyonda residual>1e20, FAILED ([kayıt](../validation/results/rae2822_SA/pilot_v2_mg3_coarse.json)) |
+| `rae2822_SA_coarse_mc7fsy5j` (son ağ, runner) | resmi MG3 | ~1339. iterasyonda residual>1e20, FAILED ([kayıt](../validation/results/rae2822_SA/pilot_v2b_mg3_coarse_failed.json)) |
+| `rae2822_SA_coarse_8g8g3qfq` (yelpazesiz ağ, runner) | MG0 + CFL_ADAPT | ρ residual ≈−4.75'te durağan; ~2100 iterasyonda durduruldu |
+| `rae2822_SA_coarse_gr1q2bko` (son ağ, runner) | MG0 + CFL_ADAPT, ITER 30000, 7200 s | rapor yazılırken **çalışıyordu**; ara durum aşağıda |
+
+Son koşunun ara görüntüsü ([anlık kayıt](../validation/results/rae2822_SA/coarse_mg0_snapshot.json), 1844. iterasyon; Cp 1000. iterasyon yüzeyinden): CL=.7299 (ikincil .743'e −%1.76), CD=.013447 (+%5.89), Cm hatası +%4.29, **Cp RMSE=.0924** (104 nokta, tam kapsam; eşik .08), y+max .81. Proje kapısı geçmiyor: bağıl Cauchy100 1.65e−5, ρ düşüşü 2.78, ν̃ düşüşü −.18 mertebe. 7946. iterasyonda ρ −4.88, CL .7222, CD .01287 (hâlâ kayıyor). Sonuç düzeyi resmi ağ+resmi cfg ile (CL .7236, CD .013449, Cp RMSE .0984) aynı; fiziksel çözüm makul ama iteratif yakınsama yok. Koşu bitince runner sonucu `validation/results/rae2822_SA/coarse.json`'a yazılacak; 30000 iterasyon 7200 s'ye sığmazsa runner BLOCKED (süre) kaydeder. Bu koşu paralel FEM commit'inden (c09dead, fem/*.py) önce başladığından kaydı üç-ağ çalışmasında STALE sayılır; yeniden koşulmalı.
+
+Tanı (`C:/hz750run/pilot_v2b_rae_resid`, MG0 restart'tan 30 iterasyon, hacim residual çıktısı): ρ, momentum, enerji ve ν̃ residual tepeleri iz kesiti üzerinde (y=0, x≈1.2–2.0c) toplanıyor. İz kesitinin iki yanındaki hücreler duvar değeri 2e−6c kalınlığında, boyuna 0.004–15c (en-boy oranı 1e3–1e7). İz-kesiti ilk aralığını x ile büyüten bir deneme köşe sinüsünü .20'ye düşürdü (ışınlar arası katman eğimi) ve geri alındı. Resmi ağ hibrittir (iz bölgesi üçgen) ve aynı çözücüyle MG3'te yakınsar.
+
+**Karar:** RAE kendi-ağ çalışması **PENDING**: kaba ağ proje kapısını geçmediği için orta/ince koşulmadı; GCI ve Cp/CL/CD kabulü yok. Eşikler değiştirilmedi.
+
+### Açık kalanlar
+
+1. RAE iz kesiti: iz bölgesinde normal dağılımı x ile gevşeten ama katman eğimini sınırlayan bir ağ (ayrı iz bloğu + eliptik/hiperbolik düzgünleştirme) ya da iz bölgesinde hibrit ağ. Ardından MG3 ve MG0 kaba yeniden; geçerse orta/ince + study.
+2. `rae2822_SA_coarse_gr1q2bko` sonucu bittiğinde ayrıca kaydedilmeli (STALE).
+3. SST düz levha/RAE, profil (64A010) taraması, Mcrit: değişmedi, açık.
+4. `thermal_1d` çalışması params.py değişikliği nedeniyle STALE (bu turla ilgisiz); cantilever, coupon ve flat_plate güncel kodla kabul durumunda.

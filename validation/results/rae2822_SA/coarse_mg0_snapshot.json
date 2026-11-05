@@ -1,0 +1,52 @@
+{
+  "status": "UNCONVERGED_SNAPSHOT",
+  "note": "Kosu hala calisiyor (runner ITER=30000, timeout 7200 s); bu kayit ara anlik goruntudur, kabul girdisi degildir. Cp, 1000. iterasyonda yazilan surface_flow.csv uzerinden.",
+  "raw_directory": "C:\\hz750run\\rae2822_SA_coarse_gr1q2bko",
+  "mesh_sha256": "c3e3056fde5b669d41d5f75669b2d991b777eb2f0d621f3b6ab45d14040d300d",
+  "config_sha256": "844d9e5d06fb9e15fe2cd1882cfc052fc09e3519d467b58055288b2972a10074",
+  "history_rows": 1844,
+  "quality": {
+    "iterative_converged": false,
+    "drag_relative_cauchy_100": 1.652411413523136e-05,
+    "residual_drop_decades": {
+      "rms[Rho]": 2.7842004774400007,
+      "rms[nu]": -0.1772377281900006
+    },
+    "final_log_residuals": {
+      "rms[Rho]": -4.74424480865,
+      "rms[RhoU]": -1.50141002802,
+      "rms[RhoV]": -3.75657996922,
+      "rms[RhoE]": 0.818852094708,
+      "rms[nu]": -4.24014798997
+    },
+    "max_log_residual": 0.818852094708,
+    "gate": "mean absolute CD step / mean absolute CD < 1e-6 over last 100 steps; rho and turbulence residual drop >=4 decades from iteration 0; energy informational"
+  },
+  "metrics": {
+    "cl": 0.729757577551,
+    "cd": 0.0134369885356,
+    "cm": -0.0908843901768
+  },
+  "errors": {
+    "cl": {
+      "absolute": -0.01324242244899998,
+      "percent": -1.7822910429340484
+    },
+    "cd": {
+      "absolute": 0.000736988535600001,
+      "percent": 5.80305933543308
+    },
+    "cm": {
+      "absolute": 0.0041156098232000005,
+      "percent": 4.332220866526316
+    }
+  },
+  "cp_rmse_at_iter1000": 0.09235343046660417,
+  "cp_points_compared": 104,
+  "yplus_max_at_iter1000": 0.8114937717882118,
+  "residual_diagnosis": {
+    "raw_directory": "C:/hz750run/pilot_v2b_rae_resid",
+    "finding": "30 iterasyonluk restart tanisinda yogunluk/momentum/enerji/nu residual tepe degerleri iz kesiti uzerinde (y=0, x=1.2-2.0c) toplaniyor; duvar komsulugu 2e-6c kalinliginda iz hucreleri (en-boy orani 1e4+)"
+  },
+  "reference_scalars": "secondary"
+}

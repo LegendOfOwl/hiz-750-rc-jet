@@ -46,6 +46,52 @@ class MeshTests(unittest.TestCase):
         self.assertIn('MUSCL_FLOW= NO',cfg)
         self.assertIn('LINEAR_SOLVER_PREC= ILU',cfg)
         self.assertIn('LINEAR_SOLVER_ERROR= 1E-6',cfg)
+        self.assertIn('MGLEVEL= 3',cfg)
+        self.assertIn('CONV_FIELD= ( RMS_NU_TILDE, DRAG )',cfg)
+        self.assertEqual(conditions['solver_scheme'],'mg3')
+        cfg, conditions = configuration(parser().parse_args(['rae2822','--rae-scheme','mg0']))
+        self.assertIn('MGLEVEL= 0',cfg)
+        self.assertIn('CFL_ADAPT= YES',cfg)
+        self.assertIn('CONV_NUM_METHOD_FLOW= JST',cfg)
+        self.assertEqual(conditions['solver_scheme'],'mg0')
+
+    def test_flat_plate_runs_until_project_gate_criteria(self):
+        cfg, _ = configuration(parser().parse_args(['flat_plate']))
+        for line in ('MGLEVEL= 0','CFL_ADAPT= YES','LINEAR_SOLVER_PREC= ILU',
+                     'CONV_FIELD= ( RMS_NU_TILDE, DRAG )','CONV_CAUCHY_EPS= 1e-8',
+                     'CONV_RESIDUAL_MINVAL= -9.3'):
+            self.assertIn(line,cfg)
+
+    def test_c_grid_quality_farfield_and_growth(self):
+        import math
+        from types import SimpleNamespace
+        from cfd.structured_airfoil import generate, two_sided
+        s = two_sided(128, 1e-3, 4e-3)
+        self.assertAlmostEqual(s[1]-s[0], 1e-3, delta=5e-5)
+        self.assertAlmostEqual(s[-1]-s[-2], 4e-3, delta=2e-4)
+        # Closed sharp-TE NACA 0012 in Selig order (TE-upper -> LE -> TE-lower).
+        def thickness(x):
+            return .6*(.2969*math.sqrt(x)-.126*x-.3516*x**2+.2843*x**3-.1036*x**4)
+        xs = [.5*(1-math.cos(math.pi*k/64)) for k in range(65)]
+        upper = [(x, thickness(x)) for x in reversed(xs)]
+        lower = [(x, -thickness(x)) for x in xs[1:]]
+        xy = upper+lower
+        with tempfile.TemporaryDirectory() as tmp:
+            info = generate(SimpleNamespace(level='coarse'), Path(tmp), xy, {'geometry': 'naca0012'})
+            again = audit(Path(tmp)/'mesh.su2')
+        self.assertEqual(info['cells'], again['cells'])
+        self.assertEqual(again['nonpositive_cells'], 0)
+        self.assertEqual(again['nonmanifold_edges'], 0)
+        self.assertEqual(again['boundary_mismatches'], 0)
+        self.assertGreater(again['minimum_corner_sine'], .5)
+        self.assertEqual(again['markers'], {'WALL': 256, 'FARFIELD': 2*(48+128)+2*96})
+        x0, x1, y0, y1 = again['bounds']
+        self.assertLessEqual(x0, -98); self.assertGreaterEqual(x1, 100)
+        self.assertLessEqual(y0, -98); self.assertGreaterEqual(y1, 98)
+        self.assertLessEqual(info['max_normal_growth'], 1.2)
+        self.assertLessEqual(info['max_streamwise_growth_wall'], 1.2)
+        self.assertLessEqual(info['max_streamwise_growth'], 1.3)
+        self.assertAlmostEqual(again['minimum_wall_connected_edge'], 2e-6, delta=1e-9)
 
 
 if __name__ == '__main__':

@@ -14,9 +14,11 @@ def main():
     mode = p.add_mutually_exclusive_group(required=True)
     mode.add_argument("--geometry", action="store_true")
     mode.add_argument("--experiment", action="store_true", help="NASA NPARC Case 6 Cp, not Case 9")
+    p.add_argument("--from-dir", type=Path,
+                   help="Önceden ayrı klasöre indirilmiş NPARC dosyalarını işle (ağ erişimi yok); python -I ile çalıştırın")
     args = p.parse_args()
     if args.experiment:
-        fetch_experiment()
+        fetch_experiment(args.from_dir)
         return
     url = "https://m-selig.ae.illinois.edu/ads/coord/rae2822.dat"
     target = ROOT / "validation/reference/rae2822.dat"
@@ -30,20 +32,25 @@ def main():
     write_json(target.with_suffix(".source.json"), dict(url=url, sha256=digest(target), kind="geometry_only"))
 
 
-def fetch_experiment():
+def fetch_experiment(source_dir=None):
+    """İndirilen dosyalar repo dışında ayrı klasörde kalır; yalnız işlenmiş JSON repo'ya yazılır."""
     base = 'https://www.grc.nasa.gov/www/wind/valid/raetaf/raetaf01/'
     directory = ROOT/'validation/reference'
+    if source_dir is None:
+        import tempfile
+        source_dir = Path(tempfile.mkdtemp(prefix='download_nparc_raetaf01_'))
+        for name in ('cp.exp.gen', 'cfpost.cp.com', 'raetaf01.html'):
+            with urllib.request.urlopen(base+name, timeout=60) as response:
+                (source_dir/name).write_bytes(response.read())
+    source_dir = Path(source_dir)
     sources = {}
     for name in ('cp.exp.gen', 'cfpost.cp.com', 'raetaf01.html'):
-        with urllib.request.urlopen(base+name, timeout=60) as response:
-            content = response.read()
-        target = directory/name
-        if name == 'cp.exp.gen' and not content.lstrip().startswith(b'TitleText:'):
+        target = source_dir/name
+        if name == 'cp.exp.gen' and not target.read_bytes().lstrip().startswith(b'TitleText:'):
             raise ValueError('Expected GENPLOT pressure data')
-        target.write_bytes(content)
-        sources[name] = dict(url=base+name, sha256=digest(target))
+        sources[name] = dict(url=base+name, sha256=digest(target), local_copy=str(target.resolve()))
     rows = []
-    for line in (directory/'cp.exp.gen').read_text().splitlines():
+    for line in (source_dir/'cp.exp.gen').read_text().splitlines():
         try:
             x, minus_cp = map(float, line.split())
             rows.append([x, -minus_cp])

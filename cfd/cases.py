@@ -229,7 +229,14 @@ def configuration(args):
                         # iraksadi; MG0 + CFL_ADAPT ile 3082. iterasyonda yakinsadi
                         # (C:/hz750run/pilot_mg0_flat_plate/solver.log). MGLEVEL= 0 kalir.
                         ("CFL_NUMBER= 10.0","CFL_NUMBER= 1.0"),
-                        ("CFL_ADAPT= NO","CFL_ADAPT= YES")):
+                        ("CFL_ADAPT= NO","CFL_ADAPT= YES"),
+                        # Iter5 v2: SU2 DRAG-Cauchy 1e-6 ince MG0 pilotunu proje kapisindan
+                        # once durdurdu (proje Cauchy100 3.4e-5, nu dususu 3.12). SU2 artik
+                        # nu_tilde residual'i (mutlak -9.3; baslangic ~-5 -> >=4 mertebe) VE
+                        # 1e-8 DRAG-Cauchy birlikte saglanana kadar kosar.
+                        ("CONV_FIELD= DRAG","CONV_FIELD= ( RMS_NU_TILDE, DRAG )"),
+                        ("CONV_CAUCHY_EPS= 1e-6","CONV_CAUCHY_EPS= 1e-8"),
+                        ("CONV_RESIDUAL_MINVAL= -8","CONV_RESIDUAL_MINVAL= -9.3")):
             lines[lines.index(old)]=new
         lines.insert(lines.index("CFL_ADAPT= YES")+1,"CFL_ADAPT_PARAM= ( 0.5, 1.5, 1.0, 100.0 )")
         lines += ["MGCYCLE= V_CYCLE","MG_PRE_SMOOTH= (1,2,3,3)","MG_POST_SMOOTH= (2,2,2,2)",
@@ -254,10 +261,25 @@ def configuration(args):
         lines += ["JST_SENSOR_COEFF= ( 0.5, 0.02 )", "MGCYCLE= W_CYCLE",
                   "MG_PRE_SMOOTH= (1,2,3,3)","MG_POST_SMOOTH= (0,0,0,0)",
                   "MG_CORRECTION_SMOOTH= (0,0,0,0)","MG_DAMP_RESTRICTION= 0.95","MG_DAMP_PROLONGATION= 0.95"]
+        if getattr(args, "rae_scheme", "mg3") == "mg0":
+            # Iter5 v2 alternatifi: MG yok + uyarlamali CFL (duz levha ile ayni ayar).
+            for old,new in (("CFL_NUMBER= 2.5","CFL_NUMBER= 1.0"),("CFL_ADAPT= NO","CFL_ADAPT= YES"),
+                            ("MGLEVEL= 3","MGLEVEL= 0")):
+                lines[lines.index(old)] = new
+            lines.insert(lines.index("CFL_ADAPT= YES")+1,"CFL_ADAPT_PARAM= ( 0.5, 1.5, 1.0, 100.0 )")
+        # Durma kurali proje kapisina hizalanir (sayisal sema degismez): nu_tilde
+        # residual'i <=-8.6 (baslangic ~-4.4) VE DRAG-Cauchy <=1e-8.
+        for old,new in (("CONV_FIELD= DRAG","CONV_FIELD= ( RMS_NU_TILDE, DRAG )"),
+                        ("CONV_CAUCHY_EPS= 1e-6","CONV_CAUCHY_EPS= 1e-8"),
+                        ("CONV_RESIDUAL_MINVAL= -8","CONV_RESIDUAL_MINVAL= -8.6")):
+            lines[lines.index(old)] = new
     if args.case in ("aircraft", "inlet"):
         lines += ["INIT_OPTION= TD_CONDITIONS", f"FREESTREAM_PRESSURE= {atmo['pressure']}"]
-    return "\n".join(lines) + "\n", dict(mach=mach, reynolds=re, alpha_deg=alpha, temperature_K=temp,
-                                           ref_length_m=length, ref_area_m2=area, atmosphere=atmo)
+    conditions = dict(mach=mach, reynolds=re, alpha_deg=alpha, temperature_K=temp,
+                      ref_length_m=length, ref_area_m2=area, atmosphere=atmo)
+    if args.case in ("rae2822", "airfoil"):
+        conditions["solver_scheme"] = getattr(args, "rae_scheme", "mg3")
+    return "\n".join(lines) + "\n", conditions
 
 
 def solve(args, work, solver):

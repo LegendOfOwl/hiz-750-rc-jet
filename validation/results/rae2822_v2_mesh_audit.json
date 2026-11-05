@@ -1,0 +1,113 @@
+{
+  "coarse": {
+    "cells": 33792,
+    "nodes": 34192,
+    "minimum_corner_sine": 0.7071067718898604,
+    "nonpositive_cells": 0,
+    "nonpositive_corners": 0,
+    "nonmanifold_edges": 0,
+    "boundary_mismatches": 0,
+    "markers": {
+      "WALL": 256,
+      "FARFIELD": 544
+    },
+    "bounds": [
+      -99.99978247868994,
+      171.7106781186544,
+      -99.99890328105695,
+      100.0594063200523
+    ],
+    "first_layer_m": 2e-06,
+    "radial_growth": 1.1816279572830868,
+    "wake_growth": 1.1933183257371511,
+    "max_normal_growth": 1.181627963978506,
+    "max_streamwise_growth": 1.252909603194497,
+    "max_streamwise_growth_wall": 1.1933183257371744,
+    "max_wall_ray_deviation_deg": 11.781540228949265,
+    "surface_cells_per_side": 128,
+    "wake_cells": 48,
+    "normal_cells": 96,
+    "le_spacing": 0.001,
+    "te_spacing": 0.004,
+    "mesh_sha256": "c3e3056fde5b669d41d5f75669b2d991b777eb2f0d621f3b6ab45d14040d300d",
+    "topology": "single-block C-grid, wall-normal marching, shared wake cut, ~100c far field"
+  },
+  "medium": {
+    "cells": 76032,
+    "nodes": 76632,
+    "minimum_corner_sine": 0.7071067685540576,
+    "nonpositive_cells": 0,
+    "nonpositive_corners": 0,
+    "nonmanifold_edges": 0,
+    "boundary_mismatches": 0,
+    "markers": {
+      "WALL": 384,
+      "FARFIELD": 816
+    },
+    "bounds": [
+      -99.99978372952665,
+      171.7106781186563,
+      -99.99922606833242,
+      100.0594040398532
+    ],
+    "first_layer_m": 1.3333333333333332e-06,
+    "radial_growth": 1.1174513001479442,
+    "wake_growth": 1.1245087389064912,
+    "max_normal_growth": 1.117451307463489,
+    "max_streamwise_growth": 1.1627296356881682,
+    "max_streamwise_growth_wall": 1.1245087389065278,
+    "max_wall_ray_deviation_deg": 11.828642327016135,
+    "surface_cells_per_side": 192,
+    "wake_cells": 72,
+    "normal_cells": 144,
+    "le_spacing": 0.0006666666666666666,
+    "te_spacing": 0.0026666666666666666,
+    "mesh_sha256": "16b80be972f7898b74141a67b6a353308314f51a9ed4d0c1e0fee584053abbab",
+    "topology": "single-block C-grid, wall-normal marching, shared wake cut, ~100c far field"
+  },
+  "fine": {
+    "cells": 135168,
+    "nodes": 135968,
+    "minimum_corner_sine": 0.7071067570990103,
+    "nonpositive_cells": 0,
+    "nonpositive_corners": 0,
+    "nonmanifold_edges": 0,
+    "boundary_mismatches": 0,
+    "markers": {
+      "WALL": 512,
+      "FARFIELD": 1088
+    },
+    "bounds": [
+      -99.9997847554353,
+      171.7106781186531,
+      -99.99934860867869,
+      100.059408695423
+    ],
+    "first_layer_m": 1e-06,
+    "radial_growth": 1.086769198470475,
+    "wake_growth": 1.091805100757289,
+    "max_normal_growth": 1.0867692094817738,
+    "max_streamwise_growth": 1.1200160211909709,
+    "max_streamwise_growth_wall": 1.091805100757417,
+    "max_wall_ray_deviation_deg": 11.830803630201233,
+    "surface_cells_per_side": 256,
+    "wake_cells": 96,
+    "normal_cells": 192,
+    "le_spacing": 0.0005,
+    "te_spacing": 0.002,
+    "mesh_sha256": "80f309b5580bb23a835a7fa817bc5e77edc8ebdff39050a4de7bdf9f308e9cbf",
+    "topology": "single-block C-grid, wall-normal marching, shared wake cut, ~100c far field"
+  },
+  "previous_four_block_coarse": {
+    "minimum_corner_sine": 0.2772,
+    "farfield_c": 30,
+    "source": "validation/results/diverged_mesh_audit.json"
+  },
+  "official_su2_mesh": {
+    "minimum_corner_sine": 0.3711,
+    "farfield_c": 100,
+    "cells": 22842,
+    "source": "validation/results/rae2822_native_mesh_audit.json"
+  },
+  "note": "cfd/structured_airfoil.py iter5 v2 (iz isinlari 45 derece yelpaze) ile uretildi; cfd/mesh_audit.py denetimi. Min kose sinusu .707 cikis (outlet) ucundaki iz isinlarinda; duvar komsulugunda >=.97."
+}

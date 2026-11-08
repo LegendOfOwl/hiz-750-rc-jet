@@ -1,0 +1,63 @@
+{
+  "level": "medium",
+  "h": 0.0625,
+  "expanded_dof": 61713,
+  "fuel_state": "full",
+  "deck_sha256": "5cae11ec3745a2ccc24bd90cb9f080d4b1194aa09115103b51f903440c495d36",
+  "prepared_dir": "C:\\hz750run\\wing_s41r022w1_medium_0hzryjmr",
+  "wing_model_json_sha256": "889096a7d6c4b59c5d31a1c7198549ee3e94852d353c845c85a05731d7568911",
+  "wing_nodes_json_sha256": "f468c0f5644a29a52ed3ec0832a6e2032cc7fbe5b48c9ded53db5d4f25d69f78",
+  "laminate_materials_complete": true,
+  "orientations_checked": true,
+  "mass_reconciled": true,
+  "ultimate_load_checked": true,
+  "shell_connectivity_checked": true,
+  "sandwich_no_overlap": true,
+  "details": {
+    "materials": [
+      "CORE",
+      "FAB",
+      "UD"
+    ],
+    "orientation": {
+      "max_abs_a_dot_n": 1.2172465813087285e-10,
+      "min_abs_normal_dot": 0.9999632850826375,
+      "max_angle_to_spar_tangent_deg": 1.7075472925031877e-06
+    },
+    "outward_normal_violations": 0,
+    "mass": {
+      "relative_difference": 2.220446049250313e-16,
+      "max_bay_cg_diff_c": 5.551115123125783e-17,
+      "inertia_ratio_bays": [
+        0.8183789722506742,
+        0.8350132037041627,
+        0.8283622828820126,
+        0.8305711539522423,
+        0.8990825227520695,
+        0.9030380990949594,
+        0.9261120844181129,
+        0.8908336269606788
+      ]
+    },
+    "load": {
+      "sum_Fz_N": 1414.6555701713903,
+      "target_N": 1414.5403931221563,
+      "relative": 8.142365519847594e-05,
+      "n_ultimate": 18.0,
+      "root_moment_target_Nm": 411.86517251041136
+    },
+    "connectivity": {
+      "free_edges": 0,
+      "free_edges_off_root": 0,
+      "nonconforming_rib_web_edges": 0,
+      "unused_nodes": 0
+    },
+    "sandwich": {
+      "elements_core": 288,
+      "elements_monolithic": 96,
+      "min_gap_m": 0.00024058616038549752
+    }
+  },
+  "reviewer": "fem/wing_review.py (otomatik sayısal kontroller)",
+  "note": "Bayraklar sayısal kontrol sonucudur; imalat/çizim incelemesinin yerini tutmaz."
+}

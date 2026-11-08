@@ -1,0 +1,5 @@
+{
+  "SU2_CFD": "C:/hz750tools/SU2/win64/bin/SU2_CFD.exe",
+  "CCX": "C:/hz750tools/CalculiX/calculix_2.20_4win/ccx_static.exe",
+  "HZ750_WORK": "C:/hz750run"
+}

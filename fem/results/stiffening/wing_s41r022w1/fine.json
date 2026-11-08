@@ -1,0 +1,62 @@
+{
+  "case": "wing",
+  "case_id": "wing_s41r022w1",
+  "level": "fine",
+  "status": "BLOCKED",
+  "metrics": {},
+  "reason": "Tahmini açılmış kanat DOF >200k; ağ boyutu azaltılmalı.",
+  "design_accepted": false,
+  "provenance": {
+    "utc": "2026-11-04T20:14:56.478197+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "packages": {
+      "gmsh": "4.15.2",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "aerosandbox": "4.2.10",
+      "matplotlib": "3.11.2"
+    },
+    "params_sha256": "e5d0fbfb4d51757613c47971e20b32292c6469e33742318aa9cc169a8e407f6c",
+    "inputs": {
+      "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\structures\\structures.py": "184b745c6502ecde5f2b7f12454b79f335ba7ee710ee172d16235fe02de47496",
+      "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\structures\\fe_modal.py": "d9d219f8d247ec6a5e8305a6316e921170dd4c8304c920bd0df99b8d9d4ad3b1",
+      "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\aero\\aero_analysis.py": "736b1316370c6bec2155b94b0e6830b452d226fbd694476b75168c069f650376",
+      "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\performance\\inlet_analysis.py": "baf48a026581019d6edb5c7fdd2a1db838bedf375d671e36cc4c439cf18aa11e",
+      "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\cad\\out\\cad_report.json": "503ce7c71cc87fec1f23029e4daff953b1b0264496afb8a395e2b56388bdd622"
+    }
+  },
+  "estimated_runtime": "5–30 dk/ağ; <200k açılmış DOF; tahmin",
+  "diagnostic": false,
+  "raw_directory": "C:\\hz750run\\wing_s41r022w1_fine_05oegclh",
+  "code_sha256": {
+    "validation\\__init__.py": "318a65d09bef1fd777be440b8eb9b4285b723995a4633e65336b9c38c567f47a",
+    "validation\\common.py": "740454c523dd01b8419f1bf4a21c281c346c3a3e65127ee04e14dbf2eb4dfd34",
+    "validation\\convergence.py": "31e7603e4ee00ca544881c222cb898b3b87477e17543f558b7984048b2e06a55",
+    "validation\\fetch_reference.py": "81173fc6673acd5ab27ddb967bd383685457b77abf798a0a41272a4feb9832b2",
+    "validation\\report.py": "4c423d5ddbe5710d383ae3f07ca3f81f04cf6f1d2f3bf23dd8bd331f9cf280f0",
+    "validation\\run_case.py": "6c0a61433ffb1db3bbd35b8f8735367ea294b205c39945671eddf60cce644f78",
+    "validation\\run_native_su2.py": "594c7ceb53f049767e713d84c0d6c66405cb321fc15a0ed8682f2d28adb431f2",
+    "validation\\study.py": "1e8ae7f70f7a2c4a0045b63d27229bb72e12cce862ac3a0c65b9ff90a2af0d7f",
+    "validation\\test_validation.py": "254648f8e40ca764dd07fc2368764c4c0988f4346fa2816a70b74eb638b6d1b5",
+    "cfd\\cases.py": "771cf63a82153d9e631197c25d0aed2d2051f8bd8294e1ff511111659e9e641c",
+    "cfd\\draft_domains.py": "9585362a9035920352c5fee60a5863d60797b98428ae77adf4226d3612eca79b",
+    "cfd\\face_samples.py": "098f62c8909be089d3c7618eb9d339262c98c311a19907a9b498d5d4bd6a6b0f",
+    "cfd\\inlet_metrics.py": "e9d975c4a5820fd3988ac9bfe3b6b6e9f073b68ea466f19eb104e3a89b49b004",
+    "cfd\\prepare_3d.py": "80dd17820be83bf466e9811d145d1bc98f061ec879159ecd00b71565c9657ffe",
+    "fem\\cases.py": "65175f16723b0c4a948f3ed678ca5894b3ee89829e7c6d63242daaf0a38d2096",
+    "fem\\clt.py": "6e936ef14568274eef68a471ffc9ebe390dec00b43d3fbe2ec80ffe080758701",
+    "fem\\coupon.py": "6ecb6cc2876a7f20ba54ae7bffdd994dd9613c1a9f9bf8eef067e554b2da0ca2",
+    "fem\\export_wing_inputs.py": "2129df518888c3963dec1e67bc414181e4682385245b23b2dedcaad5d41520ed",
+    "fem\\laminate_post.py": "5e34e6d15b5384f61ca968ca7359ace7adc93f9e7b1e8f8f40909e79fa1cf355",
+    "fem\\run_wing_study.py": "e45de8998406b47951f4a4242c88668e39fbd1dd73df858dd27e7a6167c2d540",
+    "fem\\stiffening_study.py": "52bf0c118a0c0d8e87c379ea8c704a3e3f15a32385a213a9def16d1cef78f7cc",
+    "fem\\wing_compare.py": "e27d38baeda1cb41414e4d2021504cb14cc961966866e578bad071228cee9c0f",
+    "fem\\wing_post.py": "72c78c9ec7fa849cec09f8ed6fdb5993e6f659dcfdfeee3e5c73a507b4b4beb0",
+    "fem\\wing_review.py": "4ff5c8bade3015f96cbb39626a38079ec184c049c19e224d476effc76b2c5309",
+    "fem\\wing_shell.py": "c6d596d424cbdebe11eb729ba70568dc00284ee8aa2341d22fe40703912d5e5a",
+    "thermal\\cases.py": "fe91f662ad2bbc6bc6a032576d00eeab798bab42962bdae2738ea1c2f56ce2aa"
+  },
+  "input_sha256": {},
+  "elapsed_s": 3.8589999999385327,
+  "artifacts": []
+}

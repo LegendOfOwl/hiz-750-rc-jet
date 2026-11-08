@@ -1,0 +1,9 @@
+{
+  "source_url": "https://www.grc.nasa.gov/www/wind/valid/rae2822/rae2822.html",
+  "source_note": "AGARD AR-138 Cook/McDonald/Firmin Case 6. Ham tünel .725/2.92° ile düzeltilmiş .729/2.31° koşulları karıştırılmamalı. Sayısal Cp ve integral deney verisi kaynak dokümandan doldurulacak; bu dosya referans veri değildir.",
+  "conditions": {"mach": 0.729, "reynolds": 6500000, "alpha_deg": 2.31},
+  "scalars": {"cl": null, "cd": null, "cm": null},
+  "cp_upper": [],
+  "cp_lower": [],
+  "experimental_uncertainty": null
+}

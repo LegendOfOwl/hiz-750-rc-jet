@@ -1,0 +1,110 @@
+{
+  "case": "airfoil",
+  "case_id": "airfoil_SA_M0p6100_A0p0000",
+  "level": "coarse",
+  "status": "UNCONVERGED",
+  "metrics": {
+    "cl": -0.00233574241249,
+    "cd": 0.0248663071306,
+    "cm": -0.0000276133247755,
+    "cp_min": -0.2731933494090574,
+    "cp_sonic": -1.231756322902893,
+    "sonic_on_surface": false
+  },
+  "reason": null,
+  "design_accepted": false,
+  "provenance": {
+    "utc": "2026-11-04T16:30:56.272651+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "packages": {
+      "gmsh": "4.15.2",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "aerosandbox": "4.2.10",
+      "matplotlib": "3.11.2"
+    },
+    "params_sha256": "7f01e01ca9c785d252e0b56c8cd462026dd1eb7ba49c724ac6f6e92a86373ecd",
+    "inputs": {
+      "C:\\Users\\Urungu\\.claude\\claudex\\worktrees\\J3A5\\structures\\structures.py": "184b745c6502ecde5f2b7f12454b79f335ba7ee710ee172d16235fe02de47496",
+      "C:\\Users\\Urungu\\.claude\\claudex\\worktrees\\J3A5\\structures\\fe_modal.py": "d9d219f8d247ec6a5e8305a6316e921170dd4c8304c920bd0df99b8d9d4ad3b1",
+      "C:\\Users\\Urungu\\.claude\\claudex\\worktrees\\J3A5\\aero\\aero_analysis.py": "736b1316370c6bec2155b94b0e6830b452d226fbd694476b75168c069f650376",
+      "C:\\Users\\Urungu\\.claude\\claudex\\worktrees\\J3A5\\performance\\inlet_analysis.py": "baf48a026581019d6edb5c7fdd2a1db838bedf375d671e36cc4c439cf18aa11e",
+      "C:\\Users\\Urungu\\.claude\\claudex\\worktrees\\J3A5\\cad\\out\\cad_report.json": "503ce7c71cc87fec1f23029e4daff953b1b0264496afb8a395e2b56388bdd622"
+    }
+  },
+  "estimated_runtime": "10–60 dk/nokta/ağ/model; tahmin",
+  "diagnostic": true,
+  "raw_directory": "C:\\hz750run\\airfoil_SA_M0p6100_A0p0000_coarse_vuacuom7",
+  "code_sha256": {
+    "validation\\__init__.py": "923575c9b9f21a8328ab5ad72dbf387fcd97023337898f524d88bd133cd06401",
+    "validation\\common.py": "274d7154a903e7b43f4eaa8a41536b42ae3204d8a13d116ba18d55ab9121c1ad",
+    "validation\\convergence.py": "57177741e9bd9b5ed2d7e5859b5962058abba64b6a45dff48559980c9a28e39e",
+    "validation\\fetch_reference.py": "0c2417336a8a8b283fc4949ee35824d962e207fcafea439aa321420cb5c1739d",
+    "validation\\report.py": "2c7319a8e6076fd3c6998804cdb477a0a3c5067e2e8dd9d9539b7da4bc006365",
+    "validation\\run_case.py": "5013e3082e5ae5de038a29b79f5d30c9aded2e5e6d2bb201699a8c6cf3a5c065",
+    "validation\\study.py": "837d929b4509a0260cd7c371d8bf0729f9d3c428e761dadc8a6678ab8c674b51",
+    "validation\\test_validation.py": "ff988e8c5b3e07339f747af0a2e5b79263e417fd2051fba633b2f053a4d1d2dd",
+    "cfd\\cases.py": "cd9efc9e41af1ab02ee223d03136beb46d69d969a58b4304f76e2886f2ed24fb",
+    "cfd\\draft_domains.py": "1228253fb0e3dee0301248e6663a09fb7d6cac30a1204cfb67d308beb06c0a75",
+    "cfd\\face_samples.py": "dac50ca0de6e181fa2f2ba71aeafd80620d56993829452e1d8b97a5d9f54d949",
+    "cfd\\inlet_metrics.py": "10ac196d010ce1599b18e9d5da7596afc76e2c647319ab27a05de17b20e6131d",
+    "cfd\\prepare_3d.py": "8999f6bbca80f4bb878912754590fccc9ef6cf7dabbc93a822fd99135993306c",
+    "fem\\cases.py": "8b6c71871a16ebc093ee844238e6702b72d3a7fbbaed58e44a7ad9d50d2a6e3d",
+    "fem\\export_wing_inputs.py": "47e246619f12dfd278ab40e6ee855a970185e7955e7b37665490a6595b753f14",
+    "fem\\laminate_post.py": "8bde0a6a28b22ca1aedaee922eecaf8619c4d982d9821092e6b39334960fa7f2",
+    "fem\\wing_shell.py": "a301b4893ec1c052ffbaafd4836e33535b00f688264f327b74628310f7ba6131",
+    "thermal\\cases.py": "6d9fb56e4a7e6da67225d7b224968a70be76430c3529930023811f260076cf20"
+  },
+  "input_sha256": {},
+  "errors": {},
+  "quality": {
+    "iterative_converged": false,
+    "yplus_max": 1.047899404082897,
+    "max_log_residual": 3.19498695078
+  },
+  "mesh": {
+    "cells": 26142,
+    "dimension": 2,
+    "h": 0.006184870273861115,
+    "first_layer_m": 0.000002,
+    "minimum_scaled_jacobian": 0.0002538657656126334,
+    "source": {
+      "geometry": "aero airfoil_64a: scaled naca64a010"
+    },
+    "mesh_sha256": "ed64a031c992b033527be7b0852bcd31a0249f21e55fa1a841e308993096da04",
+    "yplus_status": "Çözüm sonrası gerçek y+ kontrolü zorunlu"
+  },
+  "conditions": {
+    "mach": 0.61,
+    "reynolds": 4500000,
+    "alpha_deg": 0,
+    "temperature_K": 286.2,
+    "ref_length_m": 1,
+    "ref_area_m2": 1,
+    "atmosphere": {
+      "temperature": 286.2,
+      "pressure": 97772.56128213086,
+      "density": 1.1901174187036818,
+      "sound_speed": 339.13890074717176,
+      "viscosity": 0.00001779955964922234
+    }
+  },
+  "execution": {
+    "command": [
+      "C:\\hz750tools\\SU2\\win64\\bin\\SU2_CFD.exe",
+      "case.cfg"
+    ],
+    "executable_sha256": "fdb623e2968e55e2b30ad2d5ec83dcb9e5c6b38e76fd73a739b11bb4aac0721c",
+    "log_sha256": "db48da72ce468a1b2398ce366bb8b6676cfee030c024d20b123819f8698e9fce"
+  },
+  "limitations": [
+    "Türbülanslı RANS; geçiş, pürüzlülük ve model-form hatası ayrıca incelenmeli.",
+    "inlet DC60 için motor yüzü örneklemesi ve cfd/inlet_metrics.py gerekir."
+  ],
+  "elapsed_s": 61.79700000002049,
+  "artifacts": [
+    "cfd\\results\\airfoil_SA_M0p6100_A0p0000\\coarse_plot.png",
+    "cfd\\results\\airfoil_SA_M0p6100_A0p0000\\coarse_case.cfg"
+  ],
+  "artifact_policy": "Summaries/final plots and CFD config or wing draft retained; complete raw inputs/fields remain in raw_directory."
+}

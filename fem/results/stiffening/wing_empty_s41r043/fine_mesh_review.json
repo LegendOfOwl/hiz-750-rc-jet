@@ -1,0 +1,66 @@
+{
+  "level": "fine",
+  "h": 0.03125,
+  "expanded_dof": 163710,
+  "fuel_state": "empty",
+  "deck_sha256": "6a9f0bd58b98844a11fd2fe6935f5d301dbf655097400624e619faf567f530c8",
+  "prepared_dir": "C:\\hz750run\\wing_empty_s41r043_fine_065htf7q",
+  "wing_model_json_sha256": "197ceb052d949c4b7deb75b0a5a0e2d2df6368096e3a1b3c7b135c118732c108",
+  "wing_nodes_json_sha256": "bbf5d0b133354c483fc974e42198375ee84c972ac9eadfd64ef8455de1fbfd34",
+  "laminate_materials_complete": true,
+  "orientations_checked": true,
+  "mass_reconciled": true,
+  "ultimate_load_checked": true,
+  "shell_connectivity_checked": true,
+  "sandwich_no_overlap": true,
+  "details": {
+    "materials": [
+      "CORE",
+      "FAB",
+      "UD"
+    ],
+    "orientation": {
+      "max_abs_a_dot_n": 1.5780793338748822e-10,
+      "min_abs_normal_dot": 0.9999934722500254,
+      "max_angle_to_spar_tangent_deg": 1.7075472925031877e-06
+    },
+    "outward_normal_violations": 0,
+    "mass": {
+      "relative_difference": 0.0,
+      "max_bay_cg_diff_c": 5.551115123125783e-17,
+      "inertia_ratio_bays": [
+        0.8240998936086659,
+        0.8330737929942263,
+        0.8318869094271337,
+        0.8280450305786814,
+        0.9043886674541947,
+        0.9109927914802357,
+        0.9128297207707766,
+        0.8887167015787043
+      ]
+    },
+    "load": {
+      "sum_Fz_N": 1437.6087637176463,
+      "target_N": 1437.6214717978087,
+      "relative": 8.839656621462133e-06,
+      "n_ultimate": 18.0,
+      "root_moment_target_Nm": 418.5855832506744
+    },
+    "connectivity": {
+      "free_edges": 112,
+      "free_edges_off_root": 0,
+      "nonconforming_rib_web_edges": 0,
+      "unused_nodes": 0
+    },
+    "sandwich": {
+      "elements_core": 1152,
+      "elements_monolithic": 384,
+      "min_gap_m": 9.54588919473945e-05,
+      "gap_basis": "kaba hücre köşe derinliği (muhafazakâr)",
+      "elements_with_ply_drop": 32,
+      "max_plies_dropped": 2
+    }
+  },
+  "reviewer": "fem/wing_review.py (otomatik sayısal kontroller)",
+  "note": "Bayraklar sayısal kontrol sonucudur; imalat/çizim incelemesinin yerini tutmaz."
+}

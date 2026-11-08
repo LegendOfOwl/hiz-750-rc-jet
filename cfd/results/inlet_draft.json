@@ -1,0 +1,34 @@
+{
+  "status": "GEOMETRY_DRAFT_ONLY",
+  "fluid_step_sha256": "a59991083feb27eb5199d1151a2447cf3ade3cfb11c7e3a2cdd8ab8f24d19cb1",
+  "markers": {
+    "WALL": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16
+    ],
+    "INLET": [
+      17
+    ],
+    "ENGINE": [
+      18
+    ]
+  },
+  "raw_directory": "C:\\hz750run\\inlet_draft",
+  "boundary_layers": false,
+  "design_accepted": false,
+  "limitations": "Yalnız coarse DRAFT: basitleştirilmiş dış zarf ve izole kanal fluid STEP'i.\n\nKanat/kuyruk kesiti dörtgen, gövde konik-silindirik; tasarım CFD'si değildir.\nKanal CAD raporundan 16 kenarlı kesit loft'u; dış sınır tabaka yutulması yoktur.\n"
+}

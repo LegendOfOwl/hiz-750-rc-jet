@@ -15,10 +15,15 @@ Tum varsayimlar DESIGN sozlugunde; degistirip tekrar calistirin.
 import math
 import os
 
+import sys
+
 import numpy as np
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import params as PRM  # noqa: E402  tek veri kaynagi: kutle ve geometri buradan okunur
 
 G = 9.80665
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
@@ -39,27 +44,29 @@ DESIGN = dict(
     name="HIZ-750",
     engine="JetCat P400-PRO",
     # agirlik dokumu [kg]
-    m_struct=6.76,      # iter3: params MTOW 17.01 kg ile esitlendi      # govde+kanat+kuyruk (karbon/epoksi prepreg)
-    m_systems=2.2,     # servolar, aku, alici, telemetri, GNSS logger, ECU, pompa, valf
+    # iter5 inceleme: kutle params.MASS_ITEMS'tan (yakitsiz kutle - motor - sistemler); eskiden sabit 6.76 kg
+    # (iter3 MTOW 17.01 kg) yaziliydi ve kanat rijitlestirmesinden (+0.28 kg) sonra eski kaldi.
+    m_struct=PRM.mass_summary(0.0)["m"] - PRM.ENGINE["mass"] - 2.2,   # govde+kanat+kuyruk+kizak+diger yakitsiz kalemler
+    m_systems=2.2,     # servolar, aku, alici, telemetri, GNSS logger, ECU, pompa, valf (yalniz bolustur; toplam params'tan)
     m_gear=0.0,        # iter2: inis takimi yok (dolly + kizak; kizak m_struct icinde)
-    m_fuel=4.0,        # ~5.0 L Jet-A1/kerosen (0.80 kg/L)
-    # kanat
-    S=0.42,            # referans alan [m^2]
-    AR=5.0,
-    taper=0.35,
-    sweep_le=28.0,     # hucum kenari ok acisi [deg]
-    tc=0.07,           # kok kalinlik orani (ince, NACA 64A007 tipi)
+    m_fuel=PRM.FUEL["mass"],   # ~5.0 L Jet-A1/kerosen (0.80 kg/L)
+    # kanat (params.WING)
+    S=PRM.WING["S"],     # referans alan [m^2]
+    AR=PRM.WING["AR"],
+    taper=PRM.WING["taper"],
+    sweep_le=PRM.WING["sweep_le"],   # hucum kenari ok acisi [deg]
+    tc=PRM.WING["tc_root"],          # kok kalinlik orani (ince, NACA 64A007 tipi)
     xc_max=0.40,       # max kalinlik konumu
     kappa_a=0.87,      # Korn teknoloji faktoru (konvansiyonel kesit)
     e=0.80,
     CLmax_land=1.15,   # kanatcik/flap ile
     # govde (donel cisim yaklasimi)
-    L_fus=2.10,
-    d_fus=0.165,
+    L_fus=PRM.FUSELAGE["length"],
+    d_fus=PRM.FUSELAGE["d_max"],
     # kuyruk (V-kuyruk yok; konvansiyonel H+V, ince %6)
-    S_ht=0.085,
-    S_vt=0.060,
-    tc_tail=0.06,
+    S_ht=PRM.HTAIL["S"],
+    S_vt=PRM.VTAIL["S"],
+    tc_tail=PRM.HTAIL["tc"],
     c_tail=0.20,
     # ilave suruklemeler (hava alik, egzoz, antenler, mentese bosluklari) oran
     misc_frac=0.15,    # iter3: yari gomulu dorsal alik (~49 cm2 on kesit) + tasma payi (kotumser birakildi)
@@ -67,7 +74,7 @@ DESIGN = dict(
     k_ram=0.60,        # dinamik basinc kazanci (hava alik verimine bagli)
     inlet_loss=0.04,   # hava alik + egzoz borusu itki kaybi
     # ortam
-    alt_m=300.0,
+    alt_m=300.0,       # olcum irtifasi (docs/08 varsayim 1)
     dT=0.0,            # ISA sicaklik sapmasi [K]
 )
 
@@ -196,7 +203,8 @@ def report(d):
     Vlight = vmax(d, m_dry + 0.3 * d["m_fuel"])
     D, info = drag(d, V)
     bd = cd0_breakdown(d, V, rho, a, mu)
-    Vs = math.sqrt(2 * m_dry * 1.15 * G / (rho0 * d["S"] * d["CLmax_land"]))
+    m_land = m_dry + 0.25 * d["m_fuel"]   # iter5 inceleme: inis kutlesi aero/mission ile ayni (%25 yakit); eskiden 1.15*m_dry
+    Vs = math.sqrt(2 * m_land * G / (rho0 * d["S"] * d["CLmax_land"]))
     endurance = d["m_fuel"] / eng["ff"]
     lines = []
     P = lines.append
@@ -204,7 +212,7 @@ def report(d):
     P(f"Kanat: b={g['b']:.3f} m  S={d['S']:.3f} m2  AR={d['AR']}  cr={g['cr']:.3f}  ct={g['ct']:.3f}  "
       f"MAC={g['mac']:.3f} m  Lambda_c/4={math.degrees(g['sweep_c4']):.1f} deg  t/c={d['tc']}")
     P(f"Govde: L={d['L_fus']} m  d={d['d_fus']} m  (incelik {d['L_fus']/d['d_fus']:.1f})")
-    P(f"Kutle: MTOW={m:.2f} kg  bos+%15 yakit inis={m_dry*1.15:.2f} kg  yakit={d['m_fuel']} kg")
+    P(f"Kutle: MTOW={m:.2f} kg  yakitsiz={m_dry:.2f} kg  inis (%25 yakit)={m_land:.2f} kg  yakit={d['m_fuel']} kg")
     P(f"Kanat yuklemesi: {m/d['S']:.1f} kg/m2   T/W statik: {eng['F0']/(m*G):.2f}")
     P(f"Stall (inis agirligi, deniz sev.): {Vs:.1f} m/s = {Vs*3.6:.0f} km/h ; yaklasma 1.3Vs = {1.3*Vs*3.6:.0f} km/h")
     P(f"--- Azami yatay hiz (h={d['alt_m']:.0f} m, dT={d['dT']:+.0f} K) ---")
@@ -222,7 +230,9 @@ def report(d):
     R = V * V / (G * math.sqrt(n_lim ** 2 - 1))
     P(f"--- Yapisal ---")
     P(f"Limit yuk n={n_lim:.0f}g, nihai {1.5*n_lim:.0f}g; Vmax'ta {n_lim:.0f}g donus yaricapi {R:.0f} m")
-    P(f"Tasarim dalis hizi VD=1.15*Vmax={1.15*V*3.6:.0f} km/h -> flutter marji hedefi 1.2*VD={1.38*V*3.6:.0f} km/h")
+    # iter5 inceleme: VD ve flutter gereksinimi params'tan (V_D 900, 1.2*V_D 1080 km/h); eskiden 1.15*Vmax yaziliyordu
+    P(f"Tasarim dalis hizi VD={PRM.V_D*3.6:.0f} km/h (params; 1.15*Vmax olsaydi {1.15*V*3.6:.0f}) -> "
+      f"flutter gereksinimi 1.2*VD={PRM.V_FLUTTER_REQ*3.6:.0f} km/h")
     # kok egilme momenti (eliptik dagilim, yari kanat yuku merkezi 4/(3pi)*b/2)
     Mroot = n_lim * 1.5 * m * G / 2 * (4 / (3 * math.pi)) * g["b"] / 2
     P(f"Nihai kok egilme momenti ~ {Mroot:.0f} N.m (spar boyutlandirma girdisi)")
@@ -284,7 +294,7 @@ def plot_3view(d):
     g = geom(d)
     b2, cr, ct = g["b"] / 2, g["cr"], g["ct"]
     L, dia = d["L_fus"], d["d_fus"]
-    x_le = 0.42 * L  # kanat kok hucum kenari
+    x_le = PRM.WING["x_root_le"]  # kanat kok hucum kenari (params)
     dx_tip = math.tan(math.radians(d["sweep_le"])) * b2
     fig, (a1, a2) = plt.subplots(1, 2, figsize=(12, 5), gridspec_kw=dict(width_ratios=[1.3, 1]))
     # ust gorunus

@@ -2,7 +2,7 @@
   "iteration": "3-kapanis",
   "units": "mm3 (cakisma) / L / m2",
   "params_snapshot": {
-    "MTOW": 17.16,
+    "MTOW": 17.44,
     "fuel_kg": 4.0,
     "fuel_L": 5.0,
     "inlet_w": 0.11,

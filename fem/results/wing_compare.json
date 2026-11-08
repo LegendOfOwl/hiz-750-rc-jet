@@ -1,0 +1,219 @@
+{
+  "static": {
+    "load": "Schrenk 12g x 1.5 = 18 g, atalet rahatlatması yok, kök y=.035 m",
+    "root_moment_Nm": 411.8633551242482,
+    "root_moment_structures_relief_y0_Nm": 447.27303892936425,
+    "tip_deflection_fe_m": {
+      "coarse": 0.04769418656608679,
+      "medium": 0.04773073564903031,
+      "fine": 0.04769263742186562
+    },
+    "tip_deflection_beam_m": {
+      "1D_EI_duz": 0.08880172481269973,
+      "1D_EI_ok": 0.11284196112549619,
+      "kabuk_EI_duz": 0.04202370637894978,
+      "kabuk_EI_ok": 0.053400285316131064
+    },
+    "fe_over_beam": {
+      "1D_EI_duz": 0.5370688184543573,
+      "1D_EI_ok": 0.422649845378216,
+      "kabuk_EI_duz": 1.1348984069086177,
+      "kabuk_EI_ok": 0.8931157790548118
+    },
+    "ei_root_Nm2": {
+      "structures_1D": 1517.9761934037622,
+      "shell_section": 2379.9892951876973
+    },
+    "ei_ratio_shell_to_1D": [
+      {
+        "y": 0.0457745130829605,
+        "ratio": 1.6366923572156165
+      },
+      {
+        "y": 0.13197061774664448,
+        "ratio": 1.9246306744354789
+      },
+      {
+        "y": 0.21816672241032847,
+        "ratio": 1.9994154525379753
+      },
+      {
+        "y": 0.3043628270740125,
+        "ratio": 2.1054386609208064
+      },
+      {
+        "y": 0.3905589317376965,
+        "ratio": 2.28829022457197
+      },
+      {
+        "y": 0.4767550364013805,
+        "ratio": 2.5516768325133308
+      },
+      {
+        "y": 0.5629511410650645,
+        "ratio": 3.172222471479066
+      },
+      {
+        "y": 0.6491472457287485,
+        "ratio": 8.693747196442894
+      }
+    ],
+    "convergence_tip": {
+      "status": "OSCILLATORY",
+      "reason": "Monoton yakınsama yok"
+    },
+    "cap_stress_check": {
+      "y": 0.1535196439125655,
+      "fe_ud_s11_Pa": -224040100.0,
+      "beam_1D_EI_Pa": -399378711.05542225,
+      "beam_shell_EI_Pa": -205730033.24311405,
+      "note": "Kiriş: sigma = E1 M (h_eff/2)/EI; h_eff structures kapak kolu."
+    }
+  },
+  "modal": {
+    "dolu": {
+      "shell_fine": {
+        "f1B": 39.51045,
+        "f2B": 124.7996,
+        "f1T": 272.5444,
+        "f1IP": 284.3962,
+        "first5": [
+          [
+            39.51045,
+            "1B"
+          ],
+          [
+            124.7996,
+            "2B"
+          ],
+          [
+            272.5444,
+            "1T"
+          ],
+          [
+            284.3962,
+            "1İB (düzlem içi)"
+          ],
+          [
+            296.6109,
+            "3B"
+          ]
+        ]
+      },
+      "fe_modal_1D": {
+        "f": [
+          27.45913588973711,
+          84.25993163978413,
+          195.41136943766296,
+          305.67706312235885,
+          374.65257495916893
+        ],
+        "names": [
+          "1B (egilme)",
+          "2B (egilme)",
+          "3B (egilme)",
+          "1T (burulma)",
+          "4B (egilme)"
+        ],
+        "Vf_kmh": 1307.4839312247234
+      },
+      "ratio_f1B": 1.4388817681173676,
+      "ratio_f1T": 0.8916089326954302,
+      "gci_f1B": {
+        "status": "OSCILLATORY",
+        "reason": "Monoton yakınsama yok"
+      },
+      "gci_f1T": {
+        "status": "ESTIMATED",
+        "observed_order": 3.330344303955167,
+        "richardson": 272.49307807802813,
+        "fine_gci_absolute": 0.06415240246479721,
+        "fine_gci_pct": 0.023538330805841987,
+        "r21": 2.0,
+        "r32": 2.0,
+        "warning": "Üç nokta asimptotik bölgeyi tek başına kanıtlamaz; şok/mod takibi ayrıca incelenmeli."
+      },
+      "Vf_scaled_fT_only_kmh": 1184.9893036347396,
+      "Vf_scaled_fB_fT_kmh": 1633.5715573171508,
+      "gvt_acceptance_f1T_min_Hz": 230.0,
+      "f1T_meets_gvt_230": true,
+      "fT_min_fac_1080": 0.7219513662449999,
+      "fT_min_fac_1350": 1.033378693303735,
+      "f1T_needed_for_1350_Hz": 315.8801640623065
+    },
+    "bos": {
+      "shell_fine": {
+        "f1B": 40.3594,
+        "f2B": 136.9546,
+        "f1T": 280.8616,
+        "f1IP": 292.2663,
+        "first5": [
+          [
+            40.3594,
+            "1B"
+          ],
+          [
+            136.9546,
+            "2B"
+          ],
+          [
+            280.8616,
+            "1T"
+          ],
+          [
+            292.2663,
+            "1İB (düzlem içi)"
+          ],
+          [
+            319.976,
+            "3B"
+          ]
+        ]
+      },
+      "fe_modal_1D": {
+        "f": [
+          27.994993911390026,
+          92.75175565522301,
+          211.11805332552834,
+          316.6423557071146,
+          422.51666561629077
+        ],
+        "names": [
+          "1B (egilme)",
+          "2B (egilme)",
+          "3B (egilme)",
+          "1T (burulma)",
+          "4B (egilme)"
+        ],
+        "Vf_kmh": 1329.0060510547064
+      },
+      "ratio_f1B": 1.441664896507779,
+      "ratio_f1T": 0.8869994646571833,
+      "gci_f1B": {
+        "status": "OSCILLATORY",
+        "reason": "Monoton yakınsama yok"
+      },
+      "gci_f1T": {
+        "status": "ESTIMATED",
+        "observed_order": 1.8430117385337974,
+        "richardson": 280.4719698098743,
+        "fine_gci_absolute": 0.48703773765714287,
+        "fine_gci_pct": 0.17340844660044052,
+        "r21": 2.0,
+        "r32": 2.0,
+        "warning": "Üç nokta asimptotik bölgeyi tek başına kanıtlamaz; şok/mod takibi ayrıca incelenmeli."
+      },
+      "Vf_scaled_fT_only_kmh": 1193.7790100485995,
+      "Vf_scaled_fB_fT_kmh": 1338.00794472255,
+      "gvt_acceptance_f1T_min_Hz": 230.0,
+      "f1T_meets_gvt_230": true,
+      "fT_min_fac_1080": 0.7014429416763265,
+      "fT_min_fac_1350": 1.016330621657008,
+      "f1T_needed_for_1350_Hz": 321.81332221875124
+    }
+  },
+  "notes": [
+    "Flutter değerleri yalnız frekans ölçeklemesidir (fe_modal mod şekilleri/kütlesi sabit). Kabuk mod şekilleri ve kütle dağılımıyla aeroelastik çözüm yeniden yapılmalı.",
+    "Kiriş referansı lineer Euler-Bernoulli; kesit distorsiyonu, kayma gecikmesi ve kök üçgeni etkisi yok."
+  ]
+}

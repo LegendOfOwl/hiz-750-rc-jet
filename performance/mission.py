@@ -35,12 +35,18 @@ def fuel_flow_kgs(throttle_thrust_frac):
     return ff_idle + (ff_max - ff_idle) * throttle_thrust_frac
 
 
-def takeoff(m, mu=0.04, CL_g=0.35, CLmax_to=0.80, h_obs=10.0, m_dolly=2.0):
-    """Dolly kalkisi: ucak dolly uzerinde sabit kalkis acisinda; dolly kutlesi de hizlandirilir."""
+def takeoff(m, mu=0.04, CL_g=None, CLmax_to=0.80, h_obs=10.0, m_dolly=2.0):
+    """Dolly kalkisi: ucak dolly uzerinde sabit kalkis acisinda; dolly kutlesi de hizlandirilir.
+    iter5 inceleme: dolly mandali L/W >= 1'de acilir (params.GEAR, docs/02 Sec. 6.1). Eskiden CL_g=0.35
+    sabitti; V_lof=1.2 Vs aninda L/W = 1.44*0.35/0.80 = 0.63 oluyordu (mandal kosuluyla celisik).
+    Simdi dolly acisindaki CL, bu hizda L = W verecek sekilde CLmax_to/1.2^2 alinir
+    (aero_analysis: 126 km/h'te CL 0.54, gereken dolly alfa ~2 deg < params 3 deg)."""
     rho = SZ.isa(D["alt_m"], D["dT"])[0]
     S = D["S"]
     Vs = math.sqrt(2 * m * G / (rho * S * CLmax_to))
     V_lof = 1.2 * Vs
+    if CL_g is None:
+        CL_g = CLmax_to / 1.2 ** 2
     v, x, t, dt = 0.0, 0.0, 0.0, 0.01
     while v < V_lof:
         T = SZ.thrust(D, max(v, 1.0))
@@ -67,7 +73,7 @@ def takeoff(m, mu=0.04, CL_g=0.35, CLmax_to=0.80, h_obs=10.0, m_dolly=2.0):
 
 
 def landing(m, CLmax_land=0.92, mu_brake=0.40, h_obs=10.0):
-    """Kizakla govde inisi (cim, mu~0.4). CLmax 30 deg flapla (aero analizi)."""
+    """Kizakla govde inisi (cim, mu~0.4). CLmax 0.92 = 35 deg yarikli flap, muhafazakar (aero analizi)."""
     rho = SZ.isa(D["alt_m"], D["dT"])[0]
     S = D["S"]
     Vs = math.sqrt(2 * m * G / (rho * S * CLmax_land))
@@ -84,13 +90,23 @@ def landing(m, CLmax_land=0.92, mu_brake=0.40, h_obs=10.0):
 
 
 def climb_curve(m):
+    """Kararli tirmanma: T - D(L = W cos g) = W sin g, ROC = V sin g.
+    iter5 inceleme: eskiden ROC = (T-D)V/W idi; T/W > 1 bolgesinde dusey hiz toplam hizi asiyordu
+    (183 m/s @ 136 m/s). (T-D)/W >= 1 ise kararli tirmanma dikeydir (ROC = V, fazla itki ivmelenir)."""
     Vs = np.linspace(40, 260, 120)
-    roc = []
+    roc, gam = [], []
     for v in Vs:
         T = SZ.thrust(D, v)
-        Dr = SZ.drag(D, v, m)[0]
-        roc.append((T - Dr) * v / (m * G))
-    return Vs, np.array(roc)
+        sg = 0.0
+        for _ in range(30):
+            Dr = SZ.drag(D, v, m * math.sqrt(max(0.0, 1 - sg * sg)))[0]
+            sg_new = min(1.0, (T - Dr) / (m * G))
+            if abs(sg_new - sg) < 1e-6:
+                break
+            sg = sg_new
+        roc.append(v * sg)
+        gam.append(math.degrees(math.asin(max(-1.0, sg))))
+    return Vs, np.array(roc), np.array(gam)
 
 
 def turn_perf(m, V):
@@ -151,8 +167,8 @@ POWER_ITEMS = [
     ("Flap servolari 2x", 0.2, 4.0, 8.4),
     ("Elevator servolari 2x", 0.6, 6.0, 8.4),
     ("Rudder servosu", 0.2, 3.0, 8.4),
-    ("Burun tekeri dumen servosu", 0.1, 2.0, 8.4),
-    ("Elektrikli retract + fren", 0.1, 5.0, 8.4),
+    # iter5 inceleme: "burun tekeri dumen servosu" ve "elektrikli retract + fren" kalemleri cikarildi;
+    # iter2'den beri inis takimi yok (dolly + kizak, params.GEAR). Dolly mandali yer ekipmani, ucak akusunden beslenmez.
     ("Alici x2 + telemetri", 0.25, 0.3, 8.4),
     ("GNSS logger + hava veri", 0.15, 0.2, 8.4),
     ("Gyro/stabilizasyon unitesi", 0.1, 0.15, 8.4),
@@ -179,9 +195,12 @@ def main():
     ld = landing(m_land)
     p(f"Kizakla inis ({m_land:.1f} kg): Vs={ld['Vs']*3.6:.0f}, V_app={ld['V_app']*3.6:.0f}, "
       f"V_td={ld['V_td']*3.6:.0f} km/h; yer kosusu {ld['s_ground']:.0f} m, 10 m'den toplam {ld['s_total']:.0f} m")
-    Vs_, roc = climb_curve(M_TO)
+    Vs_, roc, gam = climb_curve(M_TO)
     i = int(np.argmax(roc))
-    p(f"Azami tirmanma hizi {roc[i]:.0f} m/s @ {Vs_[i]*3.6:.0f} km/h (MTOW)")
+    vert = Vs_[gam >= 89.9]
+    p(f"Azami tirmanma hizi {roc[i]:.0f} m/s @ {Vs_[i]*3.6:.0f} km/h, gamma {gam[i]:.0f} deg (MTOW, kararli)"
+      + (f"; {vert.min()*3.6:.0f}-{vert.max()*3.6:.0f} km/h araliginda T-D >= W (dikey tirmanis, fazla itki ivmelenir)"
+         if len(vert) else ""))
     for V in (150, 208):
         ns, ni = turn_perf(M_TO, V)
         p(f"Donus @ {V*3.6:.0f} km/h: surekli n={ns:.1f} g, anlik (CL 0.9) n={ni:.0f} g -> "
@@ -211,7 +230,7 @@ def main():
     # grafikler
     fig, ax = plt.subplots(figsize=(7, 4.5))
     ax.plot(Vs_ * 3.6, roc, label="MTOW")
-    Vs2, roc2 = climb_curve(M_EMPTY + 0.3 * P.FUEL["mass"])
+    Vs2, roc2, _ = climb_curve(M_EMPTY + 0.3 * P.FUEL["mass"])
     ax.plot(Vs2 * 3.6, roc2, label="%30 yakit")
     ax.set_xlabel("Hiz [km/h]"); ax.set_ylabel("Tirmanma hizi [m/s]")
     ax.set_title("Fazla guc / tirmanma performansi"); ax.grid(alpha=.3); ax.legend()

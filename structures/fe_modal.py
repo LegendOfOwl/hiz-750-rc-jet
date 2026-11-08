@@ -11,7 +11,7 @@ Kapsam
        m_s = m'cosL, S_s = S'cos^2 L, I_s = I'cos^3 L, GJ_n = GJ cosL, EI_n = EI (kapaklar kiris boyunca).
      Aileron balans kutlesi (23 g) structures kesit kutlesinde; aileron/flap servolari (MASS_ITEMS 0.48 kg/4)
      noktasal kutle olarak eklenir.
-  2. Modal flutter: ilk 4 mod, serit teorisi + Theodorsen (dik kesit, V_n = V cosL, b_n = b cosL),
+  2. Modal flutter: ilk 8 mod (en az 2 burulma modu garanti), serit teorisi + Theodorsen (dik kesit, V_n = V cosL, b_n = b cosL),
      ok acisinin egilme-egimi terimi (alpha_eff = phi - tanL w', Barmby/Bisplinghoff), Prandtl-Glauert
      (M_n = M cosL, M_n <= 0.9), k-yontemi + Mach eslestirme (match-point). Diverjans: FE statik
      aeroelastik ozdeger problemi. Tank dolu/bos.
@@ -55,7 +55,18 @@ MODEL_FACTOR = ST.FLUTTER_MODEL_FACTOR        # 1.25 (kat secimindeki ek pay, bi
 Y_CLAMP = 0.035          # ankastre hat: kiris cercevelerindeki 4 x M6 civata, y = +-35 mm (structures bolt_dy/2)
 NE = 40                  # eleman sayisi
 NGAUSS = 4
-N_MODES_FLUTTER = 4
+N_MODES_FLUTTER = 8      # iter5 inceleme: 4 mod 4/1 kat planinda (dolu) 1T'yi (5. mod) disarida birakiyordu ->
+                         # yalniz egilme modlariyla sahte 1813 km/h ve f_T'den bagimsiz duz V_F(f_T) egrisi.
+                         # 8 modda dolu/bos 1D sonuc yakinsadi (8 -> 14 mod fark < %0.5).
+MIN_TORSION_MODES = 2
+
+
+def flutter_mode_count(md, nm):
+    """Flutter mod kumesi: en az nm mod ve en az MIN_TORSION_MODES burulma modu (siralamadan bagimsiz)."""
+    idx = [i for i, t in enumerate(md["tors"]) if t > 0.5]
+    if len(idx) >= MIN_TORSION_MODES:
+        nm = max(nm, idx[MIN_TORSION_MODES - 1] + 1)
+    return min(nm, len(md["omega"]))
 _tan_le = math.tan(math.radians(WING["sweep_le"]))
 TAN_EA = _tan_le - X_EA * (ST.wg["cr"] - ST.wg["ct"]) / B2
 LAM_EA = math.atan(TAN_EA)                    # elastik eksen ok acisi
@@ -316,6 +327,55 @@ def pk_sweep(om, Dq, beta, b_ref, Vs=VS_PK, ks=KS, fscale=None):
     return np.repeat(Vs[:, None], nm, axis=1), G, W
 
 
+def pk_fresh(om, Dq, beta, b_ref, Vs, ks=KS):
+    """İz takibinden bağımsız p-k: her V'de her mod frekansından VE önceki V'nin köklerinden yeniden
+    başlatılan sabit nokta yinelemesi; yakınsayan farklı köklerin en büyük g'si. pk_sweep'in kök
+    takibi yakın 1T/3B frekanslarında dal değiştirebiliyor (s41r043w1 dolu, M_n tavanında 2554 km/h)."""
+    K = np.diag(np.asarray(om) ** 2)
+    lk = np.log(ks[::-1])
+    D0 = Dq[::-1]
+    bfun = beta if callable(beta) else (lambda V: beta)     # Mach eslestirme: beta(V)
+    cur = {}
+
+    def Dk(k):
+        x = min(max(math.log(k), lk[0]), lk[-1])
+        i = min(max(int(np.searchsorted(lk, x)), 1), len(lk) - 1)
+        t = (x - lk[i - 1]) / (lk[i] - lk[i - 1])
+        return (D0[i - 1] * (1 - t) + D0[i] * t) / cur["b"]
+
+    def converge(V, s0):
+        w, s = max(s0.imag, 1e-3), s0
+        for it in range(200):
+            lam = np.linalg.eigvals(-(K - w ** 2 * Dk(w * b_ref / V)))
+            sr = np.sqrt(lam.astype(complex))
+            sr = np.where(sr.imag < 0, -sr, sr)
+            s = sr[int(np.argmin(np.abs(sr - s)))]
+            wn = max(s.imag, 1e-3)
+            if abs(wn - w) < 1e-8 * w:
+                return s
+            w = 0.5 * (w + wn) if it > 30 else wn
+        return s
+    gmax, prev = [], []
+    for V in Vs:
+        cur["b"] = bfun(V)
+        starts = [complex(-0.01 * o, o) for o in om] + prev
+        roots = []
+        for s0 in starts:
+            s = converge(V, s0)
+            if all(abs(s - r) > 1e-5 * abs(s) for r in roots):
+                roots.append(s)
+        prev = roots
+        gmax.append(max(2 * r.real / max(r.imag, 1e-9) for r in roots))
+    return np.array(gmax)
+
+
+def first_crossing(Vs, g, g_s=0.0):
+    for i in range(len(Vs) - 1):
+        if g[i] < g_s <= g[i + 1]:
+            return float(Vs[i] + (g_s - g[i]) / (g[i + 1] - g[i]) * (Vs[i + 1] - Vs[i]))
+    return None
+
+
 def flutter_solve(om, Dq, b_ref, cosL, g_s=0.0, M_fixed=None, fscale=None, mach=True, method="pk",
                   curves=False):
     """Mach eslestirmeli (match-point) flutter. beta(V) = sqrt(1 - M_n^2), M_n = V cosL / a <= 0.9.
@@ -384,17 +444,27 @@ def analyse(sec, y_clamp=Y_CLAMP, servos=SERVOS, slope=True, nm=N_MODES_FLUTTER,
             want_curves=False):
     beam = beam_from_section(sec, y_clamp, servos)
     fe = build_fe(beam)
-    md = modes(fe, 8)
+    md = modes(fe, 16)
+    nm = flutter_mode_count(md, nm)
     b_ref = b_ref_default()
     Dq = modal_aero(fe, md, nm, b_ref, slope=slope)
     om = md["omega"][:nm]
     Vf, wf, br, beta, cur = flutter_solve(om, Dq, b_ref, beam["cosL"], mach=mach, curves=True)
     Vf2 = find_flutter(*cur, g_s=0.02)[0]          # ayni beta ile g_s = 0.02
+    # iter5 inceleme: pk_sweep kok takibi yakin frekansli modlarda dal degistirebiliyor (ornek: adim C
+    # 3839 km/h, iz-takipsiz 1776 km/h). Iz-takipsiz kontrol (her V'de kendi beta'si); dusuk olan alinir.
+    Vs = np.arange(300.0, 4000.0, 10.0) / 3.6
+    cl = beam["cosL"]
+    gmax = pk_fresh(om, Dq, (lambda V: beta_of(V, cl)) if mach else 1.0, b_ref, Vs)
+    Vfresh = first_crossing(Vs, gmax) or float("inf")
+    tracking_ok = (not math.isfinite(Vf) and not math.isfinite(Vfresh)) or abs(Vfresh / Vf - 1) < 0.02
+    if Vfresh < Vf:
+        Vf, wf, br = Vfresh, float("nan"), -1
     Vfix, _, _, _ = flutter_solve(om, Dq, b_ref, beam["cosL"], M_fixed=V_REQ / A_SND, mach=mach)
     Vdiv = divergence_fe(fe, slope)
     r = dict(f_Hz=md["f"].tolist(), names=md["names"], tors=md["tors"].tolist(), Vf=Vf, Vf_kmh=Vf * 3.6,
              ff_Hz=wf / 2 / math.pi, branch=br, Vf_g02_kmh=Vf2 * 3.6, Vf_Mfix_kmh=Vfix * 3.6,
-             Vdiv_kmh=Vdiv * 3.6, beta=beta)
+             Vdiv_kmh=Vdiv * 3.6, beta=beta, n_modes=nm, Vf_fresh_kmh=Vfresh * 3.6, tracking_ok=bool(tracking_ok))
     if want_curves:
         r["_curves"] = cur
         r["_fe"], r["_md"], r["_Dq"], r["_bref"], r["_beam"] = fe, md, Dq, b_ref, beam
@@ -620,7 +690,7 @@ def plot_vg(cases, fn):
         axs[0, col].legend(fontsize=7, loc="lower left")
     axs[0, 0].set_ylabel("Gereken yapisal sonum g")
     axs[1, 0].set_ylabel("Frekans [Hz]")
-    fig.suptitle("HIZ-750 kanat modal flutter (FE 4 mod, serit Theodorsen, p-k yontemi, ok acisi dahil)",
+    fig.suptitle("HIZ-750 kanat modal flutter (FE %d mod, serit Theodorsen, p-k yontemi, ok acisi dahil)" % cases[0][1]["n_modes"],
                  fontsize=10)
     fig.tight_layout()
     fig.savefig(os.path.join(OUT, fn), dpi=130)
@@ -660,7 +730,7 @@ def main():
     plot_vg([("Tank dolu", base_cases["dolu"]), ("Tank bos", base_cases["bos"])], "fe_flutter_Vg.png")
     # mod sayisi yakinsamasi
     conv = {}
-    for nm in (3, 4, 5, 6):
+    for nm in (4, 6, 8, 10):
         sec = section_data(base, fuel=True, m_fuel_half=m_fuel)
         conv[nm] = analyse(sec, nm=nm)["Vf_kmh"]
     RES["mode_convergence_dolu"] = conv
@@ -756,8 +826,9 @@ def main():
     for ax, key in zip(axs, ("dolu", "bos")):
         r = base_cases[key]
         md, Dq, bref, beam = r["_md"], r["_Dq"], r["_bref"], r["_beam"]
-        om = md["omega"][:N_MODES_FLUTTER]
-        is_t = md["tors"][:N_MODES_FLUTTER] > 0.5
+        nmf = r["n_modes"]
+        om = md["omega"][:nmf]
+        is_t = md["tors"][:nmf] > 0.5
         grid = np.zeros((len(fac), len(fac)))
         for i, fb in enumerate(fac):
             for j, ft in enumerate(fac):

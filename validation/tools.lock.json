@@ -1,0 +1,21 @@
+{
+  "SU2": {
+    "version": "8.2.0",
+    "archive": "https://github.com/su2code/SU2/releases/download/v8.2.0/SU2-v8.2.0-win64.zip",
+    "release": "https://github.com/su2code/SU2/releases/tag/v8.2.0",
+    "assets_api": "https://api.github.com/repos/su2code/SU2/releases/tags/v8.2.0",
+    "asset_selection": "Tek Windows x64 serial zip; MPI ve AD paketleri hariç. URL ve SHA256 kurulum kaydına yazılır."
+  },
+  "CalculiX": {
+    "version": "2.20",
+    "archive": "https://www.dhondt.de/calculix_2.20_4win.zip",
+    "source": "https://prepomax.fs.um.si/downloads/",
+    "note": "Resmi PrePoMax indirme sayfasının işaret ettiği sabit Windows dağıtımı. Çalıştırmada banner ile sürümü kontrol edin."
+  },
+  "gmsh": {
+    "version": "4.15.2",
+    "package": "https://pypi.org/project/gmsh/4.15.2/",
+    "sdk": "https://gmsh.info/bin/Windows/gmsh-4.15.2-Windows64-sdk.zip"
+  },
+  "download_verification": "Kurulum Claude tarafından host'ta yapıldı; URL/arşiv hash kaydı validation/results/installation.json içinde. Her gerçek koşu executable SHA256'sini ayrıca kaydeder."
+}

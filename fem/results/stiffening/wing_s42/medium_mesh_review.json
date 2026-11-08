@@ -1,0 +1,63 @@
+{
+  "level": "medium",
+  "h": 0.0625,
+  "expanded_dof": 43974,
+  "fuel_state": "full",
+  "deck_sha256": "b23773047ec8314f1005de662f8ae710a0e6aeea81bdf4f3a424fe08efe046be",
+  "prepared_dir": "C:\\hz750run\\wing_s42_medium_750n5wct",
+  "wing_model_json_sha256": "52ae3190433c3afd7ff3f91ee6ec6bb4afb9ae9b9562f1bab4e9e8356acddb96",
+  "wing_nodes_json_sha256": "c12ef2947231c63b3da406a370e5610735cd798dce669ca1f9b67bf95a41d40c",
+  "laminate_materials_complete": true,
+  "orientations_checked": true,
+  "mass_reconciled": true,
+  "ultimate_load_checked": true,
+  "shell_connectivity_checked": true,
+  "sandwich_no_overlap": true,
+  "details": {
+    "materials": [
+      "CORE",
+      "FAB",
+      "UD"
+    ],
+    "orientation": {
+      "max_abs_a_dot_n": 1.2172465813087285e-10,
+      "min_abs_normal_dot": 0.9999632850826375,
+      "max_angle_to_spar_tangent_deg": 1.7075472925031877e-06
+    },
+    "outward_normal_violations": 0,
+    "mass": {
+      "relative_difference": 2.220446049250313e-16,
+      "max_bay_cg_diff_c": 0.0,
+      "inertia_ratio_bays": [
+        0.897133358744738,
+        0.9072141821832822,
+        0.9140840114164523,
+        0.9073191434024264,
+        0.962532464620986,
+        0.9537702226940927,
+        0.9500853380980385,
+        0.9331892285939863
+      ]
+    },
+    "load": {
+      "sum_Fz_N": 1414.6555701713903,
+      "target_N": 1414.5403931221563,
+      "relative": 8.142365519847594e-05,
+      "n_ultimate": 18.0,
+      "root_moment_target_Nm": 411.86517251041136
+    },
+    "connectivity": {
+      "free_edges": 64,
+      "free_edges_off_root": 0,
+      "nonconforming_rib_web_edges": 0,
+      "unused_nodes": 0
+    },
+    "sandwich": {
+      "elements_core": 284,
+      "elements_monolithic": 100,
+      "min_gap_m": 0.00024058616038549752
+    }
+  },
+  "reviewer": "fem/wing_review.py (otomatik sayısal kontroller)",
+  "note": "Bayraklar sayısal kontrol sonucudur; imalat/çizim incelemesinin yerini tutmaz."
+}

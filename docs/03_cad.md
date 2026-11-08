@@ -151,7 +151,22 @@ Diğer ölçümler:
 
 Script: [`cad/mass_properties.py`](../cad/mass_properties.py), çıktı [`cad/out/mass_properties.json`](../cad/out/mass_properties.json) (yaklaşık 15 s). `params.MASS_ITEMS`'taki her kalem bir CAD katısına eşlendi. Katının hacim ağırlıklı ağırlık merkezi ve atalet tensörü OCP `BRepGProp` ile birim yoğunlukta hesaplandı, sonra kalem kütlesine ölçeklendi. Katısı olmayan kalemler params'taki (x, z) konumunda küçük homojen kutu olarak eklendi. Tensör CG etrafında, eksenler CAD ekseni (x arkaya, y sağa, z yukarı). Ixz = +∫xz dm. Uçuş gövde ekseninde (x ileri, z aşağı) iki eksen birden döndüğü için Ixz'nin işareti aynı kalıyor.
 
-### Sonuçlar
+### Güncel sonuçlar (iter5, `logs/cad_mass_properties.log`)
+
+İter5 kanat rijitleştirmesi (kanat kalemi 2,03 kg, x 1,175 m) ve iter4 kabuk CG düzeltmesi sonrası. Kullanılabilir tank hacmi 5,144 L (= 4,115 kg).
+
+| Durum | m [kg] | x_cg [m] | z_cg [m] | Ixx | Iyy | Izz | Ixz [kg·m²] | params'a göre Δx_cg |
+|---|---|---|---|---|---|---|---|---|
+| Yakıt %100 (kullanılabilir 4,115 kg) | 17,555 | 1,1456 | −0,0157 | 0,407 | 2,801 | 3,119 | 0,043 | −1,1 mm |
+| Params yakıtı (4,0 kg) | 17,440 | 1,1470 | −0,0156 | 0,405 | 2,794 | 3,110 | 0,043 | −1,2 mm |
+| Yakıt %25 (1,029 kg) | 14,469 | 1,1896 | −0,0136 | 0,367 | 2,577 | 2,866 | 0,047 | −1,4 mm |
+| Yakıt %0 | 13,440 | 1,2087 | −0,0126 | 0,354 | 2,486 | 2,765 | 0,048 | −1,4 mm |
+
+CAD ile `params.mass_summary` arasındaki x_cg farkı artık ±5 mm toleransın içinde (−1,1…−1,4 mm). Kanat kaleminin CAD konumu 1,195 m, params 1,175 m (+19,6 mm; hacim ağırlıklı katı kalın köke doğru kayıyor, aşağıdaki "hacim ağırlıklı yaklaşımın sınırı" notu). CAD/Roskam oranı Ixx 0,71, Iyy 1,01, Izz 0,84. Uçuş kontrol (doküman 09) bu tabloyu kullanır.
+
+Aşağıdaki tablolar ve karşılaştırmalar **iter4 tarihsel kaydıdır** (MTOW 17,01 kg, gövde kabuğu params'ta henüz 1,05 m, kanat 1,75 kg, brüt tank 5,335 L).
+
+### Sonuçlar (iter4, tarihsel)
 
 | Durum | m [kg] | x_cg [m] | y_cg [m] | z_cg [m] | Ixx | Iyy | Izz | Ixz [kg·m²] |
 |---|---|---|---|---|---|---|---|---|

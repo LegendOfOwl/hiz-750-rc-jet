@@ -70,7 +70,9 @@ WING = dict(
     aileron=dict(eta0=0.52, eta1=0.94, cf=0.18, defl_max_hs=4.0, defl_max_ls=18.0),
     flap=dict(eta0=0.12, eta1=0.50, cf=0.25, defl_land=35.0, type="slotted"),   # iter3: tek yarikli flap
     spar_xc=(0.20, 0.55),     # on/arka kiris (iter2: arka kiris motor onunde kalsin)
-    skin_plies=(3, 1),        # iter3: kabuk kat/yuz (kiris onu, kiris arkasi) -> kesit CG 0.45c, flutter 1500 km/h
+    skin_plies=(4, 1),        # iter5: kabuk kat/yuz (kiris onu, kiris arkasi); kabuk FEM rijitlestirme calismasi (fem/results/stiffening)
+    rib_pitch=0.043,          # iter5: ara kaburga araligi [m] (0.086 -> 0.043); f_1T 272.5 -> 294.9 Hz (kabuk FEM, dolu tank)
+    web_extra_plies=1,        # iter5: on/arka kiris web'ine ek +-45 kumas kati
     attach=dict(type="tek parca kanat, kutu govde icinden gecer", bolts="4x M6 12.9",
                 frames_x=(1.006, 1.156), front_pins_x=0.94),   # govde icinde kanat yalniz x <= 1.156
 )
@@ -107,9 +109,9 @@ GEAR = dict(
 MASS_ITEMS = [
     ("Govde kabugu (karbon prepreg)",          1.55, 1.15, 0.00),   # iter4: CAD kabuk alan merkezi (eski 1.05)
     ("Burun balasti (tungsten) / ek RX akusu",  0.15, 0.20, 0.00),   # iter4: bos yakit SM'yi %12'ye geri getirir
-    ("Kanat (kabuk 3/1 kat + kiris + kaburga)", 1.75, 1.18, -0.08),
+    ("Kanat (kabuk 4/1 kat + kiris + 43 mm kaburga)", 2.03, 1.175, -0.08),   # iter5: rijitlestirme +0.28 kg (kabuk FEM yari kanat 0.894 -> 1.037 kg), kesit CG 0.451c -> 0.428c
     ("Kanat baglantisi: cerceveler + 4xM6 + blok", 0.15, 1.08, -0.06),
-    ("Motor bolgesi isi kecesi + G10 plaka",    0.05, 1.38, -0.07),
+    ("Motor bolgesi isi kecesi + G10 plaka",    0.05, 1.38, -0.07),   # iter5: 2 mm seramik kece ZORUNLU (termal: kecesiz yer kosusu kabuk 149.8 C ~ Tg 150 C)
     ("Yatay kuyruk",                            0.30, 2.00, 0.00),
     ("Dikey kuyruk",                            0.20, 1.98, 0.14),
     ("Motor yatagi + isi kalkani",              0.35, 1.38, 0.00),

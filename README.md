@@ -23,7 +23,7 @@ Bu hız, türbinli RC uçaklarda Guinness dünya rekoru seviyesinde: Niels Herbr
 | Azami hız | ~878 km/h kötümser model; alık analiziyle (η_r 0,97) ~898 km/h |
 | 750 km/h'te itki payı | %40–90 (sürükleme 154–210 N, kullanılabilir itki ~300 N) |
 | Statik marj | Tam yakıtta %32,8, %25 yakıtta %19,0, boşta %13,0 MAC (nötr nokta 1,251 m; iter5 ile güncellendi) |
-| Flutter / diverjans | **Tasarım değeri ≈1267 km/h dolu / 1271 km/h boş** (iter5 kabuk-FEM ölçekli, f_1T 295,2 / 302,2 Hz; 1080 km/h gereksinime %17 pay; 1350 km/h = ×1,25 payı sağlanmıyor; kabuk mod şekilli p-k açık iş). Eski değerler: iter4 1D FE modal 1307 km/h (kabuk FEM'e göre iyimser; yeni kat planında 1D sonuç güvenilmez), 2-DOF 1465 km/h; ok açılı kanatta diverjans yok. Gereksinim ≥ 1080 km/h |
+| Flutter / diverjans | **Tasarım değeri ≈1267 km/h dolu / 1271 km/h boş** (iter5 kabuk-FEM ölçekli, f_1T 295,2 / 302,2 Hz; 1080 km/h gereksinime %17 pay; kabuk mod şekilli p-k tahmini 1326 / 1324 km/h; yalnız kanat, kuyruk/gövde bağlaşımı açık). Eski değerler: iter4 1D FE modal 1307 km/h, 2-DOF 1465 km/h; ok açılı kanatta diverjans yok. Gereksinim ≥ 1080 km/h |
 | Kanat kütlesi / kat planı | **2,03 kg** (iter5: kabuk **4/1** kat, **43 mm** kaburga aralığı, web +1 ±45 kat; iter3/4: 3/1 kat, 1,74 kg); tek parça, gövde içinden geçen kutu, 4× M6. GVT kriteri f_1T ≥ 230 Hz, kabuk tasarım f_1T ≈295 Hz |
 | Yapısal limit | +12 / −8 g, emniyet katsayısı 1,5 |
 | Servolar | 6× 45 kg·cm + 1× 60 kg·cm (rudder), HV, boşluksuz; aileron servosu ≤ 60 g ince tip; elevator veteri %22 |
@@ -118,14 +118,14 @@ Analiz klasörlerinde de `*_iter1` arşivleri var.
 
 **İter5'te (v0.6.0) kanat FEM'i ve CFD:**
 - **Kompozit kanat kabuk FEM'i (CalculiX S8R) 1D modelin burulma iyimserliğini ortaya çıkardı.** CLT kupon benchmarkı kabul edildi (hata ≤ %1,12); kanat REVIEW_REQUIRED (malzeme sabitleri varsayım). 3/1 kabukta f_1T 272,5 Hz (1D 305,7 Hz'in %89'u), flutter ≈1185 km/h.
-- Seçilen s41r043w1, 4/1 kat + 43 mm kaburga + web +1 kat ile düzeltilmiş modelde f_1T 295,2 Hz dolu / 302,2 Hz boş, flutter ≈1267 / 1271 km/h verdi. 1080 km/h'e pay %17, toplam ek kütle +0,285 kg, Tsai-Wu R 4,16, uç sehim 43,0 mm, MTOW 17,44 kg. 316 Hz (1350 km/h) hedefine ulaşılamadı. [Doküman 04 §15.2a](docs/04_yapi_flutter.md), [doküman 10 §10.7](docs/10_yuksek_dogruluk_dogrulama.md).
+- Seçilen s41r043w1, 4/1 kat + 43 mm kaburga + web +1 kat ile düzeltilmiş modelde f_1T 295,2 Hz dolu / 302,2 Hz boş, flutter ≈1267 / 1271 km/h verdi. 1080 km/h'e pay %17, toplam ek kütle +0,285 kg, Tsai-Wu R 4,16 (kök hariç; kök dahil 1,97, indirgemeli 1,07, kök bağlantısı iter6'da), uç sehim 43,0 mm, MTOW 17,44 kg. 316 Hz (1350 km/h) hedefine ulaşılamadı. [Doküman 04 §15.2a](docs/04_yapi_flutter.md), [doküman 10 §10.7](docs/10_yuksek_dogruluk_dogrulama.md).
 - Düz levha SA üç ağda **BENCHMARK_ACCEPTED**. İnce Cf 0,0028613, Schlichting farkı −%4,74, p 0,434 ve ince GCI %1,82 (p<.5 için sınırlandırılmış p, Fs=3; eski Fs=1,25 değeri %0,88). MG3 ıraksamasından sonra MG0 + CFL_ADAPT ve proje kapısıyla uyumlu durma kuralı kullanıldı. [Üç ağ çalışması](validation/results/flat_plate_SA/study.md).
 - RAE2822 **PENDING**. Yeni tek bloklu 100c C-ağında minimum köşe sinüsü 0,707. MG3 ıraksadı, MG0 ıraksamayı önledi fakat residual iz bölgesinde kaldığı için kaba ağ kapıyı geçmedi. Ara değerler CL 0,730 (−%1,8), CD 0,01345 (+%5,9), Cp RMSE 0,092. Resmi SU2 ağıyla çözücü/cfg kabul edildi, deneysel Cp kabulü açık. [CFD çalışma kaydı](cfd/RESULTS_iter5.md).
 - `thermal_1d`, konsol ve kupon yeniden koşuldu, sayılar aynı, **BENCHMARK_ACCEPTED** (STALE kapsamı daraltıldı). RAE2822 iz kesiti ağı düzeltildi: kaba ağ MG0 ile proje kapısını geçti (CL −%3,07, CD −%0,75, Cp RMSE 0,098 > 0,08); orta/ince 2 saat sınırında, üç ağ PENDING. İz bloğu ağı, kabuk mod şekilleriyle p-k, termal yeniden koşum, SST/profil taraması ve GVT/fiziksel testler sırada.
 
 **İter4'te (v0.5.0) masa başında doğrulananlar:**
 - **Kütle ve atalet CAD'den hesaplandı.** Gövde kabuğunun ağırlık merkezi 100 mm geride çıktı, bu yüzden boş yakıtta statik marj %8,4'e düşüyordu. Kabuğun konumu düzeltildi ve 0,15 kg burun balastı eklendi; marj yeniden %12,5. Ixx, Roskam tahmininin %69'u.
-- **Kanat için FE modal flutter analizi yapıldı** (Goland kanadıyla doğrulandı). Flutter hızı 1307 km/h; 2-DOF modeli bunu %11 iyimser veriyordu. Kesit CG'si ve GJ için 24 köşe durumunun hepsi 1080 km/h'nin üstünde. GVT kabul kriteri: f_1T ≥ 230 Hz.
+- (iter4) **Kanat için FE modal flutter analizi yapıldı** (Goland kanadıyla doğrulandı). Flutter hızı 1307 km/h; 2-DOF modeli bunu %11 iyimser veriyordu. Kesit CG'si ve GJ için 24 köşe durumunun hepsi 1080 km/h'nin üstünde. GVT kabul kriteri: f_1T ≥ 230 Hz.
 - **Uçuş kontrol yasası tasarlandı.** g-limiter, boş yakıtta tam çubuk çekişte n'yi 10,05 g'de tutuyor; kontrolcü olmasa 28 g çıkıyordu. Yaw damper Dutch roll sönümünü ζ 0,10'dan 0,31–0,44'e çıkarıyor. Tüm zarfta kazanç payı ≥ 9,4 dB.
 - **Alığın basınç kazanımı hesaplandı:** η_r = 0,970, eşdeğer k_ram 0,67. Taban model kötümser kalıyor.
 - **Kanat tankı hacmi uzlaştırıldı:** kullanılabilir hacim yarı kanat başına 0,57 L. Gövde tankı 3,73 L'ye büyütüldü.

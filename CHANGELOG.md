@@ -19,8 +19,8 @@ Sürümleme: `0.MAJOR_ITERASYON.PATCH`. 1.0.0 sürümü, prototip uçuş testind
 ### Bulgular (FEM)
 - CLT kupon benchmarkı **BENCHMARK_ACCEPTED** (5 laminat, 3 ağ, en büyük hata %1,12 < %2). Kompozit kanat **REVIEW_REQUIRED** (malzeme sabitleri varsayım).
 - Taban 3/1 kabukta f_1T 272,5 Hz (1D 305,7 Hz'in %89'u): flutter ≈1185 km/h. Kaburgalar f_1T'yi belirliyor (kaburgasız 198-207 Hz). 18 g uç sehim 47,7 mm, Tsai-Wu R_min 3,66.
-- Rijitleştirmede hiçbir seçenek 316 Hz (1350 km/h) hedefine ulaşmadı; ilk taramada kat eklemek kütleyle doydu (6/1 → 281 Hz). Düzeltilmiş modelde seçilen s41r043w1, 4/1 + 43 mm kaburga + web +1 kat ile f_1T 295,2 Hz (dolu) / 302,2 Hz (boş), Tsai-Wu R_min 4,16, uç sehim 43,0 mm verdi.
-- **Uyarı:** 1D `fe_modal` yeni kat planıyla dolu tankta 1813 km/h veriyor ve V_F(f_T) eğrisi düz (kritik mod değişti); 1D sonuç güvenilmez/iyimser. GVT kabul kriteri f_1T ≥ 230 Hz korunur; kabuk tasarım hedefi ≈295 Hz. Kabuk mod şekilleriyle p-k flutter açık iş.
+- Rijitleştirmede hiçbir seçenek 316 Hz (1350 km/h) hedefine ulaşmadı; ilk taramada kat eklemek kütleyle doydu (6/1 → 281 Hz). Düzeltilmiş modelde seçilen s41r043w1, 4/1 + 43 mm kaburga + web +1 kat ile f_1T 295,2 Hz (dolu) / 302,2 Hz (boş), Tsai-Wu R 4,16 (kök hariç; kök dahil 1,97, indirgemeli 1,07, kök bağlantısı iter6'da), uç sehim 43,0 mm verdi.
+- 1D `fe_modal`'ın 1813 km/h sonucu bir kod hatasıydı (ilk 4 mod alınıyordu, 1T beşinci mod); düzeltildi, 1D dolu 1452 / boş 1544 km/h. **Kabuk mod şekilleriyle p-k** (`fem/shell_flutter.py`): seçilen tasarım dolu 1326 / boş 1324 km/h (tahmin; kumanda yüzeyi, kuyruk ve gövde bağlaşımı yok). Tasarım değeri ihtiyatlı 1267 km/h kalır (Grup 2 kararı). GVT kabul kriteri f_1T ≥ 230 Hz yeni modelle yeniden türetilecek.
 - CalculiX 2.20 bulguları: tek iş parçacığı, SPOOLES, MASS yerine NSM, kök 1-3 ankastre.
 ### Doğrulama durumu
 - Düz levha SA üç ağda **BENCHMARK_ACCEPTED**. İnce Cf 0,0028613, Schlichting farkı −%4,74, p 0,434, ince GCI %1,82 (p<.5 için sınırlandırılmış p, Fs=3; eski değer %0,88). MG3 ıraksamasından sonra MG0 + CFL_ADAPT ve proje kapısıyla uyumlu durma kuralı kullanıldı.
@@ -42,9 +42,10 @@ Sürümleme: `0.MAJOR_ITERASYON.PATCH`. 1.0.0 sürümü, prototip uçuş testind
 
 ### Açık kalanlar
 - Kanat tankı kullanılabilir hacmi 43 mm kaburgalarla ~5,0 L'ye inebilir (params 0,57 L/yarı, fe_modal 0,547); termal model keçeyle 126 °C, test kriteri < 120 °C.
-- RAE iz bloğu ağı ve üç ağ kabulü, kabuk mod şekilleriyle p-k flutter, `thermal_1d` yeniden koşumu, SST ve profil taraması, GVT ve fiziksel testler.
+- RAE2822 orta/ince ağ koşuları ve üç ağ kabulü (Cp ölçütü sabitlenecek, ön kenar noktası dışlanmayacak), SST ve profil taraması, GVT ve fiziksel testler.
 - 316 Hz hedefi ve 1350 km/h model payı sağlanmadı. Kanat REVIEW_REQUIRED, malzeme ve termal parametre varsayımları sürüyor.
-- Kapanış düzeltmelerinde Python erişim engeli nedeniyle yeni regresyon testleri çalıştırılamadı. Düz levha, konsol ve kupon kayıtlarında kaynak hash'leri farklı, yeniden değerlendirmede STALE sonucu bekleniyor. Yukarıdaki kabul ifadeleri kayıtlı koşulara aittir.
+- 2026-11-08 Grup 1 incelemesinden sonra 33 regresyon testi ve `check_artifacts` PASS; düz levha, konsol, kupon ve thermal_1d güncel kodla yeniden koşuldu.
+- **Uçuşa hazır değil.** Uçuş öncesi engeller (Grup 2): kuyruk/gövde bağlaşık flutter ve GVT, motor bölgesi termali (126 °C > 120 °C), FC filtreli faz payı (≈41° < 45°) ve HIL, kök sandviç kesme kıvrılması (pay 1,2–1,5), tank kullanılabilir hacmi ve dinamik görev yakıtı. Kararlar: [reviews/grup2_karar.md](reviews/grup2_karar.md).
 
 ## [0.5.0] - 2026-11-04 · İter4: masa başı doğrulamaları
 ### Eklendi

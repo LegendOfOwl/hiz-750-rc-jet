@@ -2,9 +2,9 @@
 
 **v0.6.0 · 2026-11-06, CFD/termal kısmı 2026-11-08 incelemesiyle güncellendi.** Düz levha SA üç ağda BENCHMARK_ACCEPTED (p 0,434; düşük p nedeniyle Fs=3 ile ince GCI %1,82, eski Fs=1,25 değeri %0,88). RAE2822 iz kesiti ağı düzeltildi, kaba ağ proje kapısını geçti (CL −%3,07, CD −%0,75, Cp RMSE 0,098 > 0,08); orta/ince ağ 2 saatlik koşu sınırında tamamlanamadı (BLOCKED), üç ağ çalışması PENDING. Konsol önceki host koşusunda kabul aldı. `thermal_1d` 2026-11-08'de yeniden koşuldu ve BENCHMARK_ACCEPTED; altı koşullu motor termal senaryosu yeniden çözüldü, sayılar değişmedi. İlk turun sandbox engeli [tarihsel yoklamada](../validation/results/machine_probe.json), araç kurulum kaydı [installation.json](../validation/results/installation.json) içindedir.
 
-CLT kupon benchmarkı kabul edildi (BENCHMARK_ACCEPTED), kompozit kanat kabuk modeli çözüldü (REVIEW_REQUIRED) ve kanat rijitleştirilerek `params.py` güncellendi. İnceleme sonrası s41r043w1 sonucu f_1T 295,2 / 302,2 Hz ve ölçekli flutter ≈1267 / 1271 km/h (dolu / boş), toplam ek kütle +0,285 kg, Tsai-Wu R 4,16, uç sehim 43,0 mm (§10.7). 316 Hz hedefine ulaşılamadı.
+CLT kupon benchmarkı kabul edildi (BENCHMARK_ACCEPTED), kompozit kanat kabuk modeli çözüldü (REVIEW_REQUIRED) ve kanat rijitleştirilerek `params.py` güncellendi. İnceleme sonrası s41r043w1 sonucu f_1T 295,2 / 302,2 Hz ve ölçekli flutter ≈1267 / 1271 km/h (dolu / boş), toplam ek kütle +0,285 kg, Tsai-Wu R 4,16 (kök hariç; kök dahil 1,97, indirgemeli 1,07, kök bağlantısı iter6'da), uç sehim 43,0 mm (§10.7). 316 Hz hedefine ulaşılamadı.
 
-İter5 params ve analiz çıktıları yenilendi. Tarihsel karşılaştırma `v0.5.0` Git içeriklerine sabitlendi, güncel dosyaların hash'leri ayrıca kaydedildi. Bu kapanış oturumunda Python erişim engeli nedeniyle regresyon testleri ve çözücü yeniden koşumları yapılamadı. Hash karşılaştırmasında düz levha, konsol ve kupon kayıtlarının kaynakları farklı, yeniden değerlendirmede STALE sonucu bekleniyor. Bu dokümandaki kabul ifadeleri kayıtlı koşulara aittir. [Kurulum ve komutlar](../validation/README.md).
+İter5 params ve analiz çıktıları yenilendi. Tarihsel karşılaştırma `v0.5.0` Git içeriklerine sabitlendi, güncel dosyaların hash'leri ayrıca kaydedildi. 2026-11-08 Grup 1 incelemesinden sonra 33 regresyon testi ve artefakt kontrolü geçti; düz levha, konsol, kupon ve thermal_1d güncel kodla yeniden koşuldu. [Kurulum ve komutlar](../validation/README.md).
 
 ## 10.1 Araçlar ve çalışma sırası
 
@@ -56,7 +56,7 @@ Tarihsel sayılar `git show v0.5.0:<yol>` JSON içeriklerinden alınır. `valida
 | A / profil, Re4.5e6 | NeuralFoil M0: Cd0=.0035074; Clα=6.06675/rad; Cm0≈0 | bekliyor: cl/cd/cm, SA–SST, sonik Cp | solver/RAE deney kabulü |
 | B / uçak, 750km/h,300m | AeroBuildup154.353N / sizing yaklaşık210N | bekliyor: D, basınç/sürtünme payı, GCI | temiz fluid hacmi + prizmatik duvar ağı |
 | C / S-kanal | η_r=.970955; DC60 yok | bekliyor: recovery/DC60/debi | dış gövde BL yutulmalı; duvar STEP'i fluid değil |
-| D / dolu kanat | 1B27.459Hz, 1T305.677Hz; flutter1307.484km/h | düzeltilmiş s41r043w1, 4/1 + 43 mm + web+1; 1T 295,2 Hz, flutter ≈1267 km/h, ek kütle +0,285 kg toplam, Tsai-Wu R 4,16, uç sehim 43,0 mm (§10.7) | REVIEW_REQUIRED; 316 Hz hedefi sağlanmadı, malzeme varsayım, kabuk mod şekilleriyle p-k açık |
+| D / dolu kanat | 1B27.459Hz, 1T305.677Hz; flutter1307.484km/h | düzeltilmiş s41r043w1, 4/1 + 43 mm + web+1; 1T 295,2 Hz, flutter ≈1267 km/h, ek kütle +0,285 kg toplam, Tsai-Wu R 4,16 (kök hariç; kök dahil 1,97, indirgemeli 1,07, kök bağlantısı iter6'da), uç sehim 43,0 mm (§10.7) | REVIEW_REQUIRED; malzeme varsayım; kabuk mod şekilli p-k 1326 km/h (yalnız kanat) |
 | E / motor | kabuk sıcaklığı ölçülmedi; Tg≥150°C hedefi | tarihsel koşullu sonuçlar §10.6; 5,97 mm, yer/bypass yok, 2 mm keçeyle 126,10°C | thermal_1d STALE; k/h/ε ölçülmedi, fiziksel kabul açık |
 
 **A:** RANS, `aero/aero_analysis.py` ile aynı kalınlığı ölçeklenmiş64A010 koordinatını kullanır. Gerçek64A007'ye geçmek ayrı geometri duyarlılığıdır. α0/1/2°, M.61/.65/.70/.725/.75 ve iki model taranmalı. Matched-Mach NeuralFoil ile eski M0 ayrı saklanır. Tam türbülans RANS ve NeuralFoil ncrit9 geçiş varsayımı cd farkının model bütçesindedir. İlk sonik Mach, Mcrit için üst sınırdır; kesin Mcrit veya drag divergence sonucu değildir.
@@ -191,7 +191,7 @@ Kritik bölge arka kiriş kapağının ön yarısı (y ≈ 0,15 m, σ11 = −224
 
 Modal (ince ağ, dolu / boş tank): 1B 39,51 / 40,36 Hz, 2B 124,80 / 136,95 Hz, **1T 272,54 / 280,86 Hz**, 4. mod 1. düzlem içi eğilme 284,40 / 292,27 Hz, 5. mod 3B (burulma bağlaşımlı) 296,61 / 319,98 Hz. f_1T GCI: dolu %0,02, boş %0,17. 1D fe_modal ile kıyas (dolu): 1B 27,46 (oran 1,44), 2B 84,26 (1,48), 1T 305,68 (**0,89**); kabuk eğilmede çok daha rijit, burulmada %11 daha yumuşak. Kiriş teorisi çapraz kontrolü: 1D EI ile FE/kiriş = 0,54 (düz) ve 0,42 (ok açılı), kabuk EI ile 1,13 ve 0,89; yani fark EI farkındandır (structures kapak gerilmesi/sehimi muhafazakâr, burulma frekansı iyimser).
 
-**Flutter etkisi (yalnız f_1T ölçeği):** 3/1 tabanda dolu ≈1185 km/h, boş ≈1194 km/h (1D 1307 / 1329). 1080 km/h gereksinimi sağlanıyor, 1350 km/h (×1,25 payı) için f_1T ≥ 316 Hz gerekir ve sağlanmıyor. Bu frekans ölçeklemesidir; kabuk mod şekilleriyle p-k çözümü açık iştir.
+**Flutter etkisi (yalnız f_1T ölçeği):** 3/1 tabanda dolu ≈1185 km/h, boş ≈1194 km/h (1D 1307 / 1329). 1080 km/h gereksinimi sağlanıyor, 1350 km/h (×1,25 payı) için f_1T ≥ 316 Hz gerekir ve sağlanmıyor. Bu frekans ölçeklemesidir; kabuk mod şekilleriyle p-k sonucu aşağıda.
 
 ### 10.7.3 Rijitleştirme çalışması ve seçilen tasarım
 

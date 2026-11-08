@@ -65,8 +65,8 @@ HIZ-750
     │   ├─ 18 g uç sehim 47,7 mm; min Tsai-Wu R 3,66 (KD 0,544 ile 1,99), arka kiriş kapağı
     │   ├─ ⚠️ Flutter (f_1T ölçekleme) 1307 → ≈1185 km/h: 1080 OK, 1,25 model payı (1350) YOK → f_1T ≥ 316 Hz gerek
     │   ├─ ⚠️ Kaburgalar f_1T'yi belirliyor (kaburgasız 198–207 Hz < 230)
-    │   └─ 🟡 Rijitleştirme: ilk tarama 21 orta / 4 ince seçenek; inceleme sonrası 5 varyant yeniden çözüldü. Seçilen s41r043w1 (4/1 kat + 43 mm kaburga + web +1 kat), f_1T 295,2 Hz dolu / 302,2 Hz boş, Vf ≈1267 / 1271 km/h, 1080 km/h gereksinime %17 pay, toplam +0,285 kg, kesit CG 0,428c, Tsai-Wu R 4,16, uç sehim 43,0 mm. 316 Hz hedefine ulaşılamadı. Önceki params/zincir yenilemesiyle MTOW 17,44 kg, statik marj %13,0–32,8.
-    │       └─ ⚠️ 1D fe_modal yeni kat planıyla Vf 1813 km/h veriyor ve Vf(f_T) eğrisi düz (kritik mod değişti) → 1D sonuç GÜVENİLMEZ/iyimser. Tasarım değeri kabuk-FEM ölçekli **≈1267 km/h** (sabit iter4 referansı). Kabuk mod şekilleriyle p-k çözümü açık iş
+    │   └─ 🟡 Rijitleştirme: ilk tarama 21 orta / 4 ince seçenek; inceleme sonrası 5 varyant yeniden çözüldü. Seçilen s41r043w1 (4/1 kat + 43 mm kaburga + web +1 kat), f_1T 295,2 Hz dolu / 302,2 Hz boş, Vf ≈1267 / 1271 km/h, 1080 km/h gereksinime %17 pay, toplam +0,285 kg, kesit CG 0,428c, Tsai-Wu R 4,16 (kök hariç; kök dahil 1,97, indirgemeli 1,07, kök bağlantısı iter6'da), uç sehim 43,0 mm. 316 Hz hedefine ulaşılamadı. Önceki params/zincir yenilemesiyle MTOW 17,44 kg, statik marj %13,0–32,8.
+    │       └─ ✅ 1D fe_modal 1813 km/h bir KOD HATASIYDI (ilk 4 mod), düzeltildi → 1452/1544. Kabuk mod şekilleriyle p-k 1326/1324 km/h (tahmin). Tasarım değeri ihtiyatlı **≈1267 km/h** (Grup 2 kararı)
     ├─ 🔄 CFD doğrulama
     │   ├─ ✅ Düz levha SA, üç ağ BENCHMARK_ACCEPTED; ince Cf 0,0028613, Schlichting −%4,74, p 0,434, ince GCI %1,82 (Fs=3, eski %0,88)
     │   ├─ ✅ Düz levha MG3 ıraksaması sonrası MG0 + CFL_ADAPT ve proje kapısıyla uyumlu durma kuralıyla üç ağ kapıyı geçti
@@ -150,19 +150,22 @@ HIZ-750
 
 **Şu an (2026-11-06)**
 
-- Düzeltilmiş s41r043w1 seçimi geçerli. f_1T 295,2 / 302,2 Hz, ölçekli flutter ≈1267 / 1271 km/h, toplam ek kütle +0,285 kg, Tsai-Wu R 4,16, uç sehim 43,0 mm. 316 Hz hedefi sağlanmadı, kabuk mod şekilleriyle p-k açık.
+- Düzeltilmiş s41r043w1 seçimi geçerli. f_1T 295,2 / 302,2 Hz, ölçekli flutter ≈1267 / 1271 km/h, toplam ek kütle +0,285 kg, Tsai-Wu R 4,16 (kök hariç; kök dahil 1,97, indirgemeli 1,07, kök bağlantısı iter6'da), uç sehim 43,0 mm. 316 Hz hedefi bırakıldı; kabuk mod şekilli p-k 1326/1324 km/h (tahmin).
 - Düz levha SA üç ağda BENCHMARK_ACCEPTED, ince GCI %1,82 (Fs=3, eski %0,88) ve p 0,434. RAE2822 PENDING, residual iz bölgesinde. MG0 ıraksamayı önledi, iteratif kapı ve deney Cp kabulü bekliyor.
 - GCI tek-fark platosu kabulden çıkarıldı, 3B CFD yunuslama momenti CMy'ye bağlandı. Tarihsel baseline v0.5.0 Git byte'larına sabitlendi, güncel analiz dosyaları ayrı listelendi.
 - README, CHANGELOG [0.6.0] ve docs/10 güncellendi. Sürüm kaydı 2026-11-06 tarihli. Commit, etiket ve push bu kapanışta yapılmadı.
-- Python erişim engeli nedeniyle yeni regresyonlar ve solver yeniden koşumları bu oturumda çalıştırılamadı. Hash karşılaştırmasında düz levha, konsol ve kupon kayıtlarının kaynakları farklı, yeniden değerlendirmede STALE sonucu bekleniyor. Kayıtlı benchmark kabulü kaynak koşusuna aittir. (2026-11-08 güncel: STALE kapsamı daraltıldı, thermal_1d/konsol/kupon yeniden koşuldu ve kabul.)
+- 2026-11-08: 33 regresyon testi ve check_artifacts PASS; STALE kapsamı daraltıldı, thermal_1d/konsol/kupon güncel kodla yeniden koşuldu ve kabul aldı.
 
-**Sıradakiler**
+**Sıradakiler (Grup 2 kararı, iter6; ayrıntı [reviews/grup2_karar.md](reviews/grup2_karar.md))**
 
-1. RAE iz bloğu ağı. İz kesiti normal dağılımı gevşetilip katman eğimi sınırlanmalı, kaba MG3/MG0 ardından kapı geçerse orta/ince koşulmalı.
-2. Kabuk mod şekilleriyle p-k flutter çözümü.
-3. ~~thermal_1d yeniden koşusu~~ yapıldı (2026-11-08, kabul).
-4. SST ve profil taraması.
-5. GVT ve fiziksel testler.
+0. PR #2 / v0.6.0: entegrasyon kapanışı yapıldı; birleştirme ve etiket **kullanıcının açık onayını** bekliyor ("uçuşa hazır değil" araştırma sürümü).
+1. Kuyruk + gövde + kumanda bağlaşık aeroservoelastik model, serbest-serbest GVT planı; servo öne alma seçeneğinin FEM doğrulaması (uç balansı yedek).
+2. Gerçek FC zinciri (filtre/gecikme/yüklü servo, ≈41° kestirim), hava verisi, aşırı hız, arızalar, manevra+hamle zarfı, HIL.
+3. Yakıt/görev: kullanılabilir tank hacmi (43 mm kaburga, kaburga aralığı korunur), transfer, tank bazlı CG, sloshing, dinamik rezerv.
+4. Termal koruma (126 °C > 120 °C), kök sandviç kesme kıvrılması (pay 1,2–1,5) ve kök bağlantısı (Tsai-Wu kök dahil 1,97 / kd 1,07).
+5. Takılı motor + alık; RAE orta/ince ağ sabitlenmiş Cp ölçütüyle (ön kenar dışlanmaz), sonra SST/profil ve 3B CFD.
+
+Kararlar: kanat flutter çalışma değeri **1267 km/h** (kabuk p-k 1324 tahmin; gereksinim 1080; 1350 model payı hedefi); 316 Hz hedefi bırakıldı.
 
 ---
 
@@ -173,3 +176,4 @@ HIZ-750
 - 2026-11-06: İter5 kapanışı. Düzeltilmiş FEM sayıları, düz levha SA kabulü (GCI %0,88), RAE iz bölgesi PENDING ve thermal_1d STALE işlendi. GCI plato reddi, 3B CMy ve tarihsel v0.5.0 baseline düzeltmeleri yapıldı. Güncel araç codex-cli, sıradaki beş iş yenilendi. Python regresyonları erişim engeli nedeniyle çalıştırılamadı.
 - 2026-11-08: Grup 1 inceleme (zincir + dokümanlar): `sizing.py` kütle/geometri params'a bağlandı (17,01 → 17,44 kg; V_D/flutter gereksinimi params'tan), `mission.py` tırmanma (183 m/s fiziksel olarak imkânsızdı → kararlı tırmanış denklemi), dolly CL_g (L/W ≥ 1 ile tutarlı), elektrik bütçesinden iniş takımı kalemleri çıkarıldı; aero sürükleme karşılaştırması sizing modelinden. `run_all.sh` koşuldu (tamam), 33 test OK. Docs 02/03/05/06/07/08/09 ve README iter5 sayılarıyla güncellendi (09 kazanç/pay tabloları 17,16 kg'lık iter4 verisindeydi). Açık: kanat tankı kullanılabilir hacmi ≈5,0 L (43 mm kaburgalar), termal 126 °C > 120 °C kriteri, pitot q_c ≠ q̄. Rapor `reviews/grup1_zincir_dokuman.md`.
 - 2026-11-06: PR https://github.com/LegendOfOwl/hiz-750-rc-jet/pull/2 açıldı (iter5 → main). Birleştirme ve v0.6.0 release kullanıcı onayı bekliyor (otomatik birleştirme izin sınıflandırıcısı tarafından engellendi). İnceleme paketi: C:/Users/Urungu/Desktop/HIZ-750_Inceleme (`tools/inceleme_paketi_olustur.py` ile yeniden üretilir).
+- 2026-11-08: Grup 1 CFD/doğrulama (RAE iz ağı düzeltildi, kaba ağ kapıyı geçti; GCI Fs=3 → %1,82; STALE daraltıldı, thermal_1d/konsol/kupon yeniden kabul; shell_flutter JSON Infinity→null). Grup 2 karar ekibi (Codex Astra, Codex Sol, Claude Sonnet; 2 tur + çapraz doğrulama) oybirliği: iter5 tutulur, 1267 km/h çalışma değeri, servo önce FEM, tank yeterliliği kanıtlanmadı, 4 uçuş öncesi engel, PR kapanış sonrası kullanıcı onayıyla araştırma sürümü. Yeni bulgu: Tsai-Wu 4,16 kök hariç (kök dahil 1,97). Entegrasyon kapanışı yapıldı (eski ifadeler temizlendi). `reviews/grup2_karar.md`.

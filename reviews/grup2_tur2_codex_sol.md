@@ -1,0 +1,26 @@
+**Hüküm: Astra/SOL’un entegrasyon kapanışı sonrası birleştirme görüşü doğru. GCI’de 0,5 sınırına yönelik önceki itirazımı daraltıyorum.** Dosya yazmadım; test/çözücü çalıştırmadım.
+
+**Sayısal çapraz kontrol**
+
+- **Astra ve SOL:** 1267/1271 km/h ölçekli flutter, +0,285 kg ve 230 Hz mevcut GVT eşiği kayıtlarla uyumlu: [CHANGELOG.md:17](</C:/Users/Urungu/Desktop/Yeni klasör/CHANGELOG.md:17>), [docs/04_yapi_flutter.md:604](</C:/Users/Urungu/Desktop/Yeni klasör/docs/04_yapi_flutter.md:604>), [aynı dosya:618](</C:/Users/Urungu/Desktop/Yeni klasör/docs/04_yapi_flutter.md:618>).
+- **Üçü:** Kabuk p-k 1326/1324; servo 1427/1403; balans 1446/1424 km/h doğru: [shell_flutter.json:488](</C:/Users/Urungu/Desktop/Yeni klasör/fem/results/shell_flutter.json:488>), [:560](</C:/Users/Urungu/Desktop/Yeni klasör/fem/results/shell_flutter.json:560>), [:777](</C:/Users/Urungu/Desktop/Yeni klasör/fem/results/shell_flutter.json:777>), [:904](</C:/Users/Urungu/Desktop/Yeni klasör/fem/results/shell_flutter.json:904>), [:842](</C:/Users/Urungu/Desktop/Yeni klasör/fem/results/shell_flutter.json:842>), [:969](</C:/Users/Urungu/Desktop/Yeni klasör/fem/results/shell_flutter.json:969>).
+- **Sonnet:** MTOW 17,44 kg ve görev tüketimi 4,69 L doğru; rezerv yüklenen yakıtın yaklaşık **%6,25’i**: [sizing.log:4](</C:/Users/Urungu/Desktop/Yeni klasör/logs/sizing.log:4>), [performance_mission.log:22](</C:/Users/Urungu/Desktop/Yeni klasör/logs/performance_mission.log:22>). **R=4,16 ifadesi eksik:** kök hariçtir; genel minimum **1,973**, indirgemeli minimum **1,073**: [fine.json:10](</C:/Users/Urungu/Desktop/Yeni klasör/fem/results/stiffening/wing_s41r043w1/fine.json:10>).
+- **Üçü:** 126,1°C doğru fakat koşullu senaryodur: [termal fine.json:11](</C:/Users/Urungu/Desktop/Yeni klasör/thermal/results/engine_thermal_T250_F2_679b6a3875/fine.json:11>). **41° ölçülmüş sonuç değildir:** filtresiz kayıt 49,948°; filtre sonrası yaklaşık kestirimdir: [fc_sonuclar.json:1349](</C:/Users/Urungu/Desktop/Yeni klasör/aero/out/fc_sonuclar.json:1349>). Kuyruk aralıkları ve 1,2–1,5 sandviç payı kaynakta mevcut, ancak kaba hesaplar: [yapı incelemesi:19](</C:/Users/Urungu/Desktop/Yeni klasör/reviews/grup1_yapi_fem.md:19>).
+
+**Ayrışmalarda hüküm**
+
+- **GCI:** Sınırlama, yayımlanmış Oberkampf–Roy yaklaşımına uyuyor; “uydurma düzeltme” değildir. [Roache’nin değerlendirmesi](https://citeseerx.ist.psu.edu/document?doi=125bf9a455e1e3a65a32a1da61785788027a9665&repid=rep1&type=pdf). Kod p=0,43446 için p_kullanılan=0,5, Fs=3 ve GCI=%1,8166 veriyor: [study.json:75](</C:/Users/Urungu/Desktop/Yeni klasör/validation/results/flat_plate_SA/study.json:75>). **Sınırı tut; formal mertebe=2 gerekçesini tamamla:** türbülans MUSCL kapalı: [cases.py:226](</C:/Users/Urungu/Desktop/Yeni klasör/cfd/cases.py:226>).
+- **K7:** Şimdi hazır değil. Tam entegrasyon listesi: kesin commit; `run_all.sh`; 33 regresyon; artefakt kontrolü; ilgili kaynak/girdi/executable hash ve STALE değerlendirmesi; kanat/kabuk p-k çıktılarının güncelliği; yeniden üretilmiş inceleme paketi; README/BASARIM/CHANGELOG/docs durum tutarlılığı; açık riskleri ve doğrulama sınırlarını belirten sürüm notu; son adım açık kullanıcı onayı ([kural:25](</C:/Users/Urungu/Desktop/Yeni klasör/BASARIM_AGACI.md:25>)). Fiziksel açıkların tamamı araştırma sürümü birleştirmesini engellemez.
+- **K4:** “Yeterliliği kanıtlanmamış” doğru. Yaklaşık 5 L, eksik kaburga hesabına dayanıyor; kesin kullanılabilir kapasite değildir: [zincir incelemesi:52](</C:/Users/Urungu/Desktop/Yeni klasör/reviews/grup1_zincir_dokuman.md:52>).
+- **Sonnet eşikleri:** 1,15×1080=1242≈1240 aritmetiği doğru; kanıtlanmış alt sınır sağlamaz. %15 rezerv de görev/besleme belirsizliğinden türetilmemiştir. İkisi kabul eşiği yapılmasın; rezerv senaryo hesabıyla belirlensin. 1350 zaten mevcut model payı hedefidir: [docs/04:604](</C:/Users/Urungu/Desktop/Yeni klasör/docs/04_yapi_flutter.md:604>).
+- **Balans:** Evet, **30 g/yarım kanat; toplam 60 g**: [yapı incelemesi:89](</C:/Users/Urungu/Desktop/Yeni klasör/reviews/grup1_yapi_fem.md:89>).
+
+**Kör noktalar:** GCI’nin %10 yakınlık dalı formal yerine gözlenen p’yi kullanıyor; tam yöntem uyumu iddiası eksik ([convergence.py:45](</C:/Users/Urungu/Desktop/Yeni klasör/validation/convergence.py:45>)). Ayrıca `run_all.sh` kabuk p-k’yi çalıştırmıyor ([run_all.sh:17](</C:/Users/Urungu/Desktop/Yeni klasör/run_all.sh:17>)). RAE önerisinde dışlanan küme tek nokta değil, sekiz noktadır ([CFD incelemesi:59](</C:/Users/Urungu/Desktop/Yeni klasör/reviews/grup1_cfd_dogrulama.md:59>)); Sonnet’in “sonra” önceliği doğrulama zinciri için uygun değil.
+
+K1: Kazanımları tut; GCI uygulaması ve kabul ifadelerini düzelt.  
+K2: 1267 geçici çalışma değeri; 1324 koşullu tahmin; uçak kabulü yok.  
+K3: Önce servo seçeneğini FEM ile doğrula; balans yedek.  
+K4: Kaburgayı koru; kullanılabilir hacim ve dinamik görevi kapat.  
+K5: Fiziksel riskleri şimdi; RAE ölçütünü kabulden önce çöz.  
+K6: Planı sorumlu, bağımlılık ve kapanış kanıtlarıyla tamamla.  
+K7: Entegrasyon kapanışı ve açık onay sonrası araştırma sürümü olarak birleştir/yayımla.

@@ -23,12 +23,13 @@ from urllib.parse import quote
 REPO = Path(__file__).resolve().parents[1]
 DEFAULT_TARGET = Path("C:/Users/Urungu/Desktop/HIZ-750_Inceleme")
 MARKER = ".hiz750_paket"
-SKIP = {".git", "logs", "__pycache__", ".venv"}
+# .claude: yerel ajan/oturum ayarlari, inceleme ciktisi degil (gizli bilgi icerebilir)
+SKIP = {".git", "logs", "__pycache__", ".venv", ".claude"}
 OUTPUT_EXTENSIONS = {".png", ".svg", ".pdf", ".dxf", ".step", ".stp",
                      ".stl", ".json", ".md", ".csv", ".txt"}
 RAW_EXTENSIONS = {".inp", ".cfg", ".su2", ".msh", ".geo", ".dat", ".bdf"}
 FOLDERS = [
-    "00_BASLA_BURADAN", "01_Raporlar", "02_Tasarim_Parametreleri",
+    "00_BASLA_BURADAN", "01_Raporlar", "01_Raporlar/Incelemeler", "02_Tasarim_Parametreleri",
     "03_CAD_Modeller/Montaj", "03_CAD_Modeller/Parcalar",
     "04_Teknik_Cizimler", "05_Aerodinamik", "06_Yapi_ve_Flutter",
     "07_Performans_ve_Kutle", "08_Ucus_Kontrol",
@@ -52,6 +53,7 @@ REPORT_NAMES = {
 # Ilk eslesen kural uygulanir. Daha ozel kurallar genel modullerden once gelir.
 # (repo yolu glob deseni, hedef klasor, dosya aciklamasi)
 MAPPING_RULES = [
+    ("reviews/*", "01_Raporlar/Incelemeler", "Inceleme raporu"),
     ("aero/*/fc_*", "08_Ucus_Kontrol", "Ucus kontrol grafigi veya sonucu"),
     ("aero/fc_*", "08_Ucus_Kontrol", "Ucus kontrol grafigi veya sonucu"),
     ("cad/*", "03_CAD_Modeller", "CAD gorseli veya model raporu"),
@@ -179,7 +181,11 @@ def destination_for(relative: Path) -> tuple[Path, str]:
         if fnmatchcase(path, pattern):
             if relative.suffix.lower() in RAW_EXTENSIONS:
                 folder += "/Ham_Girdiler"
-            elif relative.suffix.lower() in {".dxf", ".pdf", ".svg"} and relative.parts[0] == "cad":
+            elif relative.parts[0] == "cad" and (
+                    relative.suffix.lower() in {".dxf", ".pdf", ".svg"}
+                    or (relative.suffix.lower() == ".png"
+                        and any(w in relative.stem.lower() for w in ("3view", "inboard")))):
+                # 3 gorunus ve ic yerlesim PNG'leri de teknik cizimdir (DXF/PDF esleriyle ayni klasor)
                 folder = "04_Teknik_Cizimler"
             return Path(folder, descriptive_name(relative)), description
     # Bilinmeyen ciktilar icin kaynak yolu birebir korunur.

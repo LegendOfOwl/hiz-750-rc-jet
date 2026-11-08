@@ -413,7 +413,11 @@ def main():
     q = 0.5 * rho * V ** 2
     log("\n[4] Surukleme (750 km/h, trim):")
     log(f"   AeroBuildup CD={t750f['CD']:.5f} (CL={t750f['CL']:.4f}) -> D={t750f['D']:.0f} N")
-    log(f"   sizing.py CD0~0.0183 -> D~{0.0183*q*Sref:.0f} N ; fark %{100*(t750f['CD']/0.0183-1):+.0f}")
+    # iter5 inceleme: sizing.py degeri sabit 0.0183 yerine sizing modelinden hesaplanir (750 km/h'te CD0 ~0.0195)
+    import sizing as SZ  # noqa: E402
+    D_sz, i_sz = SZ.drag(SZ.DESIGN, V, mfull["m"])
+    CD_sz = D_sz / (q * Sref)
+    log(f"   sizing.py CD0={i_sz['CD0']:.4f} (CD={CD_sz:.4f}) -> D={D_sz:.0f} N ; AeroBuildup farki %{100*(t750f['CD']/CD_sz-1):+.0f}")
     log(f"   +%12 alik/egzoz/bosluk payi eklenmis gercekci itki ihtiyaci ~{1.12*t750f['D']:.0f} N")
 
     # polar grafigi

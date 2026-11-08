@@ -33,7 +33,15 @@ Sürümleme: `0.MAJOR_ITERASYON.PATCH`. 1.0.0 sürümü, prototip uçuş testind
 - `validation/convergence.py` yuvarlama kararı için iki farkın da küçük olmasını gerektiriyor. Tek küçük fark `PLATEAU_UNRESOLVED` döndürüyor ve `study.py` kupon yayılım istisnası dahil kabul vermiyor. Regresyon testleri eklendi.
 - `cfd/cases.py` 3B yunuslama momentini CMy'den okuyor. 2B CMz ve mevcut Cm işaret dönüşümü korundu, eksenleri ayıran sentetik test eklendi.
 - `validation/check_artifacts.cjs` ve `validation/report.py` tarihsel hash'leri `git show v0.5.0:<yol>` byte'larından alıyor, güncel analiz dosyalarını ayrı doğruluyor.
+### İnceleme düzeltmeleri (2026-11-08, grup 1 zincir/doküman)
+- `sizing.py` kütle ve geometriyi `params.py`'den okuyor (MTOW 17,01 → 17,44 kg; kanat yüklemesi 41,5 kg/m², T/W 2,48). V_D ve flutter gereksinimi params'tan yazılıyor (eski çıktı 1010 / 1212 km/h idi, params 900 / 1080). İniş stall kütlesi %25 yakıt (14,44 kg).
+- `performance/mission.py`: kararlı tırmanma `T − D = W sin γ` ile (eski `(T−D)V/W` 490 km/h'te 183 m/s düşey hız veriyordu, toplam hızdan büyük); 144–603 km/h arasında T − D ≥ W. Dolly kalkışında yer koşusu CL'si mandal koşuluyla (L/W = 1 @ 1,2 Vs) tutarlı. Elektrik bütçesinden iniş takımı servo/retract kalemleri çıkarıldı (ort 2,3 A, tepe ~20 A).
+- `aero/aero_analysis.py`: sizing sürükleme karşılaştırması sabit CD0 0,0183 yerine sizing modelinden (750 km/h'te CD0 0,0195, 212 N).
+- `tools/inceleme_paketi_olustur.py`: `.claude` taranmıyor, `reviews/` raporları `01_Raporlar/Incelemeler`'e, 3 görünüş/iç yerleşim PNG'leri `04_Teknik_Cizimler`'e.
+- Docs 02/03/05/06/07/08/09 ve README iter5 kütlesiyle (17,44 kg) güncellendi; doküman 09 kazanç, pay ve simülasyon tabloları `run_all.sh` çıktısından yeniden yazıldı. Doküman 06'da kanat kat planı 4/1 + 43 mm kaburga, yük testi ifadesi (nihai = %150 limit), GVT kabul ölçütü f_1T ≥ 230 Hz. Doküman 07 FMEA'ya hamle ve FC arızası eklendi, dolly açısı 3°/−4° düzeltildi. Doküman 09'da pitot fark basıncının q̄ olmadığı (M 0,61'de %10) yazıldı.
+
 ### Açık kalanlar
+- Kanat tankı kullanılabilir hacmi 43 mm kaburgalarla ~5,0 L'ye inebilir (params 0,57 L/yarı, fe_modal 0,547); termal model keçeyle 126 °C, test kriteri < 120 °C.
 - RAE iz bloğu ağı ve üç ağ kabulü, kabuk mod şekilleriyle p-k flutter, `thermal_1d` yeniden koşumu, SST ve profil taraması, GVT ve fiziksel testler.
 - 316 Hz hedefi ve 1350 km/h model payı sağlanmadı. Kanat REVIEW_REQUIRED, malzeme ve termal parametre varsayımları sürüyor.
 - Kapanış düzeltmelerinde Python erişim engeli nedeniyle yeni regresyon testleri çalıştırılamadı. Düz levha, konsol ve kupon kayıtlarında kaynak hash'leri farklı, yeniden değerlendirmede STALE sonucu bekleniyor. Yukarıdaki kabul ifadeleri kayıtlı koşulara aittir.

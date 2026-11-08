@@ -17,18 +17,18 @@ Bu hız, türbinli RC uçaklarda Guinness dünya rekoru seviyesinde: Niels Herbr
 | Gövde | 2,10 m × Ø165 mm, karbon prepreg kabuk |
 | Kuyruk | Yatay kuyruk 0,085 m² (iki yarı, egzoz üstü yoke), dikey kuyruk 0,060 m² |
 | Hava alığı | Dorsal, yarı gömülü pitot dudak, 60 cm², rampalı; S-kanal ofset/uzunluk 0,27 |
-| Kalkış / iniş | Bırakılan dolly ile kalkış (α 3°) / kızak + kuyruk tamponuyla çim iniş, yarıklı flap 35°, temas 87–95 km/h |
+| Kalkış / iniş | Bırakılan dolly ile kalkış (α 3°) / kızak + kuyruk tamponuyla çim iniş, yarıklı flap 35°, temas 88–97 km/h (nominal–muhafazakâr flap) |
 | MTOW / yakıtsız | **17,44 kg / 13,44 kg** (Türkiye İHA1 sınıfı, < 25 kg); iter5 kanat rijitleştirmesi MTOW'yi 17,16 → 17,44 kg yaptı |
 | Yakıt | 4,0 kg (5,0 L) yüklenir; kullanılabilir 5,14 L (gövde 3,73 + kanat kutusu ortası 0,27 + kanat kökü 2 × 0,57 L), yakıt CG x 0,940 m (CAD) |
-| Azami hız | ~878 km/h kötümser model; alık analiziyle (η_r 0,97) ~897 km/h |
+| Azami hız | ~878 km/h kötümser model; alık analiziyle (η_r 0,97) ~898 km/h |
 | 750 km/h'te itki payı | %40–90 (sürükleme 154–210 N, kullanılabilir itki ~300 N) |
 | Statik marj | Tam yakıtta %32,8, %25 yakıtta %19,0, boşta %13,0 MAC (nötr nokta 1,251 m; iter5 ile güncellendi) |
 | Flutter / diverjans | **Tasarım değeri ≈1267 km/h dolu / 1271 km/h boş** (iter5 kabuk-FEM ölçekli, f_1T 295,2 / 302,2 Hz; 1080 km/h gereksinime %17 pay; 1350 km/h = ×1,25 payı sağlanmıyor; kabuk mod şekilli p-k açık iş). Eski değerler: iter4 1D FE modal 1307 km/h (kabuk FEM'e göre iyimser; yeni kat planında 1D sonuç güvenilmez), 2-DOF 1465 km/h; ok açılı kanatta diverjans yok. Gereksinim ≥ 1080 km/h |
 | Kanat kütlesi / kat planı | **2,03 kg** (iter5: kabuk **4/1** kat, **43 mm** kaburga aralığı, web +1 ±45 kat; iter3/4: 3/1 kat, 1,74 kg); tek parça, gövde içinden geçen kutu, 4× M6. GVT kriteri f_1T ≥ 230 Hz, kabuk tasarım f_1T ≈295 Hz |
 | Yapısal limit | +12 / −8 g, emniyet katsayısı 1,5 |
 | Servolar | 6× 45 kg·cm + 1× 60 kg·cm (rudder), HV, boşluksuz; aileron servosu ≤ 60 g ince tip; elevator veteri %22 |
-| Uçuş kontrol | n_z komutlu pitch + g-limiter (−6/+10 g), yaw damper (ζ_DR 0,31–0,44), p komutlu roll; 4 hız × 3 yakıt kazanç tablosu; GM ≥ 9,4 dB, PM ≥ 50° |
-| Atalet (CAD, 4 kg yakıt) | Ixx 0,378 · Iyy 2,79 · Izz 3,08 · Ixz 0,044 kg·m² |
+| Uçuş kontrol | n_z komutlu pitch + g-limiter (−6/+10 g), yaw damper (ζ_DR 0,33–0,44), p komutlu roll; 4 hız × 3 yakıt kazanç tablosu; GM ≥ 9,4 dB, PM ≥ 49,9° (iter5 kütlesiyle yeniden üretildi; sensör filtreleri modelde yok) |
+| Atalet (CAD, 4 kg yakıt, iter5) | Ixx 0,405 · Iyy 2,79 · Izz 3,11 · Ixz 0,043 kg·m² |
 | Tahmini maliyet | ~€12.500–15.500 |
 
 ## 2. Doküman paketi
@@ -134,7 +134,7 @@ Analiz klasörlerinde de `*_iter1` arşivleri var.
 1. **Kısa ve sert rüzgâr hamlesi:** 15 m/s'lik 7,8 m'lik bir hamle 19–27 g üretiyor; kontrolcü bu kadar hızlı tepki veremiyor. Bu yüzden ölçüm uçuşları **yalnızca sakin havada** yapılmalı (uçuş kartında sınırlama olarak yer alır).
 2. **Türbin modeli:** İtkinin hızla düşüşü (`Vj`) ve alık kazanımı ölçülmedi. Yer testinde motor yüzünde basınç taraması, F2–F3 uçuşlarında telemetri ile kalibre edilmeli.
 3. **Flutter testi:** Flutter "sert" tipte, yani yaklaşırken uyarı vermiyor. **GVT yapılmadan 600 km/h üstüne çıkılmamalı.** Kat planı ile boya ve dolgu kütle kontrolü şart.
-4. **Motor altı kabuk sıcaklığı** ilk yer çalıştırmasında ölçülmeli (motorla kabuk arası 8,5 mm).
+4. **Motor altı kabuk sıcaklığı** ilk yer çalıştırmasında termokuplla ölçülmeli (motorla kabuk arası en dar 5,97 mm; 2 mm ısı keçesi zorunlu). Koşullu termal model en kötü yer senaryosunda keçeyle 126 °C veriyor; test kriteri iç kabuk < 120 °C (docs/06), kriter aşılırsa keçe/soğutma/reçine kararı yeniden verilir.
 5. **Kontrol döngüsü 200 Hz olmalı:** 50 Hz'de 20 ms gecikme yaw payını daraltıyor; 350 km/h altındaki kontrol yasası (kalkış/iniş) da henüz tasarlanmadı.
 6. **Pitch FC arızası:** Arıza durumunda yüksek hızda elevator ±0,3° ile sınırlanmalı, yüksek hız modunda pilotun rudder komutu ±0,3–0,5° ile.
 7. **Kızakla iniş yalnız çimde** yapılabilir.

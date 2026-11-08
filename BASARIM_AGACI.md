@@ -90,7 +90,7 @@ HIZ-750
 | Vmax, itki payı | Raymer bileşen sürüklemesi, Korn dalga sürüklemesi, türbin itki modeli. 750 km/h'te itki payı %40–90; kötümser modelle Vmax ~878 km/h | `sizing.py`, `docs/08` |
 | Stabilite, trim | AeroSandbox ile nötr nokta ve modlar; DATCOM ile gövde-kanat Cl_β | `aero/aero_analysis.py`, `docs/02` |
 | CAD | CadQuery'de parametrik model: 27 parça STEP/STL, montaj, DXF/PDF çizimler | `cad/build_cad.py`, `docs/03` |
-| Kütle, CG, atalet | CAD katılarından hesaplandı. MTOW 17,16 kg, yakıt CG'si 0,940 m, statik marj %12,5–32,8 | `cad/mass_properties.py` |
+| Kütle, CG, atalet | CAD katılarından hesaplandı. MTOW 17,44 kg (iter5; iter4'te 17,16), yakıt CG'si 0,940 m, statik marj %13,0–32,8, CAD–params Δx_cg ≤ 1,4 mm | `cad/mass_properties.py` |
 | Flutter | Önce 2-DOF Theodorsen, sonra 1D FE kiriş ile modal p-k (Goland kanadıyla doğrulandı). 1307 km/h, gereken 1080 km/h, pay %21. GVT kabul ölçütü: f_1T ≥ 230 Hz | `structures/fe_modal.py`, `docs/04` |
 | Yükler | Schrenk dağılımı, Bredt-Batho burulma | `structures/structures.py` |
 | Kontrol yasası | n_z komutlu pitch + g-limiter, yaw damper, p komutlu roll. GM ≥ 9,4 dB, PM ≥ 50° | `aero/flight_control.py`, `docs/09` |
@@ -171,4 +171,5 @@ HIZ-750
 - 2026-11-04 22:20: Resmi RAE native sonuçları ve ikili kabul kararı işlendi; Codex limiti doldu, CFD'yi Claude devraldı.
 - 2026-11-04: ILU pilotları ıraksadı (hipotez çürüdü), MG0 testi başladı. FEM bitti: kupon kabul, kanat f_1T 272,5 Hz, flutter ≈1185 km/h.
 - 2026-11-06: İter5 kapanışı. Düzeltilmiş FEM sayıları, düz levha SA kabulü (GCI %0,88), RAE iz bölgesi PENDING ve thermal_1d STALE işlendi. GCI plato reddi, 3B CMy ve tarihsel v0.5.0 baseline düzeltmeleri yapıldı. Güncel araç codex-cli, sıradaki beş iş yenilendi. Python regresyonları erişim engeli nedeniyle çalıştırılamadı.
+- 2026-11-08: Grup 1 inceleme (zincir + dokümanlar): `sizing.py` kütle/geometri params'a bağlandı (17,01 → 17,44 kg; V_D/flutter gereksinimi params'tan), `mission.py` tırmanma (183 m/s fiziksel olarak imkânsızdı → kararlı tırmanış denklemi), dolly CL_g (L/W ≥ 1 ile tutarlı), elektrik bütçesinden iniş takımı kalemleri çıkarıldı; aero sürükleme karşılaştırması sizing modelinden. `run_all.sh` koşuldu (tamam), 33 test OK. Docs 02/03/05/06/07/08/09 ve README iter5 sayılarıyla güncellendi (09 kazanç/pay tabloları 17,16 kg'lık iter4 verisindeydi). Açık: kanat tankı kullanılabilir hacmi ≈5,0 L (43 mm kaburgalar), termal 126 °C > 120 °C kriteri, pitot q_c ≠ q̄. Rapor `reviews/grup1_zincir_dokuman.md`.
 - 2026-11-06: PR https://github.com/LegendOfOwl/hiz-750-rc-jet/pull/2 açıldı (iter5 → main). Birleştirme ve v0.6.0 release kullanıcı onayı bekliyor (otomatik birleştirme izin sınıflandırıcısı tarafından engellendi). İnceleme paketi: C:/Users/Urungu/Desktop/HIZ-750_Inceleme (`tools/inceleme_paketi_olustur.py` ile yeniden üretilir).

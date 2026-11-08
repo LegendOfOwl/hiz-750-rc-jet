@@ -39,7 +39,7 @@ Kanat MAC=0.3122 m, x_MAC_LE=1.0817 m, S=0.42 m2, b=1.449 m
 
 [4] Surukleme (750 km/h, trim):
    AeroBuildup CD=0.01423 (CL=0.0158) -> D=154 N
-   sizing.py CD0~0.0183 -> D~198 N ; fark %-22
+   sizing.py CD0=0.0195 (CD=0.0195) -> D=212 N ; AeroBuildup farki %-27
    +%12 alik/egzoz/bosluk payi eklenmis gercekci itki ihtiyaci ~173 N
 
 [5] Dinamik modlar (750 km/h, tam yakit; Roskam atalet yaricaplari):

@@ -1,7 +1,7 @@
 MTOW 17.44 kg, bos (yakitsiz) 13.44 kg
-Kalkis (dolly): Vs(CLmax 0.8, flap 10)=105 km/h, V_lof=126 km/h, yer kosusu 33 m (1.8 s), 10 m engele 140 m, tirmanis acisi 64 deg
+Kalkis (dolly): Vs(CLmax 0.8, flap 10)=105 km/h, V_lof=126 km/h, yer kosusu 33 m (1.9 s), 10 m engele 140 m, tirmanis acisi 64 deg
 Kizakla inis (14.4 kg): Vs=89, V_app=116, V_td=103 km/h; yer kosusu 125 m, 10 m'den toplam 314 m
-Azami tirmanma hizi 183 m/s @ 490 km/h (MTOW)
+Azami tirmanma hizi 168 m/s @ 610 km/h, gamma 83 deg (MTOW, kararli); 144-603 km/h araliginda T-D >= W (dikey tirmanis, fazla itki ivmelenir)
 Donus @ 540 km/h: surekli n=22.3 g, anlik (CL 0.9) n=30 g -> yapisal limit 12 g ile sinirli
 Donus @ 749 km/h: surekli n=20.2 g, anlik (CL 0.9) n=57 g -> yapisal limit 12 g ile sinirli
 
@@ -27,4 +27,4 @@ Hava alik: capture alani 60.5 cm2, kompresor yuzu ~62 cm2
    749 km/h: serbest akim tupu  30.3 cm2, MFR=0.50
    799 km/h: serbest akim tupu  28.4 cm2, MFR=0.47
 
-Elektrik: ort 2.50 A, tepe 26.6 A @ 2S HV (8.4 V); 12 dk icin 500 mAh -> 2x 2S 3000 mAh LiPo (yedekli, %50+ pay)
+Elektrik: ort 2.30 A, tepe 19.6 A @ 2S HV (8.4 V); 12 dk icin 460 mAh -> 2x 2S 3000 mAh LiPo (yedekli, %50+ pay)

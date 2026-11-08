@@ -16,10 +16,10 @@ aciklamalari ve orijinal repo yollarini listeler.
 ## Klasorler
 
 - `00_BASLA_BURADAN` ozet, basarim agaci ve HTML dizini
-- `01_Raporlar` README, degisiklik gunlugu ve docs raporlari
+- `01_Raporlar` README, degisiklik gunlugu ve docs raporlari; `Incelemeler` alt klasoru `reviews/` raporlari
 - `02_Tasarim_Parametreleri` params.py kopyasi ve AST sabit tablosu
 - `03_CAD_Modeller` Montaj ve Parcalar alt klasorleri
-- `04_Teknik_Cizimler` CAD DXF, PDF ve SVG cizimleri
+- `04_Teknik_Cizimler` CAD DXF, PDF, SVG ve 3 gorunus/ic yerlesim PNG cizimleri
 - `05_Aerodinamik`, `06_Yapi_ve_Flutter`, `07_Performans_ve_Kutle`, `08_Ucus_Kontrol`
 - `09_Yuksek_Dogruluk_Dogrulama` CFD_SU2, FEM_CalculiX, Termal ve Benchmarklar
 - `10_Kaynak_Kod` repo konumu ve calistirma notu
@@ -40,7 +40,7 @@ Ad cakismalarina sayisal son ek eklenir. Cok uzun uretilen adlar kararlı
 ozetle kisaltilir. Bilinmeyen ciktilarin yolları `99_Diger` altinda korunur.
 Normal tarama png/svg/pdf/dxf/step/stp/stl/json/md/csv/txt uzantilarini kapsar.
 inp/cfg/su2/msh/geo/dat/bdf cozum girdileri de alinir. Bilinen modullerde
-bu girdiler `Ham_Girdiler` altina konur. `.git`, `__pycache__` ve `.venv`
+bu girdiler `Ham_Girdiler` altina konur. `.git`, `__pycache__`, `.venv` ve `.claude`
 taranmaz. `logs` ayri taranir. Aracin kendi README dosyasi pakete alinmaz.
 
 Parametre dosyasi import edilmez. AST ile sabit atamalar, sabit sozlukler

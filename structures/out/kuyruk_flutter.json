@@ -1,0 +1,220 @@
+{
+ "note": "Amac: kuyruk flutter'i icin bir yapisal model yok (docs/04: yalniz elevator balansi ve yatay kuyruk egilme\nfrekansi ~154 Hz). Bu betik tipik kesit (Hodges & Pierce k-yontemi, structures.flutter_speed) ile, %70\nyari aciklikta, ok acisina dik kesitte (V_n = V cosL, b_n = b cosL, M_n <= 0.9 Prandtl-Glauert) V_F'yi\nBILINMEYEN parametrelerin bir araliginda tarar ve 1080 km/h (1.2 V_D) ve 1350 km/h (x1.25 model payi) icin\nGEREKEN kuyruk burulma frekansini verir. Bu bir tasarim degeri DEGILDIR; GVT/FE icin hedef uretir.",
+ "targets_kmh": [
+  1080.0,
+  1350.0
+ ],
+ "htail": {
+  "name": "yatay kuyruk (yari)",
+  "m_surface_kg": 0.15,
+  "span_m": 0.29154759474226505,
+  "c70_m": 0.12078400353608124,
+  "sweep_ea_deg": 28.819922358257816,
+  "rows": [
+   {
+    "xcg": 0.4,
+    "f_bend_Hz": 100.0,
+    "mu": 29.3,
+    "f_t_req_1080_Hz": 310.0,
+    "f_t_req_1350_Hz": 440.0,
+    "Vf_kmh_vs_ft": {
+     "150": 451,
+     "250": 904,
+     "350": 1172,
+     "500": 1576
+    }
+   },
+   {
+    "xcg": 0.4,
+    "f_bend_Hz": 154.0,
+    "mu": 29.3,
+    "f_t_req_1080_Hz": 340.0,
+    "f_t_req_1350_Hz": 460.0,
+    "Vf_kmh_vs_ft": {
+     "150": 188,
+     "250": 764,
+     "350": 1114,
+     "500": 1513
+    }
+   },
+   {
+    "xcg": 0.45,
+    "f_bend_Hz": 100.0,
+    "mu": 29.3,
+    "f_t_req_1080_Hz": 340.0,
+    "f_t_req_1350_Hz": 470.0,
+    "Vf_kmh_vs_ft": {
+     "150": 447,
+     "250": 848,
+     "350": 1120,
+     "500": 1443
+    }
+   },
+   {
+    "xcg": 0.45,
+    "f_bend_Hz": 154.0,
+    "mu": 29.3,
+    "f_t_req_1080_Hz": 360.0,
+    "f_t_req_1350_Hz": 500.0,
+    "Vf_kmh_vs_ft": {
+     "150": 349,
+     "250": 741,
+     "350": 1060,
+     "500": 1379
+    }
+   },
+   {
+    "xcg": 0.5,
+    "f_bend_Hz": 100.0,
+    "mu": 29.3,
+    "f_t_req_1080_Hz": 340.0,
+    "f_t_req_1350_Hz": 480.0,
+    "Vf_kmh_vs_ft": {
+     "150": 487,
+     "250": 852,
+     "350": 1112,
+     "500": 1410
+    }
+   },
+   {
+    "xcg": 0.5,
+    "f_bend_Hz": 154.0,
+    "mu": 29.3,
+    "f_t_req_1080_Hz": 360.0,
+    "f_t_req_1350_Hz": 500.0,
+    "Vf_kmh_vs_ft": {
+     "150": 488,
+     "250": 782,
+     "350": 1066,
+     "500": 1356
+    }
+   }
+  ]
+ },
+ "vtail": {
+  "name": "dikey kuyruk",
+  "m_surface_kg": 0.2,
+  "span_m": 0.30983866769659335,
+  "c70_m": 0.16045216720002153,
+  "sweep_ea_deg": 33.08825077797109,
+  "rows": [
+   {
+    "xcg": 0.4,
+    "f_bend_Hz": 60.0,
+    "mu": 21.8,
+    "f_t_req_1080_Hz": 250.0,
+    "f_t_req_1350_Hz": 360.0,
+    "Vf_kmh_vs_ft": {
+     "150": 677,
+     "250": 1090,
+     "350": 1315,
+     "500": 1894
+    }
+   },
+   {
+    "xcg": 0.4,
+    "f_bend_Hz": 108.0,
+    "mu": 21.8,
+    "f_t_req_1080_Hz": 270.0,
+    "f_t_req_1350_Hz": 380.0,
+    "Vf_kmh_vs_ft": {
+     "150": 491,
+     "250": 1014,
+     "350": 1292,
+     "500": 1854
+    }
+   },
+   {
+    "xcg": 0.4,
+    "f_bend_Hz": 150.0,
+    "mu": 21.8,
+    "f_t_req_1080_Hz": 300.0,
+    "f_t_req_1350_Hz": 400.0,
+    "Vf_kmh_vs_ft": {
+     "150": 242,
+     "250": 899,
+     "350": 1252,
+     "500": 1801
+    }
+   },
+   {
+    "xcg": 0.45,
+    "f_bend_Hz": 60.0,
+    "mu": 21.8,
+    "f_t_req_1080_Hz": 270.0,
+    "f_t_req_1350_Hz": 400.0,
+    "Vf_kmh_vs_ft": {
+     "150": 628,
+     "250": 1027,
+     "350": 1266,
+     "500": 1728
+    }
+   },
+   {
+    "xcg": 0.45,
+    "f_bend_Hz": 108.0,
+    "mu": 21.8,
+    "f_t_req_1080_Hz": 290.0,
+    "f_t_req_1350_Hz": 410.0,
+    "Vf_kmh_vs_ft": {
+     "150": 493,
+     "250": 951,
+     "350": 1235,
+     "500": 1684
+    }
+   },
+   {
+    "xcg": 0.45,
+    "f_bend_Hz": 150.0,
+    "mu": 21.8,
+    "f_t_req_1080_Hz": 320.0,
+    "f_t_req_1350_Hz": 430.0,
+    "Vf_kmh_vs_ft": {
+     "150": 377,
+     "250": 857,
+     "350": 1191,
+     "500": 1628
+    }
+   },
+   {
+    "xcg": 0.5,
+    "f_bend_Hz": 60.0,
+    "mu": 21.8,
+    "f_t_req_1080_Hz": 280.0,
+    "f_t_req_1350_Hz": 410.0,
+    "Vf_kmh_vs_ft": {
+     "150": 629,
+     "250": 1015,
+     "350": 1251,
+     "500": 1675
+    }
+   },
+   {
+    "xcg": 0.5,
+    "f_bend_Hz": 108.0,
+    "mu": 21.8,
+    "f_t_req_1080_Hz": 290.0,
+    "f_t_req_1350_Hz": 420.0,
+    "Vf_kmh_vs_ft": {
+     "150": 546,
+     "250": 954,
+     "350": 1223,
+     "500": 1636
+    }
+   },
+   {
+    "xcg": 0.5,
+    "f_bend_Hz": 150.0,
+    "mu": 21.8,
+    "f_t_req_1080_Hz": 310.0,
+    "f_t_req_1350_Hz": 440.0,
+    "Vf_kmh_vs_ft": {
+     "150": 518,
+     "250": 891,
+     "350": 1188,
+     "500": 1587
+    }
+   }
+  ]
+ }
+}

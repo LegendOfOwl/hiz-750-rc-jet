@@ -294,7 +294,24 @@ def main():
                          for n in r if n.startswith("n")}, "gm", r.get("generalized_mass_check"))
     if a.options:
         res["options_s41r043w1"] = options_study(fe, beam, b_ref)
-    Path(a.out).write_text(json.dumps(res, indent=1, ensure_ascii=False, default=float), encoding="utf-8")
+    Path(a.out).write_text(json.dumps(_finite(res), indent=1, ensure_ascii=False, default=float,
+                                      allow_nan=False), encoding="utf-8")
+
+
+def _finite(o):
+    """Standart JSON: inf/nan -> None (None = taranan aralikta flutter bulunmadi)."""
+    if isinstance(o, dict):
+        return {k: _finite(v) for k, v in o.items()}
+    if isinstance(o, (list, tuple)):
+        return [_finite(v) for v in o]
+    if hasattr(o, "item") and not isinstance(o, (str, bytes)):
+        try:
+            o = o.item()
+        except (ValueError, AttributeError):
+            pass
+    if isinstance(o, float) and not math.isfinite(o):
+        return None
+    return o
 
 
 if __name__ == "__main__":

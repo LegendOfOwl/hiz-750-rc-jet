@@ -2,12 +2,18 @@
   "case": "rae2822",
   "case_id": "rae2822_SA",
   "level": "coarse",
-  "status": "FAILED",
-  "metrics": {},
-  "reason": "RuntimeError: Solver kodu 1; C:\\hz750run\\rae2822_SA_coarse_mc7fsy5j\\solver.log",
+  "status": "COMPUTED",
+  "metrics": {
+    "cl": 0.720181967245,
+    "cd": 0.012604558399,
+    "cm": -0.0886047611272,
+    "cm_su2_z": 0.0886047611272,
+    "cp_rmse": 0.09818171973901753
+  },
+  "reason": null,
   "design_accepted": false,
   "provenance": {
-    "utc": "2026-11-05T21:06:49.723826+00:00",
+    "utc": "2026-11-08T09:32:35.231769+00:00",
     "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
     "packages": {
       "gmsh": "4.15.2",
@@ -17,13 +23,7 @@
       "matplotlib": "3.11.2"
     },
     "params_sha256": "fa1638053c86e03f33835ee14489ed94e8199e0b3e2c5c2cdb027fa8c2f022de",
-    "inputs": {
-      "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\structures\\structures.py": "411948ef5863c21c886db921a13635c9a6ce4567f41e007eb1856742a0308f75",
-      "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\structures\\fe_modal.py": "d9d219f8d247ec6a5e8305a6316e921170dd4c8304c920bd0df99b8d9d4ad3b1",
-      "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\aero\\aero_analysis.py": "736b1316370c6bec2155b94b0e6830b452d226fbd694476b75168c069f650376",
-      "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\performance\\inlet_analysis.py": "baf48a026581019d6edb5c7fdd2a1db838bedf375d671e36cc4c439cf18aa11e",
-      "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\cad\\out\\cad_report.json": "0c9a53b8b558910c392569b4266b56f7dcda4c1f443c7942094d691a30e24200"
-    },
+    "inputs": {},
     "solver_threads": {
       "used": 1,
       "requested": 1,
@@ -32,21 +32,21 @@
   },
   "estimated_runtime": "15–90 dk/ağ/model; tahmin",
   "diagnostic": false,
-  "raw_directory": "C:\\hz750run\\rae2822_SA_coarse_mc7fsy5j",
+  "raw_directory": "C:\\hz750run\\rae2822_SA_coarse_yw4jh4om",
   "code_sha256": {
     "validation\\__init__.py": "318a65d09bef1fd777be440b8eb9b4285b723995a4633e65336b9c38c567f47a",
     "validation\\common.py": "740454c523dd01b8419f1bf4a21c281c346c3a3e65127ee04e14dbf2eb4dfd34",
     "validation\\compare_su2_configs.py": "f4471453abd24148cc12845e6abe7437912390f69573aa94f828bf47835de919",
-    "validation\\convergence.py": "31e7603e4ee00ca544881c222cb898b3b87477e17543f558b7984048b2e06a55",
+    "validation\\convergence.py": "a5ae4ddc370b025b0001e88a601c2026543042a7c5c8db03bfb58c3fce83d2a2",
     "validation\\fetch_reference.py": "754ef6504ef27f290f21ccf5ac4197d1f301a0ff6c73799c4e34506934c38232",
     "validation\\postprocess_native.py": "bc75abb7e815bec52939d81743487059001dc5e0c063a50beb5e85afdbe9ead8",
-    "validation\\report.py": "4c423d5ddbe5710d383ae3f07ca3f81f04cf6f1d2f3bf23dd8bd331f9cf280f0",
-    "validation\\run_case.py": "f0d57d7584f3b638476254538d15ac7403f7ef41614221df7eccaf1431fcde11",
+    "validation\\report.py": "58b8a72109a285d38a57c33d128a66802927c66d2fa8b4b558c98d9e3e87a9bd",
+    "validation\\run_case.py": "f4aefed0410fef103ec8975d10cf2c791a30ff5db01b63ecccc566017e673180",
     "validation\\run_native_su2.py": "60dd77b92f33e77644e41d11e298ea45ea599ff02f5076d167889b472c2c7e60",
-    "validation\\study.py": "1ef34eacfacda17f04e5216b04cfe8a3082085c83513adc5989c0e5fda6f4b22",
-    "validation\\test_cfd_mesh.py": "4e9db2f61ed84beb37d4551d425b0a0f2d1a4115bec0488e75b5ce3e086dbaf3",
-    "validation\\test_validation.py": "5067c97515b1d5b75743744d3c8eb63c9830db2bb138f257e8190e59fc70e68f",
-    "cfd\\cases.py": "71808a49d0ba4fb3275dc23eb4f45f0c7a56a8a776c49693ed080b490e2bc2e2",
+    "validation\\study.py": "faa0e922db20793644f276cac4122155ddf080186fbebdc6b4f2124aed233190",
+    "validation\\test_cfd_mesh.py": "2e1fa247146bd0eeb9afef714698d7bede7f856425d94338d0fd68962c80b032",
+    "validation\\test_validation.py": "12b65631b8ca9b31158e2b184cda3de03c4892076e5a0333243148204a9db750",
+    "cfd\\cases.py": "0819df73a3023218935caf196cf78deca682094ba51660e6e5ae75838e1fbb07",
     "cfd\\continue_flatplate.py": "752141e6081542609fe9422acfeb24514ca459c829736c4404ffb57e83eae39f",
     "cfd\\convergence.py": "be9bf0f2b1e9fd38c6d9f0f3e28f1c84d0ad76234e4a11d447bc4b7b73ad7b7d",
     "cfd\\draft_domains.py": "9585362a9035920352c5fee60a5863d60797b98428ae77adf4226d3612eca79b",
@@ -56,13 +56,14 @@
     "cfd\\neuralfoil_baseline.py": "9f89bc717e477cfd83da7a9665a40fc4b975d7bec8c464b3038f83d1d309acca",
     "cfd\\prepare_3d.py": "80dd17820be83bf466e9811d145d1bc98f061ec879159ecd00b71565c9657ffe",
     "cfd\\reassess.py": "2fb418c6e9a4450227ab2b6cc34a0b09270ee4b2d35262b7e2f1315537bc1167",
-    "cfd\\structured_airfoil.py": "f22c2851fd022db1ee2442f53101aef5714348b63201632cbcc3ad315866c221",
+    "cfd\\structured_airfoil.py": "408d339cb6b942596345882b365b822088b53878c4f27434a0963237ac4629b0",
     "fem\\cases.py": "b7f15fd89f066cc4356ee403bf842e49014a51d3e6ca0d3f2c5658f606c74036",
     "fem\\clt.py": "6e936ef14568274eef68a471ffc9ebe390dec00b43d3fbe2ec80ffe080758701",
     "fem\\coupon.py": "6ecb6cc2876a7f20ba54ae7bffdd994dd9613c1a9f9bf8eef067e554b2da0ca2",
     "fem\\export_wing_inputs.py": "2129df518888c3963dec1e67bc414181e4682385245b23b2dedcaad5d41520ed",
     "fem\\laminate_post.py": "5e34e6d15b5384f61ca968ca7359ace7adc93f9e7b1e8f8f40909e79fa1cf355",
     "fem\\run_wing_study.py": "208e29c77fc6c8d1d770c382e9c6febf2d6be41508c51a1e0155ecab0a820e38",
+    "fem\\shell_flutter.py": "fd01bed96ee927145a148fe6d0cac679615bca9b13011df30bfb5be4393db929",
     "fem\\stiffening_study.py": "6747d865079f563675d4d9d07615ec7d36df23038332d3b1c5c66e728b5c8ee3",
     "fem\\wing_compare.py": "e27d38baeda1cb41414e4d2021504cb14cc961966866e578bad071228cee9c0f",
     "fem\\wing_post.py": "72c78c9ec7fa849cec09f8ed6fdb5993e6f659dcfdfeee3e5c73a507b4b4beb0",
@@ -73,10 +74,604 @@
   "input_sha256": {
     "reference": "3d43f00d7924a8b9a462fd68045907e658d17d5edfcca4ec14f841c3616f3a43"
   },
-  "elapsed_s": 403.9210000000894,
+  "errors": {
+    "cl": {
+      "absolute": -0.02281803275499994,
+      "percent": -3.0710676655450793
+    },
+    "cd": {
+      "absolute": -9.54416009999997e-05,
+      "percent": -0.7515086692913362
+    },
+    "cm": {
+      "absolute": 0.0063952388727999965,
+      "percent": 6.731830392421049
+    }
+  },
+  "quality": {
+    "iterative_converged": true,
+    "drag_relative_cauchy_100": 4.046789153534259e-09,
+    "residual_drop_decades": {
+      "rms[Rho]": 7.820436664640001,
+      "rms[nu]": 4.18261883267
+    },
+    "final_log_residuals": {
+      "rms[Rho]": -9.78048099585,
+      "rms[RhoU]": -6.70957033149,
+      "rms[RhoV]": -7.88086289807,
+      "rms[RhoE]": -4.27401127356,
+      "rms[nu]": -8.60000455083
+    },
+    "max_log_residual": -4.27401127356,
+    "gate": "mean absolute CD step / mean absolute CD < 1e-6 over last 100 steps; rho and turbulence residual drop >=4 decades from iteration 0; energy informational",
+    "yplus_max": 0.8106940946255945
+  },
+  "mesh": {
+    "path": "C:\\hz750run\\rae2822_SA_coarse_yw4jh4om\\mesh.su2",
+    "cells": 33792,
+    "nodes": 34192,
+    "element_types": {
+      "9": 33792
+    },
+    "minimum_signed_area": 2.0463258603170783e-09,
+    "nonpositive_cells": 0,
+    "minimum_corner_sine": 0.6548185658912812,
+    "nonpositive_corners": 0,
+    "nonmanifold_edges": 0,
+    "boundary_mismatches": 0,
+    "markers": {
+      "WALL": 256,
+      "FARFIELD": 544
+    },
+    "bounds": [
+      -99.99978247868994,
+      182.7072059612827,
+      -99.99890328105695,
+      100.0594063200523
+    ],
+    "unique_x": 34102,
+    "unique_y": 34143,
+    "first_y_values": [
+      -99.99890328105695,
+      -99.99801832288196,
+      -99.99268818470001,
+      -99.99189234663184,
+      -99.98216525171625,
+      -99.97733448463539
+    ],
+    "last_y_values": [
+      100.0589566687089,
+      100.05917635736,
+      100.0593136200305,
+      100.0594063200523
+    ],
+    "minimum_wall_connected_edge": 1.9999999999830656e-06,
+    "first_layer_m": 2e-06,
+    "radial_growth": 1.1816279572830868,
+    "wake_growth": 1.1933183257371511,
+    "surface_cells_per_side": 128,
+    "wake_cells": 48,
+    "normal_cells": 96,
+    "le_spacing": 0.001,
+    "te_spacing": 0.004,
+    "farfield_distance_c": 100.0,
+    "wake_length_c": 100.0,
+    "wake_aspect_target": 100.0,
+    "wake_ramp": 1.5,
+    "wake_first_spacing_end": 0.16199615431310693,
+    "max_wall_ray_deviation_deg": 11.781540228949265,
+    "max_normal_growth": 1.181627957289161,
+    "max_streamwise_growth": 1.252909603194497,
+    "max_streamwise_growth_wall": 1.1933183257371744,
+    "max_aspect_ratio": 7126.588846293898,
+    "dimension": 2,
+    "h": 0.005439926748615558,
+    "source": {
+      "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\validation\\reference\\rae2822.dat": "baf79cdab69176cee4d37f3292198d67d2437d4bb8c52e09e43ff0167d9bb10b"
+    },
+    "mesh_sha256": "0d4e8a302517089b9429cf243816f057c53f3b3226e369f7449174b491a92550",
+    "topology": "single-block C-grid, wall-normal marching, shared wake cut, ~100c far field",
+    "yplus_status": "Actual solution y+ required"
+  },
+  "conditions": {
+    "mach": 0.729,
+    "reynolds": 6500000.0,
+    "alpha_deg": 2.31,
+    "temperature_K": 288.15,
+    "ref_length_m": 1.0,
+    "ref_area_m2": 1.0,
+    "atmosphere": {
+      "temperature": 286.2,
+      "pressure": 97772.56128213086,
+      "density": 1.1901174187036818,
+      "sound_speed": 339.13890074717176,
+      "viscosity": 1.779955964922234e-05
+    },
+    "solver_scheme": "mg0"
+  },
+  "execution": {
+    "command": [
+      "C:\\hz750tools\\SU2\\win64\\bin\\SU2_CFD.exe",
+      "case.cfg"
+    ],
+    "executable_sha256": "fdb623e2968e55e2b30ad2d5ec83dcb9e5c6b38e76fd73a739b11bb4aac0721c",
+    "log_sha256": "1308617638d566ad65ad2c52c919c076d983db7b01883556fc35340498199e7e"
+  },
+  "limitations": [
+    "Türbülanslı RANS; geçiş, pürüzlülük ve model-form hatası ayrıca incelenmeli.",
+    "inlet DC60 için motor yüzü örneklemesi ve cfd/inlet_metrics.py gerekir."
+  ],
+  "reference_source": {
+    "source_url": "https://www.grc.nasa.gov/www/wind/valid/raetaf/raetaf01/raetaf01.html",
+    "sources": {
+      "cp.exp.gen": {
+        "url": "https://www.grc.nasa.gov/www/wind/valid/raetaf/raetaf01/cp.exp.gen",
+        "sha256": "498b8ccc63348bc5b1007f5c5d61cdd24283159a728f1f56c17b8ba73ed3658b",
+        "local_copy": "C:\\hz750run\\download_nparc_raetaf01\\cp.exp.gen"
+      },
+      "cfpost.cp.com": {
+        "url": "https://www.grc.nasa.gov/www/wind/valid/raetaf/raetaf01/cfpost.cp.com",
+        "sha256": "021a86151d540c6b02b6e5b574a482c73949029b23717845f1a058ee072dadda",
+        "local_copy": "C:\\hz750run\\download_nparc_raetaf01\\cfpost.cp.com"
+      },
+      "raetaf01.html": {
+        "url": "https://www.grc.nasa.gov/www/wind/valid/raetaf/raetaf01/raetaf01.html",
+        "sha256": "7e026dbabb65ef98132c8c52b46f199c03013b01fdbfd9f21dc7b1422330c7fd",
+        "local_copy": "C:\\hz750run\\download_nparc_raetaf01\\raetaf01.html"
+      }
+    },
+    "case": "AGARD AR-138 Case 6",
+    "source_note": "NASA NPARC archive. Stored GENPLOT ordinates are -Cp; sign reversed, verified against cfpost.cp.com. Not Case 9. Cp is primary; integral coefficients are secondary values supplied by the reviewer, not extracted from these files.",
+    "conditions": {
+      "mach": 0.729,
+      "reynolds": 6500000.0,
+      "alpha_deg": 2.31
+    },
+    "scalars": {
+      "cl": 0.743,
+      "cd": 0.0127,
+      "cm": -0.095
+    },
+    "scalar_source": {
+      "classification": "secondary",
+      "source": "Cook, McDonald, Firmin, AGARD AR-138 (1979)",
+      "note": "Literaturden aktarilan deger; birincil dosya dogrulanmadi. Reviewer supplied approximations.",
+      "primary_file_verified": false
+    },
+    "cp_upper": [
+      [
+        0.9938,
+        0.1432
+      ],
+      [
+        0.9875,
+        0.1318
+      ],
+      [
+        0.975,
+        0.1082
+      ],
+      [
+        0.95,
+        0.0592
+      ],
+      [
+        0.925,
+        0.0115
+      ],
+      [
+        0.9,
+        -0.0365
+      ],
+      [
+        0.875,
+        -0.0808
+      ],
+      [
+        0.85,
+        -0.1296
+      ],
+      [
+        0.825,
+        -0.1746
+      ],
+      [
+        0.8,
+        -0.2186
+      ],
+      [
+        0.775,
+        -0.2702
+      ],
+      [
+        0.75,
+        -0.3029
+      ],
+      [
+        0.7,
+        -0.3913
+      ],
+      [
+        0.6771,
+        -0.4263
+      ],
+      [
+        0.65,
+        -0.4778
+      ],
+      [
+        0.6196,
+        -0.5361
+      ],
+      [
+        0.6,
+        -0.5798
+      ],
+      [
+        0.575,
+        -0.6769
+      ],
+      [
+        0.55,
+        -0.9137
+      ],
+      [
+        0.525,
+        -1.2201
+      ],
+      [
+        0.5,
+        -1.2164
+      ],
+      [
+        0.475,
+        -1.2038
+      ],
+      [
+        0.45,
+        -1.194
+      ],
+      [
+        0.425,
+        -1.1819
+      ],
+      [
+        0.4,
+        -1.1601
+      ],
+      [
+        0.375,
+        -1.149
+      ],
+      [
+        0.35,
+        -1.1273
+      ],
+      [
+        0.325,
+        -1.1168
+      ],
+      [
+        0.3,
+        -1.1091
+      ],
+      [
+        0.28,
+        -1.101
+      ],
+      [
+        0.25,
+        -1.0736
+      ],
+      [
+        0.2208,
+        -1.0456
+      ],
+      [
+        0.2,
+        -1.0433
+      ],
+      [
+        0.15,
+        -1.0096
+      ],
+      [
+        0.1,
+        -0.9886
+      ],
+      [
+        0.075,
+        -1.0432
+      ],
+      [
+        0.0625,
+        -1.073
+      ],
+      [
+        0.05,
+        -1.0923
+      ],
+      [
+        0.0375,
+        -1.082
+      ],
+      [
+        0.0271,
+        -1.0435
+      ],
+      [
+        0.0187,
+        -1.0362
+      ],
+      [
+        0.0146,
+        -0.9204
+      ],
+      [
+        0.0125,
+        -0.868
+      ],
+      [
+        0.0104,
+        -0.8041
+      ],
+      [
+        0.0087,
+        -0.7658
+      ],
+      [
+        0.0073,
+        -0.725
+      ],
+      [
+        0.006,
+        -0.6269
+      ],
+      [
+        0.0048,
+        -0.5309
+      ],
+      [
+        0.0036,
+        -0.4667
+      ],
+      [
+        0.0026,
+        -0.2746
+      ],
+      [
+        0.0016,
+        -0.0521
+      ],
+      [
+        0.0008,
+        0.1042
+      ],
+      [
+        0.0002,
+        -0.4219
+      ],
+      [
+        0.0,
+        0.8328
+      ]
+    ],
+    "cp_lower": [
+      [
+        0.0,
+        0.8328
+      ],
+      [
+        0.0002,
+        1.0396
+      ],
+      [
+        0.0008,
+        1.1053
+      ],
+      [
+        0.0016,
+        1.1338
+      ],
+      [
+        0.0026,
+        1.1223
+      ],
+      [
+        0.0036,
+        1.0823
+      ],
+      [
+        0.0048,
+        1.0273
+      ],
+      [
+        0.006,
+        0.9736
+      ],
+      [
+        0.0073,
+        0.9148
+      ],
+      [
+        0.0087,
+        0.8703
+      ],
+      [
+        0.0104,
+        0.8148
+      ],
+      [
+        0.0125,
+        0.7537
+      ],
+      [
+        0.0146,
+        0.698
+      ],
+      [
+        0.0186,
+        0.6159
+      ],
+      [
+        0.0271,
+        0.5444
+      ],
+      [
+        0.0375,
+        0.404
+      ],
+      [
+        0.05,
+        0.3088
+      ],
+      [
+        0.0625,
+        0.2454
+      ],
+      [
+        0.075,
+        0.1926
+      ],
+      [
+        0.1,
+        0.1042
+      ],
+      [
+        0.15,
+        -0.0081
+      ],
+      [
+        0.2,
+        -0.094
+      ],
+      [
+        0.25,
+        -0.1754
+      ],
+      [
+        0.3,
+        -0.2506
+      ],
+      [
+        0.325,
+        -0.2904
+      ],
+      [
+        0.35,
+        -0.3214
+      ],
+      [
+        0.375,
+        -0.3406
+      ],
+      [
+        0.4,
+        -0.3403
+      ],
+      [
+        0.425,
+        -0.3194
+      ],
+      [
+        0.45,
+        -0.2881
+      ],
+      [
+        0.475,
+        -0.2469
+      ],
+      [
+        0.5,
+        -0.2079
+      ],
+      [
+        0.525,
+        -0.1657
+      ],
+      [
+        0.55,
+        -0.1169
+      ],
+      [
+        0.575,
+        -0.0731
+      ],
+      [
+        0.6,
+        -0.0301
+      ],
+      [
+        0.6196,
+        -0.0003
+      ],
+      [
+        0.65,
+        0.0431
+      ],
+      [
+        0.6771,
+        0.0836
+      ],
+      [
+        0.7,
+        0.1134
+      ],
+      [
+        0.75,
+        0.1731
+      ],
+      [
+        0.775,
+        0.1988
+      ],
+      [
+        0.85,
+        0.2618
+      ],
+      [
+        0.875,
+        0.2778
+      ],
+      [
+        0.9,
+        0.2907
+      ],
+      [
+        0.925,
+        0.2972
+      ],
+      [
+        0.95,
+        0.2937
+      ],
+      [
+        0.975,
+        0.2676
+      ],
+      [
+        0.9875,
+        0.2396
+      ],
+      [
+        0.9938,
+        0.2146
+      ]
+    ],
+    "experimental_uncertainty": null
+  },
+  "cp_rmse": 0.09818171973901753,
+  "cp_rmse_partial": 0.09818171973901753,
+  "cp_coverage": {
+    "compared": 104,
+    "excluded": []
+  },
+  "elapsed_s": 2410.9220000000205,
   "artifacts": [
+    "validation\\results\\rae2822_SA\\coarse_plot.png",
     "validation\\results\\rae2822_SA\\coarse_case.cfg",
     "validation\\results\\rae2822_SA\\coarse_mesh.json",
+    "validation\\results\\rae2822_SA\\coarse_surface.json",
     "validation\\results\\rae2822_SA\\coarse_geometry.json"
   ]
 }

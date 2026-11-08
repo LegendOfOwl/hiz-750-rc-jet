@@ -2,11 +2,14 @@
 import math
 
 
-def gci(h, q):
+def gci(h, q, formal_order=None):
     """h ve q fine, medium, coarse sıralı; eşit olmayan oranlar desteklenir.
 
-    GCI güvenlik katsayısı 1.25. Bağıl GCI sıfıra yakın büyüklükte tanımsızdır.
-    GCI fiziksel model/deney hatası değildir.
+    GCI güvenlik katsayısı 1.25 (Roache, üç ağ, gözlenen p). formal_order verilirse
+    ve gözlenen mertebe ondan %10'dan fazla saparsa (asimptotik bölge kanıtlanmamış)
+    Roy/Oberkampf-Roy (2010) ve Roache önerisiyle muhafazakâr tahmin kullanılır:
+    p_kullanılan = min(max(0.5, p_gözlenen), p_formal), Fs = 3.
+    Bağıl GCI sıfıra yakın büyüklükte tanımsızdır. GCI fiziksel model/deney hatası değildir.
     """
     if len(h) != 3 or len(q) != 3 or not all(math.isfinite(v) for v in (*h, *q)):
         raise ValueError("Üç sonlu h ve q gerekli")
@@ -39,8 +42,12 @@ def gci(h, q):
             low = mid
     p = (low + high) / 2
     correction = (q[0] - q[1]) / (r21 ** p - 1)
-    absolute = 1.25 * abs(correction)
+    order_used, safety = p, 1.25
+    if formal_order is not None and abs(p - formal_order) > .1 * formal_order:
+        order_used, safety = min(max(.5, p), formal_order), 3.0
+    absolute = safety * abs((q[0] - q[1]) / (r21 ** order_used - 1))
     return dict(status="ESTIMATED", observed_order=p, richardson=q[0] + correction,
+                formal_order=formal_order, order_used=order_used, safety_factor=safety,
                 fine_gci_absolute=absolute,
                 fine_gci_pct=100 * absolute / abs(q[0]) if abs(q[0]) > 1e-12 * scale else None,
                 r21=r21, r32=r32,

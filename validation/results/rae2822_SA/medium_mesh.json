@@ -1,0 +1,67 @@
+{
+  "path": "C:\\hz750run\\rae2822_SA_medium_fukf2y92\\mesh.su2",
+  "cells": 76032,
+  "nodes": 76632,
+  "element_types": {
+    "9": 76032
+  },
+  "minimum_signed_area": 9.028820228922744e-10,
+  "nonpositive_cells": 0,
+  "minimum_corner_sine": 0.6536301713374608,
+  "nonpositive_corners": 0,
+  "nonmanifold_edges": 0,
+  "boundary_mismatches": 0,
+  "markers": {
+    "WALL": 384,
+    "FARFIELD": 816
+  },
+  "bounds": [
+    -99.99978372952665,
+    182.9845452591356,
+    -99.99922606833242,
+    100.0594040398532
+  ],
+  "unique_x": 76494,
+  "unique_y": 76559,
+  "first_y_values": [
+    -99.99922606833242,
+    -99.99850247772386,
+    -99.99708680770847,
+    -99.99432533510087,
+    -99.9926360255397,
+    -99.98638050611913
+  ],
+  "last_y_values": [
+    100.0591704726356,
+    100.0593102530028,
+    100.0593638797013,
+    100.0594040398532
+  ],
+  "minimum_wall_connected_edge": 1.3333333333167735e-06,
+  "first_layer_m": 1.3333333333333332e-06,
+  "radial_growth": 1.1174513001479442,
+  "wake_growth": 1.1245087389064912,
+  "surface_cells_per_side": 192,
+  "wake_cells": 72,
+  "normal_cells": 144,
+  "le_spacing": 0.0006666666666666666,
+  "te_spacing": 0.0026666666666666666,
+  "farfield_distance_c": 100.0,
+  "wake_length_c": 100.0,
+  "wake_aspect_target": 100.0,
+  "wake_ramp": 1.5,
+  "wake_first_spacing_end": 0.11072116535040351,
+  "max_wall_ray_deviation_deg": 11.828642327016135,
+  "max_normal_growth": 1.1174513001601911,
+  "max_streamwise_growth": 1.1627296356881682,
+  "max_streamwise_growth_wall": 1.1245087389065278,
+  "max_aspect_ratio": 7127.198425443571,
+  "dimension": 2,
+  "h": 0.0036266178324103715,
+  "source": {
+    "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\validation\\reference\\rae2822.dat": "baf79cdab69176cee4d37f3292198d67d2437d4bb8c52e09e43ff0167d9bb10b"
+  },
+  "mesh_sha256": "83c0c74613e378f8a8ff3f618f9a8012d7076fbcd540e57891b20fc24dde5934",
+  "topology": "single-block C-grid, wall-normal marching, shared wake cut, ~100c far field",
+  "yplus_status": "Actual solution y+ required"
+}

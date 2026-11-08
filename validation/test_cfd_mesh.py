@@ -117,6 +117,16 @@ class MeshTests(unittest.TestCase):
         self.assertLessEqual(info['max_streamwise_growth_wall'], 1.2)
         self.assertLessEqual(info['max_streamwise_growth'], 1.3)
         self.assertAlmostEqual(again['minimum_wall_connected_edge'], 2e-6, delta=1e-9)
+        # Iter5 v3: iz kesiti ilk aralığı TE'de duvar değeri, uçta ds/WAKE_ASPECT mertebesi.
+        from cfd import structured_airfoil as S
+        X, Y, nw, _ = S.build([tuple(p) for p in xy[:-1]], 1)
+        import numpy as np
+        normal = np.hypot(X[1]-X[0], Y[1]-Y[0])
+        stream = np.hypot(np.diff(X[0]), np.diff(Y[0]))
+        self.assertAlmostEqual(normal[nw], 2e-6, delta=1e-9)            # TE (alt iz ucu)
+        cut_ratio = stream[:nw] / (.5*(normal[:nw]+normal[1:nw+1]))    # alt iz hücreleri
+        self.assertLess(cut_ratio[:nw-20].max(), 2*S.WAKE_ASPECT)       # TE'den uzak iz: <=~100
+        self.assertGreaterEqual(info['minimum_corner_sine'], .6)
 
 
 if __name__ == '__main__':

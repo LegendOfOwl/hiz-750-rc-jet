@@ -25,6 +25,17 @@ LE_SPACING = 1e-3       # surface arc spacing at LE [c]
 TE_SPACING = 4e-3       # surface arc spacing at TE = first wake cell [c]
 WAKE_FAN_DEG = 45.0    # wake/outlet ray tilt at the downstream end
 SMOOTHING_PASSES = 150  # coarse ray-angle smoothing passes (x factor**2; monotone)
+# Wake-cut normal spacing (iter5 v3).  The v2 grid kept the wall spacing 2e-6c on
+# both sides of the wake cut up to 100c (streamwise 0.004-15c -> aspect ratio
+# 1e3-1e7); the residual peaks of the unconverged MG0 run sat on that cut at
+# x~1.2-2c.  The wake first spacing a_k now ramps from the wall value by at most
+# WAKE_RAMP per wake cell (WAKE_RAMP**(1/factor) on finer levels) towards
+# ds_k/WAKE_ASPECT and is blended into the unchanged geometric layer series:
+# d_j = d0_j + j*(a_k-first) (first cell a_k; spacing growth stays <= the wall
+# series ratio).  The added offset varies slowly between neighbouring rays, so the
+# j-lines do not tilt near the TE (an earlier per-ray geometric series did: .20).
+WAKE_ASPECT = 100.0     # target streamwise/normal spacing ratio on the wake cut
+WAKE_RAMP = 1.5         # max growth of the wake first spacing per wake cell (coarse)
 
 
 def geometric_ratio(first, length, n):
@@ -120,14 +131,27 @@ def build(xy, factor):
     for _ in range(int(round(SMOOTHING_PASSES*factor**2))):
         angle[1:-1] = .5*angle[1:-1]+.25*(angle[:-2]+angle[2:])
     direction = np.column_stack([np.cos(angle), np.sin(angle)])
-    X = curve[None, :, 0]+distance[:, None]*direction[None, :, 0]
-    Y = curve[None, :, 1]+distance[:, None]*direction[None, :, 1]
+    # Per-ray layer distances; wake rays get the relaxed wake-cut spacing.
+    D = np.repeat(distance[:, None], count, axis=1)
+    te_ds = TE_SPACING/factor
+    k = np.arange(nw+1)                       # wake node index from TE (k=0: TE)
+    local_ds = te_ds*wr**np.maximum(k-1, 0)   # streamwise spacing of the cell ending at node k
+    wake_first = np.minimum(first*WAKE_RAMP**(k/factor), first+(local_ds-te_ds)/WAKE_ASPECT)
+    wake_first[0] = first
+    jj = np.arange(nj+1)[:, None]
+    wake_D = distance[:, None]+jj*(wake_first[None, :]-first)
+    D[:, :nw+1] = wake_D[:, ::-1]             # lower wake: i=0 is the far end
+    D[:, count-nw-1:] = wake_D                # upper wake: i=count-nw-1 is the TE
+    X = curve[None, :, 0]+D*direction[None, :, 0]
+    Y = curve[None, :, 1]+D*direction[None, :, 1]
     raw = np.arctan2(tangent[:, 0], -tangent[:, 1])
     deviation = np.abs(np.angle(np.exp(1j*(angle-raw))))
     info = dict(first_layer_m=first, radial_growth=rr, wake_growth=wr,
                 surface_cells_per_side=int(SURFACE_CELLS*factor), wake_cells=nw, normal_cells=nj,
                 le_spacing=LE_SPACING/factor, te_spacing=TE_SPACING/factor,
                 farfield_distance_c=FARFIELD_C, wake_length_c=FARFIELD_C,
+                wake_aspect_target=WAKE_ASPECT, wake_ramp=WAKE_RAMP,
+                wake_first_spacing_end=float(wake_first[-1]),
                 max_wall_ray_deviation_deg=float(np.degrees(deviation[nw:len(curve)-nw]).max()))
     return X, Y, nw, info
 
@@ -170,8 +194,12 @@ def quality(X, Y):
     gj = dj[1:]/dj[:-1]
     gi = di[:, 1:]/di[:, :-1]
     gi = np.maximum(gi, 1/gi)
+    # Cell aspect ratio (long side / short side, midline lengths).
+    li = .5*(di[1:]+di[:-1])
+    lj = .5*(dj[:, 1:]+dj[:, :-1])
+    ar = np.maximum(li, lj)/np.minimum(li, lj)
     return dict(max_normal_growth=float(gj.max()), max_streamwise_growth=float(gi.max()),
-                max_streamwise_growth_wall=float(gi[0].max()))
+                max_streamwise_growth_wall=float(gi[0].max()), max_aspect_ratio=float(ar.max()))
 
 
 def generate(args, work, xy, source):

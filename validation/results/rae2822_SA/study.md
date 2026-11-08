@@ -4,4 +4,4 @@
 |---|---|---|---|---|
 | Tüm değerler | bekliyor | — | — | — |
 
-Üç ağ sonucu bekleniyor
+Üç ağın da yakınsamış COMPUTED sonucu gerekli

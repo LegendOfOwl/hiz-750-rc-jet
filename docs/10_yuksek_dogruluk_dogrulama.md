@@ -1,6 +1,6 @@
 # 10 — İter5 / v0.6 yüksek doğruluk doğrulaması
 
-**v0.6.0 · 2026-11-06.** Düz levha SA üç ağda BENCHMARK_ACCEPTED (ince GCI %0,88, p 0,434). RAE2822 kendi C-ağında PENDING, residual iz bölgesinde. Önceki host koşularında konsol ve 1B termal kabul aldı, altı koşullu motor termal senaryosu çözüldü. `thermal_1d` params değişikliği nedeniyle STALE, yeniden koşulmalı. İlk turun sandbox engeli [tarihsel yoklamada](../validation/results/machine_probe.json), araç kurulum kaydı [installation.json](../validation/results/installation.json) içindedir.
+**v0.6.0 · 2026-11-06, CFD/termal kısmı 2026-11-08 incelemesiyle güncellendi.** Düz levha SA üç ağda BENCHMARK_ACCEPTED (p 0,434; düşük p nedeniyle Fs=3 ile ince GCI %1,82, eski Fs=1,25 değeri %0,88). RAE2822 iz kesiti ağı düzeltildi, kaba ağ proje kapısını geçti (CL −%3,07, CD −%0,75, Cp RMSE 0,098 > 0,08); orta/ince ağ 2 saatlik koşu sınırında tamamlanamadı (BLOCKED), üç ağ çalışması PENDING. Konsol önceki host koşusunda kabul aldı. `thermal_1d` 2026-11-08'de yeniden koşuldu ve BENCHMARK_ACCEPTED; altı koşullu motor termal senaryosu yeniden çözüldü, sayılar değişmedi. İlk turun sandbox engeli [tarihsel yoklamada](../validation/results/machine_probe.json), araç kurulum kaydı [installation.json](../validation/results/installation.json) içindedir.
 
 CLT kupon benchmarkı kabul edildi (BENCHMARK_ACCEPTED), kompozit kanat kabuk modeli çözüldü (REVIEW_REQUIRED) ve kanat rijitleştirilerek `params.py` güncellendi. İnceleme sonrası s41r043w1 sonucu f_1T 295,2 / 302,2 Hz ve ölçekli flutter ≈1267 / 1271 km/h (dolu / boş), toplam ek kütle +0,285 kg, Tsai-Wu R 4,16, uç sehim 43,0 mm (§10.7). 316 Hz hedefine ulaşılamadı.
 
@@ -30,9 +30,9 @@ Sürümler [resmi SU2 release](https://github.com/su2code/SU2/releases/tag/v8.2.
 
 | Vaka / model | Büyüklük | Kaba | Orta | İnce | Referansla hata [%] | p / GCI ince |
 |---|---|---|---|---|---|---|
-| RAE2822 SA | CL, CD, Cp RMSE | yakınsamadı (yeni 100c C-ağı; MG3 ıraksadı, MG0 ρ≈−4.8'de durağan; ara CL .730/CD .01345/Cp RMSE .092) | koşulmadı | koşulmadı | NASA Cp yeniden üretildi; kabul yok | PENDING (§10.6.1) |
+| RAE2822 SA | CL, CD, Cp RMSE | .72018 / .012605 / .0982 (v3 iz ağı, MG0, 4292 iter, kapı geçti) | BLOCKED (süre; 7765 iter, ν̃ düşüşü 3.62/4; CL .7275, CD .01247) | BLOCKED (süre; 4384 iter, ν̃ düşüşü 1.31/4) | CL −3.07, CD −0.75 (kaba); Cp RMSE > .08 | PENDING (§10.6.2) |
 | RAE2822 SST | CL, CD, Cp RMSE | bekliyor | bekliyor | bekliyor | NASA Cp mevcut, SST karşılaştırması bekliyor | bekliyor |
-| Düz levha SA | Cf_mean | .0028542517 | .0028586462 | .0028613266 | Schlichting −4.74, ITTC −4.62 (ince) | p .434 / GCI %0.88 — BENCHMARK_ACCEPTED (iter5 v2, §10.6.1) |
+| Düz levha SA | Cf_mean | .0028542517 | .0028586462 | .0028613266 | Schlichting −4.74, ITTC −4.62 (ince) | p .434 (kullanılan .5, Fs 3) / GCI %1.82 — BENCHMARK_ACCEPTED (iter5 v3 yeniden koşu, §10.6.2) |
 | Düz levha SST | Cf_mean | bekliyor | bekliyor | bekliyor | bekliyor | bekliyor |
 
 **Konsol:** 1×.05×.01m, E210GPa, rho7800kg/m³, uçta1N. Euler–Bernoulli sehim ve f1, ayrıca reaksiyon dengesi. S8R ağlar10×2/20×4/40×8. [CalculiX kılavuzundaki](https://www.dhondt.de/ccx_2.22.pdf) composite desteği S8R/S6 içindir. Konsolun doğru çıkması kompozit tabaka yönlerini tek başına doğrulamaz; **CLT laminat kupon benchmarkı iter5'te tamamlandı ve kabul edildi** (§10.7.1, en büyük hata %1,12).
@@ -42,10 +42,10 @@ Sürümler [resmi SU2 release](https://github.com/su2code/SU2/releases/tag/v8.2.
 | Vaka | Büyüklük | Kaba | Orta | İnce | Analitik hata [%] | p / GCI ince |
 |---|---|---|---|---|---|---|
 | Konsol S8R | sehim [mm] / f1 [Hz] | .3734951 / 8.492973 | .3768355 / 8.442452 | .3781402 / 8.422987 | −.7382 / +.4902 (ince) | p1.3563/GCI%.2764; p1.3760/GCI%.1811 |
-| 1B iletim+taşınım (tarihsel kabul, güncel STALE) | Tsoğuk [K] / q'' [W/m²] | 357.15 / 1600 | 357.15 / 1600 | 357.15 / 1600 | 0 / 0 | EXACT_OR_ROUNDOFF; p/GCI tanımsız; params nedeniyle yeniden koşum |
+| 1B iletim+taşınım (2026-11-08 yeniden koşu) | Tsoğuk [K] / q'' [W/m²] | 357.15 / 1600 | 357.15 / 1600 | 357.15 / 1600 | 0 / 0 | EXACT_OR_ROUNDOFF; p/GCI tanımsız; BENCHMARK_ACCEPTED |
 | Kompozit CLT kupon (5 laminat) | Ex, Ey, Gxy, D11, 3N sehim, tabaka σ | membran 4/8/16², B3 8/16/32×4/8/16 | (üç ağ) | (üç ağ) | en büyük \|hata\| %1,12 (< %2) | BENCHMARK_ACCEPTED; GCI ≤ %5, ayrıntı §10.7.1 (iter5 ile güncellendi) |
 
-Richardson/GCI, üç ağda monoton yakınsama ve aynı problem tanımı gerektirir: `Fs=1.25`, her h oranı≥1.3. Eşit olmayan oranlar çözülür; salınım veya sıfır fark zorla p=2'ye çevrilmez. `h∝N^(-1/d)` yalnız tutarlı ağ ailesinde anlamlıdır; duvar/alan boyutları birlikte rafine edilir. Şok veya mod sırası değişiminde p/GCI yorumu sınırlandırılır. İterasyon/ağ yakınsaması, deneyle anlaşma ve fiziksel tasarım kabulünden ayrıdır.
+Richardson/GCI, üç ağda monoton yakınsama ve aynı problem tanımı gerektirir: `Fs=1.25`, her h oranı≥1.3. CFD vakalarında gözlenen p formal mertebe 2'den %10'dan fazla saparsa `p_kullanılan=min(max(.5,p),2)` ve `Fs=3` kullanılır (Roache; Oberkampf & Roy 2010). Eşit olmayan oranlar çözülür; salınım veya sıfır fark zorla p=2'ye çevrilmez. `h∝N^(-1/d)` yalnız tutarlı ağ ailesinde anlamlıdır; duvar/alan boyutları birlikte rafine edilir. Şok veya mod sırası değişiminde p/GCI yorumu sınırlandırılır. İterasyon/ağ yakınsaması, deneyle anlaşma ve fiziksel tasarım kabulünden ayrıdır.
 
 ## 10.3 HIZ-750 karşılaştırması
 
@@ -77,7 +77,7 @@ f_1T ile flutter taraması, sabit ataletle `GJ_yeni/GJ_eski≈(f1T_yeni/305.677)
 
 GPU yokluğu tek başına engel değildir;3B çözünürlük ve zaman ortalaması asıl maliyettir. ν≈1.5e−5m²/s ve uτ≈5–10m/s mertebesinde y+1 için ilk mesafe birkaç mikrometredir. Δx+50–100 ve Δz+15–30, metre kare mertebesindeki yüzey ve normal katmanlarla kabaca **10^8–10^10 hücre** gerektirebilir. Bu HIZ ağ sayımı değil büyüklük tahminidir; [Choi–Moin LES grid ölçeklemesi](https://doi.org/10.1063/1.3676783) yüksek Reynolds maliyetini açıklar.
 
-Örnek maliyet (ölçüm değil): N=10^8, Δt=1e−6s,0.5s fiziksel süre, adımda10 iç iterasyon, hücre güncellemesi1e−7s varsayımıyla `N×(0.5/Δt)×10×1e−7≈5e7s`, yaklaşık579gün. 200–1000byte/hücre ile bu düşük N bile20–100GB, daha büyük ağlar TB ölçeğindedir. CPU paralelleşmesi azaltabilir; bu makinede performans ölçülmedi. DDES duvar maliyetini azaltır, fakat ayrılmış alık/wake için3B çözünürlük ve çok sayıda zaman adımı gerekir;≤2M bütçesiyle güvenilir DES iddia edilmez.
+Örnek maliyet (ölçüm değil): N=10^8, Δt=1e−6s,0.5s fiziksel süre, adımda10 iç iterasyon, hücre güncellemesi1e−7s varsayımıyla `N×(0.5/Δt)×10×1e−7≈5e7s`, yaklaşık579gün. 200–1000byte/hücre ile bu düşük N bile20–100GB, daha büyük ağlar TB ölçeğindedir. CPU paralelleşmesi azaltabilir. Bu makinede ölçülen 2B hız (seri SU2 8.2.0, yük yokken): 33792 hücre ≈0.24 s/iterasyon, yani ≈7e−6 s/hücre/iterasyon; 3B'de daha yüksektir. Kurulu SU2 seri (MPI'sız) olduğundan 2M hücrelik 3B RANS bile 30–40 s/iterasyon, binlerce iterasyonla günler sürer; 3B iş öncesinde MPI sürümü gerekir. DDES duvar maliyetini azaltır, fakat ayrılmış alık/wake için3B çözünürlük ve çok sayıda zaman adımı gerekir;≤2M bütçesiyle güvenilir DES iddia edilmez.
 
 2B zamana bağlı SA/SST, URANS'tır;3B türbülans kaskadını çözen LES değildir. “Quasi-LES” animasyonu doğrulama kanıtı diye üretilmedi. CPU bütçesi önce doğrulanmış2B ve sınır katmanlı kaba-orta3B RANS'a ayrılır.
 
@@ -85,7 +85,7 @@ GPU yokluğu tek başına engel değildir;3B çözünürlük ve zaman ortalamas�
 
 | Kalem | Bütçe yöntemi | Şimdiki durum |
 |---|---|---|
-| İteratif/ağ | residual+kuvvet/ısı dengesi, üç ağ GCI | düz levha SA ince GCI %0,88; RAE PENDING; seçilen kanatta iki ağ farkı, üç ağ GCI yok |
+| İteratif/ağ | residual+kuvvet/ısı dengesi, üç ağ GCI | düz levha SA ince GCI %1,82 (Fs 3); RAE kaba kapı geçti, üç ağ GCI bekliyor; seçilen kanatta iki ağ farkı, üç ağ GCI yok |
 | CFD model formu | SA–SST, geçiş/pürüzlülük, domain | fark bilinmiyor; ortak RANS yanlılığı kapsanmaz |
 | Geometri/trim | profil, alık/kızak/motor, aynı CL | B/C topoloji/ağ hazırlığı |
 | Deney | AGARD koşulları, Cp digitizasyonu/tünel düzeltmesi | NASA Cp mevcut, CL/CD ikincil; deney belirsizliği belirsiz, Cp kabulü açık |
@@ -95,14 +95,14 @@ GPU yokluğu tek başına engel değildir;3B çözünürlük ve zaman ortalamas�
 
 Bağımsız normal dağılımlar varsayılmadı; bu kalemler körlemesine RSS ile bir güven yüzdesine çevrilmez. GCI, fiziksel model hatasının küçük olduğunu göstermez.
 
-Termal açıklık için `cad_report.json` ön 6,8 mm ve minimum **5,97 mm** veriyor. Keçe/bypass hesabı en küçük gerçek kesitle eşleştirilmeli. İter5 params değişikliği sonrası `thermal_1d` yeniden koşumu bekliyor.
+Termal açıklık için `cad_report.json` ön 6,8 mm ve minimum **5,97 mm** veriyor. Keçe/bypass hesabı en küçük gerçek kesitle eşleştirilmeli. `thermal_1d` 2026-11-08'de yeniden koşuldu (BENCHMARK_ACCEPTED); motor termal senaryoları aynı sayıları verdi.
 
 **Sonuç bekleyen kararlar:**
 
 1. D ve η_r doğrulanana kadar itki payı/azami hız doğrulanmış ilan edilmesin; türbin yer/uçuş ölçümü gerekir.
 2. Kat planı 4/1, kaburga 43 mm, web +1 kat ile düzeltilmiş flutter tasarım değeri ≈1267 km/h. 1350 km/h payı sağlanmıyor. İmalat katları, kontrol boşlukları ve frekanslar GVT ile eşleştirilmeli (§10.7.3).
 3. Kabuk içi/keçe altı termokupl, motor yüzeyi ve stop sonrası heat soak kaydı alınsın; reçine/keçe sıcaklıkta izin değerleriyle seçilsin.
-4. RAE iz bloğu ağı, üç ağ kabulü ve SA–SST/profil taraması tamamlanınca sonuç, hata ve GCI tabloları güncellenmeli.
+4. RAE iz kesiti ağı düzeltildi ve kaba ağ kapıyı geçti; orta/ince, Cp RMSE ölçüt tanımı (ön kenar deney noktası, §10.6.2), SA–SST ve profil taraması tamamlanınca sonuç, hata ve GCI tabloları güncellenmeli.
 
 Paket deney düzenini ve izlenebilir engel kayıtlarını kurar. Host koşuları ve fiziksel model incelemesi bitmeden yüksek doğruluk doğrulaması tamamlanmış değildir.
 
@@ -136,6 +136,22 @@ Ayrıntı ve ham klasörler: [cfd/RESULTS_iter5.md](../cfd/RESULTS_iter5.md) son
 **Düz levha SA — BENCHMARK_ACCEPTED.** Resmi ağ+cfg RAE kontrolü (CL −%2.6, CD +%5.9) çözücüyü doğruladıktan sonra düz levha üç ağı aynı ayarla sıfırdan koşuldu: ROE+MUSCL, MGLEVEL=0, CFL 1 + CFL_ADAPT (0.5, 1.5, 1.0, 100), FGMRES+ILU, 1e−6. SU2'nin DRAG-Cauchy 1e−6 duruşu proje kapısından önce geliyordu (ince ağda Cf .0029177 → yakınsamış .0028613), bu yüzden durma kuralı ν̃ residual ≤−9.3 ve DRAG-Cauchy ≤1e−8 yapıldı. Üç ağ da proje kapısını geçti (bağıl Cauchy100 ≈3.5e−7, ρ/ν̃ düşüşü ≥5.28/4.97, y+max .49/.34/.27). Cf kaba/orta/ince .0028542517/.0028586462/.0028613266; monoton, p=.434, Richardson .0028815, ince GCI %0.88. İnce ağın Schlichting farkı −%4.74, ITTC farkı −%4.62. Düşük gözlenen mertebe ve korelasyon karşılaştırması nedeniyle bu, deney doğrulaması değil sayısal/korelasyon kabulüdür.
 
 **RAE2822 kendi ağı — PENDING.** `cfd/structured_airfoil.py` tek bloklu C-ağıyla değiştirildi: monoton açılı duvar-normali ışınları, 100c uzak alan/iz, iz ışınları çıkışa doğru 45° yelpaze, ilk hücre 2e−6c/factor, normal büyüme 1.18/1.12/1.09, minimum köşe sinüsü .707 (duvar yakınında ≥.97; eski ağ .277, resmi ağ .371), 33792/76032/135168 quad ([denetim](../validation/results/rae2822_v2_mesh_audit.json)). NASA NPARC Cp dosyaları ayrı klasöre yeniden indirildi, SHA256'ları kaydedildi ve `python -I` ile işlendi. Resmi MG3 ayarı bu ağda ~1340. iterasyonda ıraksadı. MG0+CFL_ADAPT ıraksamadı ama ρ residual'ı ≈−4.7…−4.9'da durağan kaldı. Ara değerler CL .730 (ikincil referansa −%1.8), CD .01345 (+%5.9), Cp RMSE .092 (>.08), y+max .81 ve resmi ağ sonucuyla aynı düzeydedir. Residual iz kesitinde (x≈1.2–2c) toplanıyor (2e−6c kalınlığında, en-boy oranı 1e3–1e7 iz hücreleri). Kaba ağ kapıyı geçmediğinden orta/ince koşulmadı; GCI ve kabul yok. Eşikler korunur (Cp RMSE ≤.08, |CL| ≤%5, |CD| ≤%15, GCI ≤%5). Sonraki adım: iz bölgesinde normal dağılımı gevşetilmiş, katman eğimi sınırlı bir iz bloğu veya hibrit iz ağı.
+
+### 10.6.2 İter5 v3 CFD (2026-11-08 incelemesi): iz kesiti ağı, GCI ve STALE kuralları
+
+Ayrıntı: [cfd/RESULTS_iter5.md](../cfd/RESULTS_iter5.md) son bölüm ve [inceleme raporu](../reviews/grup1_cfd_dogrulama.md).
+
+**v2 RAE kaba koşusu:** 30000 iterasyon MG0 sonunda UNCONVERGED (ρ düşüşü 3.55, ν̃ düşüşü 0.30 < 4) ve kaynaklar sonradan değiştiği için STALE; arşivlendi.
+
+**İz kesiti ağı:** v2'de iz kesitinin iki yanındaki hücreler 2e−6c kalınlığında, 0.004–15c uzunluğundaydı (en-boy 1e3–1e7). v3'te iz ilk aralığı TE'de duvar değerinden başlayıp iz hücresi başına en çok 1.5 kat büyüyerek ds/100'e gider ve duvar katman dizisine toplamsal olarak eklenir. Normal büyüme 1.18/1.12/1.09, min köşe sinüsü .655 (yalnız 100c çıkış yelpazesinde), hücre sayıları aynı.
+
+**RAE kaba (v3):** resmi MG3 W-cycle hâlâ ıraksıyor (1590. iterasyon). MG0+CFL_ADAPT 4292 iterasyonda proje kapısını geçti: Cauchy100 4.0e−9, ρ/ν̃ düşüşü 7.82/4.18, y+max .81. CL .72018 (−%3.07), CD .012605 (−%0.75), Cm −.0886 (+%6.7), Cp RMSE .0982 (> .08). Cp RMSE'nin çoğu NASA verisindeki tek bir ön kenar noktasından geliyor (üst dal x/c=.0002, Cp −.42; komşuları +.10 ve +.83). x/c<.002 noktaları dışlanınca RMSE kendi ağımızda .048, resmi SU2 ağında .038 olur. Değerlendirme kümesi kabulü belirlediği için değiştirilmedi; karar incelemeye bırakıldı.
+
+**RAE orta/ince:** aynı ayarla, paylaşılan makinede paralel koşuldu ve 7200 s sınırında BLOCKED oldu: orta 7765 iterasyonda Cauchy100 1.6e−8, ρ/ν̃ düşüşü 7.08/3.62 (kapıya çok yakın), ince 4384 iterasyonda 4.17/1.31. Üç ağ çalışması PENDING, GCI yok. Orta ağ makine boşken tek başına yeniden koşulmalı; ince ağ için restart'tan devam eden runner gerekir.
+
+**GCI kuralı:** gözlenen p formal mertebeden %10'dan fazla saparsa p_kullanılan=min(max(.5,p),2), Fs=3. Düz levha üç ağ yeniden koşuldu (Cf bitwise aynı); ince GCI %0.88 → %1.82, BENCHMARK_ACCEPTED korunur.
+
+**STALE kuralı:** kayıt yalnız vakanın çalışma anında import ettiği kaynaklar değişince eskir; testler, rapor araçları ve başka alanın dosyaları eskitmez; benchmarklar params ve uçak tasarım dosyalarına bağlanmaz. thermal_1d, cantilever ve coupon yeniden koşuldu (üçü de BENCHMARK_ACCEPTED, sayılar aynı); motor termal senaryoları aynı sayıları verdi.
 
 ## 10.7 İter5 FEM sonuçları: CLT kupon, konsol, kompozit kanat ve rijitleştirme (iter5 ile güncellendi)
 
@@ -185,13 +201,13 @@ Modal (ince ağ, dolu / boş tank): 1B 39,51 / 40,36 Hz, 2B 124,80 / 136,95 Hz, 
 
 **İnceleme sonrası düzeltildi (çapraz inceleme, 9 FEM bulgusu):** ilk çalışmada seçilen ince ağda sandviç çakışması (−0,17 mm) ve 160 uyumsuz kaburga–web kenarı inceleme kapısından kaçmıştı (çakışma bayrağı zorunlu değildi, inceleme başarısızlığı yok sayılıyordu); yeniden koşuda web/kaburga ek kütlesi iki kez sayılacaktı; flutter ölçeği güncel (değişken) `fe_sonuclar.json`'a bağlıydı; varyantlar params'tan değer devralıyordu; 21,6 mm kaburga orta ağda fiilen 43 mm idi; CCX varsayılanı 4 iş parçacığıydı ve kanat kapısı kuponu önkoşul saymıyordu. Hepsi düzeltildi (bulgu tablosu: [`fem/RESULTS_iter5.md`](../fem/RESULTS_iter5.md) §9): 6 bayrak zorunlu ve başarısızlıkta zincir durur, monolitik burun/uç hücrelerinde kat geçişi, web ve kaburga aynı dikey bölüntü, tek yerde kütle sayımı, sabit iter4 flutter referansı (`fem/reference/fe_sonuclar_iter4_v0.5.0.json`, SHA256 933f5d7d…), temsil edilemeyen kaburga aralığı reddedilir, CCX vakalarında tek iş parçacığı (provenance'a yazılır), kanat önkoşulu konsol + kupon. Konsol ve kupon benchmarkları yeniden BENCHMARK_ACCEPTED. Düzeltilmiş modelle s31, s31r043, s41r043, s41r043w1, s51r043w1 orta ve ince ağda, dolu/boş tankta çözüldü (inceleme 6/6): seçilen s41r043w1 f_1T **295,2 Hz** dolu / **302,2 Hz** boş (orta ağ 295,5 / 304,2; tam yükseklik web/kaburga tanılamasıyla fark %0,02), V_F **≈1267 km/h** dolu / 1271 km/h boş, Tsai-Wu R 4,16, uç sehim 43,0 mm (MTOW 17,44 kg yüküyle), ek kütle +0,285 kg toplam (yarı kanat tablosunda yuvarlanmış +0,143 kg; eski değerler 294,9 / 301,8 Hz, 1266 km/h, 4,23, 42,3 mm). Web+0 (s41r043) 1,4 Hz düşük ve yalnız 6,6 g/yarı hafif; **seçim değişmedi**, params ve 2,03 kg kanat kalemi aynı. 316 Hz'e yine hiçbir varyant ulaşmıyor (en yakın s51r043w1 300,0 Hz). Kabuk modeli GVT alt sınırının (≥ 230 Hz) %28 üzerinde, fiziksel GVT bekliyor. Yukarıdaki ilk çalışma sayıları tarihsel kayıttır.
 
-**1D modelin sınırı:** yeni kat planıyla `fe_modal` dolu tankta 1813 km/h (boşta 1656) verir ve V_F(f_T) eğrisi düz kalır (kritik mod değişti); bu sonuç güvenilmez ve iyimserdir. Flutter tasarım değeri kabuk-FEM ölçekli ≈1267 km/h'dir (inceleme sonrası düzeltildi, eski ≈1266).
+**1D modelin sınırı (Grup 1 incelemesiyle düzeltildi):** `fe_modal`'ın 1813 km/h (boşta 1656) sonucu ve düz V_F(f_T) eğrisi bir kod hatasıydı: flutter çözümü ilk 4 modu alıyordu, 4/1 kat planında dolu tankta 1T beşinci moddur (327,3 Hz) ve çözüme girmiyordu. Mod kümesi en az 8 mod / 2 burulma moduna çıkarıldı ve iz-takipsiz p-k kontrolü eklendi; düzeltilmiş 1D sonuç dolu 1452 / boş 1544 km/h. **Kabuk mod şekilleriyle p-k** (`fem/shell_flutter.py`, `fem/results/shell_flutter.json`; dönüşüm 1D modlarla %0,01 içinde sınandı): seçilen s41r043w1 dolu 1326 / boş 1324 km/h, 3/1 tabanda 1174 / 1169 km/h (f_1T-ölçekli 1185 / 1194). Ölçekleme 3/1'de tutarlı, seçilen tasarımda %4–5 muhafazakâr (CG kayması yok sayılıyor). Flutter tasarım değeri muhafazakâr olarak kabuk-FEM ölçekli ≈1267 km/h bırakıldı; 1350 km/h için kabuk p-k ile f_1T ≈ 301 Hz (dolu) / 308 Hz (boş) yeterli. Bu değerler yalnız kanadındır; kuyruk/gövde/kumanda bağlaşımı açık (doküman 04 §15.3).
 
 ### 10.7.4 FEM için kalan açıklar
 
 1. Kaburga yerleşimi/laminatı ve menteşe web'i imalat tanımıyla doğrulanmalı (f_1T'ye birinci derece etki).
-2. Kabuk mod şekilleriyle p-k flutter (güçlü eğilme-burulma bağlaşımı, düzlem içi mod) kurulmalı; 1267 km/h yalnız frekans ölçeklemesidir.
+2. Kabuk mod şekilleriyle p-k flutter kuruldu (şerit teorisi, kutu uydurması; dolu/boş 1326/1324 km/h). Kalan: kontrol yüzeyi serbestliği, kesit distorsiyonunun aerodinamiğe katılması (genelleştirilmiş kütle kontrolü burulma modlarında 0,68–0,79), kuyruk ve gövde ile tüm uçak modeli, serbest-serbest GVT.
 3. Malzeme üretici/kupon verisi (E1 125 vs 135 GPa, kumaş G12, dayanımlar, sıcak-nem), B-basis allowable.
-4. Burkulma, çekirdek kayması/kırışma (zigzag gerekir), yapıştırıcı ve kök cıvata hattı; kök bölmesi Tsai-Wu ve çekirdek kayması yakınsamadı.
+4. Burkulma: CCX doğrusal burkulma (orta ağ, s41r043w1) nihai yükte çarpan 8,9 verdi, ancak çekirdek kayması temsil edilmediği için sandviç panelde iyimser; elle kayma kıvrılması dahil kök yakını ön panel payı ≈1,2–1,5. Çekirdek kayması/kırışma (zigzag gerekir), yapıştırıcı ve kök cıvata hattı; kök bölmesi Tsai-Wu ve çekirdek kayması yakınsamadı.
 5. GVT: kabul kriteri f_1T ≥ 230 Hz korunur; kabuk tasarım hedefi ≈295 Hz ve üstü (model dolu 295,2 Hz; inceleme sonrası düzeltildi, eski 294,9 Hz).
 6. `validation/study.py` kayıt bütünlüğü cfd/*.py dahil runner kaynaklarının SHA'sını tuttuğundan paralel CFD değişiklikleri bu çalışmaları "STALE" yapabilir; entegrasyondan önce `run_case.py cantilever/coupon --study --threads 1` ve `fem/run_wing_study.py` yeniden koşulmalı.

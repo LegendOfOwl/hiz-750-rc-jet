@@ -74,8 +74,10 @@ def run_one(args):
     artifacts = ("plot.png", "case.cfg", "case.inp", "mesh.json", "surface.json", "geometry.json", "engine_face.json", "neuralfoil.json", "assumptions.json", "temperature_profile.json", "wing_model.json")
     for name in (*artifacts, "status.svg"):
         (directory / f"{args.level}_{name}").unlink(missing_ok=True)
-    source_files = [ROOT/p for p in ("structures/structures.py","structures/fe_modal.py","aero/aero_analysis.py",
-                                    "performance/inlet_analysis.py","cad/out/cad_report.json")]
+    # Uygulama vakaları tasarım kaynaklarına bağlıdır; benchmarklar (validation/) bunları okumaz.
+    source_files = [] if CASES[args.case][0] == "validation" else [
+        ROOT/p for p in ("structures/structures.py","structures/fe_modal.py","aero/aero_analysis.py",
+                         "performance/inlet_analysis.py","cad/out/cad_report.json")]
     result = dict(case=args.case, case_id=case_id(args), level=args.level, status="BLOCKED", metrics={},
                   reason=None, design_accepted=False, provenance=provenance(source_files), estimated_runtime=CASES[args.case][3],
                   diagnostic=args.diagnostic, raw_directory=None,

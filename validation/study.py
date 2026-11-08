@@ -79,25 +79,71 @@ def compare_reference(result, reference, work, allow_partial_cp=False):
                 cp_rmse_partial=partial_rmse,cp_coverage=coverage,metrics=metrics)
 
 
+# Bir vakanın sonucunu etkileyen kaynaklar (run_case çalışırken import edilenler).
+# validation/ altındaki rapor/indirme araçları ve testler sonucu etkilemez; thermal/cases.py
+# fem.cases'ten yalnız ağ yardımcılarını alır. Başka alanın dosyası değişince kayıt eskimez.
+VALIDATION_RUNTIME = ("validation/__init__.py", "validation/common.py", "validation/convergence.py",
+                      "validation/run_case.py", "validation/study.py")
+SOURCE_SCOPE = {"cfd": VALIDATION_RUNTIME + ("cfd/",), "fem": VALIDATION_RUNTIME + ("fem/",),
+                "thermal": VALIDATION_RUNTIME + ("thermal/", "fem/cases.py")}
+CASE_KIND = {"rae2822": "cfd", "flat_plate": "cfd", "airfoil": "cfd", "aircraft": "cfd", "inlet": "cfd",
+             "cantilever": "fem", "coupon": "fem", "wing": "fem",
+             "thermal_1d": "thermal", "engine_thermal": "thermal"}
+# Benchmarklar params.py'yi ve uçak tasarım dosyalarını (provenance.inputs) okumaz.
+BENCHMARKS = {"rae2822", "flat_plate", "cantilever", "coupon", "thermal_1d"}
+FORMAL_ORDER = {"rae2822": 2, "flat_plate": 2}   # ikinci mertebe FV akış ayrıklaştırması
+
+
+def relevant_source(name, case):
+    path = name.replace("\\", "/")
+    if Path(path).name.startswith("test_"):
+        return False
+    scope = SOURCE_SCOPE.get(CASE_KIND.get(case))
+    if scope is None:          # bilinmeyen vaka: muhafazakâr, tüm kaynaklar
+        return True
+    return any(path == s or (s.endswith("/") and path.startswith(s)) for s in scope)
+
+
+def stale_reason(r):
+    """Kaydı üreten params/kaynak/girdi bugünküyle aynı değilse nedenini döndürür."""
+    benchmark = r.get("case") in BENCHMARKS
+    if not benchmark and r.get("provenance", {}).get("params_sha256") != digest(ROOT / "params.py"):
+        return "params.py değişti"
+    changed = [name for name, sha in r.get("code_sha256", {}).items() if relevant_source(name, r.get("case"))
+               and (not (ROOT / name.replace("\\", "/")).is_file() or digest(ROOT / name.replace("\\", "/")) != sha)]
+    if changed:
+        return "Runner kaynakları değişti: " + ", ".join(sorted(changed))
+    if not benchmark:
+        for source, sha in r.get("provenance", {}).get("inputs", {}).items():
+            if not Path(source).is_file() or digest(source) != sha:
+                return "Kaynak veri değişti: " + source
+    return None
+
+
 def evaluate(directory):
     directory = Path(directory)
     paths = [directory / f"{level}.json" for level in reversed(LEVELS)]
     if not all(p.is_file() for p in paths):
+        # Var olan bir kayıt eskimişse bunu PENDING'in arkasına saklama.
+        for p in paths:
+            reason = stale_reason(read_json(p)) if p.is_file() else None
+            if reason:
+                return dict(status="STALE", reason=f"{p.stem}: {reason}", metrics={})
         return dict(status="PENDING", reason="Üç ağ sonucu bekleniyor", metrics={})
     rows = [read_json(p) for p in paths]
+    for r in rows:
+        reason = stale_reason(r)
+        if reason:
+            return dict(status="STALE", reason=f"{r.get('level')}: {reason}", metrics={})
     if any(r["status"] not in ("COMPUTED", "REVIEW_REQUIRED", "DIAGNOSTIC") for r in rows):
         return dict(status="PENDING", reason="Üç ağın da yakınsamış COMPUTED sonucu gerekli", metrics={})
-    for r in rows:
-        if r["provenance"]["params_sha256"] != digest(ROOT / "params.py"):
-            return dict(status="STALE", reason="params.py değişti", metrics={})
-        if any(not (ROOT / name).is_file() or digest(ROOT / name) != sha for name, sha in r["code_sha256"].items()):
-            return dict(status="STALE", reason="Runner kaynakları değişti", metrics={})
-        for source,sha in r.get("provenance",{}).get("inputs",{}).items():
-            if not Path(source).is_file() or digest(source) != sha:
-                return dict(status="STALE", reason="Kaynak veri değişti", metrics={})
-    for key in ("case_id", "code_sha256", "conditions", "assumptions"):
+    def scoped(r):
+        return {k: v for k, v in r.get("code_sha256", {}).items() if relevant_source(k, r.get("case"))}
+    for key in ("case_id", "conditions", "assumptions"):
         if any(r.get(key) != rows[0].get(key) for r in rows[1:]):
             return dict(status="INCONSISTENT", reason=f"Üç ağda {key} farklı", metrics={})
+    if any(scoped(r) != scoped(rows[0]) for r in rows[1:]):
+        return dict(status="INCONSISTENT", reason="Üç ağda code_sha256 farklı", metrics={})
     if len({r["execution"]["executable_sha256"] for r in rows}) != 1:
         return dict(status="INCONSISTENT", reason="Solver build'leri farklı", metrics={})
     # Ağ/deck doğal olarak farklıdır; referans ve ısıl senaryo ağlar arasında aynı olmalıdır.
@@ -110,7 +156,8 @@ def evaluate(directory):
             continue
         values = [r["metrics"][name] for r in rows]
         metrics[name] = dict(values_fine_to_coarse=values,
-                             convergence=gci([r["mesh"]["h"] for r in rows], values),
+                             convergence=gci([r["mesh"]["h"] for r in rows], values,
+                                             formal_order=FORMAL_ORDER.get(rows[0]["case"])),
                              errors_fine_to_coarse=[r.get("errors",{}).get(name) for r in rows],
                              error_fine=rows[0].get("errors", {}).get(name))
     case = rows[0]["case"]

@@ -84,6 +84,42 @@ class GridConvergenceTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             self.assertEqual(evaluate(tmp)["status"], "PENDING")
 
+    def test_low_observed_order_uses_bounded_order_and_fs3(self):
+        # Iter5 düz levha: p_gözlenen .434 << 2 -> p_kullanılan .5, Fs 3 (Roy/Roache).
+        h = [52224 ** -.5, 29376 ** -.5, 13056 ** -.5]
+        q = [.0028613266, .0028586462, .0028542517]
+        plain = gci(h, q)
+        bounded = gci(h, q, formal_order=2)
+        self.assertAlmostEqual(plain["observed_order"], .434, delta=.01)
+        self.assertEqual(plain["safety_factor"], 1.25)
+        self.assertEqual(bounded["order_used"], .5)
+        self.assertEqual(bounded["safety_factor"], 3.0)
+        expected = 3 * abs(q[0] - q[1]) / ((h[1] / h[0]) ** .5 - 1) / q[0] * 100
+        self.assertAlmostEqual(bounded["fine_gci_pct"], expected, places=9)
+        self.assertGreater(bounded["fine_gci_pct"], 2 * plain["fine_gci_pct"])
+        # Formal mertebeye yakın gözlenen p'de Roache Fs=1.25 korunur.
+        near = gci([1, 2, 4], [2.5 + 3*x*x for x in (1, 2, 4)], formal_order=2)
+        self.assertEqual(near["safety_factor"], 1.25)
+
+    def test_stale_record_is_reported_even_when_study_incomplete(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            row = dict(case="rae2822", level="coarse", status="UNCONVERGED", metrics={},
+                       provenance=dict(params_sha256="0"*64), code_sha256={})
+            write_json(Path(tmp) / "coarse.json", row)
+            # Benchmark params.py okumaz; uygulama vakası (airfoil) params değişince eskir.
+            self.assertEqual(evaluate(tmp)["status"], "PENDING")
+            write_json(Path(tmp) / "coarse.json", dict(row, case="airfoil"))
+            self.assertEqual(evaluate(tmp)["status"], "STALE")
+            row["provenance"]["params_sha256"] = digest(ROOT / "params.py")
+            # Test dosyaları, rapor aracı ve başka alanın kaynakları CFD sonucunu eskitmez; vaka kaynağı eskitir.
+            row["code_sha256"] = {"validation\\test_validation.py": "0"*64, "fem\\cases.py": "0"*64,
+                                  "validation\\report.py": "0"*64}
+            write_json(Path(tmp) / "coarse.json", row)
+            self.assertEqual(evaluate(tmp)["status"], "PENDING")
+            row["code_sha256"]["cfd\\cases.py"] = "0"*64
+            write_json(Path(tmp) / "coarse.json", row)
+            self.assertEqual(evaluate(tmp)["status"], "STALE")
+
 
 class ThermalTests(unittest.TestCase):
     def test_linear_network_matches_series_resistances(self):

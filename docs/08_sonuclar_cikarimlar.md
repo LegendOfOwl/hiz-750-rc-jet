@@ -61,7 +61,7 @@ Hedef olan 750 km/h, türbinli RC uçaklarda dünya rekoru seviyesinde (Herbrich
 | Yapı yükleri | Schrenk + kiriş teorisi | Yüksek | %150 kum torbası yük testi |
 | Flutter (kanat) | Kabuk FEM (iter5, REVIEW_REQUIRED; malzeme sabitleri varsayım) + iter4 p-k eğrisinde frekans ölçekleme | Düşük–orta | **GVT zorunlu: f_1T ≥ 230 Hz**; kabuk mod şekilleriyle p-k açık |
 | Flutter (bütün uçak: kuyruk, kumanda yüzeyleri, gövde) | Çözülmedi (yalnız frekans kestirimleri) | **Düşük** | Serbest-serbest GVT + bütün uçak aeroservoelastik model |
-| CFD doğrulama | SU2: düz levha SA kabul (GCI %0,88), RAE2822 PENDING | Orta (2B) | RAE üç ağ, SST, 3B uçak/alık CFD |
+| CFD doğrulama | SU2: düz levha SA kabul (GCI %1,82), RAE2822 PENDING | Orta (2B) | RAE üç ağ, SST, 3B uçak/alık CFD |
 | Motor bölmesi sıcaklığı | CalculiX 1B koşullu model (h/k/ε ölçülmedi) | Düşük | Yer çalıştırmasında termokupl, iç kabuk < 120 °C |
 | Hava verisi (q) | Kazanç programı q̄ ile; pitot q_c ≠ q̄ (M 0,61'de %10) | Orta | Statik basınçla Mach dönüşümü, uçuşta hava verisi kalibrasyonu |
 | Geometri / sığma | CadQuery katı model, çakışma hacmi | Yüksek | Kalıp öncesi kontrol |

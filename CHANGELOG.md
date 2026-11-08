@@ -23,9 +23,9 @@ Sürümleme: `0.MAJOR_ITERASYON.PATCH`. 1.0.0 sürümü, prototip uçuş testind
 - **Uyarı:** 1D `fe_modal` yeni kat planıyla dolu tankta 1813 km/h veriyor ve V_F(f_T) eğrisi düz (kritik mod değişti); 1D sonuç güvenilmez/iyimser. GVT kabul kriteri f_1T ≥ 230 Hz korunur; kabuk tasarım hedefi ≈295 Hz. Kabuk mod şekilleriyle p-k flutter açık iş.
 - CalculiX 2.20 bulguları: tek iş parçacığı, SPOOLES, MASS yerine NSM, kök 1-3 ankastre.
 ### Doğrulama durumu
-- Düz levha SA üç ağda **BENCHMARK_ACCEPTED**. İnce Cf 0,0028613, Schlichting farkı −%4,74, p 0,434, ince GCI %0,88. MG3 ıraksamasından sonra MG0 + CFL_ADAPT ve proje kapısıyla uyumlu durma kuralı kullanıldı.
+- Düz levha SA üç ağda **BENCHMARK_ACCEPTED**. İnce Cf 0,0028613, Schlichting farkı −%4,74, p 0,434, ince GCI %1,82 (p<.5 için sınırlandırılmış p, Fs=3; eski değer %0,88). MG3 ıraksamasından sonra MG0 + CFL_ADAPT ve proje kapısıyla uyumlu durma kuralı kullanıldı.
 - RAE2822 **PENDING**. Yeni tek bloklu C-ağı 100c uzak alan ve 0,707 minimum köşe sinüsüne sahip. MG3 ıraksadı, kaba MG0 ıraksamadı fakat iz bölgesi residual'ları nedeniyle kapıyı geçmedi. Ara CL 0,730 (−%1,8), CD 0,01345 (+%5,9), Cp RMSE 0,092. Resmi SU2 ağıyla çözücü/cfg kabul edildi, deneysel Cp kabulü açık.
-- Önceki host koşularında konsol ve 1B termal üç ağda kabul aldı; koşullu motor termal sonuçları kaydedildi. `thermal_1d`, params değişikliği nedeniyle **STALE** ve yeniden koşum bekliyor.
+- Önceki host koşularında konsol ve 1B termal üç ağda kabul aldı; koşullu motor termal sonuçları kaydedildi. STALE kapsamı daraltıldı; `thermal_1d`, konsol ve kupon yeniden koşuldu, sayılar aynı, **BENCHMARK_ACCEPTED**. RAE2822 iz kesiti ağı düzeltildi, kaba ağ kapıyı geçti (Cp RMSE 0,098 > 0,08); üç ağ PENDING.
 - Gerçek koşularla CalculiX sayı alanı uzunluğu, Lednicer profil sırası, SU2 çıktı sütunları ve düz levha köşe ağı düzeltildi. Resmi SU2 düz levha ayar/ağ kontrolü ayrıca kaydediliyor.
 - B/C sınır katmanlı temiz akış hacmi/ağı ve D imalat detayları host'ta incelenmeli. 3B tetra/kompozit kanat ön modelleri DRAFT. CLT kupon benchmarkı iter5'te kabul edildi; kompozit kanat REVIEW_REQUIRED (imalat detayları ve malzeme verisi eksik).
 - İter5'te params bilerek değişti ve analiz çıktıları yeniden üretildi. Karşılaştırma baseline'ı `v0.5.0` Git içeriklerine sabitlendi, güncel dosya hash'leri ayrıca listelendi.

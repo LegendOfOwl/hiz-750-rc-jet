@@ -1,6 +1,6 @@
 # HIZ-750 iter5 CFD — çalışma kaydı
 
-**Güncel durum (iter5 v2, en alttaki bölüm):** düz levha SA üç ağda BENCHMARK_ACCEPTED (ince GCI %0.88); RAE2822 yeni 100c C-ağıyla kaba ağda yakınsamadı, PENDING. Aşağıdaki ilk bölümler tarihsel kayıttır: o turda düz levhada iki ağ kapıyı geçmiş, ince ağ ve üretilen RAE kaba ağı diverge olmuştu. docs/10, kök README/CHANGELOG, params, FEM ve thermal kaynakları değiştirilmedi.
+**Güncel durum (iter5 v3, en alttaki bölüm, 2026-11-08):** düz levha SA üç ağda BENCHMARK_ACCEPTED, sınırlandırılmış p ve Fs=3 ile ince GCI %1.82 (eski Fs=1.25 değeri %0.88). RAE2822 iz kesiti ağı düzeltildi; kaba ağ MG0 ile 4292 iterasyonda proje kapısını geçti (CL −%3.07, CD −%0.75, Cp RMSE .098 > .08). Orta/ince 2 saatlik koşu sınırında BLOCKED (orta 7765 iterasyonda ν̃ düşüşü 3.62/4); üç ağ çalışması PENDING. Aşağıdaki ilk bölümler tarihsel kayıttır.
 
 ## Ağ ve ayar teşhisi
 
@@ -114,3 +114,46 @@ Tanı (`C:/hz750run/pilot_v2b_rae_resid`, MG0 restart'tan 30 iterasyon, hacim re
 2. `rae2822_SA_coarse_gr1q2bko` sonucu bittiğinde ayrıca kaydedilmeli (STALE).
 3. SST düz levha/RAE, profil (64A010) taraması, Mcrit: değişmedi, açık.
 4. `thermal_1d` çalışması params.py değişikliği nedeniyle STALE (bu turla ilgisiz); cantilever, coupon ve flat_plate güncel kodla kabul durumunda.
+
+## Iter5 v3 (2026-11-08): iz kesiti ağı, RAE kaba kapı, GCI ve STALE kuralları
+
+Bu tur grup 1 incelemesinde yapıldı ([inceleme raporu](../reviews/grup1_cfd_dogrulama.md)). Kod değişiklikleri: `cfd/structured_airfoil.py` (iz kesiti ağı), `validation/convergence.py` (GCI emniyet katsayısı), `validation/study.py` ve `validation/run_case.py` (STALE kapsamı), testler (33 test geçti). Kabul eşikleri değişmedi.
+
+### v2 MG0 kaba koşusunun sonucu (`rae2822_SA_coarse_gr1q2bko`)
+
+30000 iterasyon, 7064 s. **UNCONVERGED:** bağıl Cauchy100 1.46e−7 sağlandı ama ρ düşüşü 3.55, ν̃ düşüşü 0.30 mertebe (<4); enerji residual'ı başlangıçtan beri ancak 3.5 mertebe düştü (log +0.004). Residual'lar 30000 iterasyon boyunca yaklaşık 0.03 mertebe/1000 iterasyon hızla düşüyordu; bu hızla ν̃ kapısı ~185000 iterasyon isterdi. Son değerler CL .72019, CD .012629, Cp RMSE .0980. Kayıt ayrıca **STALE**: koşu başladıktan sonra `validation/convergence.py`, `study.py` ve `cfd/cases.py` değişti (0208319). Arşiv: [v2_mg0_coarse_unconverged.json](../validation/results/rae2822_SA/v2_mg0_coarse_unconverged.json).
+
+### İz kesiti ağı
+
+v2'de bütün ışınlar aynı katman dizisini kullandığı için iz kesitinin iki yanındaki hücreler 2e−6c kalınlığında, 0.004–15c uzunluğundaydı (en-boy 1e3–1e7). v3'te iz düğümü k için ilk aralık `a_k = min(first·1.5^(k/factor), first + (ds_k − ds_TE)/100)` ve katman mesafesi `d_j = d0_j + j·(a_k − first)`. TE'de a=first, TE'den ~0.3c sonra iz kesiti en-boy oranı ≈100, iz ucunda a=.162/.111/.084c (kaba/orta/ince). Toplamsal karışım normal büyümeyi duvar dizisinin oranında tutar (1.18/1.12/1.09). Dış katmanlar korunduğu için TE yakınında katman eğimi oluşmaz; v2'de denenen ışın başına ayrı geometrik dizi köşe sinüsünü .20'ye düşürmüştü. Min köşe sinüsü .655 (yalnız 100c'deki 45° çıkış yelpazesinde; v2 .707); negatif alan/köşe, nonmanifold kenar ve sınır uyumsuzluğu yok. Hücre sayıları değişmedi (33792/76032/135168). Uzak alan çıkış ucu x≈183c.
+
+### RAE2822 kaba koşuları (v3 ağı)
+
+| Koşu | Ayar | Sonuç |
+|---|---|---|
+| `rae2822_SA_coarse_ifc9r858` (runner) | resmi MG3 W-cycle, CFL 2.5 | 1590. iterasyonda residual > 1e20, **FAILED** ([kayıt](../validation/results/rae2822_SA/pilot_v3_mg3_coarse_failed.json)). İz düzeltmesi MG3 ıraksamasını gidermedi. |
+| `pilot_v3_rae_coarse_mg0` (pilot, runner dışı) | MG0 + CFL_ADAPT | ~4150 iterasyonda proje kapısı; SU2 durma ölçütüyle bitti |
+| `rae2822_SA_coarse_yw4jh4om` (runner) | MG0 + CFL_ADAPT, aynı ağ/cfg | **COMPUTED**, 4292 iterasyon, 2411 s |
+
+Kaba resmi kayıt ([coarse.json](../validation/results/rae2822_SA/coarse.json)): bağıl Cauchy100 4.0e−9, ρ/ν̃ düşüşü 7.82/4.18 mertebe, enerji 7.8 mertebe, y+max .81. CL .72018 (ikincil .743'e −%3.07), CD .012605 (.0127'ye −%0.75), Cm −.0886 (+%6.7), **Cp RMSE .0982 > .08**. Aynı ağ ailesinde v2'nin yakınsamamış değerleri (CL .72019, CD .012629) yakınsamış sonuca çok yakındı; v3'ün katkısı sonucu değil, iteratif yakınsamayı (30000 → 4292 iterasyon) sağlamaktır.
+
+**Cp RMSE neden yüksek:** hatanın büyük kısmı tek bir deney noktasından geliyor. NASA `cp.exp.gen` üst dalında x/c=.0002 noktası Cp −.42 veriyor; komşuları x/c=.0008'de +.10 ve x/c=0'da +.83. Bu durma noktasında fiziksel değil, bozuk bir basınç deliği gibi görünüyor. Ayrıca x'e göre enterpolasyon bu bölgede kötü koşullu (x ≈ s²). x/c<.002 olan noktalar dışarıda bırakılınca RMSE .048 (96 nokta) oluyor; geri kalan en büyük hata şok konumu (x/c .525–.575, CFD şoku ~.02c önde). Bu bir **ölçüt tanımı** sorunu; eşik ve değerlendirme kümesi bu turda değiştirilmedi, karar için incelemeye bırakıldı (inceleme raporu Ö0).
+
+### Orta ve ince ağ
+
+| Ağ | Koşu | İterasyon (7200 s) | Cauchy100 | ρ / ν̃ düşüşü | CL | CD | Durum |
+|---|---|---:|---:|---|---:|---:|---|
+| orta (76032) | `rae2822_SA_medium_fukf2y92` | 7765 | 1.6e−8 | 7.08 / 3.62 | .72754 | .012466 | **BLOCKED (süre)** |
+| ince (135168) | `rae2822_SA_fine_ifxhcl0i` | 4384 | 4.5e−6 | 4.17 / 1.31 | .73211 | .012523 | **BLOCKED (süre)** |
+
+İkisi de kaba koşuyla paralel ve diğer ajanların FEM işleriyle paylaşılan makinede, tek iş parçacığıyla koştu (orta ≈1.1, ince ≈0.6 iterasyon/s; yük yokken kaba ağ ≈4 iterasyon/s). Orta ağ kapıya çok yaklaştı (ν̃ düşüşü 3.62/4), ince ağ uzak. Son değerler yakınsamış sayılmaz ve GCI'ye girmez. **Üç ağ çalışması PENDING.** Sonraki adım: makine boşken orta ağı tek başına yeniden koşmak (tahmin 1–1.5 saat) ve ince ağ için 2 saat sınırına sığmayacağından restart'tan devam eden bir RAE runner'ı (düz levhadaki `cfd/continue_flatplate.py` gibi, kapı birleşik geçmişte) yazmak. Proje kuralı (tek koşu ≤2 saat) bu tur aşılmadı.
+
+### Düz levha: GCI emniyet katsayısı
+
+Gözlenen mertebe p=.434, formal 2'den çok uzak. Fs=1.25 asimptotik bölgedeki üç ağ çözümleri içindir. CFD vakalarında |p−2|/2 > .1 olduğunda artık `p_kullanılan = min(max(.5, p), 2)` ve `Fs = 3` (Roache; Oberkampf & Roy 2010). Üç ağ aynı kod ve cfg ile yeniden koşuldu (kaynak değişikliği nedeniyle STALE idi); Cf değerleri bitwise aynı çıktı (.0028542517/.0028586462/.0028613266). **İnce GCI %1.82** (önceki %0.88), Richardson .0028815; durum **BENCHMARK_ACCEPTED** korunur. Düşük p'nin olası nedenleri: ortalama Cf'ye giren ön kenar tekilliği ve birinci mertebe ν̃ konveksiyonu (MUSCL_TURB=NO).
+
+### Kapı ve STALE zinciri
+
+`study.evaluate` artık bir kaydı yalnız vakanın çalışma anında import ettiği kaynaklar değişince eskimiş sayar: `validation/{__init__,common,convergence,run_case,study}.py` + alan klasörü (`cfd/`; termalde `thermal/` + `fem/cases.py`). Testler, rapor/indirme araçları ve başka alanın dosyaları kaydı eskitmez. Benchmarklar `params.py`'ye ve uçak tasarım dosyalarına bağlanmaz. Eskimiş kayıt çalışma eksikken de STALE gösterilir (önceden PENDING'in arkasında kalıyordu). Önkoşul zinciri (airfoil/aircraft/inlet ← rae2822 + flat_plate; engine_thermal ← thermal_1d) ve aynı solver hash'i kuralı değişmedi.
+
+`thermal_1d` yeniden koşuldu: **BENCHMARK_ACCEPTED** (357.15 K, 1600 W/m², EXACT_OR_ROUNDOFF). Altı motor termal senaryosu yeniden koşuldu; sayılar docs/10 §10.6 tablosuyla aynı.

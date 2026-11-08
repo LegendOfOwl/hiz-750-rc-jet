@@ -127,7 +127,7 @@
     "kind": "CURRENT_ANALYSIS_ARTIFACTS",
     "source_sha256": {
       "aero/out/sonuclar.json": "4139d9cbe94496f6e4db8f5b60ecafb66b40951f713c6d54ef29a8e86bb147b0",
-      "structures/out/fe_sonuclar.json": "cdce0dd85119d2fb8b31f1e98e33e374ffd28f56591ac5fbd6e8ff852c7a2440",
+      "structures/out/fe_sonuclar.json": "bdbf1f0a7d91a5273d33544748240cb8c2382bcf493d11bb0d0bea61c19db024",
       "performance/out/alik_sonuclar.json": "18e106e39fe72754bd1db3d07f041fe124697ac1d7f04974e45e62cb5869600e",
       "cad/out/cad_report.json": "0c9a53b8b558910c392569b4266b56f7dcda4c1f443c7942094d691a30e24200"
     }

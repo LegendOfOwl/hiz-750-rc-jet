@@ -1,6 +1,8 @@
 {
   "status": "REVIEW_REQUIRED",
   "case": "engine_thermal",
+  "acceptance_label": "REVIEW_REQUIRED",
+  "reference_basis": null,
   "metrics": {
     "outer_K": {
       "values_fine_to_coarse": [

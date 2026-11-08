@@ -1,13 +1,13 @@
 === HIZ-750  /  motor: JetCat P400-PRO ===
 Kanat: b=1.449 m  S=0.420 m2  AR=5.0  cr=0.429  ct=0.150  MAC=0.312 m  Lambda_c/4=23.5 deg  t/c=0.07
 Govde: L=2.1 m  d=0.165 m  (incelik 12.7)
-Kutle: MTOW=17.01 kg  bos+%15 yakit inis=14.96 kg  yakit=4.0 kg
-Kanat yuklemesi: 40.5 kg/m2   T/W statik: 2.55
-Stall (inis agirligi, deniz sev.): 22.3 m/s = 80 km/h ; yaklasma 1.3Vs = 104 km/h
+Kutle: MTOW=17.44 kg  yakitsiz=13.44 kg  inis (%25 yakit)=14.44 kg  yakit=4.0 kg
+Kanat yuklemesi: 41.5 kg/m2   T/W statik: 2.48
+Stall (inis agirligi, deniz sev.): 21.9 m/s = 79 km/h ; yaklasma 1.3Vs = 102 km/h
 --- Azami yatay hiz (h=300 m, dT=+0 K) ---
 Vmax (tam yakit)   = 244.0 m/s = 878 km/h  (M=0.719)
 Vmax (%30 yakit)   = 244.0 m/s = 878 km/h
-Vmax'ta: T=D=285 N  q=35.4 kPa  CL=0.0112  CD0=0.01913  CDi=0.000010  CDw=0.000000
+Vmax'ta: T=D=285 N  q=35.4 kPa  CL=0.0115  CD0=0.01913  CDi=0.000011  CDw=0.000000
 Korn Mdd=0.864  Mcrit~0.756  (uçuş M=0.719)
 CD0 dagilimi:
    kanat                        0.00741  (39%)
@@ -18,8 +18,8 @@ CD0 dagilimi:
 Tam gaz yakit suresi: 3.6 dk
 --- Yapisal ---
 Limit yuk n=12g, nihai 18g; Vmax'ta 12g donus yaricapi 508 m
-Tasarim dalis hizi VD=1.15*Vmax=1010 km/h -> flutter marji hedefi 1.2*VD=1212 km/h
-Nihai kok egilme momenti ~ 462 N.m (spar boyutlandirma girdisi)
+Tasarim dalis hizi VD=900 km/h (params; 1.15*Vmax olsaydi 1010) -> flutter gereksinimi 1.2*VD=1080 km/h
+Nihai kok egilme momenti ~ 473 N.m (spar boyutlandirma girdisi)
 Vmax dinamik basinci 35.4 kPa -> aileron mentese momenti hesabi gerekli (bkz. rapor)
 Duyarlilik (taban 878 km/h):
    dT +15 K (sicak yaz)                  868 km/h  (-10)

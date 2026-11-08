@@ -329,7 +329,7 @@
       "ff_Hz": null,
       "branch": -1,
       "beta": 0.4358898943540673,
-      "Vf_g02_kmh": Infinity
+      "Vf_g02_kmh": null
      },
      "modes": [
       "1:1B 38.8",
@@ -475,7 +475,7 @@
       "ff_Hz": null,
       "branch": -1,
       "beta": 0.4358898943540673,
-      "Vf_g02_kmh": Infinity
+      "Vf_g02_kmh": null
      },
      "modes": [
       "1:1B 38.8",

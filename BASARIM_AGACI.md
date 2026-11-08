@@ -68,7 +68,7 @@ HIZ-750
     │   └─ 🟡 Rijitleştirme: ilk tarama 21 orta / 4 ince seçenek; inceleme sonrası 5 varyant yeniden çözüldü. Seçilen s41r043w1 (4/1 kat + 43 mm kaburga + web +1 kat), f_1T 295,2 Hz dolu / 302,2 Hz boş, Vf ≈1267 / 1271 km/h, 1080 km/h gereksinime %17 pay, toplam +0,285 kg, kesit CG 0,428c, Tsai-Wu R 4,16, uç sehim 43,0 mm. 316 Hz hedefine ulaşılamadı. Önceki params/zincir yenilemesiyle MTOW 17,44 kg, statik marj %13,0–32,8.
     │       └─ ⚠️ 1D fe_modal yeni kat planıyla Vf 1813 km/h veriyor ve Vf(f_T) eğrisi düz (kritik mod değişti) → 1D sonuç GÜVENİLMEZ/iyimser. Tasarım değeri kabuk-FEM ölçekli **≈1267 km/h** (sabit iter4 referansı). Kabuk mod şekilleriyle p-k çözümü açık iş
     ├─ 🔄 CFD doğrulama
-    │   ├─ ✅ Düz levha SA, üç ağ BENCHMARK_ACCEPTED; ince Cf 0,0028613, Schlichting −%4,74, p 0,434, ince GCI %0,88
+    │   ├─ ✅ Düz levha SA, üç ağ BENCHMARK_ACCEPTED; ince Cf 0,0028613, Schlichting −%4,74, p 0,434, ince GCI %1,82 (Fs=3, eski %0,88)
     │   ├─ ✅ Düz levha MG3 ıraksaması sonrası MG0 + CFL_ADAPT ve proje kapısıyla uyumlu durma kuralıyla üç ağ kapıyı geçti
     │   ├─ 🟡 Resmi SU2 RAE ağı+cfg çözücü kontrolü kabul; CL −%2,6, CD +%5,9; Cp RMSE 0,0984 > 0,08, deney Cp kabulü açık
     │   ├─ ⚠️ RAE2822 PENDING (iz bölgesi); yeni tek bloklu C-ağı 100c, min köşe sinüsü 0,707; MG3 ıraksadı, MG0 ıraksamıyor ama kaba kapı geçmedi
@@ -151,16 +151,16 @@ HIZ-750
 **Şu an (2026-11-06)**
 
 - Düzeltilmiş s41r043w1 seçimi geçerli. f_1T 295,2 / 302,2 Hz, ölçekli flutter ≈1267 / 1271 km/h, toplam ek kütle +0,285 kg, Tsai-Wu R 4,16, uç sehim 43,0 mm. 316 Hz hedefi sağlanmadı, kabuk mod şekilleriyle p-k açık.
-- Düz levha SA üç ağda BENCHMARK_ACCEPTED, ince GCI %0,88 ve p 0,434. RAE2822 PENDING, residual iz bölgesinde. MG0 ıraksamayı önledi, iteratif kapı ve deney Cp kabulü bekliyor.
+- Düz levha SA üç ağda BENCHMARK_ACCEPTED, ince GCI %1,82 (Fs=3, eski %0,88) ve p 0,434. RAE2822 PENDING, residual iz bölgesinde. MG0 ıraksamayı önledi, iteratif kapı ve deney Cp kabulü bekliyor.
 - GCI tek-fark platosu kabulden çıkarıldı, 3B CFD yunuslama momenti CMy'ye bağlandı. Tarihsel baseline v0.5.0 Git byte'larına sabitlendi, güncel analiz dosyaları ayrı listelendi.
 - README, CHANGELOG [0.6.0] ve docs/10 güncellendi. Sürüm kaydı 2026-11-06 tarihli. Commit, etiket ve push bu kapanışta yapılmadı.
-- Python erişim engeli nedeniyle yeni regresyonlar ve solver yeniden koşumları bu oturumda çalıştırılamadı. Hash karşılaştırmasında düz levha, konsol ve kupon kayıtlarının kaynakları farklı, yeniden değerlendirmede STALE sonucu bekleniyor. Kayıtlı benchmark kabulü kaynak koşusuna aittir. thermal_1d ayrıca params değişikliği nedeniyle STALE.
+- Python erişim engeli nedeniyle yeni regresyonlar ve solver yeniden koşumları bu oturumda çalıştırılamadı. Hash karşılaştırmasında düz levha, konsol ve kupon kayıtlarının kaynakları farklı, yeniden değerlendirmede STALE sonucu bekleniyor. Kayıtlı benchmark kabulü kaynak koşusuna aittir. (2026-11-08 güncel: STALE kapsamı daraltıldı, thermal_1d/konsol/kupon yeniden koşuldu ve kabul.)
 
 **Sıradakiler**
 
 1. RAE iz bloğu ağı. İz kesiti normal dağılımı gevşetilip katman eğimi sınırlanmalı, kaba MG3/MG0 ardından kapı geçerse orta/ince koşulmalı.
 2. Kabuk mod şekilleriyle p-k flutter çözümü.
-3. thermal_1d yeniden koşusu (params nedeniyle STALE).
+3. ~~thermal_1d yeniden koşusu~~ yapıldı (2026-11-08, kabul).
 4. SST ve profil taraması.
 5. GVT ve fiziksel testler.
 

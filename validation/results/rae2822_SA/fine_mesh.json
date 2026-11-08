@@ -1,0 +1,67 @@
+{
+  "path": "C:\\hz750run\\rae2822_SA_fine_ifxhcl0i\\mesh.su2",
+  "cells": 135168,
+  "nodes": 135968,
+  "element_types": {
+    "9": 135168
+  },
+  "minimum_signed_area": 5.059604433413205e-10,
+  "nonpositive_cells": 0,
+  "minimum_corner_sine": 0.6530330549456438,
+  "nonpositive_corners": 0,
+  "nonmanifold_edges": 0,
+  "boundary_mismatches": 0,
+  "markers": {
+    "WALL": 512,
+    "FARFIELD": 1088
+  },
+  "bounds": [
+    -99.9997847554353,
+    183.1262911233314,
+    -99.99934860867869,
+    100.059408695423
+  ],
+  "unique_x": 135782,
+  "unique_y": 135871,
+  "first_y_values": [
+    -99.99934860867869,
+    -99.99866634748332,
+    -99.9982591442645,
+    -99.99645827548262,
+    -99.99514036911458,
+    -99.99295719749071
+  ],
+  "last_y_values": [
+    100.059315327878,
+    100.0593385985254,
+    100.0593983736627,
+    100.059408695423
+  ],
+  "minimum_wall_connected_edge": 9.999999999831537e-07,
+  "first_layer_m": 1e-06,
+  "radial_growth": 1.086769198470475,
+  "wake_growth": 1.091805100757289,
+  "surface_cells_per_side": 256,
+  "wake_cells": 96,
+  "normal_cells": 192,
+  "le_spacing": 0.0005,
+  "te_spacing": 0.002,
+  "farfield_distance_c": 100.0,
+  "wake_length_c": 100.0,
+  "wake_aspect_target": 100.0,
+  "wake_ramp": 1.5,
+  "wake_first_spacing_end": 0.08408493090634807,
+  "max_wall_ray_deviation_deg": 11.830803630201233,
+  "max_normal_growth": 1.0867691984880448,
+  "max_streamwise_growth": 1.1200160211909709,
+  "max_streamwise_growth_wall": 1.091805100757417,
+  "max_aspect_ratio": 7127.368821619381,
+  "dimension": 2,
+  "h": 0.002719963374307779,
+  "source": {
+    "C:\\Users\\Urungu\\Desktop\\Yeni klasör\\validation\\reference\\rae2822.dat": "baf79cdab69176cee4d37f3292198d67d2437d4bb8c52e09e43ff0167d9bb10b"
+  },
+  "mesh_sha256": "78a0203e8bd23dc1821ac37a03e2f1ae386ea14b44e977a8115532fd7ee40a81",
+  "topology": "single-block C-grid, wall-normal marching, shared wake cut, ~100c far field",
+  "yplus_status": "Actual solution y+ required"
+}
